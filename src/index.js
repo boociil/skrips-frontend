@@ -2,22 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from "./pages/Login";
-import Helloworld from "./pages/helloword";
 import reportWebVitals from './reportWebVitals';
-import Layout from './pages/Layout';
+import 'tailwindcss/tailwind.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <Routes>
-          <Route index element={<App />}></Route>
-          <Route path="/Login" element={<Login />}></Route>
-          <Route path="/Hello" element={<Helloworld />}></Route>
-      </Routes>
-    </BrowserRouter>
+    <App />
   </React.StrictMode>
 );
 

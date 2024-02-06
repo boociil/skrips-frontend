@@ -1,7 +1,9 @@
-
+import './Layout.js'
 function Hello() {
     return (
-        <h1>Hello Worlds</h1>
+        <div>
+            <h1>Hello Worlds</h1>
+        </div>
     );  
 }
 
