@@ -6,7 +6,7 @@ function click() {
 
 function Button() {
   return (
-    <button className="button" onClick={click}>
+    <button className="button flex" onClick={click}>
         Check Username
     </button>
   );

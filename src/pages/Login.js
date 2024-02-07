@@ -21,38 +21,41 @@ function Login() {
     }
 
     return (
-        <div className="border-2 border-black containter mx-auto w-1/2 font-poppins columns-2 bg-white rounded-md shadow-xl">
-            <div className="bagian-kiri border-2 border-black  box-border container bg-red-400">
-                <div className='form border-2 border-black '>
-                    <div className='container mx-auto pb-2.5 border-2 border-black '>
-                        <p className='text-3xl'>Welcome to Monitoring Site</p>
-                        <p>Tell us who you are</p>
+        <div className="mx-4 mt-32 font-poppins bg-white shadow-2xl rounded-xl overflow-hidden md:flex md:container md:mx-auto sm:max-w-3xl lg:max-w-4xl">
+            <div className="bagian-kiri px-3 box-border container">
+                <div className='form'>
+                    <div className='title-content container mx-auto pb-2.5 md:pb-16 lg:pb-24 ml-2'>
+                        <p className='text-3xl pt-3 mb-2'>Welcome to Monitoring Site</p>
+                        <p className='text-sm mb-3'>Tell us who you are...</p>
                     </div>
                     <form onSubmit={handleSubmit}>
-                        <label>Username : 
+                        <label className='text-sm block ml-1'>
                             <input
+                                className='bg-[#F6F6F9] text-xs px-3 md:mx-0 lg:mx-auto mx-auto py-2 mb-3 block rounded-lg w-full focus:ring-1 focus:ring-sky-500 focus:border-sky-500 max-w-80 '
                                 name="username"
                                 type="text" 
+                                placeholder='Username'
                                 value={formData.username}
                                 onChange={handleChange}
                             />
                         </label>
-                        <br/>
-                        <label>Password : 
+                        <label className='text-sm block ml-1'>
                             <input
+                                className='bg-[#F6F6F9] md:mb-20 text-xs px-3 md:mx-0 lg:mx-auto mx-auto py-2 mb-3 block rounded-lg w-full focus:ring-1 focus:ring-sky-500 focus:border-sky-500 max-w-80'
                                 name="pass"
                                 type="password" 
+                                placeholder='Password'
                                 value={formData.pass}
                                 onChange={handleChange}
                             />
                         </label>
-                        <br></br>
-                        <button className="" type="submit">Login</button>
+                        <button className="block mb-8 bg-[#418EC6] hover:bg-sky-500 px-3 py-2 rounded-lg mx-auto my-2 text-white text-xs md:text-sm md:w-24" type="submit">Login</button>
                     </form>
                 </div>
             </div>
-            <div className="bagian-kanan border-2 border-black bg-indigo-500">
-                <img src={loginImg} alt='Gambar yang melambangkan monitoring' className='w-64 h-auto'></img>
+            <div className="bagian-kanan bg-[#FFA1A1] hidden md:block min-w-96">
+                <img src={loginImg} alt='Gambar yang melambangkan monitoring' className='h-auto items-center object-cover w-full'></img>
+                <div className='version place-items-center'><span className='text-white ml-2 text-xs'>ver. 1.0.0</span></div>
             </div>
         </div>
         

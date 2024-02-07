@@ -1,19 +1,20 @@
 import './App.css';
-import Layout from './pages/Layout';
 import 'tailwindcss/tailwind.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import Helloworld from "./pages/helloword";
 import Register from './pages/Register';
+import TopNavbarAdmin from './components/topNavAdmin';
+import AdminHomePage from './pages/AdminHomePage';
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <div>
-          <Layout />
+          <TopNavbarAdmin />
           <Routes>
-              <Route index element={<Login />}></Route>
+              <Route index element={<AdminHomePage />}></Route>
               <Route path="/Login" element={<Login />}></Route>
               <Route path="/Hello" element={<Helloworld />}></Route>
               <Route path="/Register" element={<Register />}></Route>
