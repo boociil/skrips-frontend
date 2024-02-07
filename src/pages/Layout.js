@@ -9,7 +9,7 @@ const Layout = () => {
                         <Link to="/">Home</Link>
                     </li>
                     <li>
-                        <Link to="/Login" className="underline">Login</Link>
+                        <Link to="/Login" className="border border-black underline">Login</Link>
                     </li>
                     <li>
                         <Link to="/Hello">Hello</Link>
