@@ -3,8 +3,8 @@ import ListKegiatan from "../components/listKegiatan";
 
 function AdminHomePage() {
     return (
-        <div className="mt-32 mx-4 font-poppins">
-            <h1 className="text-xl mb-4">Mau Monitoring Apa Hari ini?</h1>
+        <div className="mt-10 md:mt-32 mx-4 font-poppins">
+            <h1 className="text-xl mb-4 md:mb-8 md:pl-8 lg:pl-48">Mau Monitoring Apa Hari ini?</h1>
             <div className="quick-search">
                 
             </div>

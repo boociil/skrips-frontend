@@ -1,14 +1,26 @@
 import loginImg from '../img/login.png'
 import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
     
+    const navigate = useNavigate();
+
     const [formData, setFormData] = useState({
         // inisialisasi state untuk menyimpan data form
         username: '',
         pass: '',
       });
 
+    const check_empty = () => {
+        if (formData.username === ""){
+            return false;
+        }
+        if (formData.pass === ""){
+            return false;
+        }
+        return true;
+    }
 
     const handleChange = (e) => {
         // mengubah state saat nilai input berubah
@@ -17,7 +29,14 @@ function Login() {
 
     const handleSubmit = (event) =>{
         event.preventDefault();
-        alert(JSON.stringify(formData));
+        const checkFill = check_empty();
+        if (checkFill){
+            // Validasi username dan password ke backend, lalu buat
+            navigate('/');
+        }else{
+            alert("Form tidak boleh kosong");
+        }
+        
     }
 
     return (
@@ -49,7 +68,7 @@ function Login() {
                                 onChange={handleChange}
                             />
                         </label>
-                        <button className="block mb-8 bg-[#418EC6] hover:bg-sky-500 px-3 py-2 rounded-lg mx-auto my-2 text-white text-xs md:text-sm md:w-24" type="submit">Login</button>
+                        <button className="block mb-8 bg-[#418EC6] hover:bg-sky-500 transition duration-300 px-3 py-2 rounded-lg mx-auto my-2 text-white text-xs md:text-sm md:w-24" type="submit">Login</button>
                     </form>
                 </div>
             </div>

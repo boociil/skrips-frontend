@@ -3,11 +3,11 @@ function ListKegiatan(props) {
     let pos = props.position
     let class_name;
     if (pos === 'TOP'){
-        class_name = 'hover:bg-slate-200 flex bg-white shadow-lg rounded-t-lg border-b-2 border-b-slate-300 max-w-3xl'
+        class_name = 'hover:bg-slate-200 flex bg-white shadow-lg rounded-t-lg border-b-2 border-b-slate-300 max-w-4xl md:mx-auto'
     }else if (pos === 'MID'){
-        class_name = 'hover:bg-slate-200 flex bg-white shadow-lg border-b-2 border-b-slate-300 max-w-3xl'
+        class_name = 'hover:bg-slate-200 flex bg-white shadow-lg border-b-2 border-b-slate-300 max-w-4xl md:mx-auto'
     }else{
-        class_name = 'hover:bg-slate-200 flex bg-white shadow-lg rounded-b-lg max-w-3xl'
+        class_name = 'hover:bg-slate-200 flex bg-white shadow-lg rounded-b-lg max-w-4xl md:mx-auto'
     }
 
     return (
