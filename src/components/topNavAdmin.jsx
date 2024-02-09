@@ -1,34 +1,30 @@
-import { Outlet, Link } from "react-router-dom";
-import React, { useEffect, useState } from 'react';
+import { Outlet, Link, NavLink } from "react-router-dom";
+import React, { useState } from 'react';
 
 
 function TopNavAdmin(props = {active : 'home'}) {
 
-    const [classActive, setClassActive] = useState('home');
-    const [openStatus, setOpenStatus] = useState(0);
 
-    useEffect(() => {
-        const homeListItem = document.querySelector('li.' + classActive);
-        // Lakukan sesuatu dengan homeListItem
-        homeListItem.classList.add('border-b-4','border-b-[#418EC6]');
-    }, [classActive]);
+    const [openStatus, setOpenStatus] = useState(false);
+
 
     const closeSideMenu = () => {
-        setOpenStatus(1)
+        setOpenStatus(true)
+        const burger = document.querySelector('#burger')
+        burger.click();
         const menu = document.querySelector('.the-menu');
         menu.classList.remove('translate-x-full')
-        console.log('closeside jalan');
     }
 
     const handleChange = (e) => {
-        if (openStatus === 1){
+        if (openStatus === true){
             // Menutup
-            setOpenStatus(0);
+            setOpenStatus(false);
             const menu = document.querySelector('.the-menu');
             menu.classList.remove('translate-x-full')
         }else{
             //Membuka
-            setOpenStatus(1)
+            setOpenStatus(true)
             const menu = document.querySelector('.the-menu');
             menu.classList.add('translate-x-full')
         }
@@ -38,15 +34,14 @@ function TopNavAdmin(props = {active : 'home'}) {
     // };
     
     return (
-        <div>
+        <div className="font-poppins">
             <div className="navbar-medium-top hidden top-0 navbar-top-admin fixed md:flex mx-auto bg-white shadow-lg w-full">
                 <div className="mx-auto items-center font-semibold">
                     <ul className="flex">
-                        <li className="home mx-4 my-1 flex p-3 hover:border-b-[#418EC6] hover:border-b-4">
-                            <span className="material-symbols-outlined mx-1">
+                        <li className="home mx-4 my-1 flex p-3">
+                            <NavLink to="/" className={({ isActive }) => isActive? "border-b-[#418EC6] border-b-4 flex pb-2": 'hover:scale-105 transition hover:border-b-[#418EC6] hover:border-b-4 pb-2 flex'}><span className="material-symbols-outlined mx-1">
                                 home
-                            </span>
-                            <Link to="/" >Home</Link>
+                            </span>Home</NavLink>
                         </li>
                         <li className="rekap mx-4 my-1 p-3 flex  hover:border-b-[#418EC6] hover:border-b-4">
                             <span className="material-symbols-outlined mx-1">
@@ -81,34 +76,42 @@ function TopNavAdmin(props = {active : 'home'}) {
                         </label>
                     </div>
                 </div>
-                <div className="the-menu fixed rounded-tr-3xl bg-white -left-1/2  w-1/2 h-full border-2 -translate-x-1/2 transition duration-700">
-                    <ul className="">
-                        <li className="home mx-4 my-1 flex p-3 hover:border-b-[#418EC6] hover:border-b-4">
-                            <span className="material-symbols-outlined mx-1">
-                                home
-                            </span>
-                            <Link to="/" onClick={closeSideMenu}>Home</Link>
+                <nav className="the-menu fixed rounded-tr-3xl bg-white -left-1/2  w-1/2 h-full border-2 -translate-x-1/2 transition duration-700 flex">
+                    <div className="garis ml-3 h-full w-1 bg-black"></div>
+                    <ul className=" mt-10 relative">
+                        <li className="title-menu mx-4 my-1 text-3xl font-semibold border-b-2 border-b-black w-fit">Menu</li>
+                        <li className="home ml-4 my-1 flex p-3 group">
+                            <NavLink to="/" onClick={closeSideMenu} className={({ isActive }) => isActive? "border-b-[#418EC6] border-b-4 group flex translate-x-4 pb-1": 'group-hover:translate-x-4 transition flex'}>
+                                <span className="material-symbols-outlined mx-1">
+                                    home
+                                </span>
+                            Home</NavLink>
                         </li>
-                        <li className="rekap mx-4 my-1 p-3 flex  hover:border-b-[#418EC6] hover:border-b-4">
-                            <span className="material-symbols-outlined mx-1">
-                                article_shortcut
-                            </span>
-                            <Link to="/Login" className="" onClick={closeSideMenu}>Rekap</Link>
+                        <li className="home ml-4 my-1 flex p-3 group ">
+                            <NavLink to="/Login" onClick={closeSideMenu} className={({ isActive }) => isActive? "border-b-[#418EC6] border-b-4 group flex translate-x-4 pb-1": 'group-hover:translate-x-4 transition flex'}>
+                                <span className="material-symbols-outlined mx-1">
+                                    article_shortcut
+                                </span>
+                            Rekap</NavLink>
                         </li>
-                        <li className="mitra mx-4 my-1 p-3 flex hover:border-b-[#418EC6] hover:border-b-4">
-                            <span className="material-symbols-outlined mx-1">
-                                handshake
-                            </span>
-                            <Link to="/Hello" onClick={closeSideMenu}>Mitra</Link>
+                        <li className="home ml-4 my-1 flex p-3 group ">
+                            <NavLink to="/Hello" onClick={closeSideMenu} className={({ isActive }) => isActive? "border-b-[#418EC6] border-b-4 group flex translate-x-4 pb-1": 'group-hover:translate-x-4 transition flex'}>
+                                <span className="material-symbols-outlined mx-1">
+                                    handshake
+                                </span>
+                            Rekap</NavLink>
                         </li>
-                        <li className="users mx-4 my-1 p-3 flex hover:border-b-[#418EC6] hover:border-b-4">
-                            <span className="material-symbols-outlined mx-1">
-                                group
-                            </span>
-                            <Link to="/Register" onClick={closeSideMenu}>Users</Link>
+                        <li className="home ml-4 my-1 flex p-3 group ">
+                            <NavLink to="/Register" onClick={closeSideMenu} className={({ isActive }) => isActive? "border-b-[#418EC6] border-b-4 group flex translate-x-4 pb-1": 'group-hover:translate-x-4 transition flex'}>
+                                <span className="material-symbols-outlined mx-1">
+                                    group
+                                </span>
+                            Users</NavLink>
                         </li>
+                        <li className="acc mx-4 absolute bottom-20 left-0 p-4">Logout</li>
                     </ul>
-                </div>
+
+                </nav>
             </div>
         </div>
     )

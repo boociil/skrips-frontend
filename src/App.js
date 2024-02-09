@@ -6,6 +6,7 @@ import Helloworld from "./pages/helloword";
 import Register from './pages/Register';
 import TopNavbarAdmin from './components/topNavAdmin';
 import AdminHomePage from './pages/AdminHomePage';
+import Train from './pages/Train';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
               <Route path="/Login" element={<Login />}></Route>
               <Route path="/Hello" element={<Helloworld />}></Route>
               <Route path="/Register" element={<Register />}></Route>
+              <Route path="/Train" element={<Train />}></Route>
           </Routes>
         </div>
       </BrowserRouter>

@@ -55,7 +55,6 @@ function Login() {
                         onChange={handleChange}
                     />
                 </label>
-                <Button />
                 <br/>
                 <label>Password : 
                     <input
