@@ -35,8 +35,7 @@ function Login() {
             navigate('/');
         }else{
             alert("Form tidak boleh kosong");
-        }
-        
+        } 
     }
 
     return (

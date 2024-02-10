@@ -1,4 +1,4 @@
-import { Outlet, Link, NavLink } from "react-router-dom";
+import { Outlet,  NavLink } from "react-router-dom";
 import React, { useState } from 'react';
 
 
@@ -39,27 +39,24 @@ function TopNavAdmin(props = {active : 'home'}) {
                 <div className="mx-auto items-center font-semibold">
                     <ul className="flex">
                         <li className="home mx-4 my-1 flex p-3">
-                            <NavLink to="/" className={({ isActive }) => isActive? "border-b-[#418EC6] border-b-4 flex pb-2": 'hover:scale-105 transition hover:border-b-[#418EC6] hover:border-b-4 pb-2 flex'}><span className="material-symbols-outlined mx-1">
+                            <NavLink to="/" className={({ isActive }) => isActive? "border-b-[#418EC6] border-b-4 flex pb-2": 'hover:scale-105 transition duration-500 hover:border-b-[#418EC6] hover:border-b-4 pb-2 flex'}><span className="material-symbols-outlined mx-1">
                                 home
                             </span>Home</NavLink>
                         </li>
-                        <li className="rekap mx-4 my-1 p-3 flex  hover:border-b-[#418EC6] hover:border-b-4">
-                            <span className="material-symbols-outlined mx-1">
+                        <li className="home mx-4 my-1 flex p-3">
+                            <NavLink to="/Login" className={({ isActive }) => isActive? "border-b-[#418EC6] border-b-4 flex pb-2": 'hover:scale-105 transition duration-500 hover:border-b-[#418EC6] hover:border-b-4 pb-2 flex'}><span className="material-symbols-outlined mx-1">
                                 article_shortcut
-                            </span>
-                            <Link to="/Login" className="">Rekap</Link>
+                            </span>Rekap</NavLink>
                         </li>
-                        <li className="mitra mx-4 my-1 p-3 flex hover:border-b-[#418EC6] hover:border-b-4">
-                            <span className="material-symbols-outlined mx-1">
+                        <li className="home mx-4 my-1 flex p-3">
+                            <NavLink to="/Hello" className={({ isActive }) => isActive? "border-b-[#418EC6] border-b-4 flex pb-2": 'hover:scale-105 transition duration-500 hover:border-b-[#418EC6] hover:border-b-4 pb-2 flex'}><span className="material-symbols-outlined mx-1">
                                 handshake
-                            </span>
-                            <Link to="/Hello">Mitra</Link>
+                            </span>Mitra</NavLink>
                         </li>
-                        <li className="users mx-4 my-1 p-3 flex hover:border-b-[#418EC6] hover:border-b-4">
-                            <span className="material-symbols-outlined mx-1">
+                        <li className="home mx-4 my-1 flex p-3">
+                            <NavLink to="/Register" className={({ isActive }) => isActive? "border-b-[#418EC6] border-b-4 flex pb-2": 'hover:scale-105 transition duration-500 hover:border-b-[#418EC6] hover:border-b-4 pb-2 flex'}><span className="material-symbols-outlined mx-1">
                                 group
-                            </span>
-                            <Link to="/Register">Users</Link>
+                            </span>Users</NavLink>
                         </li>
                     </ul>
                 </div>
