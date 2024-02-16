@@ -39,22 +39,22 @@ function TopNavAdmin(props = {active : 'home'}) {
                 <div className="mx-auto items-center font-semibold">
                     <ul className="flex">
                         <li className="home mx-4 my-1 flex p-3">
-                            <NavLink to="/" className={({ isActive }) => isActive? "border-b-[#418EC6] border-b-4 flex pb-2": 'hover:scale-105 transition duration-500 hover:border-b-[#418EC6] hover:border-b-4 pb-2 flex'}><span className="material-symbols-outlined mx-1">
+                            <NavLink to="/Home" className={({ isActive }) => isActive? "border-b-[#418EC6] border-b-4 flex pb-2": 'hover:scale-105 transition duration-500 hover:border-b-[#418EC6] hover:border-b-4 pb-2 flex'}><span className="material-symbols-outlined mx-1">
                                 home
                             </span>Home</NavLink>
                         </li>
                         <li className="home mx-4 my-1 flex p-3">
-                            <NavLink to="/Login" className={({ isActive }) => isActive? "border-b-[#418EC6] border-b-4 flex pb-2": 'hover:scale-105 transition duration-500 hover:border-b-[#418EC6] hover:border-b-4 pb-2 flex'}><span className="material-symbols-outlined mx-1">
+                            <NavLink to="/Rekap" className={({ isActive }) => isActive? "border-b-[#418EC6] border-b-4 flex pb-2": 'hover:scale-105 transition duration-500 hover:border-b-[#418EC6] hover:border-b-4 pb-2 flex'}><span className="material-symbols-outlined mx-1">
                                 article_shortcut
                             </span>Rekap</NavLink>
                         </li>
                         <li className="home mx-4 my-1 flex p-3">
-                            <NavLink to="/Hello" className={({ isActive }) => isActive? "border-b-[#418EC6] border-b-4 flex pb-2": 'hover:scale-105 transition duration-500 hover:border-b-[#418EC6] hover:border-b-4 pb-2 flex'}><span className="material-symbols-outlined mx-1">
+                            <NavLink to="/Mitra" className={({ isActive }) => isActive? "border-b-[#418EC6] border-b-4 flex pb-2": 'hover:scale-105 transition duration-500 hover:border-b-[#418EC6] hover:border-b-4 pb-2 flex'}><span className="material-symbols-outlined mx-1">
                                 handshake
                             </span>Mitra</NavLink>
                         </li>
                         <li className="home mx-4 my-1 flex p-3">
-                            <NavLink to="/Register" className={({ isActive }) => isActive? "border-b-[#418EC6] border-b-4 flex pb-2": 'hover:scale-105 transition duration-500 hover:border-b-[#418EC6] hover:border-b-4 pb-2 flex'}><span className="material-symbols-outlined mx-1">
+                            <NavLink to="/Users" className={({ isActive }) => isActive? "border-b-[#418EC6] border-b-4 flex pb-2": 'hover:scale-105 transition duration-500 hover:border-b-[#418EC6] hover:border-b-4 pb-2 flex'}><span className="material-symbols-outlined mx-1">
                                 group
                             </span>Users</NavLink>
                         </li>
@@ -78,28 +78,28 @@ function TopNavAdmin(props = {active : 'home'}) {
                     <ul className=" mt-10 relative">
                         <li className="title-menu mx-4 my-1 text-3xl font-semibold border-b-2 border-b-black w-fit">Menu</li>
                         <li className="home ml-4 my-1 flex p-3 group">
-                            <NavLink to="/" onClick={closeSideMenu} className={({ isActive }) => isActive? "border-b-[#418EC6] border-b-4 group flex translate-x-4 pb-1": 'group-hover:translate-x-4 transition flex'}>
+                            <NavLink to="/Home" onClick={closeSideMenu} className={({ isActive }) => isActive? "border-b-[#418EC6] border-b-4 group flex translate-x-4 pb-1": 'group-hover:translate-x-4 transition flex'}>
                                 <span className="material-symbols-outlined mx-1">
                                     home
                                 </span>
                             Home</NavLink>
                         </li>
                         <li className="home ml-4 my-1 flex p-3 group ">
-                            <NavLink to="/Login" onClick={closeSideMenu} className={({ isActive }) => isActive? "border-b-[#418EC6] border-b-4 group flex translate-x-4 pb-1": 'group-hover:translate-x-4 transition flex'}>
+                            <NavLink to="/Rekap" onClick={closeSideMenu} className={({ isActive }) => isActive? "border-b-[#418EC6] border-b-4 group flex translate-x-4 pb-1": 'group-hover:translate-x-4 transition flex'}>
                                 <span className="material-symbols-outlined mx-1">
                                     article_shortcut
                                 </span>
                             Rekap</NavLink>
                         </li>
                         <li className="home ml-4 my-1 flex p-3 group ">
-                            <NavLink to="/Hello" onClick={closeSideMenu} className={({ isActive }) => isActive? "border-b-[#418EC6] border-b-4 group flex translate-x-4 pb-1": 'group-hover:translate-x-4 transition flex'}>
+                            <NavLink to="/Mitra" onClick={closeSideMenu} className={({ isActive }) => isActive? "border-b-[#418EC6] border-b-4 group flex translate-x-4 pb-1": 'group-hover:translate-x-4 transition flex'}>
                                 <span className="material-symbols-outlined mx-1">
                                     handshake
                                 </span>
-                            Rekap</NavLink>
+                            Mitra</NavLink>
                         </li>
                         <li className="home ml-4 my-1 flex p-3 group ">
-                            <NavLink to="/Register" onClick={closeSideMenu} className={({ isActive }) => isActive? "border-b-[#418EC6] border-b-4 group flex translate-x-4 pb-1": 'group-hover:translate-x-4 transition flex'}>
+                            <NavLink to="/Users" onClick={closeSideMenu} className={({ isActive }) => isActive? "border-b-[#418EC6] border-b-4 group flex translate-x-4 pb-1": 'group-hover:translate-x-4 transition flex'}>
                                 <span className="material-symbols-outlined mx-1">
                                     group
                                 </span>

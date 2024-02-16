@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import ListKegiatan from "../components/listKegiatan";
+import ButtonAdd from "../components/buttonAdd";
 import { useEffect, useState } from "react";
 
 function AdminHomePage() {
@@ -9,9 +10,10 @@ function AdminHomePage() {
     const [data,setData] = useState([]);
     const [dataLen,setDataLen] = useState();
 
-    // const handleClick = () => {
-    //     navigate('AddKegiatan');
-    // }
+    const handleClick = () => {
+        navigate('AddKegiatan');
+    }
+
 
     useEffect(() =>{
 
@@ -30,9 +32,6 @@ function AdminHomePage() {
                 .then(data => {
                     setData(data);
                     setDataLen(data.length - 1);
-                    console.log("Data : " + data);
-                    console.log("data status" + data.status);
-                    console.log("Panjang Data : " + dataLen);
                 });
 
             
@@ -47,7 +46,7 @@ function AdminHomePage() {
 
     return (
         <div className="mt-10 md:mt-32 mx-4 font-poppins">
-            <h1 className="text-xl mb-4 md:mb-8 md:pl-8 lg:pl-48">Mau Monitoring Apa Hari ini?</h1>
+            <h1 className="text-xl mb-4 md:mb-8 md:pl-8 lg:pl-48">Ayo Lanjutkan Kegiatan!</h1>
             <div className="quick-search">
                 
             </div>
@@ -59,6 +58,7 @@ function AdminHomePage() {
                     ))
                 }
             </div>
+        <ButtonAdd click = {handleClick} />
         </div>
     )
 }

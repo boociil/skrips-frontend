@@ -9,6 +9,10 @@ import AdminHomePage from './pages/AdminHomePage';
 import Train from './pages/Train';
 import AddKegiatan from './pages/AddKegiatan';
 import Users from './pages/Users';
+import Mitra from './pages/Mitra';
+import Rekap from './pages/Rekap';
+import RekapWithID from './pages/RekapWithID';
+
 
 function App() {
   return (
@@ -18,13 +22,17 @@ function App() {
           <TopNavbarAdmin />
           
           <Routes>
-              <Route index element={<AdminHomePage />}></Route>
+              <Route index element={<Login />}></Route>
+              <Route path="/Home" element={<AdminHomePage />}></Route>
               <Route path="/Login" element={<Login />}></Route>
               <Route path="/Hello" element={<Helloworld />}></Route>
-              <Route path="/Register" element={<Register />}></Route>
-              <Route path="/AddKegiatan" element={<AddKegiatan />}></Route>
+              <Route path="/Rekap/AddKegiatan" element={<AddKegiatan />}></Route>
               <Route path="/Train" element={<Train />}></Route>
               <Route path="/Users" element={<Users />}/>
+              <Route path="/Users/Register" element={<Register />}/>
+              <Route path="/Mitra" element={<Mitra />} />
+              <Route path="/Rekap" element={<Rekap />} />
+              <Route path="/Rekap/:id" element={<RekapWithID />} />
           </Routes>
         </div>
       </BrowserRouter>

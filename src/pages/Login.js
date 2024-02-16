@@ -32,7 +32,7 @@ function Login() {
         const checkFill = check_empty();
         if (checkFill){
             // Validasi username dan password ke backend, lalu buat
-            navigate('/');
+            navigate('/Home');
         }else{
             alert("Form tidak boleh kosong");
         } 
