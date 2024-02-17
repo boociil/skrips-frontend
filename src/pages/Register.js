@@ -13,9 +13,9 @@ function AddKegiatan() {
         fn: '',
         ln: '',
         pass: '',
-        gender:'',
+        gender:'Laki-laki',
         confpass:'',
-        role:'',
+        role:'Operator',
         status:''
       });
 
@@ -98,12 +98,22 @@ function AddKegiatan() {
                     </div>
                 </div>
             
-                <div className="jenis-koseka grid grid-cols-2">
+                <div className="jenis-koseka md:grid md:grid-cols-2">
                     <div className="sm:ml-6 md:ml-3 ml-3">
                     <label className="text-sm"> Jenis Kelamin
                         <select value={formData.gender} className='bg-[#F6F6F9] mt-1 text-xs px-3 sm:ml-0 md:mx-0 py-2 mb-3 block rounded-lg w-full focus:ring-1 focus:ring-sky-500 focus:border-sky-500 max-w-72' name="gender" onChange={handleChange}>
                             <option value="Laki-laki" key="Laki-laki">Laki-laki</option>
                             <option value="Perempuan" key="Perempuan">Perempuan</option>
+                        </select>
+                    </label>
+                    </div>
+
+                    <div className="sm:ml-6 md:ml-3 ml-3">
+                    <label className="text-sm"> Role
+                        <select value={formData.role} className='bg-[#F6F6F9] mt-1 text-xs px-3 sm:ml-0 md:mx-0 py-2 mb-3 block rounded-lg w-full focus:ring-1 focus:ring-sky-500 focus:border-sky-500 max-w-72' name="role" onChange={handleChange}>
+                            <option value="Operator" key="Operator">Operator</option>
+                            <option value="Pengawas" key="Pengawas">Pengawas</option>
+                            <option value="Admin" key="Admin">Admin</option>
                         </select>
                     </label>
                     </div>

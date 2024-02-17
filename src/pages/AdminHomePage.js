@@ -1,10 +1,10 @@
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import ListKegiatan from "../components/listKegiatan";
 import { useEffect, useState } from "react";
 
 function AdminHomePage() {
 
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     const [data,setData] = useState([]);
     const [dataLen,setDataLen] = useState();
