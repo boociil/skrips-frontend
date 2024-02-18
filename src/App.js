@@ -12,6 +12,7 @@ import Users from './pages/Users';
 import Mitra from './pages/Mitra';
 import Rekap from './pages/Rekap';
 import RekapWithID from './pages/RekapWithID';
+import TestPage from './pages/TestPage';
 
 
 function App() {
@@ -19,7 +20,8 @@ function App() {
     <>
       <BrowserRouter>
         <div>
-          <TopNavbarAdmin />
+
+        <TopNavbarAdmin />
           
           <Routes>
               <Route index element={<Login />}></Route>
@@ -28,6 +30,7 @@ function App() {
               <Route path="/Hello" element={<Helloworld />}></Route>
               <Route path="/Rekap/AddKegiatan" element={<AddKegiatan />}></Route>
               <Route path="/Train" element={<Train />}></Route>
+              <Route path="/Test_Page" element={<TestPage />}></Route>
               <Route path="/Users" element={<Users />}/>
               <Route path="/Users/Register" element={<Register />}/>
               <Route path="/Mitra" element={<Mitra />} />

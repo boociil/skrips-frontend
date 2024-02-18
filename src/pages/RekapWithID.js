@@ -1,6 +1,8 @@
 import { useParams } from "react-router-dom"
 import { useEffect,useState } from "react";
-import ListRekap from "../components/listRekap";
+import ListRekap from "../components/listRekapRB";
+import ListRekapEdcod from "../components/listRekapEdcod";
+import ListRekapEntri from "../components/listRekapEntri";
 
 const RekapWithID = () => {
     const { id } = useParams();
@@ -9,6 +11,10 @@ const RekapWithID = () => {
     const [ isLoading, setIsLoading ] = useState(true);
     const [ namaKegiatan, setNamaKegiatan ] = useState();
     const [ miniPageIndex, setMiniPageIndex ] = useState(1);
+
+    const miniPageClick = (index) => {
+        setMiniPageIndex(index)
+    }
 
     useEffect(() =>{
 
@@ -27,7 +33,6 @@ const RekapWithID = () => {
                 .then(data => {
                     setData(data);
                     setNamaKegiatan(data[0].nama)
-                    console.log(data);
                     setIsLoading(false);
                 });
         }
@@ -38,36 +43,95 @@ const RekapWithID = () => {
 
     return (
         <div>
-            { isLoading ?(
+            { isLoading ? (
                 <div>
                     Lagi Loading
                 </div>
             ): (
+                
                 <div className="text-sm">
-                    <div className="cont-atas bg-white rounded-lg shadow-lg mx-3 mt-4 p-3 md:mt-24">
-                        <h2 className="ml-2 font-semibold">{namaKegiatan}</h2>
-                        <p className="ml-2 text-slate-600">ST2023</p>
-                    </div>
-
-                    <div className="cont-bawah bg-white rounded-lg shadow-lg mt-4 mx-3">
-                        <div className="nav grid grid-cols-3 rounded-t-md">
-                            <div className="text-center border-r-4 p-1 border-b-4 border-[#F5F4F4]">Receving Batching</div>
-                            <div className="text-center border-r-4 p-1 border-b-4 border-[#F5F4F4]">Editing Coding</div>
-                            <div className="text-center p-1 border-b-4 border-[#F5F4F4]">Entri</div>
-                        </div>
-                        <div className="flex">
-                            <div className="progres flex-grow ml-4">
-                                <span className="ml-2">Progres : {data[0]?.status}</span>
-                            </div>
-                            <div className="deadline ml-auto mr-4">
-                                <span className="">Waktu Tersisa : </span>
-                            </div>
-                        </div>
-
-                        <div className="content p-1">
-                            <ListRekap id={id} />
+                    <div className="cont-atas bg-white rounded-lg shadow-lg mx-3 mt-4 p-3 md:mt-24 sm:h-40 sm:relative overflow-hidden">
+                        <div className="hidden sm:block sm:rounded-full sm:absolute w-60 h-60 bg-[#7FFF7C] sm:-top-36 sm:-left-36"></div>
+                        <div className="hidden sm:block sm:rounded-full sm:absolute w-96 h-96 bg-[#6278EB] sm:-right-12 sm:-top-40"></div>
+                        <div className="hidden sm:block sm:rounded-full sm:absolute w-80 h-80 bg-[#FFA1A1] sm:-right-52 sm:-top-40"></div>
+                        <div className="sm:bottom-4 sm:absolute">
+                            <h2 className="ml-2 font-semibold sm:bottom-0">{namaKegiatan}</h2>
+                            <p className="ml-2 text-slate-600">ST2023</p>
                         </div>
                     </div>
+
+                    <div className="cont-bawah pb-2 bg-white rounded-lg shadow-lg mt-4 mx-3 mb-2">
+                        
+
+                        { miniPageIndex === 1 ? ( 
+                            <>
+                                <div className="nav grid grid-cols-3 rounded-t-md">
+                                    <div className="text-center border-r-4 p-1 border-b-4 border-[#F5F4F4]" onClick={() => miniPageClick(1)}>Receving Batching</div>
+                                    <div className="text-center border-r-4 p-1 border-b-4 border-[#F5F4F4] bg-[#F5F4F4] hover:bg-white cursor-pointer" onClick={() => miniPageClick(2)}>Editing Coding</div>
+                                    <div className="text-center p-1 border-b-4 border-[#F5F4F4] bg-[#F5F4F4] hover:bg-white cursor-pointer" onClick={() => miniPageClick(3)}>Entri</div>
+                                </div>
+                                <div className="flex mt-2">
+                                    <div className="progres flex-grow ml-4">
+                                        <span className="ml-2">Progres : RB {data[0]?.status}</span>
+                                    </div>
+                                    <div className="deadline ml-auto mr-4">
+                                        <span className="">Waktu Tersisa : </span>
+                                    </div>
+                                </div>
+
+                                <div className="content p-1">
+                                    <ListRekap id={id} />
+                                </div>
+                            </>
+                        ) : (
+                            miniPageIndex === 2 ? (
+                                <>
+                                <div className="nav grid grid-cols-3 rounded-t-md">
+                                    <div className="text-center border-r-4 p-1 border-b-4 border-[#F5F4F4] cursor-pointer bg-[#F5F4F4] hover:bg-white" onClick={() => miniPageClick(1)}>Receving Batching</div>
+                                    <div className="text-center border-r-4 p-1 border-b-4 border-[#F5F4F4]" onClick={() => miniPageClick(2)}>Editing Coding</div>
+                                    <div className="text-center p-1 border-b-4 border-[#F5F4F4] bg-[#F5F4F4] cursor-pointer hover:bg-white" onClick={() => miniPageClick(3)}>Entri</div>
+                                </div>
+                                    <div className="flex mt-2">
+                                        <div className="progres flex-grow ml-4">
+                                            <span className="ml-2">Progres : Edcod {data[0]?.status}</span>
+                                        </div>
+                                        <div className="deadline ml-auto mr-4">
+                                            <span className="">Waktu Tersisa : </span>
+                                        </div>
+                                    </div>
+
+                                    <div className="content p-1">
+                                        <ListRekapEdcod id={id} />
+                                    </div>
+                                </>
+                            ) : (
+                                <>
+
+                                    <div className="nav grid grid-cols-3 rounded-t-md">
+                                        <div className="text-center border-r-4 p-1 border-b-4 border-[#F5F4F4] bg-[#F5F4F4] cursor-pointer hover:bg-white" onClick={() => miniPageClick(1)}>Receving Batching</div>
+                                        <div className="text-center border-r-4 p-1 border-b-4 border-[#F5F4F4] bg-[#F5F4F4] cursor-pointer hover:bg-white" onClick={() => miniPageClick(2)}>Editing Coding</div>
+                                        <div className="text-center p-1 border-b-4 border-[#F5F4F4]" onClick={() => miniPageClick(3)}>Entri</div>
+                                    </div>
+                                    <div className="flex mt-2">
+                                        <div className="progres flex-grow ml-4">
+                                            <span className="ml-2">Progres : Entri {data[0]?.status}</span>
+                                        </div>
+                                        <div className="deadline ml-auto mr-4">
+                                            <span className="">Waktu Tersisa : </span>
+                                        </div>
+                                    </div>
+
+                                    <div className="content p-1">
+                                        <ListRekapEntri id={id} />
+                                    </div>
+                                </>
+                            )
+                        ) }
+
+                        
+
+                    </div>
+
                 </div>
             )}            
         </div>
