@@ -25,8 +25,8 @@ const RekapWithID = () => {
                 headers: {
                     'Content-Type': 'application/json' // Tentukan tipe konten yang Anda kirimkan
                 },
-                    body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
-                };
+                body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
+            };
             
                 fetch('http://localhost:3001/get_info/' + id , requestOptions)
                 .then(response => response.json())
@@ -49,26 +49,26 @@ const RekapWithID = () => {
                 </div>
             ): (
                 
-                <div className="text-sm">
-                    <div className="cont-atas bg-white rounded-lg shadow-lg mx-3 mt-4 p-3 md:mt-24 sm:h-40 sm:relative overflow-hidden">
+                <div className="">
+                    <div className="cont-atas bg-white rounded-lg shadow-lg mx-3 mt-4 p-3 md:mt-24 sm:h-40 sm:relative overflow-hidden max-w-6xl md:mx-auto">
                         <div className="hidden sm:block sm:rounded-full sm:absolute w-60 h-60 bg-[#7FFF7C] sm:-top-36 sm:-left-36"></div>
                         <div className="hidden sm:block sm:rounded-full sm:absolute w-96 h-96 bg-[#6278EB] sm:-right-12 sm:-top-40"></div>
                         <div className="hidden sm:block sm:rounded-full sm:absolute w-80 h-80 bg-[#FFA1A1] sm:-right-52 sm:-top-40"></div>
                         <div className="sm:bottom-4 sm:absolute">
-                            <h2 className="ml-2 font-semibold sm:bottom-0">{namaKegiatan}</h2>
-                            <p className="ml-2 text-slate-600">ST2023</p>
+                            <h2 className="ml-2 font-semibold sm:bottom-0 md:text-xl text-sm">{namaKegiatan}</h2>
+                            <p className="ml-2 text-slate-600 md:text-xl text-sm">ST2023</p>
                         </div>
                     </div>
 
-                    <div className="cont-bawah pb-2 bg-white rounded-lg shadow-lg mt-4 mx-3 mb-2">
+                    <div className="cont-bawah pb-2 bg-white rounded-lg shadow-lg mt-4 mx-3 mb-2 max-w-6xl md:mx-auto">
                         
-
+                        
                         { miniPageIndex === 1 ? ( 
                             <>
                                 <div className="nav grid grid-cols-3 rounded-t-md">
-                                    <div className="text-center border-r-4 p-1 border-b-4 border-[#F5F4F4]" onClick={() => miniPageClick(1)}>Receving Batching</div>
-                                    <div className="text-center border-r-4 p-1 border-b-4 border-[#F5F4F4] bg-[#F5F4F4] hover:bg-white cursor-pointer" onClick={() => miniPageClick(2)}>Editing Coding</div>
-                                    <div className="text-center p-1 border-b-4 border-[#F5F4F4] bg-[#F5F4F4] hover:bg-white cursor-pointer" onClick={() => miniPageClick(3)}>Entri</div>
+                                    <div className="md:text-base text-sm text-center border-r-4 p-1 border-b-4 border-[#F5F4F4]" onClick={() => miniPageClick(1)}>Receving Batching</div>
+                                    <div className="md:text-base text-sm text-center border-r-4 p-1 border-b-4 border-[#F5F4F4] bg-[#F5F4F4] hover:bg-white cursor-pointer" onClick={() => miniPageClick(2)}>Editing Coding</div>
+                                    <div className="md:text-base text-sm text-center p-1 border-b-4 border-[#F5F4F4] bg-[#F5F4F4] hover:bg-white cursor-pointer" onClick={() => miniPageClick(3)}>Entri</div>
                                 </div>
                                 <div className="flex mt-2">
                                     <div className="progres flex-grow ml-4">
@@ -87,9 +87,9 @@ const RekapWithID = () => {
                             miniPageIndex === 2 ? (
                                 <>
                                 <div className="nav grid grid-cols-3 rounded-t-md">
-                                    <div className="text-center border-r-4 p-1 border-b-4 border-[#F5F4F4] cursor-pointer bg-[#F5F4F4] hover:bg-white" onClick={() => miniPageClick(1)}>Receving Batching</div>
-                                    <div className="text-center border-r-4 p-1 border-b-4 border-[#F5F4F4]" onClick={() => miniPageClick(2)}>Editing Coding</div>
-                                    <div className="text-center p-1 border-b-4 border-[#F5F4F4] bg-[#F5F4F4] cursor-pointer hover:bg-white" onClick={() => miniPageClick(3)}>Entri</div>
+                                    <div className="md:text-base text-sm text-center border-r-4 p-1 border-b-4 border-[#F5F4F4] cursor-pointer bg-[#F5F4F4] hover:bg-white" onClick={() => miniPageClick(1)}>Receving Batching</div>
+                                    <div className="md:text-base text-sm text-center border-r-4 p-1 border-b-4 border-[#F5F4F4]" onClick={() => miniPageClick(2)}>Editing Coding</div>
+                                    <div className="md:text-base text-sm text-center p-1 border-b-4 border-[#F5F4F4] bg-[#F5F4F4] cursor-pointer hover:bg-white" onClick={() => miniPageClick(3)}>Entri</div>
                                 </div>
                                     <div className="flex mt-2">
                                         <div className="progres flex-grow ml-4">
@@ -108,9 +108,9 @@ const RekapWithID = () => {
                                 <>
 
                                     <div className="nav grid grid-cols-3 rounded-t-md">
-                                        <div className="text-center border-r-4 p-1 border-b-4 border-[#F5F4F4] bg-[#F5F4F4] cursor-pointer hover:bg-white" onClick={() => miniPageClick(1)}>Receving Batching</div>
-                                        <div className="text-center border-r-4 p-1 border-b-4 border-[#F5F4F4] bg-[#F5F4F4] cursor-pointer hover:bg-white" onClick={() => miniPageClick(2)}>Editing Coding</div>
-                                        <div className="text-center p-1 border-b-4 border-[#F5F4F4]" onClick={() => miniPageClick(3)}>Entri</div>
+                                        <div className="md:text-base text-sm text-center border-r-4 p-1 border-b-4 border-[#F5F4F4] bg-[#F5F4F4] cursor-pointer hover:bg-white" onClick={() => miniPageClick(1)}>Receving Batching</div>
+                                        <div className="md:text-base text-sm text-center border-r-4 p-1 border-b-4 border-[#F5F4F4] bg-[#F5F4F4] cursor-pointer hover:bg-white" onClick={() => miniPageClick(2)}>Editing Coding</div>
+                                        <div className="md:text-base text-sm text-center p-1 border-b-4 border-[#F5F4F4]" onClick={() => miniPageClick(3)}>Entri</div>
                                     </div>
                                     <div className="flex mt-2">
                                         <div className="progres flex-grow ml-4">

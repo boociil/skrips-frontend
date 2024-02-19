@@ -29,8 +29,6 @@ function App() {
               <Route path="/Login" element={<Login />}></Route>
               <Route path="/Hello" element={<Helloworld />}></Route>
               <Route path="/Rekap/AddKegiatan" element={<AddKegiatan />}></Route>
-              <Route path="/Train" element={<Train />}></Route>
-              <Route path="/Test_Page" element={<TestPage />}></Route>
               <Route path="/Users" element={<Users />}/>
               <Route path="/Users/Register" element={<Register />}/>
               <Route path="/Mitra" element={<Mitra />} />
