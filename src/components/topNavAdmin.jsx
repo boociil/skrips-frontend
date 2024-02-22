@@ -34,7 +34,7 @@ function TopNavAdmin(props = {active : 'home'}) {
     // };
     
     return (
-        <div className="font-poppins">
+        <div className="font-poppins z-50">
             <div className="navbar-medium-top hidden top-0 navbar-top-admin fixed md:flex mx-auto bg-white shadow-lg w-full">
                 <div className="mx-auto items-center font-semibold">
                     <ul className="flex">
@@ -62,7 +62,7 @@ function TopNavAdmin(props = {active : 'home'}) {
                 </div>
             <Outlet />
             </div>
-            <div className="mobile-navigation md:hidden w-full">
+            <div className="mobile-navigation z-50 md:hidden w-full">
                 <div className="burger-menu w-fit p-4 rounded">
                     <div className="the-burger">
                         <label className="burger" htmlFor="burger">

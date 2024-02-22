@@ -352,7 +352,7 @@ function ListRekap(props) {
                                                                                     ref={ref => setModaRef(innerItem.id_dok, ref)}
                                                                                     value={modaEntri[innerItem.id_dok]}
                                                                                     onChange={(event) => handleModaChange(event,innerItem.id_dok)}
-                                                                                    >
+                                                                                >
                                                                                     
                                                                                     
                                                                                     {

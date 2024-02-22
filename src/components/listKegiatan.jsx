@@ -64,12 +64,27 @@ function ListKegiatan(props) {
                 <div className=" text-slate-400 text-xs">Mulai Kegiatan</div>
             </div>
             <div className="status col-start-2 md:col-start-3 sm:block px-3 py-2">
-                <div className={status_class}>{status}</div>
-                <div className=" text-slate-400 text-xs">Status</div>
+                <div className="flex">
+                    <div className="flex-grow">
+                        <div className={status_class}>{status}</div>
+                        <div className=" text-slate-400 text-xs">Status</div>
+                    </div>
+                    {/* <span className="w-4 h-4 material-symbols-outlined md:hidden mr-5">
+                        edit
+                    </span> */}
+                </div>
             </div>
             <div className="metode hidden col-start-4 md:block px-3 py-2">
-                <div className="">{method}</div>
-                <div className=" text-slate-400 text-xs">Metode</div>
+                <div className="md:flex">
+                    <div className="flex-grow">
+                        <div className="">{method}</div>
+                        <div className=" text-slate-400 text-xs">Metode</div>
+                    </div>
+                    {/* <span className="material-symbols-outlined hidden md:block">
+                        edit
+                    </span> */}
+                </div>
+                
             </div>
         </div>
     )

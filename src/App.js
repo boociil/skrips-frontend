@@ -13,6 +13,8 @@ import Mitra from './pages/Mitra';
 import Rekap from './pages/Rekap';
 import RekapWithID from './pages/RekapWithID';
 import TestPage from './pages/TestPage';
+import AssignPetugasSensus from './pages/AssignPetugasSensus';
+import SampelPage from './pages/Sampel';
 
 
 function App() {
@@ -34,6 +36,8 @@ function App() {
               <Route path="/Mitra" element={<Mitra />} />
               <Route path="/Rekap" element={<Rekap />} />
               <Route path="/Rekap/:id" element={<RekapWithID />} />
+              <Route path="/AssignPetugas/:id" element={<AssignPetugasSensus />} />
+              <Route path="/Sampel/:id" element={<SampelPage />} />
           </Routes>
         </div>
       </BrowserRouter>
