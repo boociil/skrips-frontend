@@ -3,16 +3,18 @@ import { useNavigate } from "react-router-dom";
 
 function ListRekapRBSurvei(props, { onDataFromChild }) {
 
-    const navigate = useNavigate()
-    const generatedSampelRef = useRef({})
     const [ data, setData ] = useState([]);
     const [ isLoading, setIsLoading ] = useState(true);
+    const [ dataAdmin, setDataAdmin ] = useState([]);
     const [ dataLen, setDataLen ] = useState();
     const [ kodeKecActive, setKodeKecActive ] = useState({});
     const [ kodeDesaActive, setKodeDesaActive ] = useState({});
     const [ isClassAdded, setIsClassAdded ] = useState(false);
     const [ showTItle, setShowTitle ] = useState({});
     const [ showTItleKec, setShowTitleKec ] = useState({});
+    const [ isLoadingPetugas, setIsLoadingPetugas ] = useState(true);
+    const [ penerimaDok, setPenerimaDok ] = useState({})
+    const penerimaRef = useRef({});
 
     useEffect(() =>{
 
@@ -34,17 +36,47 @@ function ListRekapRBSurvei(props, { onDataFromChild }) {
                     setDataLen(data.length - 1);
                     setIsLoading(false)
                     console.log(link);
-                });            
+                });       
         }
 
+        const fetchDataUsers = () => {
+
+            const requestOptions = {
+                method: 'POST', // Metode HTTP
+                headers: {
+                    'Content-Type': 'application/json' // Tentukan tipe konten yang Anda kirimkan
+                },
+                    body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
+                };
+                const link = 'http://localhost:3001/get_all_admin'
+                fetch(link,  requestOptions)
+                .then(response => response.json())
+                .then(data => {
+                    setDataAdmin(data);
+                    console.log("admin", data);
+                    setIsLoadingPetugas(false);
+                });            
+        }     
+
         fetchData();
-        // fetchDataUsers();
+        fetchDataUsers();
 
     },[props.id]);
 
     let prevKec = null;
     let prevDesa = null;
     let prevKorong = null;
+
+    const setSelectPenerimaDokRef = (ruta,x,ref) => {
+        
+        let the_value = ''
+        if (penerimaRef.current && penerimaRef.current[x] && penerimaRef.current[x][ruta]){
+            penerimaRef.current[x][ruta] = ref;
+        }else{
+            console.log('error Ref');
+        }
+        
+    }
 
     function delay(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
@@ -70,6 +102,73 @@ function ListRekapRBSurvei(props, { onDataFromChild }) {
         // })
     
     };
+
+    const timeNow = () => {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = now.getMonth(); // Bulan dimulai dari 0 (Januari) hingga 11 (Desember)
+        const date = now.getDate();
+        const hours = now.getHours();
+        const minutes = now.getMinutes();
+        const seconds = now.getSeconds();
+
+        const time = `${year}-${month+1}-${date} ${hours}:${minutes}:${seconds}`;
+
+        return time;
+    }
+
+
+
+    const handleRutaChange = (even,ruta,x) => {
+        const value = even.target.value
+
+        console.log("ruta dan x : ",ruta,x);
+        setPenerimaDok(prevSelectValues => ({
+            ...prevSelectValues,
+            [x]: {
+                ...prevSelectValues[x],
+                [ruta]: value
+            }
+        }));
+    }
+
+    const clickButtonSampel = (ruta,x) => {
+        
+        
+
+        const button = document.getElementById('button-' + ruta + '-' + x  );
+
+        if(button.innerHTML === "Sudah"){
+            button.classList.remove('text-[#14CB11]');
+            button.classList.add('text-[#EF0D0D]');
+            // select.classList.remove('pointer-events-none')
+            // select.classList.remove('opacity-75')
+            button.innerHTML = "Belum";
+            // setSelectPenerima(prevSelectValues => ({
+            //     ...prevSelectValues,
+            //     [id_dok]: select.value
+            // }));
+            // fetch data ke backend
+            // updateRB(id_dok,penerima,null,null);
+        }else{
+            if (1 === 1){
+                button.classList.remove('text-[#EF0D0D]');
+                button.classList.add('text-[#14CB11]');
+                button.innerHTML = "Sudah";
+                // select.classList.add('pointer-events-none')
+                // select.classList.add('opacity-75')
+
+                // fetch data ke backend
+                // select.classList.add('disabled-element')
+                const time_now = timeNow()
+                // updateRB(id_dok,penerima,1,time_now);
+            }else{
+                alert("Pilih penerima");
+            }
+            
+        }
+    }
+
 
     const desaClick = (kode_desa,kode_kec_1) => {
 
@@ -168,19 +267,72 @@ function ListRekapRBSurvei(props, { onDataFromChild }) {
                                                                                     <div className="w-full md:w-fit ml-2 col-start-1 col-span-2">{" " + innerItem.nama_x}</div>    
                                                                                     <div className="no-bs">{innerItem.no_blok_sensus}</div>
                                                                                     <div className="no-bs">{innerItem.no_kerangka_sampel}</div>
+                                                                                    <div className="ppl">PPL</div>
+                                                                                    <div className="ppl">PML</div>
                                                                                 </div>
 
                                                                                 <div className="the-ruta grid grid-cols-2 md:mx-auto max-w-3xl ml-10">
                                                                                     {
                                                                                         data.filter((insideItem) => (insideItem.id_x === innerItem.id_x) && (insideItem.kode_kec === innerItem.kode_kec) && (insideItem.kode_desa === innerItem.kode_desa) ).map((insideItem,insideIndex) => {
+                                                                                            let isRB = false
+                                                                                            if (insideItem.status_pengdok !== null){
+                                                                                                isRB = true
+                                                                                            }
+                                                                                            
+                                                                                            let the_value = ''
+                                                                                            if (penerimaDok && penerimaDok[insideItem.id_x] && penerimaDok[insideItem.id_x][insideItem.no_ruta]){
+                                                                                                the_value = penerimaDok[insideItem.id_x][insideItem.no_ruta]
+                                                                                            }else{
+                                                                                                console.log('the value : ',penerimaDok);
+                                                                                            }
                                                                                             return (
                                                                                                 <div key={insideIndex} className="bg-[#F5F4F4] mx-1 my-1 p-2 grid grid-cols-5 text-xs rounded-lg">
-                                                                                                    <div className="mx-3">{insideItem.no_ruta}</div>
-                                                                                                    <div className="col-span-3">{insideItem.KRT}</div>
-                                                                                                    <select name="" id="" className="mr-2">
-                                                                                                        <option value="1">1</option>
-                                                                                                    </select>
-                                                                                                    <button className="status-edcod hover:bg-slate-100 col-start-8 w-fit text-center mr-2 md:mr-1 bg-white rounded-full md:p-3 p-1 border-2 border-slate-200">sudah</button>
+                                                                                                    
+                                                                                                    <div className="the-ruta hidden md:block">
+                                                                                                        <div className="mx-3">{insideItem.no_ruta}</div>
+                                                                                                        <div className="text-slate-400">sampel</div>
+                                                                                                    </div>
+                                                                                                        
+                                                                                                    <div className="the-krt col-span-2">
+                                                                                                        <div className="">{insideItem.KRT}</div>
+                                                                                                        <div className="text-slate-400">KRT</div>
+                                                                                                    </div>    
+
+                                                                                                    <div className="the-petugas">
+                                                                                                        <select 
+                                                                                                        name="select-petugas" 
+                                                                                                        id="" 
+                                                                                                        value={the_value || ''}
+                                                                                                        className="mr-1 w-14 rounded-md min-h-8"
+                                                                                                        onChange={(event) => handleRutaChange(event,insideItem.no_ruta,insideItem.id_x)}
+                                                                                                        >
+
+                                                                                                            {
+                                                                                                                isRB ? (
+                                                                                                                    <>
+                                                                                                                        <option value="test" key="test">test</option>
+                                                                                                                    </>
+                                                                                                                ) : (
+                                                                                                                    <>
+                                                                                                                        {dataAdmin.map((admin,admin_index) => {
+                                                                                                                            <option value={admin.username} key={admin_index}>{admin.firstName + " " + admin.lastName}</option>
+                                                                                                                        })}
+                                                                                                                    </>
+                                                                                                                )
+                                                                                                            }
+                                                                                                            
+                                                                                                        </select>
+                                                                                                        {/* <div className="text-slate-400">Petugas</div> */}
+                                                                                                    </div>
+                                                                                                    
+                                                                                                    
+                                                                                                    <button 
+                                                                                                        className={`status-edcod hover:bg-slate-100 col-start-8 w-fit text-center mr-2 md:mr-1 bg-white rounded-full md:p-3 p-1 border-2 border-slate-200 ${isRB ? ("") : ("text-[#EF0D0D]")}`}
+                                                                                                        id={`button-${insideItem.no_ruta}-${insideItem.id_x}`}
+                                                                                                        onClick={() => clickButtonSampel(insideItem.no_ruta, insideItem.id_x)}
+                                                                                                        >
+                                                                                                        {isRB ? ("Sudah") : ("Belum")}
+                                                                                                    </button>
                                                                                                 </div>
                                                                                             )
                                                                                         })

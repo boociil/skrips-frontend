@@ -15,7 +15,7 @@ function ListRekap(props) {
     const [ isClassAdded, setIsClassAdded ] = useState(false);
     const [ selectPenerima, setSelectPenerima ] = useState({});
     const [ showConfirmCard, setShowConfirmCard ] = useState(false);
-    const [ adaRB, setAdaRB ] = useState({})
+    const [ adaRB, setAdaRB ] = useState({});
 
     useEffect(() =>{
 
