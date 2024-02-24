@@ -3,6 +3,9 @@ import { useEffect,useState } from "react";
 import ListRekap from "../components/listRekapRB";
 import ListRekapEdcod from "../components/listRekapEdcod";
 import ListRekapEntri from "../components/listRekapEntri";
+import ListRekapRBSurvei from "../components/ListRekapRBSurvei";
+import ListRekapEdcodSurvei from "../components/ListRekapEdcodSurvei";
+import ListRekapEntriSurvei from "../components/ListRekapEntriSurvei";
 
 const RekapWithID = () => {
     const { id } = useParams();
@@ -11,6 +14,7 @@ const RekapWithID = () => {
     const [ isLoading, setIsLoading ] = useState(true);
     const [ namaKegiatan, setNamaKegiatan ] = useState();
     const [ miniPageIndex, setMiniPageIndex ] = useState(1);
+    const [ isSurvei , setIsSurvei ] = useState(false);
 
     const miniPageClick = (index) => {
         setMiniPageIndex(index)
@@ -32,7 +36,9 @@ const RekapWithID = () => {
                 .then(response => response.json())
                 .then(data => {
                     setData(data);
+                    console.log(data);
                     setNamaKegiatan(data[0].nama)
+                    setIsSurvei(data[0].jenis === "2");
                     setIsLoading(false);
                 });
         }
@@ -56,7 +62,7 @@ const RekapWithID = () => {
                         <div className="hidden sm:block sm:rounded-full sm:absolute w-80 h-80 bg-[#FFA1A1] sm:-right-52 sm:-top-40"></div>
                         <div className="sm:bottom-4 sm:absolute">
                             <h2 className="ml-2 font-semibold sm:bottom-0 md:text-xl text-sm">{namaKegiatan}</h2>
-                            <p className="ml-2 text-slate-600 md:text-xl text-sm">ST2023</p>
+                            <p className="ml-2 text-slate-600 md:text-xl text-sm">{id}</p>
                         </div>
                     </div>
 
@@ -66,9 +72,9 @@ const RekapWithID = () => {
                         { miniPageIndex === 1 ? ( 
                             <>
                                 <div className="nav grid grid-cols-3 rounded-t-md">
-                                    <div className="md:text-base text-sm text-center border-r-4 p-1 border-b-4 border-[#F5F4F4]" onClick={() => miniPageClick(1)}>Receving Batching</div>
-                                    <div className="md:text-base text-sm text-center border-r-4 p-1 border-b-4 border-[#F5F4F4] bg-[#F5F4F4] hover:bg-white cursor-pointer" onClick={() => miniPageClick(2)}>Editing Coding</div>
-                                    <div className="md:text-base text-sm text-center p-1 border-b-4 border-[#F5F4F4] bg-[#F5F4F4] hover:bg-white cursor-pointer" onClick={() => miniPageClick(3)}>Entri</div>
+                                    <div className="md:text-base transition-all text-sm text-center border-r-4 p-1 border-b-4 border-[#F5F4F4]" onClick={() => miniPageClick(1)}>Receving Batching</div>
+                                    <div className="md:text-base transition-all text-sm text-center border-r-4 p-1 border-b-4 border-[#F5F4F4] bg-[#F5F4F4] hover:bg-white cursor-pointer" onClick={() => miniPageClick(2)}>Editing Coding</div>
+                                    <div className="md:text-base transition-all text-sm text-center p-1 border-b-4 border-[#F5F4F4] bg-[#F5F4F4] hover:bg-white cursor-pointer" onClick={() => miniPageClick(3)}>Entri</div>
                                 </div>
                                 <div className="flex mt-2">
                                     <div className="progres flex-grow ml-4">
@@ -80,16 +86,28 @@ const RekapWithID = () => {
                                 </div>
 
                                 <div className="content p-1">
-                                    <ListRekap id={id} />
+                                        {
+                                            isSurvei ? (
+                                                <>
+                                                    <ListRekapRBSurvei id={id}/>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <ListRekap id={id} />
+                                                </>
+                                            )
+                                        }
+                                    
+                                    
                                 </div>
                             </>
                         ) : (
                             miniPageIndex === 2 ? (
                                 <>
                                 <div className="nav grid grid-cols-3 rounded-t-md">
-                                    <div className="md:text-base text-sm text-center border-r-4 p-1 border-b-4 border-[#F5F4F4] cursor-pointer bg-[#F5F4F4] hover:bg-white" onClick={() => miniPageClick(1)}>Receving Batching</div>
-                                    <div className="md:text-base text-sm text-center border-r-4 p-1 border-b-4 border-[#F5F4F4]" onClick={() => miniPageClick(2)}>Editing Coding</div>
-                                    <div className="md:text-base text-sm text-center p-1 border-b-4 border-[#F5F4F4] bg-[#F5F4F4] cursor-pointer hover:bg-white" onClick={() => miniPageClick(3)}>Entri</div>
+                                    <div className="md:text-base transition-all text-sm text-center border-r-4 p-1 border-b-4 border-[#F5F4F4] cursor-pointer bg-[#F5F4F4] hover:bg-white" onClick={() => miniPageClick(1)}>Receving Batching</div>
+                                    <div className="md:text-base transition-all text-sm text-center border-r-4 p-1 border-b-4 border-[#F5F4F4]" onClick={() => miniPageClick(2)}>Editing Coding</div>
+                                    <div className="md:text-base transition-all text-sm text-center p-1 border-b-4 border-[#F5F4F4] bg-[#F5F4F4] cursor-pointer hover:bg-white" onClick={() => miniPageClick(3)}>Entri</div>
                                 </div>
                                     <div className="flex mt-2">
                                         <div className="progres flex-grow ml-4">
@@ -101,16 +119,27 @@ const RekapWithID = () => {
                                     </div>
 
                                     <div className="content p-1">
-                                        <ListRekapEdcod id={id} />
+                                        {
+                                            isSurvei ? (
+                                                <>
+                                                    <ListRekapEdcodSurvei id={id} />
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <ListRekapEdcod id={id} />
+                                                </>
+                                            )
+                                        }
+                                        
                                     </div>
                                 </>
                             ) : (
                                 <>
 
                                     <div className="nav grid grid-cols-3 rounded-t-md">
-                                        <div className="md:text-base text-sm text-center border-r-4 p-1 border-b-4 border-[#F5F4F4] bg-[#F5F4F4] cursor-pointer hover:bg-white" onClick={() => miniPageClick(1)}>Receving Batching</div>
-                                        <div className="md:text-base text-sm text-center border-r-4 p-1 border-b-4 border-[#F5F4F4] bg-[#F5F4F4] cursor-pointer hover:bg-white" onClick={() => miniPageClick(2)}>Editing Coding</div>
-                                        <div className="md:text-base text-sm text-center p-1 border-b-4 border-[#F5F4F4]" onClick={() => miniPageClick(3)}>Entri</div>
+                                        <div className="md:text-base transition-all text-sm text-center border-r-4 p-1 border-b-4 border-[#F5F4F4] bg-[#F5F4F4] cursor-pointer hover:bg-white" onClick={() => miniPageClick(1)}>Receving Batching</div>
+                                        <div className="md:text-base transition-all text-sm text-center border-r-4 p-1 border-b-4 border-[#F5F4F4] bg-[#F5F4F4] cursor-pointer hover:bg-white" onClick={() => miniPageClick(2)}>Editing Coding</div>
+                                        <div className="md:text-base transition-all text-sm text-center p-1 border-b-4 border-[#F5F4F4]" onClick={() => miniPageClick(3)}>Entri</div>
                                     </div>
                                     <div className="flex mt-2">
                                         <div className="progres flex-grow ml-4">
@@ -122,7 +151,18 @@ const RekapWithID = () => {
                                     </div>
 
                                     <div className="content p-1">
-                                        <ListRekapEntri id={id} />
+                                        {
+                                            isSurvei ? (
+                                                <>
+                                                    <ListRekapEntriSurvei id={id} />
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <ListRekapEntri id={id} />
+                                                </>
+                                            )
+                                        }
+                                        
                                     </div>
                                 </>
                             )

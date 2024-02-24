@@ -57,34 +57,7 @@ function ListAssignPetugas(props) {
         return time;
     }
 
-    const updateEdcod = (id_dok,petugas,status,time) => {
-        
-        const requestOptions = {
-            method: 'POST', // Metode HTTP
-            headers: {
-                'Content-Type': 'application/json' // Tentukan tipe konten yang Anda kirimkan
-            },
-            body: JSON.stringify({ 
-                "id_kegiatan" : props.id,
-                "id_dok" : id_dok,
-                "tgl_edcod" : time,
-                "petugas_edcod" : petugas,
-                "status_edcod" : status
-             }) 
-        };
-        
-            fetch('http://localhost:3001/update_Edcod' , requestOptions)
-            .then(response => response.json())
-            .then(data => {
-                console.log(data)
-            });
-    }
-
-    const setSelectRef = (dokId, ref) => {
-        penerimaRef.current[dokId] = ref;
-    };
-
-
+    
     const handleSelectPenerimaChange = (event, id) => {
         const value = event.target.value;
     

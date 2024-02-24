@@ -286,8 +286,8 @@ function ListRekap(props) {
                                                                                 <div className="w-fit">{innerItem.kode_sls}</div>
                                                                                 <div className="w-full md:w-fit ml-2 col-start-2 col-span-2">{" " + innerItem.SLS}</div>
                                                                                 <label htmlFor={`select-${innerIndex}`}></label>
-                                                                                <div className="hidden md:block mx-auto col-start-5">pml : {pml}</div>
-                                                                                <div className="hidden md:block mx-auto col-start-6">ppl : {pml}</div>
+                                                                                {/* <div className="hidden md:block mx-auto col-start-5">pml : {pml}</div>
+                                                                                <div className="hidden md:block mx-auto col-start-6">ppl : {pml}</div> */}
                                                                                 {
                                                                                     isLoadingPetugas ? (
                                                                                         <>

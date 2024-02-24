@@ -319,7 +319,7 @@ function ListRekap(props) {
                                                                                 <div className="w-fit">{innerItem.kode_sls}</div>
                                                                                 <div className="w-full md:w-fit ml-2 col-start-2 col-span-2">{" " + innerItem.SLS}</div>
                                                                                 <label htmlFor={`select-${innerIndex}`}></label>
-                                                                                <button className="col-start-5">button petugas</button>
+                                                                                {/* <button className="col-start-5">button petugas</button> */}
                                                                                 <div id={`time-${innerIndex}`} className="hidden md:block mx-auto col-start-6">{waktu_entri}</div>
                                                                                 {
                                                                                     isLoadingPetugas ? (

@@ -1,8 +1,10 @@
 import { useState,useEffect, useRef } from "react";
 import GeneratedSampel from "./GeneratedSampel";
+import { useNavigate } from "react-router-dom";
 
 function ListSampel(props, { onDataFromChild }) {
 
+    const navigate = useNavigate()
     const generatedSampelRef = useRef({})
     const [ data, setData ] = useState([]);
     const [ isLoading, setIsLoading ] = useState(true);
@@ -19,6 +21,8 @@ function ListSampel(props, { onDataFromChild }) {
     const [ isSampel, setIsSampel ] = useState({});
     const [ generateSampel, setGenerateSampel ] = useState({});
     const [ krt, setKRT ] = useState({});
+    const [ desa, setDesa ] = useState({});
+    const [ kec, setKec ] = useState({});
 
 
     const setGeneratedSampelRef = (id, ref) => {
@@ -103,7 +107,7 @@ function ListSampel(props, { onDataFromChild }) {
         }));
     }
 
-    const isSampelChange = (id) => {
+    const isSampelChange = (id,kode_desa,kode_kec) => {
     
         // Menyalin objek selectValues dan memperbarui nilai untuk elemen yang sesuai
         if(isSampel[id]){
@@ -137,10 +141,27 @@ function ListSampel(props, { onDataFromChild }) {
                 [id]: false
             }));
 
+            setDesa(prevSelectValues => ({
+                ...prevSelectValues,
+                [id]: null
+              }));
+              setKec(prevSelectValues => ({
+                ...prevSelectValues,
+                [id]: null
+              }));
+
         }else{
             setIsSampel(prevSelectValues => ({
                 ...prevSelectValues,
                 [id]: true
+              }));
+              setDesa(prevSelectValues => ({
+                ...prevSelectValues,
+                [id]: kode_desa
+              }));
+              setKec(prevSelectValues => ({
+                ...prevSelectValues,
+                [id]: kode_kec
               }));
         }
 
@@ -176,23 +197,50 @@ function ListSampel(props, { onDataFromChild }) {
         }
     }
 
+    const sendData = (o) => {
+        const requestOptions = {
+        method: 'POST', // Metode HTTP
+        headers: {
+            'Content-Type': 'application/json' // Tentukan tipe konten yang Anda kirimkan
+        },
+            body: JSON.stringify( o ) 
+        };
+        const link = 'http://localhost:3001/fill_survei/' + props.id
+        fetch(link,  requestOptions)
+        .then(response => response.json())
+        .then(data => {
+            // Notifikasi
+            navigate('/Rekap/', props.id)
+        }); 
+    }
+
     const onSubmitButtonClick = () => {
-
-        const the_data = krt;
-
-        
 
         console.log(krt);
         console.log(noBS);
         console.log(noKS);
         console.log(ruta);
+        console.log(isSampel);
+        console.log(desa);
+        console.log(kec);
+
+        let o = ({})
+
+        console.log("str",krt)
+
         // console.log("the data : ",the_data);
-        for (const key in noBS) {
-            if (Object.hasOwnProperty.call(data, key)) {
-                const value = data[key];
-                console.log(`Kunci: ${key}, Nilai: ${value}`);
-            }
+        for (let key in isSampel) {
+            // console.log(`Key: ${key}, Value: ${isSampel[key]}`);
+            o[key] = ({})
+            o[key]["noKS"] = noKS[key]
+            o[key]["noBS"] = noBS[key]
+            o[key]["jumlah_ruta"] = ruta[key]
+            o[key]["krt"] = krt[key]
+            o[key]["kode_desa"] = desa[key]
+            o[key]["kode_kec"] = kec[key]
         }
+        sendData(o);
+        console.log("o",JSON.stringify(o));
     }
 
     const handleCardClick = (kode_kec) => {
@@ -378,7 +426,7 @@ function ListSampel(props, { onDataFromChild }) {
                                                                                     id="" 
                                                                                     className="w-4 h-4" 
                                                                                     checked={isSampel[innerItem.id] || false}
-                                                                                    onChange={() => {isSampelChange(innerItem.id)}}
+                                                                                    onChange={() => {isSampelChange(innerItem.id,innerItem.kode_desa,innerItem.kode_kec)}}
                                                                                     />
                                                                                 </div>
                                                                             </div>
