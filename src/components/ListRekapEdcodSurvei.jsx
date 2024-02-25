@@ -48,15 +48,15 @@ function ListRekapEdcodSurvei(props, { onDataFromChild }) {
                 },
                     body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
                 };
-                const link = 'http://localhost:3001/get_all_admin'
+                const link = 'http://localhost:3001/get_all_mitra_edcod'
                 fetch(link,  requestOptions)
                 .then(response => response.json())
                 .then(data => {
                     setDataAdmin(data);
                     console.log("admin", data);
-                    dataAdmin.map((admin,admin_index) => {
-                        console.log(admin.username);
-                    })
+                    // dataAdmin.map((admin,admin_index) => {
+                    //     console.log(admin.username);
+                    // })
                     setIsLoadingPetugas(false);
                 });            
         }     
@@ -97,7 +97,7 @@ function ListRekapEdcodSurvei(props, { onDataFromChild }) {
     
     };
 
-    const updateRB = (nbs,nks,ruta,time,status,penerima) => {
+    const updateEdcod = (nbs,nks,ruta,time,status,petugas) => {
         
         const requestOptions = {
             method: 'POST', // Metode HTTP
@@ -109,13 +109,13 @@ function ListRekapEdcodSurvei(props, { onDataFromChild }) {
                 "no_blok_sensus" : nbs,
                 "no_kerangka_sampel" : nks,
                 "no_ruta" : ruta,
-                "tgl_pengdok" : time,
-                "penerima_dok" : penerima,
-                "status_pengdok" : status
+                "tgl_edcod" : time,
+                "petugas_edcod" : petugas,
+                "status_edcod" : status
              }) 
         };
         
-            fetch('http://localhost:3001/update_RB_survei' , requestOptions)
+            fetch('http://localhost:3001/update_Edcod_survei' , requestOptions)
             .then(response => response.json())
             .then(data => {
                 // console.log(data)
@@ -185,7 +185,7 @@ function ListRekapEdcodSurvei(props, { onDataFromChild }) {
                 }
             }));
             // fetch data ke backend
-            updateRB(nbs,nks,ruta,"0000-00-00 00:00:00",0,undefined);
+            updateEdcod(nbs,nks,ruta,"0000-00-00 00:00:00",0,undefined);
         }else{
             if (the_value){
                 button.classList.remove('text-[#EF0D0D]');
@@ -195,7 +195,7 @@ function ListRekapEdcodSurvei(props, { onDataFromChild }) {
                 select.classList.add('opacity-75')
 
                 // fetch data ke backend
-                updateRB(nbs,nks,ruta,time_now,1,the_value);
+                updateEdcod(nbs,nks,ruta,time_now,1,the_value);
             }else{
                 alert("Pilih penerima");
             }
@@ -309,7 +309,7 @@ function ListRekapEdcodSurvei(props, { onDataFromChild }) {
                                                                                     {
                                                                                         data.filter((insideItem) => (insideItem.id_x === innerItem.id_x) && (insideItem.kode_kec === innerItem.kode_kec) && (insideItem.kode_desa === innerItem.kode_desa) ).map((insideItem,insideIndex) => {
                                                                                             let isRB = false
-                                                                                            if ((insideItem.status_pengdok !== null) && (innerItem.status_pengdok !== 0)){
+                                                                                            if ((insideItem.status_edcod !== null) && (innerItem.status_edcod !== 0)){
                                                                                                 isRB = true
                                                                                             }
                                                                                             
@@ -320,8 +320,8 @@ function ListRekapEdcodSurvei(props, { onDataFromChild }) {
                                                                                                 // console.log('the value : ',penerimaDok);
                                                                                             }
                                                                                             const ref_num = insideItem.no_ruta + "" + insideItem.id_x
-                                                                                            const index_admin = dataAdmin.findIndex(item => item.username === insideItem.penerima_dok)
-                                                                                            // console.log("index admin : ", index_admin, insideItem.no_ruta);
+                                                                                            const index_admin = dataAdmin.findIndex(item => item.id === insideItem.petugas_edcod)
+                                                                                            console.log("index admin : ", index_admin, insideItem.no_ruta);
                                                                                             return (
                                                                                                 <div key={insideIndex} className="bg-[#F5F4F4] mx-1 my-1 p-2 grid grid-cols-5 text-xs rounded-lg">
                                                                                                     
@@ -356,16 +356,16 @@ function ListRekapEdcodSurvei(props, { onDataFromChild }) {
                                                                                                                         
                                                                                                                         isRB ? (
                                                                                                                             <>
-                                                                                                                                <option value={insideItem.penerima_dok} key={insideItem.penerima_dok}>{dataAdmin[index_admin].firstName + " " + dataAdmin[index_admin].lastName }</option>
-                                                                                                                                {dataAdmin.filter((admin) => admin.username !== insideItem.penerima_dok).map((admin,admin_index) => (
-                                                                                                                                    <option value={admin.username} key={admin_index}>{admin.firstName + " " + admin.lastName}</option>
+                                                                                                                                <option value={insideItem.petugas_edcod} key={insideItem.petugas_edcod}>{dataAdmin[index_admin].nama }</option>
+                                                                                                                                {dataAdmin.filter((admin) => admin.nama !== insideItem.petugas_edcod).map((admin,admin_index) => (
+                                                                                                                                    <option value={admin.id} key={admin_index}>{admin.nama}</option>
                                                                                                                                 ))} 
                                                                                                                             </>
                                                                                                                         ) : (
                                                                                                                             <>
                                                                                                                                 <option value="-" key="-">-</option>
                                                                                                                                 {dataAdmin.map((admin,admin_index) => (
-                                                                                                                                    <option value={admin.username} key={admin_index}>{admin.firstName + " " + admin.lastName}</option>
+                                                                                                                                    <option value={admin.id} key={admin_index}>{admin.nama}</option>
                                                                                                                                 ))}
                                                                                                                             </>
                                                                                                                         )
