@@ -54,6 +54,9 @@ function ListRekapRBSurvei(props, { onDataFromChild }) {
                 .then(data => {
                     setDataAdmin(data);
                     console.log("admin", data);
+                    dataAdmin.map((admin,admin_index) => {
+                        console.log(admin.username);
+                    })
                     setIsLoadingPetugas(false);
                 });            
         }     
@@ -67,20 +70,11 @@ function ListRekapRBSurvei(props, { onDataFromChild }) {
     let prevDesa = null;
     let prevKorong = null;
 
-    const setSelectPenerimaDokRef = (ruta,x,ref) => {
-        
-        let the_value = ''
-        if (penerimaRef.current && penerimaRef.current[x] && penerimaRef.current[x][ruta]){
-            penerimaRef.current[x][ruta] = ref;
-        }else{
-            console.log('error Ref');
-        }
-        
-    }
-
     function delay(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
+
+  
 
     const handleCardClick = (kode_kec) => {
         // setKodeDesaActive(null);
@@ -102,6 +96,31 @@ function ListRekapRBSurvei(props, { onDataFromChild }) {
         // })
     
     };
+
+    const updateRB = (nbs,nks,ruta,time,status,penerima) => {
+        
+        const requestOptions = {
+            method: 'POST', // Metode HTTP
+            headers: {
+                'Content-Type': 'application/json' // Tentukan tipe konten yang Anda kirimkan
+            },
+            body: JSON.stringify({ 
+                "id_kegiatan" : props.id,
+                "no_blok_sensus" : nbs,
+                "no_kerangka_sampel" : nks,
+                "no_ruta" : ruta,
+                "tgl_pengdok" : time,
+                "penerima_dok" : penerima,
+                "status_pengdok" : status
+             }) 
+        };
+        
+            fetch('http://localhost:3001/update_RB_survei' , requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                // console.log(data)
+            });
+    }
 
     const timeNow = () => {
         const now = new Date();
@@ -132,36 +151,51 @@ function ListRekapRBSurvei(props, { onDataFromChild }) {
         }));
     }
 
-    const clickButtonSampel = (ruta,x) => {
-        
-        
 
+    const setSelectRef = (num, ref) => {
+        penerimaRef.current[num] = ref
+    };
+
+    const clickButtonSampel = (ruta,x,nbs,nks) => {
+        
+        const num = ruta + "" + x
         const button = document.getElementById('button-' + ruta + '-' + x  );
+        const select = penerimaRef.current[num]
+
+        console.log("select : ", select);
+
+        let the_value = null
+        if (penerimaDok && penerimaDok[x] && penerimaDok[x][ruta]){
+            the_value = penerimaDok[x][ruta]
+        }
+
+        const time_now = timeNow()
 
         if(button.innerHTML === "Sudah"){
             button.classList.remove('text-[#14CB11]');
             button.classList.add('text-[#EF0D0D]');
-            // select.classList.remove('pointer-events-none')
-            // select.classList.remove('opacity-75')
+            select.classList.remove('pointer-events-none')
+            select.classList.remove('opacity-75')
             button.innerHTML = "Belum";
-            // setSelectPenerima(prevSelectValues => ({
-            //     ...prevSelectValues,
-            //     [id_dok]: select.value
-            // }));
+            setPenerimaDok(prevSelectValues => ({
+                ...prevSelectValues,
+                [x]: {
+                    ...prevSelectValues[x],
+                    [ruta]: select.value
+                }
+            }));
             // fetch data ke backend
-            // updateRB(id_dok,penerima,null,null);
+            updateRB(nbs,nks,ruta,"0000-00-00 00:00:00",0,undefined);
         }else{
-            if (1 === 1){
+            if (the_value){
                 button.classList.remove('text-[#EF0D0D]');
                 button.classList.add('text-[#14CB11]');
                 button.innerHTML = "Sudah";
-                // select.classList.add('pointer-events-none')
-                // select.classList.add('opacity-75')
+                select.classList.add('pointer-events-none')
+                select.classList.add('opacity-75')
 
                 // fetch data ke backend
-                // select.classList.add('disabled-element')
-                const time_now = timeNow()
-                // updateRB(id_dok,penerima,1,time_now);
+                updateRB(nbs,nks,ruta,time_now,1,the_value);
             }else{
                 alert("Pilih penerima");
             }
@@ -275,7 +309,7 @@ function ListRekapRBSurvei(props, { onDataFromChild }) {
                                                                                     {
                                                                                         data.filter((insideItem) => (insideItem.id_x === innerItem.id_x) && (insideItem.kode_kec === innerItem.kode_kec) && (insideItem.kode_desa === innerItem.kode_desa) ).map((insideItem,insideIndex) => {
                                                                                             let isRB = false
-                                                                                            if (insideItem.status_pengdok !== null){
+                                                                                            if ((insideItem.status_pengdok !== null) && (innerItem.status_pengdok !== 0)){
                                                                                                 isRB = true
                                                                                             }
                                                                                             
@@ -283,8 +317,11 @@ function ListRekapRBSurvei(props, { onDataFromChild }) {
                                                                                             if (penerimaDok && penerimaDok[insideItem.id_x] && penerimaDok[insideItem.id_x][insideItem.no_ruta]){
                                                                                                 the_value = penerimaDok[insideItem.id_x][insideItem.no_ruta]
                                                                                             }else{
-                                                                                                console.log('the value : ',penerimaDok);
+                                                                                                // console.log('the value : ',penerimaDok);
                                                                                             }
+                                                                                            const ref_num = insideItem.no_ruta + "" + insideItem.id_x
+                                                                                            const index_admin = dataAdmin.findIndex(item => item.username === insideItem.penerima_dok)
+                                                                                            // console.log("index admin : ", index_admin, insideItem.no_ruta);
                                                                                             return (
                                                                                                 <div key={insideIndex} className="bg-[#F5F4F4] mx-1 my-1 p-2 grid grid-cols-5 text-xs rounded-lg">
                                                                                                     
@@ -302,34 +339,50 @@ function ListRekapRBSurvei(props, { onDataFromChild }) {
                                                                                                         <select 
                                                                                                         name="select-petugas" 
                                                                                                         id="" 
+                                                                                                        ref ={(ref) => setSelectRef(ref_num,ref)}
                                                                                                         value={the_value || ''}
-                                                                                                        className="mr-1 w-14 rounded-md min-h-8"
+                                                                                                        className={`mr-1 w-14 rounded-md min-h-8 ${isRB ? ("pointer-events-none opacity-75") : ("")}`}
                                                                                                         onChange={(event) => handleRutaChange(event,insideItem.no_ruta,insideItem.id_x)}
                                                                                                         >
 
                                                                                                             {
-                                                                                                                isRB ? (
+                                                                                                                isLoadingPetugas ? (
                                                                                                                     <>
-                                                                                                                        <option value="test" key="test">test</option>
                                                                                                                     </>
                                                                                                                 ) : (
                                                                                                                     <>
-                                                                                                                        {dataAdmin.map((admin,admin_index) => {
-                                                                                                                            <option value={admin.username} key={admin_index}>{admin.firstName + " " + admin.lastName}</option>
-                                                                                                                        })}
+
+                                                                                                                    {
+                                                                                                                        
+                                                                                                                        isRB ? (
+                                                                                                                            <>
+                                                                                                                                <option value={insideItem.penerima_dok} key={insideItem.penerima_dok}>{dataAdmin[index_admin].firstName + " " + dataAdmin[index_admin].lastName }</option>
+                                                                                                                                {dataAdmin.filter((admin) => admin.username !== insideItem.penerima_dok).map((admin,admin_index) => (
+                                                                                                                                    <option value={admin.username} key={admin_index}>{admin.firstName + " " + admin.lastName}</option>
+                                                                                                                                ))} 
+                                                                                                                            </>
+                                                                                                                        ) : (
+                                                                                                                            <>
+                                                                                                                                <option value="-" key="-">-</option>
+                                                                                                                                {dataAdmin.map((admin,admin_index) => (
+                                                                                                                                    <option value={admin.username} key={admin_index}>{admin.firstName + " " + admin.lastName}</option>
+                                                                                                                                ))}
+                                                                                                                            </>
+                                                                                                                        )
+                                                                                                                    }
                                                                                                                     </>
                                                                                                                 )
                                                                                                             }
                                                                                                             
                                                                                                         </select>
-                                                                                                        {/* <div className="text-slate-400">Petugas</div> */}
+                                                                                                        {/* <div className="text-slate-400"></div> */}
                                                                                                     </div>
                                                                                                     
                                                                                                     
                                                                                                     <button 
-                                                                                                        className={`status-edcod hover:bg-slate-100 col-start-8 w-fit text-center mr-2 md:mr-1 bg-white rounded-full md:p-3 p-1 border-2 border-slate-200 ${isRB ? ("") : ("text-[#EF0D0D]")}`}
+                                                                                                        className={`status-edcod hover:bg-slate-100 col-start-8 w-fit text-center mr-2 md:mr-1 bg-white rounded-full md:p-3 p-1 border-2 border-slate-200 ${isRB ? ("text-[#14CB11]") : ("text-[#EF0D0D]")}`}
                                                                                                         id={`button-${insideItem.no_ruta}-${insideItem.id_x}`}
-                                                                                                        onClick={() => clickButtonSampel(insideItem.no_ruta, insideItem.id_x)}
+                                                                                                        onClick={() => clickButtonSampel(insideItem.no_ruta, insideItem.id_x,insideItem.no_blok_sensus, insideItem.no_kerangka_sampel)}
                                                                                                         >
                                                                                                         {isRB ? ("Sudah") : ("Belum")}
                                                                                                     </button>
