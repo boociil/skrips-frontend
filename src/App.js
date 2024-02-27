@@ -15,6 +15,7 @@ import RekapWithID from './pages/RekapWithID';
 import TestPage from './pages/TestPage';
 import AssignPetugasSensus from './pages/AssignPetugasSensus';
 import SampelPage from './pages/Sampel';
+import DashboardWithId from './pages/DashboardWithId';
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
           <Routes>
               <Route index element={<Login />}></Route>
               <Route path="/Home" element={<AdminHomePage />}></Route>
+              <Route path="/Home/:id_kegiatan" element={<DashboardWithId />}></Route>
               <Route path="/Login" element={<Login />}></Route>
               <Route path="/Hello" element={<Helloworld />}></Route>
               <Route path="/Rekap/AddKegiatan" element={<AddKegiatan />}></Route>
@@ -38,6 +40,7 @@ function App() {
               <Route path="/Rekap/:id" element={<RekapWithID />} />
               <Route path="/AssignPetugas/:id" element={<AssignPetugasSensus />} />
               <Route path="/Sampel/:id" element={<SampelPage />} />
+              <Route path='/Train' element={<Train />}></Route>
           </Routes>
         </div>
       </BrowserRouter>
