@@ -8,6 +8,7 @@ const AssignPetugas = () => {
     const [ data, setData ] = useState([]);
     const [ isLoading, setIsLoading ] = useState(true);
     const [ namaKegiatan, setNamaKegiatan ] = useState();
+    const [ isSurvei, setIsSurvei ] = useState();
 
 
     useEffect(() =>{
@@ -26,6 +27,7 @@ const AssignPetugas = () => {
                 .then(response => response.json())
                 .then(data => {
                     setData(data);
+                    setIsSurvei(data[0].jenis === "2");
                     setNamaKegiatan(data[0].nama)
                     setIsLoading(false);
                 });
@@ -60,7 +62,7 @@ const AssignPetugas = () => {
                         <div className="Title flex items-center justify-center my-6">
                             <span className="font-poppins text-xl">Pilih Petugas</span>
                         </div>
-                        <ListAssignPetugas id={id} />
+                        <ListAssignPetugas id={id} isSurvei={isSurvei}/>
                     </div>
 
                 </div>

@@ -5,18 +5,28 @@ function ListAssignPetugas(props) {
     const penerimaRef = useRef({});
     const [ data, setData ] = useState([]);
     const [ isLoading, setIsLoading ] = useState(true);
-    const [ isLoadingPetugas, setIsLoadingPetugas ] = useState(false);
+    const [ isLoadingPetugas, setIsLoadingPetugas ] = useState(true);
     const [ dataLen, setDataLen ] = useState();
     const [ kodeKecActive, setKodeKecActive ] = useState({});
     const [ kodeDesaActive, setKodeDesaActive ] = useState({});
     const [ kodeKecActive1, setKodekecActive1 ] = useState({});
     const [ isClassAdded, setIsClassAdded ] = useState(false);
     const [ selectPenerima, setSelectPenerima ] = useState({});
+    const [ dataPetugas, setDataPetugas ] = useState([]);
 
     useEffect(() =>{
 
-        const fetchData = () => {
+        const fetchData = () => {   
+            let firstLink = ''
 
+            if(!props.isSurvei){
+                firstLink = 'http://localhost:3001/get_pengolahan_data/';
+            }else{
+                firstLink = 'http://localhost:3001/get_pengolahan_data_survei/';
+            }
+            
+            const link = firstLink + props.id
+            console.log(link);
             const requestOptions = {
                 method: 'POST', // Metode HTTP
                 headers: {
@@ -24,7 +34,7 @@ function ListAssignPetugas(props) {
                 },
                     body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
                 };
-                const link = 'http://localhost:3001/get_pengolahan_data/' + props.id
+                
                 fetch(link,  requestOptions)
                 .then(response => response.json())
                 .then(data => {
@@ -35,8 +45,28 @@ function ListAssignPetugas(props) {
                 });            
         }
 
+        const fetchDataUsers = () => {   
+            
+            const link = "http://localhost:3001/get_all_users"
+            const requestOptions = {
+                method: 'POST', // Metode HTTP
+                headers: {
+                    'Content-Type': 'application/json' // Tentukan tipe konten yang Anda kirimkan
+                },
+                    body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
+                };
+                
+                fetch(link,  requestOptions)
+                .then(response => response.json())
+                .then(data => {
+                    setDataPetugas(data);
+                    // console.log(data)
+                    setIsLoadingPetugas(false)
+                });            
+        }
+
         fetchData();
-        // fetchDataUsers();
+        fetchDataUsers();
 
     },[props.id]);
 
@@ -170,6 +200,7 @@ function ListAssignPetugas(props) {
                                                                                     ) : (
 
                                                                                     <>
+                                                                                        
                                                                                         <select 
                                                                                             className={`sm:mr-5 mr-1 rounded-lg col-start-6 min-w-16 max-w-16 overflow-hidden`}
                                                                                             name="selectPenerima" 
@@ -177,8 +208,12 @@ function ListAssignPetugas(props) {
                                                                                             value={selectPenerima[innerItem.id_dok]} 
                                                                                             onChange={(event) => handleSelectPenerimaChange(event, innerItem.id_dok)}
                                                                                         >
-                                                                                            <option value="1" key="1">1</option>
-                                                                                            <option value="2" key="2">2</option>
+                                                                                            <option value="-">-</option>
+                                                                                            {
+                                                                                                dataPetugas.map((pet,index) => (
+                                                                                                    <option value={pet.username} key={index}>{pet.firstName + " " + pet.lastName}</option>
+                                                                                                ))
+                                                                                            }
                                                                                         </select>
                                                                                         
                                                                                         <select 
@@ -188,8 +223,12 @@ function ListAssignPetugas(props) {
                                                                                             value={selectPenerima[innerItem.id_dok]} 
                                                                                             onChange={(event) => handleSelectPenerimaChange(event, innerItem.id_dok)}
                                                                                         >
-                                                                                            <option value="1" key="1">1</option>
-                                                                                            <option value="2" key="2">2</option>
+                                                                                            <option value="-">-</option>
+                                                                                            {
+                                                                                                dataPetugas.map((pet,index) => (
+                                                                                                    <option value={pet.username} key={index}>{pet.firstName + " " + pet.lastName}</option>
+                                                                                                ))
+                                                                                            }
                                                                                         </select>
 
                                                                                         <select 
@@ -199,8 +238,12 @@ function ListAssignPetugas(props) {
                                                                                             value={selectPenerima[innerItem.id_dok]} 
                                                                                             onChange={(event) => handleSelectPenerimaChange(event, innerItem.id_dok)}
                                                                                         >
-                                                                                            <option value="1" key="1">1</option>
-                                                                                            <option value="2" key="2">2</option>
+                                                                                            <option value="-">-</option>
+                                                                                            {
+                                                                                                dataPetugas.map((pet,index) => (
+                                                                                                    <option value={pet.username} key={index}>{pet.firstName + " " + pet.lastName}</option>
+                                                                                                ))
+                                                                                            }
                                                                                         </select>
                                                                                     </>
 
