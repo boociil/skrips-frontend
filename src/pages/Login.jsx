@@ -25,14 +25,39 @@ function Login() {
     const handleChange = (e) => {
         // mengubah state saat nilai input berubah
         setFormData({ ...formData, [e.target.name]: e.target.value });
-      };
+    };
+
+    const sendData = ( loginData ) => {
+
+        const requestOptions = {
+            method: 'POST', // Metode HTTP
+            headers: {
+                'Content-Type': 'application/json' // Tentukan tipe konten yang Anda kirimkan
+            },
+            body: JSON.stringify({ 
+                "username" : loginData.username,
+                "password" : loginData.pass,
+             }) 
+        };
+        
+        fetch('http://localhost:3001/Login', requestOptions)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            if(data.msg === "Success"){
+                navigate('/Home');
+            }else{
+                alert("Password atau Username tidak benar");
+            }
+        });
+    }
 
     const handleSubmit = (event) =>{
         event.preventDefault();
         const checkFill = check_empty();
         if (checkFill){
-            // Validasi username dan password ke backend, lalu buat
-            navigate('/Home');
+            // console.log(formData);
+            sendData(formData)
         }else{
             alert("Form tidak boleh kosong");
         } 

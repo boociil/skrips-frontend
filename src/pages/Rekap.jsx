@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import ListKegiatan from "../components/listKegiatan";
+import ListRekap from "../components/listRekap";
 import ButtonAdd from "../components/buttonAdd";
 import { useEffect, useState } from "react";
 
@@ -54,7 +55,7 @@ function AdminHomePage() {
             <div className="list-kegiatan mx-auto">
                 {
                     data.map((item, index)=>(
-                        <ListKegiatan key={item.id} position={index !== 0 ? (index === dataLen ? 'BOT' : 'MID' ) : 'TOP'} name={item.nama} id={item.id} metode={item.metode} status={item.status} tgl={item.tanggal_mulai} index={item.length}/>
+                        <ListRekap key={item.id} position={index !== 0 ? (index === dataLen ? 'BOT' : 'MID' ) : 'TOP'} name={item.nama} id={item.id} metode={item.metode} status={item.status} tgl={item.tanggal_mulai} index={item.length}/>
                     ))
                 }
             </div>
