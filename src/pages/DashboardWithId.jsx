@@ -4,8 +4,6 @@ import { Bar,Line,Doughnut } from "react-chartjs-2";
 import 'chart.js/auto';
 
 
-
-
 function DashboardWithId() {
     const { id_kegiatan } = useParams();    
     const [ dataKegiatan, setDataKegiatan ] = useState();
@@ -14,6 +12,31 @@ function DashboardWithId() {
     const [ isLoading, setIsLoading ] = useState();
     const [ isLoadingProgres, setIsLoadingProgres ] = useState(true);
     const [ namaKegiatan, setNamaKegiatan ] = useState();
+    const [ dataOverallProgres, setDataOverallProgres ] = useState();
+    const [ loadingOverallProgres, setLoadingOverallProgres ] = useState(true);
+    const [ startRB, setStartRB ] = useState();
+    const [ startEdcod, setStartEdcod ] = useState();
+    const [ startEntri, setStartEntri ] = useState();
+
+    const convert_bulan = (b) => {
+        const the_b = (
+            {
+                1 : "Jan",
+                2 : "Feb",
+                3 : "Mar",
+                4 : "Apr",
+                5 : "Mei",
+                6 : "Jun",
+                7 : "Jul",
+                8 : "Ags",
+                9 : "Sep",
+                10 : "Okt",
+                11 : "Nov",
+                12 : "Des",
+            }
+        )
+        return the_b[b];
+    }
 
     useEffect(() => {
 
@@ -30,7 +53,7 @@ function DashboardWithId() {
                 .then(response => response.json())
                 .then(data => {
                     setDataKegiatan(data);
-                    console.log(data);
+                    // console.log(data);
                     setNamaKegiatan(data[0].nama)
                     setIsSurvei(data[0].jenis === "2");
                     setIsLoading(false);
@@ -53,12 +76,53 @@ function DashboardWithId() {
                 .then(data => {
                     // console.log(data)
                     setDataProgresKecamatan(data);
-                    
                     setIsLoadingProgres(false);
+                });
+        }
+        const fetchDataOveralProgres = () => {
+            const requestOptions = {
+                method: 'POST', // Metode HTTP
+                headers: {
+                    'Content-Type': 'application/json' // Tentukan tipe konten yang Anda kirimkan
+                },
+                body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
+            };
+                let start_link = "http://localhost:3001/get_progres_sensus/"
+                console.log(start_link);
+                fetch(start_link + id_kegiatan , requestOptions)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    setDataOverallProgres(data);
+                    
+                    // Date Setting
+                    const date_pengdok = new Date(data[0]["start_pengdok"])
+                    const date_edcod = new Date(data[0]["start_edcod"])
+                    const date_entri = new Date(data[0]["start_entri"])
+
+                    const rb_date = date_pengdok.getDate();
+                    const rb_month = convert_bulan(date_pengdok.getMonth() + 1);
+                    const rb_year = date_pengdok.getFullYear();
+
+                    const edcod_date = date_edcod.getDate();
+                    const edcod_month = convert_bulan(date_edcod.getMonth() + 1);
+                    const edcod_year = date_edcod.getFullYear();
+
+                    const entri_date = date_entri.getDate();
+                    const entri_month = convert_bulan(date_entri.getMonth() + 1);
+                    const entri_year = date_entri.getFullYear();
+                    
+                    setStartRB(rb_month + " " + rb_date + ", " + rb_year);
+                    setStartEdcod(edcod_month + " " + edcod_date + ", " + edcod_year);
+                    setStartEntri(entri_month + " " + entri_date + ", " + entri_year);
+                    ////////////////////////////////////////
+
+                    setLoadingOverallProgres(false);
                 });
         }
         fetchData();
         fetchDataProgres();
+        fetchDataOveralProgres();
         
     }, [])
 
@@ -81,22 +145,47 @@ function DashboardWithId() {
                                 <div className="content-RB">
                                     <div className="main-board  p-2 md:flex">
                                         <div className="sm:flex md:flex-grow md:max-w-1/2 ">
-                                            <div className="number grid grid-cols-3 sm:block ">
-                                                <div className="persentase-RB border-2 mx-2 mb-2 border-sky-200 bg-sky-100 w-fit rounded-2xl py-2 pl-2 pr-6 min-w-24 sm:min-w-32 max-h-14">
+                                            <div className="NUMBER grid grid-cols-3 sm:block">
+                                                <div className="persentase-RB mt-5 border-2 mx-2 mb-2 border-sky-200 w-fit rounded-2xl py-2 pl-2 pr-6 min-w-24 sm:min-w-32 max-h-14">
                                                     <div className="text-xs">Progres <span className="hidden sm:inline-block">RB</span></div>
-                                                    <div className="text-xs font-semibold">78%</div>
+                                                    <div className="text-xs font-semibold">
+                                                        {
+                                                            loadingOverallProgres ? (
+                                                                <>
+                                                                    Loading...
+                                                                </>
+                                                            ) : (
+                                                                <>
+                                                                    {((dataOverallProgres[0]["rb"]/dataOverallProgres[0]["total"])*100).toFixed(2)}%
+                                                                </>
+                                                            )
+                                                        }
+                                                    </div>
                                                 </div>
 
-                                                <div className="persentase-RB border-2 mx-2 mb-2 border-sky-200 w-fit rounded-2xl py-2 pl-2 pr-6 min-w-24 sm:min-w-32 max-h-14">
+                                                <div className="persentase-RB mt-5 border-2 mx-2 mb-2 border-sky-200 w-fit rounded-2xl py-2 pl-2 pr-6 min-w-24 sm:min-w-32 max-h-14">
                                                     <div className="text-xs">Deadline</div>
                                                     <div className="text-xs font-semibold">37 Hari</div>
                                                 </div>
 
-                                                <div className="persentase-RB border-2 mx-2 mb-2 border-sky-200 w-fit rounded-2xl py-2 pl-2  min-w-24 sm:min-w-32 max-h-14">
+                                                <div className="persentase-RB mt-5 border-2 mx-2 mb-2 border-sky-200 w-fit rounded-2xl py-2 pl-2  min-w-24 sm:min-w-32 max-h-14">
                                                     <div className="text-xs"><span className="hidden sm:inline-block">Tanggal</span> Mulai</div>
-                                                    <div className="text-xs font-semibold">Oct 1, 2020</div>
+                                                    <div className="text-xs font-semibold">
+                                                    {
+                                                        loadingOverallProgres ? (
+                                                            <>
+                                                                Loading...
+                                                            </>
+                                                        ) : (
+                                                            <>
+                                                                {startRB}
+                                                            </>
+                                                        )
+                                                    }
+                                                    </div>
                                                 </div>
                                             </div>
+                                            
                                             <div className="chart flex items-center justify-center mt-2 sm:mt-0 mr-2 w-full ">
                                                 <Bar
                                                     data={{ 
@@ -120,41 +209,37 @@ function DashboardWithId() {
                                         </div>
 
                                         <div className="bungkus-progres block sm:grid sm:grid-cols-2 w-full md:w-fit  ">
-                                            <div className="progres-petugas mt-4 sm:mt-0 flex-grow border-2 border-sky-200 rounded-xl overflow-hidden pb-2  ">
+                                            <div className="progres-petugas mt-4 sm:mt-0 flex-grow border-2 border-sky-200 rounded-xl overflow-hidden pb-2 ">
                                                 <div className="cover mx-auto">
                                                     <div className="title grid grid-cols-2 p-1 text-sm bg-sky-200 rounded-t-md">
                                                         <div className="text-center font-medium">Petugas</div>
                                                         <div className="text-center font-medium">Total Dokumen</div>
                                                     </div>
-                                                    <div className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center">
+                                                    <div className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center min-h-6">
                                                         <div className="text-center">Muhammad Abdillah</div>
                                                         <div className="text-center">24</div>
                                                     </div>
-                                                    <div className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center ">
+                                                    <div className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center min-h-6 ">
                                                         <div className="text-center">Amirul Budiman</div>
                                                         <div className="text-center">36</div>
                                                     </div>
-                                                    <div className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center ">
+                                                    <div className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center min-h-6 ">
                                                         <div className="text-center">Cipto Mangunkusumo</div>
                                                         <div className="text-center">13</div>
                                                     </div>
-                                                    <div className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center ">
+                                                    <div className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center min-h-6 ">
                                                         <div className="text-center">Farhan Halim</div>
                                                         <div className="text-center">-</div>
                                                     </div>
-                                                    <div className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center ">
+                                                    <div className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center min-h-6 ">
                                                         <div className="text-center">Farhan Halim</div>
                                                         <div className="text-center">-</div>
                                                     </div>
-                                                    <div className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center ">
+                                                    <div className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center min-h-6 ">
                                                         <div className="text-center">Farhan Halim</div>
                                                         <div className="text-center">-</div>
                                                     </div>
-                                                    <div className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center ">
-                                                        <div className="text-center">Farhan Halim</div>
-                                                        <div className="text-center">-</div>
-                                                    </div>
-                                                    <div className="text-xs text-center mt-2 text-slate-400 underline cursor-pointer" onClick={() => {}}>expand</div>
+                                                    <div className="text-xs text-center mt-2 text-slate-400 underline cursor-pointer" onClick={() => {}}>Lihat Selengkapnya</div>
                                                 </div>
                                             </div>
 
@@ -166,8 +251,9 @@ function DashboardWithId() {
                                                     </div>
                                                     
                                                     { isLoadingProgres ? (
-                                                        <>
-                                                        </>
+                                                        <div className="p-3">
+                                                            Loading...
+                                                        </div>
                                                     ) : (
                                                         <>
                                                             {
@@ -182,14 +268,14 @@ function DashboardWithId() {
                                                                         isHigh = true
                                                                     }
                                                                     return(
-                                                                        <div key={index} className="title grid grid-cols-2 text-xs mt-1 border-b border-sky-200 items-center">
+                                                                        <div key={index} className="title grid grid-cols-2 text-xs mt-1 border-b border-sky-200 items-center min-h-6 ">
                                                                             <div className="text-center">{dataProgresKecamatan[item]["nama_kec"]}</div>
                                                                             <div className={`text-center font-medium ${isLow ? ('text-[#EC5F4C]') : ('')} ${isMed ? ('text-[#418EC6]') : ('')} ${isHigh ? ('text-[#14CB11]') : ('')}`}>{dataProgresKecamatan[item]["progres_rb"].toFixed(2)} %</div>
                                                                         </div>
                                                                     )
                                                                 })
                                                             }
-                                                            <div className="text-xs text-center mt-2 text-slate-400 underline cursor-pointer" onClick={() => {}}>expand</div>
+                                                            <div className="text-xs text-center mt-2 text-slate-400 underline cursor-pointer" onClick={() => {}}>Lihat Selengkapnya</div>
                                                         </>
                                                     )
                                                         

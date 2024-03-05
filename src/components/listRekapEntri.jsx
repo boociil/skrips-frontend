@@ -86,7 +86,7 @@ function ListRekap(props) {
         return time;
     }
 
-    const updateEntri = (id_dok,petugas,status,time) => {
+    const updateEntri = (id_dok,petugas,status,time,moda) => {
         
         const requestOptions = {
             method: 'POST', // Metode HTTP
@@ -98,7 +98,8 @@ function ListRekap(props) {
                 "id_dok" : id_dok,
                 "tgl_entri" : time,
                 "petugas_entri" : petugas,
-                "status_entri" : status
+                "status_entri" : status,
+                "moda" : moda,
              }) 
         };
         
@@ -147,7 +148,7 @@ function ListRekap(props) {
                 [idDokActive]: select_moda.value
             }));
             // fetch data ke backend
-            updateEntri(idDokActive,penerima,'0','0000-00-00 00:00:00');
+            updateEntri(idDokActive,penerima,'0','0000-00-00 00:00:00',moda);
 
         // Netralkan kembali id_dok dan idx
         setIdDokActive(null);
@@ -193,7 +194,7 @@ function ListRekap(props) {
                     select.classList.add('disabled-element')
 
                     // fetch data ke backend
-                    updateEntri(id_dok,penerima,1,time_now);
+                    updateEntri(id_dok,penerima,1,time_now,moda);
                 }else{
                     alert("Pilih Moda!")
                 }
