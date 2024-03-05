@@ -16,6 +16,8 @@ function ListRekap(props) {
     const [ selectPenerima, setSelectPenerima ] = useState({});
     const [ showConfirmCard, setShowConfirmCard ] = useState(false);
     const [ confirmResult, setConfirmResult ] = useState(null);
+    const [ idDokActive, setIdDokActive ] = useState(null);
+    const [ idxActive, setIdxActive ] = useState(null);
 
     useEffect(() =>{
 
@@ -112,22 +114,46 @@ function ListRekap(props) {
 
     const handleConfirm = () => {
         setShowConfirmCard(false);
-        setConfirmResult(true);
-        console.log(setConfirmResult(true));
+
+        let penerima = selectPenerima[idDokActive]
+        
+        const button = document.getElementById('button' + idxActive);
+        const select = penerimaRef.current[idDokActive]
+        const div_time = document.getElementById('time-' + idxActive);
+
+        // Operasi
+        button.classList.remove('text-[#14CB11]');
+        button.classList.add('text-[#EF0D0D]');
+        select.classList.remove('pointer-events-none')
+        select.classList.remove('opacity-75')
+        div_time.innerHTML = '-'
+        button.innerHTML = "Belum";
+        setSelectPenerima(prevSelectValues => ({
+            ...prevSelectValues,
+            [idDokActive]: select.value
+        }));
+
+        // fetch data ke backend
+        updateEdcod(idDokActive,penerima,'0','0000-00-00 00:00:00');
+
+        // Netralkan kembali id_dok dan idx
+        setIdDokActive(null);
+        setIdxActive(null);
     }
 
     const handleCancel = () => {
         setShowConfirmCard(false);
-        setConfirmResult(false);
-        console.log(setConfirmResult(false));
+
+        //
+
+        // Netralkan kembali id_dok dan idx
+        setIdDokActive(null);
+        setIdxActive(null);
     }
 
-
-
     const clickButtonSLS = (id_dok,idx) => {
-        console.log("Penerima : ",selectPenerima[id_dok])
-        console.log("id_dok : ",id_dok);
-        console.log("index : ",idx);
+        setIdDokActive(id_dok);
+        setIdxActive(idx);
         
         let penerima = selectPenerima[id_dok]
         
@@ -138,19 +164,7 @@ function ListRekap(props) {
 
         if(button.innerHTML === "Sudah"){
             setShowConfirmCard(true);
-            button.classList.remove('text-[#14CB11]');
-            button.classList.add('text-[#EF0D0D]');
-            select.classList.remove('pointer-events-none')
-            select.classList.remove('opacity-75')
-            div_time.innerHTM = '-'
-            button.innerHTML = "Belum";
-            setSelectPenerima(prevSelectValues => ({
-                ...prevSelectValues,
-                [id_dok]: select.value
-            }));
 
-            // fetch data ke backend
-            updateEdcod(id_dok,penerima,'0','0000-00-00 00:00:00');
         }else{
             if (penerima){
 
@@ -165,7 +179,6 @@ function ListRekap(props) {
 
                 // fetch data ke backend
                 updateEdcod(id_dok,penerima,1,time_now);
-            
                    
             }else{
                 alert("Pilih Petugas!");
@@ -244,7 +257,7 @@ function ListRekap(props) {
                     {showConfirmCard ? (
                                             <>
                                                 <ConfirmCard 
-                                                    message={`Batalkan progres entri ini?`}
+                                                    message={`Batalkan progres Edcod?`}
                                                     subMessage={`Anda masih bisa mensubmit, tapi waktu akan terupdate`}
                                                     onConfirm={handleConfirm}
                                                     onCancel={handleCancel}
@@ -308,7 +321,9 @@ function ListRekap(props) {
 
                                                                         let waktu_entri = '-'
                                                                         if ((innerItem.tgl_edcod !== null) && (innerItem.tgl_edcod !== "0000-00-00 00:00:00")){
-                                                                            waktu_entri = innerItem.tgl_edcod.slice(0,10) + " " + innerItem.tgl_edcod.slice(11,18)
+                                                                            const date = new Date(innerItem.tgl_edcod)
+                                                                            const options = { timeZone: 'Asia/Jakarta' };
+                                                                            waktu_entri =  date.toLocaleString('id-ID', options)
                                                                         }
                                                                         let class_sls = "mr-3 p-1 md:p-2 md:grid md:grid-cols-8 ml-9 my-1 bg-[#F5F4F4] rounded-md text-xs flex md:mx-auto max-w-3xl transition duration-300 scale-95";
                                                                         let class_sls2 = "mr-3 p-1 md:p-2 md:grid md:grid-cols-8 ml-9 my-1 bg-[#F5F4F4] rounded-md text-xs flex md:mx-auto max-w-3xl transition duration-300 scale-95";

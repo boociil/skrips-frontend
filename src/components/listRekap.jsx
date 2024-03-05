@@ -112,14 +112,14 @@ function ListRekap(props) {
                         <div className="">{method}</div>
                         <div className=" text-slate-400 text-xs">Metode</div>
                     </div>
-                    <div className="edit hover:bg-emerald-400">
+                    {/* <div className="edit hover:bg-emerald-400">
                         <span className="material-symbols-outlined px-1 hidden md:block text-sm">
                             edit
                         </span>
                         <div className="text-slate-400 text-xs">
                             edit
                         </div>
-                    </div>
+                    </div> */}
                     
                 </div>
                 

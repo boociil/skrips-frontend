@@ -16,6 +16,8 @@ function ListRekap(props) {
     const [ selectPenerima, setSelectPenerima ] = useState({});
     const [ showConfirmCard, setShowConfirmCard ] = useState(false);
     const [ adaRB, setAdaRB ] = useState({});
+    const [ idDokActive, setIdDokActive ] = useState(null);
+    const [ idxActive, setIdxActive ] = useState(null);
 
     useEffect(() =>{
 
@@ -107,10 +109,47 @@ function ListRekap(props) {
         penerimaRef.current[dokId] = ref;
     };
 
+    const handleConfirm = () => {
+        setShowConfirmCard(false);
+
+        // Tools
+        let penerima = selectPenerima[idDokActive]
+        
+        const button = document.getElementById('button' + idxActive);
+        const select = penerimaRef.current[idDokActive]
+
+        // Operasi
+        button.classList.remove('text-[#14CB11]');
+        button.classList.add('text-[#EF0D0D]');
+        select.classList.remove('pointer-events-none')
+        select.classList.remove('opacity-75')
+        button.innerHTML = "Belum";
+        setSelectPenerima(prevSelectValues => ({
+            ...prevSelectValues,
+            [idDokActive]: select.value
+        }));
+        // fetch data ke backend
+        updateRB(idDokActive,penerima,null,null);
+
+        // Netralkan kembali id_dok dan idx
+        setIdDokActive(null);
+        setIdxActive(null);
+    }
+
+    const handleCancel = () => {
+        setShowConfirmCard(false);
+
+        //
+
+        // Netralkan kembali id_dok dan idx
+        setIdDokActive(null);
+        setIdxActive(null);
+    }
+
     const clickButtonSLS = (id_dok,idx) => {
-        console.log("Penerima : ",selectPenerima[id_dok])
-        console.log("id_dok : ",id_dok);
-        console.log("index : ",idx);
+
+        setIdDokActive(id_dok);
+        setIdxActive(idx);
         
         let penerima = selectPenerima[id_dok]
         
@@ -118,17 +157,8 @@ function ListRekap(props) {
         const select = penerimaRef.current[id_dok]
 
         if(button.innerHTML === "Sudah"){
-            button.classList.remove('text-[#14CB11]');
-            button.classList.add('text-[#EF0D0D]');
-            select.classList.remove('pointer-events-none')
-            select.classList.remove('opacity-75')
-            button.innerHTML = "Belum";
-            setSelectPenerima(prevSelectValues => ({
-                ...prevSelectValues,
-                [id_dok]: select.value
-            }));
-            // fetch data ke backend
-            updateRB(id_dok,penerima,null,null);
+            setShowConfirmCard(true);
+            
         }else{
             if (penerima){
                 button.classList.remove('text-[#EF0D0D]');
@@ -217,7 +247,12 @@ function ListRekap(props) {
                 <div className="here">
                     {showConfirmCard ? (
                                             <>
-                                                <ConfirmCard />
+                                                <ConfirmCard 
+                                                    message={`Batalkan progres RB?`}
+                                                    subMessage={`Anda masih bisa mensubmit, tapi waktu akan terupdate`}
+                                                    onConfirm={handleConfirm}
+                                                    onCancel={handleCancel}
+                                                />
                                             </>
                                             
                                         ) : (

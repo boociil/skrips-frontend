@@ -18,6 +18,8 @@ function ListRekap(props) {
     const [ modaEntri, setModaEntri ] = useState({})
     const [ showConfirmCard, setShowConfirmCard ] = useState(false);
     const [ confirmResult, setConfirmResult ] = useState(null);
+    const [ idDokActive, setIdDokActive ] = useState(null);
+    const [ idxActive, setIdxActive ] = useState(null);
 
     useEffect(() =>{
 
@@ -117,23 +119,54 @@ function ListRekap(props) {
 
     const handleConfirm = () => {
         setShowConfirmCard(false);
-        setConfirmResult(true);
-        console.log(setConfirmResult(true));
+        
+        // the tools
+        const moda = modaEntri[idDokActive];
+        let penerima = selectPenerima[idDokActive]
+        
+        const button = document.getElementById('button' + idxActive);
+        const select = penerimaRef.current[idDokActive]
+        const div_time = document.getElementById('time-' + idxActive);
+        const select_moda = modaRef.current[idDokActive]
+
+        // Operasi
+        button.classList.remove('text-[#14CB11]');
+            button.classList.add('text-[#EF0D0D]');
+            select.classList.remove('pointer-events-none')
+            select.classList.remove('opacity-75')
+            select_moda.classList.remove('pointer-events-none')
+            select_moda.classList.remove('opacity-75')
+            div_time.innerHTML = '-'
+            button.innerHTML = "Belum";
+            setSelectPenerima(prevSelectValues => ({
+                ...prevSelectValues,
+                [idDokActive]: select.value
+            }));
+            setModaEntri(prevSelectValues => ({
+                ...prevSelectValues,
+                [idDokActive]: select_moda.value
+            }));
+            // fetch data ke backend
+            updateEntri(idDokActive,penerima,'0','0000-00-00 00:00:00');
+
+        // Netralkan kembali id_dok dan idx
+        setIdDokActive(null);
+        setIdxActive(null);
     }
 
     const handleCancel = () => {
         setShowConfirmCard(false);
-        setConfirmResult(false);
-        console.log(setConfirmResult(false));
+ 
+        // Netralkan kembali id_dok dan idx
+        setIdDokActive(null);
+        setIdxActive(null);
     }
 
 
 
     const clickButtonSLS = (id_dok,idx) => {
-        // console.log("Penerima : ",selectPenerima[id_dok])
-        // console.log("Moda : ", modaEntri[id_dok]);
-        // console.log("id_dok : ",id_dok);
-        // console.log("index : ",idx);
+        setIdDokActive(id_dok);
+        setIdxActive(idx);
         
         const moda = modaEntri[id_dok];
         let penerima = selectPenerima[id_dok]
@@ -144,25 +177,7 @@ function ListRekap(props) {
         const select_moda = modaRef.current[id_dok]
 
         if(button.innerHTML === "Sudah"){
-            // setShowConfirmCard(true);
-            button.classList.remove('text-[#14CB11]');
-            button.classList.add('text-[#EF0D0D]');
-            select.classList.remove('pointer-events-none')
-            select.classList.remove('opacity-75')
-            select_moda.classList.remove('pointer-events-none')
-            select_moda.classList.remove('opacity-75')
-            div_time.innerHTM = '-'
-            button.innerHTML = "Belum";
-            setSelectPenerima(prevSelectValues => ({
-                ...prevSelectValues,
-                [id_dok]: select.value
-            }));
-            setModaEntri(prevSelectValues => ({
-                ...prevSelectValues,
-                [id_dok]: select_moda.value
-            }));
-            // fetch data ke backend
-            updateEntri(id_dok,penerima,'0','0000-00-00 00:00:00');
+            setShowConfirmCard(true);
         }else{
             if (penerima){
                 if(moda){
@@ -334,8 +349,11 @@ function ListRekap(props) {
 
                                                                         let waktu_entri = '-'
                                                                         if ((innerItem.tgl_entri != null) && (innerItem.tgl_entri !== "0000-00-00 00:00:00")){
-                                                                            waktu_entri = innerItem.tgl_entri.slice(0,10) + " " + innerItem.tgl_entri.slice(11,18)
+                                                                            const date = new Date(innerItem.tgl_entri)
+                                                                            const options = { timeZone: 'Asia/Jakarta' };
+                                                                            waktu_entri =  date.toLocaleString('id-ID', options)
                                                                         }
+                                                                        // console.log("waktu : ", waktu_entri);
                                                                         let class_sls = "mr-3 p-1 md:p-2 md:grid md:grid-cols-8 ml-9 my-1 bg-[#F5F4F4] rounded-md text-xs flex md:mx-auto max-w-3xl transition duration-300 scale-95";
                                                                         let class_sls2 = "mr-3 p-1 md:p-2 md:grid md:grid-cols-8 ml-9 my-1 bg-[#F5F4F4] rounded-md text-xs flex md:mx-auto max-w-3xl transition duration-300 scale-95";
                                                                         let index_admin = dataAdmin.findIndex(item => item.id === innerItem.petugas_entri)

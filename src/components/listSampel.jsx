@@ -306,7 +306,7 @@ function ListSampel(props, { onDataFromChild }) {
             ) : (
                 <div className="here">
                     <div className="">
-                        <button className="bg-[#F5F4F4] rounded-lg p-2 text-black hover:bg-slate-300"
+                        <button className="bg-[#F5F4F4] rounded-lg ml-16 p-2 text-black hover:bg-slate-300"
                             onClick={onSubmitButtonClick}
                             >
                             Submit
