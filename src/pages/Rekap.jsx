@@ -1,13 +1,14 @@
 import { useNavigate } from "react-router-dom";
-import ListKegiatan from "../components/listKegiatan";
 import ListRekap from "../components/listRekap";
 import ButtonAdd from "../components/buttonAdd";
 import { useEffect, useState } from "react";
+import TopNavAdmin from "../components/topNavAdmin";
+import { useCookies } from "react-cookie";
 
 function AdminHomePage() {
 
     const navigate = useNavigate();
-
+    const [cookies, setCookie, removeCookie] = useCookies(['token']);
     const [data,setData] = useState([]);
     const [dataLen,setDataLen] = useState();
 
@@ -43,24 +44,46 @@ function AdminHomePage() {
 
     },[dataLen]);
 
+    const getNav = () => {
+        if (cookies.role === 'admin'){
+            return (
+                <TopNavAdmin />
+            )
+        }
+        if (cookies.role === 'pengawas'){
+            return (
+                <TopNavAdmin />
+            )
+        }
+        if (cookies.role === 'operator'){
+            return (
+                <TopNavAdmin />
+            )
+        }
+    }
 
 
     return (
-        <div className="mt-10 md:mt-32 mx-4 font-poppins">
-            <h1 className="text-xl mb-4 md:mb-8 md:pl-8 lg:pl-48">Ayo Lanjutkan Kegiatan!</h1>
-            <div className="quick-search">
+        <>
+            {
+                getNav()
+            }
+            <div className="mt-10 md:mt-32 mx-4 font-poppins">
+                <h1 className="text-xl mb-4 md:mb-8 md:pl-8 lg:pl-48">Ayo Lanjutkan Kegiatan!</h1>
+                <div className="quick-search">
+                    
+                </div>
                 
+                <div className="list-kegiatan mx-auto">
+                    {
+                        data.map((item, index)=>(
+                            <ListRekap key={item.id} position={index !== 0 ? (index === dataLen ? 'BOT' : 'MID' ) : 'TOP'} name={item.nama} id={item.id} metode={item.metode} status={item.status} tgl={item.tanggal_mulai} index={item.length}/>
+                        ))
+                    }
+                </div>
+            <ButtonAdd click = {handleClick} />
             </div>
-            
-            <div className="list-kegiatan mx-auto">
-                {
-                    data.map((item, index)=>(
-                        <ListRekap key={item.id} position={index !== 0 ? (index === dataLen ? 'BOT' : 'MID' ) : 'TOP'} name={item.nama} id={item.id} metode={item.metode} status={item.status} tgl={item.tanggal_mulai} index={item.length}/>
-                    ))
-                }
-            </div>
-        <ButtonAdd click = {handleClick} />
-        </div>
+        </>
     )
 }
 

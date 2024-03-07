@@ -1,11 +1,34 @@
 import { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import Button from "../components/button";
+import { useCookies } from "react-cookie";
+import TopNavAdmin from "../components/topNavAdmin";
+
 
 
 function AddKegiatan() {
 
     const navigate = useNavigate();
+    const [cookies, setCookie, removeCookie] = useCookies(['token']);
+
+
+    const getNav = () => {
+        if (cookies.role === 'admin'){
+            return (
+                <TopNavAdmin />
+            )
+        }
+        if (cookies.role === 'pengawas'){
+            return (
+                <TopNavAdmin />
+            )
+        }
+        if (cookies.role === 'operator'){
+            return (
+                <TopNavAdmin />
+            )
+        }
+    }
 
     const [formData, setFormData] = useState({
         // inisialisasi state untuk menyimpan data form
@@ -47,7 +70,9 @@ function AddKegiatan() {
     }
 
     return (
-        <div className="font-poppins parent-form my-4 md:mt-24 mx-4 p-3 shadow-xl bg-white rounded-3xl lg:mt-32 lg:max-w-4xl md:container md:mx-auto max-w-5xl">
+        <>
+            {getNav()}
+            <div className="font-poppins parent-form my-4 md:mt-24 mx-4 p-3 shadow-xl bg-white rounded-3xl lg:mt-32 lg:max-w-4xl md:container md:mx-auto max-w-5xl">
             <h1 className="text-2xl font-semibold mb-4 sm:mb-8 text-center">Tambah User</h1>
             <form>
                 <div className="nama-id md:grid md:grid-cols-2 ">
@@ -153,6 +178,8 @@ function AddKegiatan() {
                 <button onClick={handleSubmit} className="bg-[#418EC6] block mt-6 mx-auto w-28 text-white p-3 rounded-lg">Tambah</button>
             </form>
         </div>
+        </>
+        
     )
 }
 

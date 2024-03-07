@@ -1,12 +1,15 @@
-import { Outlet,  NavLink } from "react-router-dom";
+import { Outlet,  NavLink, useNavigate } from "react-router-dom";
 import React, { useState } from 'react';
+import { useCookies } from "react-cookie";
 
 
 function TopNavAdmin(props = {active : 'home'}) {
 
 
     const [openStatus, setOpenStatus] = useState(false);
-
+    const [cookies, setCookie, removeCookie] = useCookies(['token']);
+    const navigate = useNavigate();
+    
 
     const closeSideMenu = () => {
         setOpenStatus(true)
@@ -32,6 +35,21 @@ function TopNavAdmin(props = {active : 'home'}) {
     // const handleButtonClick = (class_name) => {
     //     setClassActive(class_name);
     // };
+
+    const removeAllCookie = () => {
+        removeCookie('user');
+        removeCookie('role')
+        removeCookie('token')
+        navigate('/');
+    }
+
+    let isAdmin = false;
+
+    if(cookies.role === 'admin'){
+        isAdmin = true;
+    }
+
+    console.log('isadmin ', isAdmin);
     
     return (
         <div className="font-poppins z-50">
@@ -53,15 +71,29 @@ function TopNavAdmin(props = {active : 'home'}) {
                                 handshake
                             </span>Mitra</NavLink>
                         </li>
-                        <li className="home mx-4 my-1 flex p-3">
-                            <NavLink to="/Users" className={({ isActive }) => isActive? "border-b-[#418EC6] border-b-4 flex pb-2": 'hover:scale-105 transition duration-500 hover:border-b-[#418EC6] hover:border-b-4 pb-2 flex'}><span className="material-symbols-outlined mx-1">
-                                group
-                            </span>Users</NavLink>
-                        </li>
+                        {
+                            isAdmin ? (
+                                <>
+                                    <li className="home mx-4 my-1 flex p-3">
+                                        <NavLink to="/Users" className={({ isActive }) => isActive? "border-b-[#418EC6] border-b-4 flex pb-2": 'hover:scale-105 transition duration-500 hover:border-b-[#418EC6] hover:border-b-4 pb-2 flex'}><span className="material-symbols-outlined mx-1">
+                                            group
+                                        </span>Users</NavLink>
+                                    </li>
+                                </>
+                            ) : (
+                                <>
+                                </>
+                            )
+                        }
                     </ul>
+                </div>
+                <div className="p-3 underline cursor-pointer" onClick={() => removeAllCookie()}>
+                    Logout
                 </div>
             <Outlet />
             </div>
+
+            
             <div className="mobile-navigation z-50 md:hidden w-full">
                 <div className="burger-menu w-fit p-4 rounded">
                     <div className="the-burger">

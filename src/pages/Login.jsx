@@ -1,10 +1,12 @@
 import loginImg from '../img/login.png'
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 
 function Login() {
     
     const navigate = useNavigate();
+    const [cookies, setCookie, removeCookie] = useCookies(['token']);
 
     const [formData, setFormData] = useState({
         // inisialisasi state untuk menyimpan data form
@@ -45,6 +47,8 @@ function Login() {
         .then(data => {
             console.log(data);
             if(data.msg === "Success"){
+                setCookie('token',data.accessToken)
+                setCookie('role',data.role)
                 navigate('/Home');
             }else{
                 alert("Password atau Username tidak benar");
@@ -63,6 +67,7 @@ function Login() {
         } 
     }
 
+    console.log("cookies : ", cookies);
     return (
         <div className="mx-4 mt-32 font-poppins bg-white shadow-2xl rounded-xl overflow-hidden md:flex md:container md:mx-auto sm:max-w-3xl lg:max-w-4xl">
             <div className="bagian-kiri px-3 box-border container">

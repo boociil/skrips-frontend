@@ -1,6 +1,9 @@
 // import { useNavigate } from "react-router-dom";
 import ListKegiatan from "../components/listKegiatan";
 import { useEffect, useState } from "react";
+import TopNavbarAdmin from '../components/topNavAdmin';
+import { useCookies } from "react-cookie";
+
 
 function AdminHomePage() {
 
@@ -8,6 +11,7 @@ function AdminHomePage() {
 
     const [data,setData] = useState([]);
     const [dataLen,setDataLen] = useState();
+    const [ cookie ] = useCookies([]);
 
     // const handleClick = () => {
     //     navigate('AddKegiatan');
@@ -30,9 +34,6 @@ function AdminHomePage() {
                 .then(data => {
                     setData(data);
                     setDataLen(data.length - 1);
-                    console.log("Data : " + data);
-                    console.log("data status" + data.status);
-                    console.log("Panjang Data : " + dataLen);
                 });
 
             
@@ -44,8 +45,11 @@ function AdminHomePage() {
     },[dataLen]);
 
 
-
+    console.log(cookie);
     return (
+        <>
+        <TopNavbarAdmin />
+
         <div className="mt-10 md:mt-32 mx-4 font-poppins">
             <h1 className="text-xl mb-4 md:mb-8 md:pl-8 lg:pl-48">Mau Monitoring Apa Hari ini?</h1>
             <div className="quick-search">
@@ -60,6 +64,7 @@ function AdminHomePage() {
                 }
             </div>
         </div>
+        </>
     )
 }
 
