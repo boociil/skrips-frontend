@@ -11,7 +11,6 @@ function ListSampel(props, { onDataFromChild }) {
     const [ dataLen, setDataLen ] = useState();
     const [ kodeKecActive, setKodeKecActive ] = useState({});
     const [ kodeDesaActive, setKodeDesaActive ] = useState({});
-    const [ kodeKecActive1, setKodekecActive1 ] = useState({});
     const [ isClassAdded, setIsClassAdded ] = useState(false);
     const [ showTItle, setShowTitle ] = useState({});
     const [ showTItleKec, setShowTitleKec ] = useState({});
@@ -266,8 +265,6 @@ function ListSampel(props, { onDataFromChild }) {
 
     const desaClick = (kode_desa,kode_kec_1) => {
 
-        console.log(kode_desa, kode_kec_1);
-
         let the_code = ''
 
         if(kodeDesaActive && kodeDesaActive[kode_kec_1] && kodeDesaActive[kode_kec_1][kode_desa]){
@@ -347,8 +344,8 @@ function ListSampel(props, { onDataFromChild }) {
                                                             <div id="the-desa" className={isClassAdded ? class_desa_2 : class_desa} onClick={() => desaClick(subItem.kode_desa,subItem.kode_kec)}>
                                                                 <div className="w-fit">{subItem.kode_desa}</div>
                                                                 <div className="w-full text-center ">{subItem.Desa}</div>
-                                                                
                                                             </div>
+
                                                             {/* { on_show_title ? (
                                                                 <div className="Judul" id={`title=${subItem.kode_desa}`}>
                                                                     <span>Korong</span>
@@ -372,7 +369,7 @@ function ListSampel(props, { onDataFromChild }) {
                                                                     the_open = kodeDesaActive[innerItem.kode_kec][innerItem.kode_desa]
                                                                 }
 
-                                                                // console.log("the open : ",the_open);
+                                                                
 
                                                                 if(the_open){
                                                                     return(
@@ -442,8 +439,6 @@ function ListSampel(props, { onDataFromChild }) {
                                                                                     </>
                                                                                 )
                                                                             }
-
-                                                                            
                                                                         </div>
                                                                     )
                                                                 }

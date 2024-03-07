@@ -40,6 +40,7 @@ function TopNavAdmin(props = {active : 'home'}) {
         removeCookie('user');
         removeCookie('role')
         removeCookie('token')
+        removeCookie('isLogin')
         navigate('/');
     }
 
@@ -48,8 +49,6 @@ function TopNavAdmin(props = {active : 'home'}) {
     if(cookies.role === 'admin'){
         isAdmin = true;
     }
-
-    console.log('isadmin ', isAdmin);
     
     return (
         <div className="font-poppins z-50">
@@ -137,7 +136,7 @@ function TopNavAdmin(props = {active : 'home'}) {
                                 </span>
                             Users</NavLink>
                         </li>
-                        <li className="acc mx-4 absolute bottom-20 left-0 p-4">Logout</li>
+                        <li className="acc mx-4 absolute bottom-20 left-0 p-4 underline" onClick={() => removeAllCookie()}>Logout</li>
                     </ul>
 
                 </nav>

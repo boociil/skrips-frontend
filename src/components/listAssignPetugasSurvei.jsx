@@ -9,10 +9,12 @@ function ListAssignPetugas(props) {
     const [ dataLen, setDataLen ] = useState();
     const [ kodeKecActive, setKodeKecActive ] = useState({});
     const [ kodeDesaActive, setKodeDesaActive ] = useState({});
-    const [ kodeKecActive1, setKodekecActive1 ] = useState({});
     const [ isClassAdded, setIsClassAdded ] = useState(false);
-    const [ selectPenerima, setSelectPenerima ] = useState({});
+    const [ ppl, setPPL ] = useState([])
+    const [ pml, setPML ] = useState([])
+    const [ koseka, setKoseka ] = useState([])
     const [ dataPetugas, setDataPetugas ] = useState([]);
+    
 
     useEffect(() =>{
 
@@ -26,7 +28,7 @@ function ListAssignPetugas(props) {
             }
             
             const link = firstLink + props.id
-            console.log(link);
+            // console.log(link);
             const requestOptions = {
                 method: 'POST', // Metode HTTP
                 headers: {
@@ -39,7 +41,7 @@ function ListAssignPetugas(props) {
                 .then(response => response.json())
                 .then(data => {
                     setData(data);
-                    // console.log(data)
+                    console.log(data)
                     setDataLen(data.length - 1);
                     setIsLoading(false)
                 });            
@@ -72,6 +74,7 @@ function ListAssignPetugas(props) {
 
     let prevKec = null;
     let prevDesa = null;
+    let prevKorong = null;
 
     const timeNow = () => {
         const now = new Date();
@@ -87,12 +90,30 @@ function ListAssignPetugas(props) {
         return time;
     }
 
-    
-    const handleSelectPenerimaChange = (event, id) => {
+
+    const handlePPLChange = (event, id) => {
         const value = event.target.value;
     
         // Menyalin objek selectValues dan memperbarui nilai untuk elemen yang sesuai
-        setSelectPenerima(prevSelectValues => ({
+        setPPL(prevSelectValues => ({
+          ...prevSelectValues,
+          [id]: value
+        }));
+    };
+    const handlePMLChange = (event, id) => {
+        const value = event.target.value;
+    
+        // Menyalin objek selectValues dan memperbarui nilai untuk elemen yang sesuai
+        setPML(prevSelectValues => ({
+          ...prevSelectValues,
+          [id]: value
+        }));
+    };
+    const handleKosekaChange = (event, id) => {
+        const value = event.target.value;
+    
+        // Menyalin objek selectValues dan memperbarui nilai untuk elemen yang sesuai
+        setKoseka(prevSelectValues => ({
           ...prevSelectValues,
           [id]: value
         }));
@@ -125,21 +146,55 @@ function ListAssignPetugas(props) {
 
     const desaClick = (kode_desa,kode_kec_1) => {
 
-        if(kode_kec_1 === kodeKecActive1){
-            if (kode_desa === kodeDesaActive){
-                setKodekecActive1(null);
-                setKodeDesaActive(null);
-            }else{
-                setKodeDesaActive(kode_desa === kodeDesaActive ? null : kode_desa);
-            }
+        let the_code = ''
+
+        if(kodeDesaActive && kodeDesaActive[kode_kec_1] && kodeDesaActive[kode_kec_1][kode_desa]){
+            the_code = kodeDesaActive[kode_kec_1][kode_desa]
+        }
+
+        if (the_code){
+            setKodeDesaActive(prevSelectValues => ({
+                ...prevSelectValues,
+                [kode_kec_1]: {
+                    ...prevSelectValues[kode_kec_1],
+                    [kode_desa]: false
+                }
+            }));
         }else{
-            setKodekecActive1(kode_kec_1);
-            setKodeDesaActive(kode_desa);
+            setKodeDesaActive(prevSelectValues => ({
+                ...prevSelectValues,
+                [kode_kec_1]: {
+                    ...prevSelectValues[kode_kec_1],
+                    [kode_desa]: true
+                }
+            }));
         }
         
     }
     
+    function onSubmitButtonClick() {
+        // send data here
+        const arrppl = Object.assign(ppl)
+        const arrpml = Object.assign(pml)
+        const arrKoseka = Object.assign(koseka)
+        let arr_to_send = ([arrppl,arrpml,arrKoseka])
+        console.log(arr_to_send);
 
+        // Send Data
+        const requestOptions = {
+        method: 'POST', // Metode HTTP
+        headers: {
+            'Content-Type': 'application/json' // Tentukan tipe konten yang Anda kirimkan
+        },
+            body: JSON.stringify(arr_to_send) 
+        };
+        const link = 'http://localhost:3001/assign_petugas/' + props.id
+        fetch(link,  requestOptions)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+        });
+    }
     
 
     return (
@@ -151,7 +206,13 @@ function ListAssignPetugas(props) {
                 </div>
             ) : (
                 <div className="here">
-
+                    <div className="">
+                        <button className="bg-[#F5F4F4] rounded-lg ml-16 p-2 text-black hover:bg-slate-300"
+                            onClick={onSubmitButtonClick}
+                            >
+                            Submit
+                        </button>
+                    </div>
                     {
                         data.map((item,index) => {
                             // show Kec
@@ -174,6 +235,7 @@ function ListAssignPetugas(props) {
                                                     let class_desa = "Desa transition duration-300 scale-95 cursor-pointer my-1 mr-3 ml-6 bg-[#17B715] hover:bg-[#30D32E] text-white md:p-3 p-2 rounded-md text-xs flex opacity max-w-4xl md:mx-auto"
                                                     let class_desa_2 = "Desa transition duration-300 scale-100 cursor-pointer my-1 mr-3 ml-6 bg-[#17B715] hover:bg-[#30D32E] text-white md:p-3 p-2 rounded-md text-xs flex opacity max-w-4xl md:mx-auto"
                                                     prevDesa = subItem.kode_desa
+
                                                     return (
                                                         <div key={subIndex} className="the-inside-row">
                                                             <div id="the-desa" className={isClassAdded ? class_desa_2 : class_desa} onClick={() => desaClick(subItem.kode_desa,subItem.kode_kec)}>
@@ -184,14 +246,22 @@ function ListAssignPetugas(props) {
                                                             {data.filter((innerItem) => (innerItem.kode_desa === subItem.kode_desa) && (innerItem.kode_kec === subItem.kode_kec) ).map((innerItem,innerIndex) => {
                                                                 
                                                                 //show sls
+
+                                                                let the_open = null
+
+                                                                if(kodeDesaActive && kodeDesaActive[innerItem.kode_kec] && kodeDesaActive[innerItem.kode_kec][innerItem.kode_desa]){
+                                                                    the_open = kodeDesaActive[innerItem.kode_kec][innerItem.kode_desa]
+                                                                }
                                                                 
-                                                                if(innerItem.kode_kec === kodeKecActive1){
-                                                                    if (innerItem.kode_desa === kodeDesaActive){
-                                                                        
+                                                                if(the_open){
+                                                                    
+                                                                    if(innerItem.id_x !== prevKorong ){
+                                                                        prevKorong = innerItem.id_x
                                                                         return(
-                                                                            <div key={innerIndex} className={`mr-3 p-1 md:p-2 md:grid md:grid-cols-8 ml-9 my-1 bg-[#F5F4F4] rounded-md text-xs flex md:mx-auto max-w-3xl transition duration-300 scale-95`}>
-                                                                                <div className="w-fit">{innerItem.kode_sls}</div>
-                                                                                <div className="w-full md:w-fit ml-2 col-start-2 col-span-2">{" " + innerItem.SLS}</div>
+                                                                            <div key={innerIndex} className={`mr-3 p-1 md:p-2 md:grid md:grid-cols-9 ml-9 my-1 bg-[#F5F4F4] rounded-md text-xs flex md:mx-auto max-w-3xl transition duration-300 scale-95`}>
+                                                                                <div className="w-fit">{innerItem.no_blok_sensus}</div>
+                                                                                <div className="w-fit">{innerItem.no_kerangka_sampel}</div>
+                                                                                <div className="w-full md:w-fit ml-2 col-start-3 col-span-2">{" " + innerItem.nama_x}</div>
                                                                                 {
                                                                                     isLoadingPetugas ? (
                                                                                         <>
@@ -201,14 +271,31 @@ function ListAssignPetugas(props) {
 
                                                                                     <>
                                                                                         
+                                                                                        {/* PPL */}
                                                                                         <select 
-                                                                                            className={`sm:mr-5 mr-1 rounded-lg col-start-6 min-w-16 max-w-16 overflow-hidden`}
-                                                                                            name="selectPenerima" 
+                                                                                            className={`min-h-8 sm:mr-5 mr-1 rounded-lg col-start-6 min-w-20 max-w-16 overflow-hidden`}
+                                                                                            name="ppl" 
                                                                                             id={`select-${innerItem.id_dok}`}
-                                                                                            value={selectPenerima[innerItem.id_dok]} 
-                                                                                            onChange={(event) => handleSelectPenerimaChange(event, innerItem.id_dok)}
+                                                                                            value={ppl[innerItem.id_dok]} 
+                                                                                            onChange={(event) => handlePPLChange(event, innerItem.id_dok)}
                                                                                         >
-                                                                                            <option value="-">-</option>
+                                                                                            <option value="-">PPL</option>
+                                                                                            {
+                                                                                                dataPetugas.map((pet,index) => (
+                                                                                                    <option value={pet.username} key={index}>{pet.firstName + " " + pet.lastName}</option>
+                                                                                                ))
+                                                                                            }
+                                                                                        </select>
+
+                                                                                        {/* pml */}
+                                                                                        <select 
+                                                                                            className={`min-h-8 sm:mr-5 mr-1 rounded-lg col-start-7 min-w-20 max-w-16 overflow-hidden`}
+                                                                                            name="pml" 
+                                                                                            id={`select-${innerItem.id_dok}`}
+                                                                                            value={pml[innerItem.id_dok]} 
+                                                                                            onChange={(event) => handlePMLChange(event, innerItem.id_dok)}
+                                                                                        >
+                                                                                            <option value="-">PML</option>
                                                                                             {
                                                                                                 dataPetugas.map((pet,index) => (
                                                                                                     <option value={pet.username} key={index}>{pet.firstName + " " + pet.lastName}</option>
@@ -216,29 +303,16 @@ function ListAssignPetugas(props) {
                                                                                             }
                                                                                         </select>
                                                                                         
+                                                                                        {/* koseka */}
                                                                                         <select 
-                                                                                            className={`sm:mr-5 mr-1 rounded-lg col-start-7 min-w-16 max-w-16 overflow-hidden`}
+                                                                                            className={`min-h-8 sm:mr-5 mr-1 rounded-lg col-start-8 min-w-20 max-w-16 overflow-hidden`}
                                                                                             name="selectPenerima" 
+                                                                                            placeholder="Koseka"
                                                                                             id={`select-${innerItem.id_dok}`}
-                                                                                            value={selectPenerima[innerItem.id_dok]} 
-                                                                                            onChange={(event) => handleSelectPenerimaChange(event, innerItem.id_dok)}
+                                                                                            value={koseka[innerItem.id_dok]} 
+                                                                                            onChange={(event) => handleKosekaChange(event, innerItem.id_dok)}
                                                                                         >
-                                                                                            <option value="-">-</option>
-                                                                                            {
-                                                                                                dataPetugas.map((pet,index) => (
-                                                                                                    <option value={pet.username} key={index}>{pet.firstName + " " + pet.lastName}</option>
-                                                                                                ))
-                                                                                            }
-                                                                                        </select>
-
-                                                                                        <select 
-                                                                                            className={`sm:mr-5 mr-1 rounded-lg col-start-8 min-w-16 max-w-16 overflow-hidden`}
-                                                                                            name="selectPenerima" 
-                                                                                            id={`select-${innerItem.id_dok}`}
-                                                                                            value={selectPenerima[innerItem.id_dok]} 
-                                                                                            onChange={(event) => handleSelectPenerimaChange(event, innerItem.id_dok)}
-                                                                                        >
-                                                                                            <option value="-">-</option>
+                                                                                            <option value="-" >Koseka</option>
                                                                                             {
                                                                                                 dataPetugas.map((pet,index) => (
                                                                                                     <option value={pet.username} key={index}>{pet.firstName + " " + pet.lastName}</option>
@@ -246,7 +320,6 @@ function ListAssignPetugas(props) {
                                                                                             }
                                                                                         </select>
                                                                                     </>
-
                                                                                 )    
                                                                             }
                                                                             </div>

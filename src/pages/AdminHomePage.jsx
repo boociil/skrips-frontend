@@ -1,4 +1,3 @@
-// import { useNavigate } from "react-router-dom";
 import ListKegiatan from "../components/listKegiatan";
 import { useEffect, useState } from "react";
 import TopNavbarAdmin from '../components/topNavAdmin';
@@ -45,7 +44,7 @@ function AdminHomePage() {
     },[dataLen]);
 
 
-    console.log(cookie);
+    console.log(cookie.isLogin);
     return (
         <>
         <TopNavbarAdmin />

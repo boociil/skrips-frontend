@@ -49,6 +49,7 @@ function Login() {
             if(data.msg === "Success"){
                 setCookie('token',data.accessToken)
                 setCookie('role',data.role)
+                setCookie('isLogin', true)
                 navigate('/Home');
             }else{
                 alert("Password atau Username tidak benar");
@@ -67,7 +68,7 @@ function Login() {
         } 
     }
 
-    console.log("cookies : ", cookies);
+    console.log("cookies : ", cookies.isLogin);
     return (
         <div className="mx-4 mt-32 font-poppins bg-white shadow-2xl rounded-xl overflow-hidden md:flex md:container md:mx-auto sm:max-w-3xl lg:max-w-4xl">
             <div className="bagian-kiri px-3 box-border container">

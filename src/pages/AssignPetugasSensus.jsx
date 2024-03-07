@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom"
 import { useEffect,useState } from "react";
-import ListAssignPetugas from "./listAssignPetugas";
+import ListAssignPetugas from "../components/listAssignPetugas";
+import ListAssignPetugasSurvei from "../components/listAssignPetugasSurvei";
 import { useCookies } from "react-cookie";
 import TopNavAdmin from "../components/topNavAdmin";
 
@@ -67,7 +68,18 @@ const AssignPetugas = () => {
                             <div className="Title flex items-center justify-center my-6">
                                 <span className="font-poppins text-xl">Pilih Petugas</span>
                             </div>
-                            <ListAssignPetugas id={id} isSurvei={isSurvei}/>
+                            {
+                                isSurvei ? (
+                                    <>
+                                    <ListAssignPetugasSurvei id={id} isSurvei={isSurvei}/>
+                                    </>
+                                ) : (
+                                    <>
+                                    <ListAssignPetugas id={id} isSurvei={isSurvei}/>
+                                    </>
+                                )
+                            }
+                            
                         </div>
 
                     </div>
