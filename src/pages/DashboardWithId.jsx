@@ -21,7 +21,6 @@ function DashboardWithId() {
     const [ deadlineRb, setDeadlineRb ] = useState();
     const [ deadlineEdcod, setDeadlineEdcod ] = useState();
     const [ deadlineEntri, setDeadlineEntri ] = useState();
-    // const [ startLink, setStartLink ] = useState();
 
     const convert_bulan = (b) => {
         const the_b = (
@@ -186,10 +185,17 @@ function DashboardWithId() {
                         </>
                     ) : (
                         <>
-                            <div className="big-container md:max-w-7xl bg-white mx-auto sm:justify-center shadow-lg lg:rounded-xl sm:items-center ">
-                                <div className="mb-4 p-2 mx-auto text-xl text-center font-semibold">
-                                    {namaKegiatan} 
+                            <div className="cont-atas md:max-w-7xl bg-white rounded-lg shadow-lg mx-3 mt-4 p-3 md:mt-24 sm:h-40 sm:relative overflow-hidden max-w-6xl md:mx-auto">
+                                    <div className="hidden sm:block sm:rounded-full sm:absolute w-60 h-60 bg-[#BAE6FD] sm:-top-36 sm:-left-36"></div>
+                                    <div className="hidden sm:block sm:rounded-full sm:absolute w-96 h-96 bg-[#23AFF9] sm:-right-12 sm:-top-40"></div>
+                                    <div className="hidden sm:block sm:rounded-full sm:absolute w-80 h-80 bg-[#23AFF9] sm:-right-52 sm:-top-40"></div>
+                                    <div className="sm:bottom-4 sm:absolute">
+                                        <h2 className="ml-2 font-semibold sm:bottom-0 md:text-xl text-sm">{namaKegiatan}</h2>
+                                        <p className="ml-2 text-slate-600 md:text-xl text-sm">{id_kegiatan}</p>
+                                    </div>
                                 </div>
+                            <div className="big-container md:max-w-7xl bg-white mx-auto sm:justify-center shadow-lg lg:rounded-xl sm:items-center ">
+                                
                                 <div className="Receiving-Batching">
                                     <div className="mt-4">
                                         <div className="p-3 text-md font-semibold">Receiving Batching</div>
@@ -198,7 +204,7 @@ function DashboardWithId() {
                                         <div className="main-board  p-2 md:flex">
                                             <div className="sm:flex md:flex-grow md:max-w-1/2 ">
                                                 <div className="NUMBER grid grid-cols-3 sm:block">
-                                                    <div className="persentase-RB mt-5 border-2 mx-2 mb-2 border-sky-200 w-fit rounded-2xl py-2 pl-2 pr-6 min-w-24 sm:min-w-32 max-h-14">
+                                                    <div className="persentase-RB mt-5 border-2 mx-2 mb-2 border-[#23AFF9] w-fit rounded-2xl py-2 pl-2 pr-6 min-w-24 sm:min-w-32 max-h-14">
                                                         <div className="text-xs">Progres <span className="hidden sm:inline-block">RB</span></div>
                                                         <div className="text-xs font-semibold">
                                                             {
@@ -258,12 +264,12 @@ function DashboardWithId() {
                                                                 </>
                                                             ) : (
                                                                 <>
-                                                                    <Bar
+                                                                    <Line
                                                                         data={{ 
                                                                             labels: ["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Ags","Sep","Okt","Nov","Des"],
                                                                             datasets:[{
                                                                                 label: "Frekuensi RB",
-                                                                                data : [200,300,400,110,634,325,450,116,235,300,270,115],
+                                                                                data : [10,25,25,30,45,47,60,67,80,83,89,100],
                                                                                 backgroundColor: '#BAE6FD',
                                                                                 borderColor: '#36A2EB',
                                                                                 borderWidth: 1,
@@ -311,15 +317,15 @@ function DashboardWithId() {
                                                                     </div>
                                                                     <div className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center min-h-6 ">
                                                                         <div className="text-center">Farhan Halim</div>
-                                                                        <div className="text-center">-</div>
+                                                                        <div className="text-center">7</div>
                                                                     </div>
                                                                     <div className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center min-h-6 ">
-                                                                        <div className="text-center">Farhan Halim</div>
-                                                                        <div className="text-center">-</div>
+                                                                        <div className="text-center">Gustika Wahyu</div>
+                                                                        <div className="text-center">3</div>
                                                                     </div>
                                                                     <div className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center min-h-6 ">
-                                                                        <div className="text-center">Farhan Halim</div>
-                                                                        <div className="text-center">-</div>
+                                                                        <div className="text-center">Wahyudi Husbi</div>
+                                                                        <div className="text-center">1</div>
                                                                     </div>
                                                                     <div className="text-xs text-center mt-2 text-slate-400 underline cursor-pointer" onClick={() => {}}>Lihat Selengkapnya</div>
                                                                 </>
@@ -354,7 +360,7 @@ function DashboardWithId() {
                                                                             isHigh = true
                                                                         }
                                                                         return(
-                                                                            <div key={index} className="title grid grid-cols-2 text-xs mt-1 border-b border-sky-200 items-center min-h-6 ">
+                                                                            <div key={index} className="title pl-1 grid grid-cols-2 text-xs mt-1 border-b border-sky-200 items-center min-h-6 ">
                                                                                 <div className="text-center">{dataProgresKecamatan[item]["nama_kec"]}</div>
                                                                                 <div className={`text-center font-medium ${isLow ? ('text-[#EC5F4C]') : ('')} ${isMed ? ('text-[#418EC6]') : ('')} ${isHigh ? ('text-[#14CB11]') : ('')}`}>{dataProgresKecamatan[item]["progres_rb"].toFixed(2)} %</div>
                                                                             </div>
@@ -376,16 +382,16 @@ function DashboardWithId() {
                                     </div>
                                 </div>
 
-                                <div className="Receiving-Batching">
+                                <div className="Editing-Coding">
                                     <div className="mt-4">
-                                        <div className="p-3 text-md font-semibold">Receiving Batching</div>
+                                        <div className="p-3 text-md font-semibold">Editing Coding</div>
                                     </div>
                                     <div className="content-RB">
                                         <div className="main-board  p-2 md:flex">
                                             <div className="sm:flex md:flex-grow md:max-w-1/2 ">
                                                 <div className="NUMBER grid grid-cols-3 sm:block">
-                                                    <div className="persentase-RB mt-5 border-2 mx-2 mb-2 border-sky-200 w-fit rounded-2xl py-2 pl-2 pr-6 min-w-24 sm:min-w-32 max-h-14">
-                                                        <div className="text-xs">Progres <span className="hidden sm:inline-block">RB</span></div>
+                                                    <div className="persentase-RB mt-5 border-2 mx-2 mb-2 border-[#23AFF9] w-fit rounded-2xl py-2 pl-2 pr-6 min-w-24 sm:min-w-32 max-h-14">
+                                                        <div className="text-xs">Progres <span className="hidden sm:inline-block">Edcod</span></div>
                                                         <div className="text-xs font-semibold">
                                                             {
                                                                 loadingOverallProgres ? (
@@ -444,12 +450,12 @@ function DashboardWithId() {
                                                                 </>
                                                             ) : (
                                                                 <>
-                                                                    <Bar
+                                                                    <Line
                                                                         data={{ 
                                                                             labels: ["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Ags","Sep","Okt","Nov","Des"],
                                                                             datasets:[{
                                                                                 label: "Frekuensi RB",
-                                                                                data : [200,300,400,110,634,325,450,116,235,300,270,115],
+                                                                                data : [10,25,25,30,45,47,60,67,80,83,89,100],
                                                                                 backgroundColor: '#BAE6FD',
                                                                                 borderColor: '#36A2EB',
                                                                                 borderWidth: 1,
@@ -497,15 +503,15 @@ function DashboardWithId() {
                                                                     </div>
                                                                     <div className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center min-h-6 ">
                                                                         <div className="text-center">Farhan Halim</div>
-                                                                        <div className="text-center">-</div>
+                                                                        <div className="text-center">7</div>
                                                                     </div>
                                                                     <div className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center min-h-6 ">
-                                                                        <div className="text-center">Farhan Halim</div>
-                                                                        <div className="text-center">-</div>
+                                                                        <div className="text-center">Gustika Wahyu</div>
+                                                                        <div className="text-center">3</div>
                                                                     </div>
                                                                     <div className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center min-h-6 ">
-                                                                        <div className="text-center">Farhan Halim</div>
-                                                                        <div className="text-center">-</div>
+                                                                        <div className="text-center">Wahyudi Husbi</div>
+                                                                        <div className="text-center">1</div>
                                                                     </div>
                                                                     <div className="text-xs text-center mt-2 text-slate-400 underline cursor-pointer" onClick={() => {}}>Lihat Selengkapnya</div>
                                                                 </>
@@ -540,7 +546,7 @@ function DashboardWithId() {
                                                                             isHigh = true
                                                                         }
                                                                         return(
-                                                                            <div key={index} className="title grid grid-cols-2 text-xs mt-1 border-b border-sky-200 items-center min-h-6 ">
+                                                                            <div key={index} className="title pl-1 grid grid-cols-2 text-xs mt-1 border-b border-sky-200 items-center min-h-6 ">
                                                                                 <div className="text-center">{dataProgresKecamatan[item]["nama_kec"]}</div>
                                                                                 <div className={`text-center font-medium ${isLow ? ('text-[#EC5F4C]') : ('')} ${isMed ? ('text-[#418EC6]') : ('')} ${isHigh ? ('text-[#14CB11]') : ('')}`}>{dataProgresKecamatan[item]["progres_edcod"].toFixed(2)} %</div>
                                                                             </div>
@@ -562,16 +568,16 @@ function DashboardWithId() {
                                     </div>
                                 </div>
 
-                                <div className="Receiving-Batching">
+                                <div className="Entri">
                                     <div className="mt-4">
-                                        <div className="p-3 text-md font-semibold">Receiving Batching</div>
+                                        <div className="p-3 text-md font-semibold">Entry data</div>
                                     </div>
                                     <div className="content-RB">
                                         <div className="main-board  p-2 md:flex">
                                             <div className="sm:flex md:flex-grow md:max-w-1/2 ">
                                                 <div className="NUMBER grid grid-cols-3 sm:block">
-                                                    <div className="persentase-RB mt-5 border-2 mx-2 mb-2 border-sky-200 w-fit rounded-2xl py-2 pl-2 pr-6 min-w-24 sm:min-w-32 max-h-14">
-                                                        <div className="text-xs">Progres <span className="hidden sm:inline-block">RB</span></div>
+                                                    <div className="persentase-RB mt-5 border-2 mx-2 mb-2 border-[#23AFF9] w-fit rounded-2xl py-2 pl-2 pr-6 min-w-24 sm:min-w-32 max-h-14">
+                                                        <div className="text-xs">Progres <span className="hidden sm:inline-block">Entri</span></div>
                                                         <div className="text-xs font-semibold">
                                                             {
                                                                 loadingOverallProgres ? (
@@ -630,12 +636,12 @@ function DashboardWithId() {
                                                                 </>
                                                             ) : (
                                                                 <>
-                                                                    <Bar
+                                                                    <Line
                                                                         data={{ 
                                                                             labels: ["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Ags","Sep","Okt","Nov","Des"],
                                                                             datasets:[{
                                                                                 label: "Frekuensi RB",
-                                                                                data : [200,300,400,110,634,325,450,116,235,300,270,115],
+                                                                                data : [10,25,25,30,45,47,60,67,78,,,],
                                                                                 backgroundColor: '#BAE6FD',
                                                                                 borderColor: '#36A2EB',
                                                                                 borderWidth: 1,
@@ -645,7 +651,15 @@ function DashboardWithId() {
                                                                         }}
                                                                         options={{
                                                                             responsive: true, // Mengatur grafik agar responsif
-                                                                            maintainAspectRatio: false // Untuk mengabaikan rasio aspek default
+                                                                            maintainAspectRatio: false, // Untuk mengabaikan rasio aspek default,
+                                                                            scales: {
+                                                                                x: {
+                                                                                    ticks: {
+                                                                                        // Atur nilai maksimal sumbu y di sini
+                                                                                        min: 100,
+                                                                                    }
+                                                                                }
+                                                                            }
                                                                         }}
                                                                     />
                                                                 </>
@@ -683,15 +697,15 @@ function DashboardWithId() {
                                                                     </div>
                                                                     <div className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center min-h-6 ">
                                                                         <div className="text-center">Farhan Halim</div>
-                                                                        <div className="text-center">-</div>
+                                                                        <div className="text-center">7</div>
                                                                     </div>
                                                                     <div className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center min-h-6 ">
-                                                                        <div className="text-center">Farhan Halim</div>
-                                                                        <div className="text-center">-</div>
+                                                                        <div className="text-center">Gustika Wahyu</div>
+                                                                        <div className="text-center">3</div>
                                                                     </div>
                                                                     <div className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center min-h-6 ">
-                                                                        <div className="text-center">Farhan Halim</div>
-                                                                        <div className="text-center">-</div>
+                                                                        <div className="text-center">Wahyudi Husbi</div>
+                                                                        <div className="text-center">1</div>
                                                                     </div>
                                                                     <div className="text-xs text-center mt-2 text-slate-400 underline cursor-pointer" onClick={() => {}}>Lihat Selengkapnya</div>
                                                                 </>
@@ -726,8 +740,8 @@ function DashboardWithId() {
                                                                             isHigh = true
                                                                         }
                                                                         return(
-                                                                            <div key={index} className="title grid grid-cols-2 text-xs mt-1 border-b border-sky-200 items-center min-h-6 ">
-                                                                                <div className="text-center">{dataProgresKecamatan[item]["nama_kec"]}</div>
+                                                                            <div key={index} className="title  grid grid-cols-2 pl-1 text-xs mt-1 border-b border-sky-200 items-center min-h-6 ">
+                                                                                <div className="text-center pl-1 borde">{dataProgresKecamatan[item]["nama_kec"]}</div>
                                                                                 <div className={`text-center font-medium ${isLow ? ('text-[#EC5F4C]') : ('')} ${isMed ? ('text-[#418EC6]') : ('')} ${isHigh ? ('text-[#14CB11]') : ('')}`}>{dataProgresKecamatan[item]["progres_entri"].toFixed(2)} %</div>
                                                                             </div>
                                                                         )

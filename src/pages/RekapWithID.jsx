@@ -70,7 +70,7 @@ const RekapWithID = () => {
 
     return (
         <>
-            {getNav()}
+            <TopNavAdmin />
             <div>
                 { isLoading ? (
                     <div>

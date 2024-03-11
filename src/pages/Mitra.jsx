@@ -49,7 +49,7 @@ function Users() {
 
     return (
         <>
-            {getNav()}
+            <TopNavAdmin />
             <div className="font-poppins md:mt-28 mx-auto max-w-4xl">
                 <h2 className="ml-4 mt-6 text-xl">Mitra Management</h2>
 

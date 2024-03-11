@@ -32,6 +32,7 @@ function AdminHomePage() {
                 .then(response => response.json())
                 .then(data => {
                     setData(data);
+                    console.log(data);
                     setDataLen(data.length - 1);
                 });
 
@@ -58,7 +59,7 @@ function AdminHomePage() {
             <div className="list-kegiatan mx-auto">
                 {
                     data.map((item, index)=>(
-                        <ListKegiatan key={item.id} position={index !== 0 ? (index === dataLen ? 'BOT' : 'MID' ) : 'TOP'} name={item.nama} id={item.id} metode={item.metode} status={item.status} tgl={item.tanggal_mulai} index={item.length}/>
+                        <ListKegiatan key={item.id} position={index !== 0 ? (index === dataLen ? 'BOT' : 'MID' ) : 'TOP'} name={item.nama} id={item.id} metode={item.initiator_id} status={item.status} tgl={item.tanggal_mulai} index={item.length}/>
                     ))
                 }
             </div>

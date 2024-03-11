@@ -16,32 +16,25 @@ function ListKegiatan(props) {
 
     // Parse Tanggl
 
-    let method;
-    if (props.metode == 1){
-        method = 'CAPI';
-    }else{
-        method= 'PAPI';
-    }
-
     let status;
     let status_num = props.status
     let status_class;
 
-    if (status_num == '1'){
-        status = 'Pemutakhiran';
-    }else if(status_num == '2'){
-        status = 'Pencacahan';
-    }else if (status_num == '3'){
+    if (status_num === 1){
+        status = 'Assign Petugas';
+    }else if(status_num === 2){
+        status = 'Sampling';
+    }else if (status_num === 3){
         status = 'Pengolahan';
     }else{
         status = 'Selesai';
     }
     
-    if (status === 'Pencacahan'){
+    if (status_num === 1){
         status_class = 'text-[#14CB11]'
-    } else if(status === 'Pemutakhiran'){
+    } else if(status_num === 2){
         status_class = 'text-[#F647D0]'
-    } else if(status === 'Pengolahan'){
+    } else if(status_num === 3){
         status_class = 'text-[#E3A03B]'
     }else{
         status_class = 'text-[#418EC6]'
@@ -108,8 +101,8 @@ function ListKegiatan(props) {
             <div className="metode hidden col-start-4 md:block px-3 py-2">
                 <div className="md:flex">
                     <div className="flex-grow">
-                        <div className="">{method}</div>
-                        <div className=" text-slate-400 text-xs">Metode</div>
+                        <div className="">{props.metode}</div>
+                        <div className=" text-slate-400 text-xs">Initiator</div>
                     </div>
                     {/* <span className="material-symbols-outlined hidden md:block">
                         edit

@@ -10,26 +10,6 @@ function AddKegiatan() {
 
     const navigate = useNavigate();
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
-
-
-    const getNav = () => {
-        if (cookies.role === 'admin'){
-            return (
-                <TopNavAdmin />
-            )
-        }
-        if (cookies.role === 'pengawas'){
-            return (
-                <TopNavAdmin />
-            )
-        }
-        if (cookies.role === 'operator'){
-            return (
-                <TopNavAdmin />
-            )
-        }
-    }
-
     const [formData, setFormData] = useState({
         // inisialisasi state untuk menyimpan data form
         username: '',
@@ -58,8 +38,14 @@ function AddKegiatan() {
       };
 
       const handleSubmit = (event) =>{
-        event.preventDefault();
-        alert(JSON.stringify(formData));
+        console.log(check_empty());
+        if(check_empty()){
+            event.preventDefault();
+            alert(JSON.stringify(formData));
+        }else{
+            alert("Masih ada inputan kosong")
+        }
+        
         //const checkFill = check_empty();
         // if (checkFill){
         //     // Validasi username dan password ke backend, lalu buat
@@ -71,7 +57,7 @@ function AddKegiatan() {
 
     return (
         <>
-            {getNav()}
+            <TopNavAdmin />
             <div className="font-poppins parent-form my-4 md:mt-24 mx-4 p-3 shadow-xl bg-white rounded-3xl lg:mt-32 lg:max-w-4xl md:container md:mx-auto max-w-5xl">
             <h1 className="text-2xl font-semibold mb-4 sm:mb-8 text-center">Tambah User</h1>
             <form>

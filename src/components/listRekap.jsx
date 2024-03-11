@@ -8,11 +8,11 @@ function ListRekap(props) {
     let pos = props.position
     let class_name;
     if (pos === 'TOP'){
-        class_name = 'cursor-pointer grid grid-rows-1 text-xs sm:text-sm grid-cols-2 md:grid-cols-4  hover:bg-slate-200  transition duration-500 flex bg-white shadow-lg rounded-t-lg border-b-2 border-b-slate-300 max-w-5xl md:mx-auto'
+        class_name = 'cursor-pointer grid grid-rows-1 text-xs sm:text-sm grid-cols-2 md:grid-cols-6  hover:bg-slate-200  transition duration-500 flex bg-white shadow-lg rounded-t-lg border-b-2 border-b-slate-300 max-w-5xl md:mx-auto'
     }else if (pos === 'MID'){
-        class_name = 'cursor-pointer grid grid-rows-1 text-xs sm:text-sm grid-cols-2 md:grid-cols-4 hover:bg-slate-200  transition duration-500 flex bg-white shadow-lg border-b-2 border-b-slate-300 max-w-5xl md:mx-auto'
+        class_name = 'cursor-pointer grid grid-rows-1 text-xs sm:text-sm grid-cols-2 md:grid-cols-6 hover:bg-slate-200  transition duration-500 flex bg-white shadow-lg border-b-2 border-b-slate-300 max-w-5xl md:mx-auto'
     }else{
-        class_name = 'cursor-pointer grid grid-rows-1 text-xs sm:text-sm grid-cols-2 md:grid-cols-4 hover:bg-slate-200  transition duration-500 flex bg-white shadow-lg rounded-b-lg max-w-5xl md:mx-auto'
+        class_name = 'cursor-pointer grid grid-rows-1 text-xs sm:text-sm grid-cols-2 md:grid-cols-6 hover:bg-slate-200  transition duration-500 flex bg-white shadow-lg rounded-b-lg max-w-5xl md:mx-auto'
     }
 
     // Parse Tanggl
@@ -23,26 +23,27 @@ function ListRekap(props) {
     }else{
         method= 'PAPI';
     }
+    console.log("metode : ", props.metode);
 
     let status;
     let status_num = props.status
     let status_class;
 
-    if (status_num == '1'){
-        status = 'Pemutakhiran';
-    }else if(status_num == '2'){
-        status = 'Pencacahan';
-    }else if (status_num == '3'){
+    if (status_num === 1){
+        status = 'Assign Petugas';
+    }else if(status_num === 2){
+        status = 'Sampling';
+    }else if (status_num === 3){
         status = 'Pengolahan';
     }else{
         status = 'Selesai';
     }
     
-    if (status === 'Pencacahan'){
+    if (status_num === 1){
         status_class = 'text-[#14CB11]'
-    } else if(status === 'Pemutakhiran'){
+    } else if(status_num === 3){
         status_class = 'text-[#F647D0]'
-    } else if(status === 'Pengolahan'){
+    } else if(status_num === 2){
         status_class = 'text-[#E3A03B]'
     }else{
         status_class = 'text-[#418EC6]'
@@ -87,7 +88,7 @@ function ListRekap(props) {
 
     return (
         <div className={class_name} onClick={divHandleClick.bind(this,props.id)} >
-            <div className="title px-3 py-2 w-full" >
+            <div className="title px-3 py-2 col-span-2 w-full" >
                 <div className="">{props.name}</div>
                 <div className="block text-slate-400 text-xs">{props.id}</div>
             </div>
@@ -95,7 +96,7 @@ function ListRekap(props) {
                 <div className=" ">{the_tgl}</div>
                 <div className=" text-slate-400 text-xs">Mulai Kegiatan</div>
             </div>
-            <div className="status col-start-2 md:col-start-3 sm:block px-3 py-2">
+            <div className="status col-start-2 md:col-start-4 sm:block px-3 py-2">
                 <div className="flex">
                     <div className="flex-grow">
                         <div className={status_class}>{status}</div>
@@ -106,23 +107,42 @@ function ListRekap(props) {
                     </span> */}
                 </div>
             </div>
-            <div className="metode hidden col-start-4 md:block px-3 py-2">
+            <div className="metode hidden col-start-5 md:block px-3 py-2">
                 <div className="md:flex">
                     <div className="flex-grow">
-                        <div className="">{method}</div>
+                        <div className="">{props.metode}</div>
                         <div className=" text-slate-400 text-xs">Metode</div>
                     </div>
-                    {/* <div className="edit hover:bg-emerald-400">
-                        <span className="material-symbols-outlined px-1 hidden md:block text-sm">
-                            edit
-                        </span>
-                        <div className="text-slate-400 text-xs">
-                            edit
-                        </div>
-                    </div> */}
+                    {/*  */}
                     
                 </div>
                 
+            </div>
+            <div className="action hidden md:grid md:grid-cols-3 md:col-start-6 items-center justify-center">
+                <div className="edit hover:bg-emerald-400">
+                    <span className="material-symbols-outlined px-1 hidden md:block ">
+                        edit
+                    </span>
+                    <div className="text-slate-400 text-xs">
+                        edit
+                    </div>
+                </div>
+                <div className="edit hover:bg-emerald-400">
+                    <span className="material-symbols-outlined px-1 hidden md:block">
+                        deployed_code_account
+                    </span>
+                    <div className="text-slate-400 text-xs">
+                        Petugas
+                    </div>
+                </div>
+                <div className="edit hover:bg-emerald-400">
+                    <span className="material-symbols-outlined px-1 hidden md:block">
+                        delete
+                    </span>
+                    <div className="text-slate-400 text-xs">
+                        Delete
+                    </div>
+                </div>
             </div>
         </div>
     )

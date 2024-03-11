@@ -26,7 +26,7 @@ function TopNavAdmin(props = {active : 'home'}) {
             const menu = document.querySelector('.the-menu');
             menu.classList.remove('translate-x-full')
         }else{
-            //Membuka
+            // Membuka
             setOpenStatus(true)
             const menu = document.querySelector('.the-menu');
             menu.classList.add('translate-x-full')
@@ -57,8 +57,8 @@ function TopNavAdmin(props = {active : 'home'}) {
                     <ul className="flex">
                         <li className="home mx-4 my-1 flex p-3">
                             <NavLink to="/Home" className={({ isActive }) => isActive? "border-b-[#418EC6] border-b-4 flex pb-2": 'hover:scale-105 transition duration-500 hover:border-b-[#418EC6] hover:border-b-4 pb-2 flex'}><span className="material-symbols-outlined mx-1">
-                                home
-                            </span>Home</NavLink>
+                                Dashboard
+                            </span>Dashboard</NavLink>
                         </li>
                         <li className="home mx-4 my-1 flex p-3">
                             <NavLink to="/Rekap" className={({ isActive }) => isActive? "border-b-[#418EC6] border-b-4 flex pb-2": 'hover:scale-105 transition duration-500 hover:border-b-[#418EC6] hover:border-b-4 pb-2 flex'}><span className="material-symbols-outlined mx-1">
@@ -66,7 +66,8 @@ function TopNavAdmin(props = {active : 'home'}) {
                             </span>Rekap</NavLink>
                         </li>
                         <li className="home mx-4 my-1 flex p-3">
-                            <NavLink to="/Mitra" className={({ isActive }) => isActive? "border-b-[#418EC6] border-b-4 flex pb-2": 'hover:scale-105 transition duration-500 hover:border-b-[#418EC6] hover:border-b-4 pb-2 flex'}><span className="material-symbols-outlined mx-1">
+                            <NavLink to="/Mitra" className={({ isActive }) => isActive? "border-b-[#418EC6] border-b-4 flex pb-2": 'hover:scale-105 transition duration-500 hover:border-b-[#418EC6] hover:border-b-4 pb-2 flex'}>
+                            <span className="material-symbols-outlined mx-1">
                                 handshake
                             </span>Mitra</NavLink>
                         </li>
@@ -111,9 +112,9 @@ function TopNavAdmin(props = {active : 'home'}) {
                         <li className="home ml-4 my-1 flex p-3 group">
                             <NavLink to="/Home" onClick={closeSideMenu} className={({ isActive }) => isActive? "border-b-[#418EC6] border-b-4 group flex translate-x-4 pb-1": 'group-hover:translate-x-4 transition flex'}>
                                 <span className="material-symbols-outlined mx-1">
-                                    home
+                                    dashboard
                                 </span>
-                            Home</NavLink>
+                            Dashboard</NavLink>
                         </li>
                         <li className="home ml-4 my-1 flex p-3 group ">
                             <NavLink to="/Rekap" onClick={closeSideMenu} className={({ isActive }) => isActive? "border-b-[#418EC6] border-b-4 group flex translate-x-4 pb-1": 'group-hover:translate-x-4 transition flex'}>
