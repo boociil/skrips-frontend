@@ -1,6 +1,8 @@
 import { useState,useEffect, useRef } from "react";
 import GeneratedSampel from "./GeneratedSampel";
 import { useNavigate } from "react-router-dom";
+import { Cookies, useCookies } from "react-cookie";
+
 
 function ListSampel(props, { onDataFromChild }) {
 
@@ -22,6 +24,7 @@ function ListSampel(props, { onDataFromChild }) {
     const [ krt, setKRT ] = useState({});
     const [ desa, setDesa ] = useState({});
     const [ kec, setKec ] = useState({});
+    const [ cookies, setCookie, removeCookie ] = useCookies(['token']);
 
 
     const setGeneratedSampelRef = (id, ref) => {
@@ -200,7 +203,8 @@ function ListSampel(props, { onDataFromChild }) {
         const requestOptions = {
         method: 'POST', // Metode HTTP
         headers: {
-            'Content-Type': 'application/json' // Tentukan tipe konten yang Anda kirimkan
+            'Content-Type': 'application/json', // Tentukan tipe konten yang Anda kirimkan
+            'token' : cookies['token']
         },
             body: JSON.stringify( o ) 
         };
@@ -240,6 +244,7 @@ function ListSampel(props, { onDataFromChild }) {
         }
         sendData(o);
         console.log("o",JSON.stringify(o));
+        navigate("/AssignPetugas/" + props.id)
     }
 
     const handleCardClick = (kode_kec) => {

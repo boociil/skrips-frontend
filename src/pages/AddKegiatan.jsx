@@ -4,18 +4,18 @@ import { useCookies } from "react-cookie";
 import TopNavAdmin from "../components/topNavAdmin";
 
 
-
 function AddKegiatan() {
 
     const navigate = useNavigate();
-    const [cookies, setCookie, removeCookie] = useCookies(['token']);
+    const [ cookies, setCookie, removeCookie ] = useCookies(['token']);
     const [ chekedId, setChekedId ] = useState();
+    let isSurvei = false;
 
     const [formData, setFormData] = useState({
         // inisialisasi state untuk menyimpan data form
         namaKegiatan: '',
         idKegiatan: '',
-        jenisKegiatan: 'Sensus',
+        jenisKegiatan: "1",
         tanggalMulai : '',
         targetSelesai: '',
         targetRB : '',
@@ -103,13 +103,62 @@ function AddKegiatan() {
         });
     }
 
+    const fill_sensus = (id) => {
+        const requestOptions = {
+            method: 'POST', // Metode HTTP
+            headers: {
+                'Content-Type': 'application/json', // Tentukan tipe konten yang Anda kirimkan,
+                'token' : cookies["token"],
+            },
+            body: JSON.stringify({ 
+                
+                }) 
+        };
+
+        fetch('http://localhost:3001/fill_sensus/' + id, requestOptions)
+        .then(response => response.json())
+        .then(data => {
+            console.log("dari fill sensus : ", data);
+        });
+    }
+
+    const sendIDtoCheck = (id) => {
+        const requestOptions = {
+            method: 'POST', // Metode HTTP
+            headers: {
+                'Content-Type': 'application/json', // Tentukan tipe konten yang Anda kirimkan,
+                'token' : cookies["token"],
+            },
+            body: JSON.stringify({ 
+                
+                }) 
+        };
+
+        fetch('http://localhost:3001/check_id_kegiatan/' + id, requestOptions)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data.msg);
+            if (data.msg === "Sukses"){
+                return true;
+            }else{
+                return false;
+            }
+        });
+    }
+
     const checkId = () => {
         if (formData.idKegiatan === ""){
             alert("id kegiatan masih kosong")
         }else{
             // check ke API disini
-            alert(formData.idKegiatan);
-            setChekedId(true);
+            console.log(sendIDtoCheck(formData.idKegiatan));
+            if (sendIDtoCheck(formData.idKegiatan)){
+                alert(formData.idKegiatan);
+                setChekedId(true);
+            }else{
+                alert("Gunakan ID yang lain")
+            }   
+            
         }
     }
 
@@ -128,6 +177,13 @@ function AddKegiatan() {
                 alert(JSON.stringify(formData));
                 console.log(cookies["token"]);
                 sendData();
+                if (formData.jenisKegiatan === "1"){
+                    fill_sensus(formData.idKegiatan);
+                    navigate("/AssignPetugas/" + formData.idKegiatan);
+                }else{
+                    navigate("/Sampel/" + formData.idKegiatan)
+                }
+                
             }else{
                 alert("Chek id dulu");
             }
@@ -178,8 +234,8 @@ function AddKegiatan() {
                         <div className="sm:ml-6 md:ml-3 ml-3">
                         <label className="text-sm"> Jenis kegiatan
                             <select value={formData.jenisKegiatan} className='bg-[#F6F6F9] mt-1 text-xs px-3 sm:ml-0 md:mx-0 py-2 mb-3 block rounded-lg w-full focus:ring-1 focus:ring-sky-500 focus:border-sky-500 max-w-72  ' name="jenisKegiatan" onChange={handleChange}>
-                                <option value="Sensus" key="Sensus">Sensus</option>
-                                <option value="Survei" key="Survei">Survei</option>
+                                <option value="1" key="Sensus">Sensus</option>
+                                <option value="2" key="Survei">Survei</option>
                             </select>
                         </label>
                         </div>

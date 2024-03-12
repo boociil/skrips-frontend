@@ -30,9 +30,9 @@ function ListRekap(props) {
     let status_class;
 
     if (status_num === 1){
-        status = 'Assign Petugas';
-    }else if(status_num === 2){
         status = 'Sampling';
+    }else if(status_num === 2){
+        status = 'Assign Petugas';
     }else if (status_num === 3){
         status = 'Pengolahan';
     }else{

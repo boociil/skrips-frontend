@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { useEffect,useState } from "react";
 import ListSampel from "../components/listSampel";
 import { useCookies } from "react-cookie";
@@ -11,7 +11,9 @@ const SampelPage = () => {
     const [ data, setData ] = useState([]);
     const [ isLoading, setIsLoading ] = useState(true);
     const [ namaKegiatan, setNamaKegiatan ] = useState();
-    const [cookies, setCookie, removeCookie] = useCookies(['token']);
+    const [ cookies, setCookie, removeCookie] = useCookies(['token']);
+    const [ isSurvei, setIsSurvei ] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() =>{
 
@@ -29,6 +31,10 @@ const SampelPage = () => {
                 .then(response => response.json())
                 .then(data => {
                     setData(data);
+                    console.log(data);
+                    if(data[0].jenis === "1"){
+                        setIsSurvei(false);
+                    }
                     setNamaKegiatan(data[0].nama)
                     setIsLoading(false);
                 });
@@ -56,6 +62,10 @@ const SampelPage = () => {
         }
     }
 
+    if (!isSurvei){
+        console.log(isSurvei);
+        navigate("/Home")
+    }
     return (
         <>
             {getNav()}
