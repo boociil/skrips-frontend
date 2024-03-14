@@ -15,16 +15,6 @@ function ListRekap(props) {
         class_name = 'cursor-pointer grid grid-rows-1 text-xs sm:text-sm grid-cols-2 md:grid-cols-6 hover:bg-slate-200  transition duration-500 flex bg-white shadow-lg rounded-b-lg max-w-5xl md:mx-auto'
     }
 
-    // Parse Tanggl
-
-    let method;
-    if (props.metode == 1){
-        method = 'CAPI';
-    }else{
-        method= 'PAPI';
-    }
-    console.log("metode : ", props.metode);
-
     let status;
     let status_num = props.status
     let status_class;
@@ -41,16 +31,21 @@ function ListRekap(props) {
     
     if (status_num === 1){
         status_class = 'text-[#14CB11]'
-    } else if(status_num === 3){
-        status_class = 'text-[#F647D0]'
     } else if(status_num === 2){
+        status_class = 'text-[#F647D0]'
+    } else if(status_num === 3){
         status_class = 'text-[#E3A03B]'
     }else{
         status_class = 'text-[#418EC6]'
     }
 
     const divHandleClick = (id) => {
-        navigate(id);
+        if (status_num === 1){
+            navigate("/Sampel/" + props.id)
+        }else{
+            navigate(id);
+        }
+        
     }
 
     const convert_bulan = (b) => {
@@ -113,34 +108,37 @@ function ListRekap(props) {
                         <div className="">{props.metode}</div>
                         <div className=" text-slate-400 text-xs">Metode</div>
                     </div>
-                    {/*  */}
-                    
                 </div>
-                
             </div>
             <div className="action hidden md:grid md:grid-cols-3 md:col-start-6 items-center justify-center">
-                <div className="edit hover:bg-emerald-400">
-                    <span className="material-symbols-outlined px-1 hidden md:block ">
-                        edit
-                    </span>
-                    <div className="text-slate-400 text-xs">
-                        edit
+                <div className="edit hover:bg-white transition duration-500 ">
+                    <div className="w-fit mx-auto">
+                        <span className="material-symbols-outlined px-1 hidden md:block ">
+                            edit
+                        </span>
+                        <div className="text-slate-400 text-xs">
+                            Edit
+                        </div>
                     </div>
                 </div>
-                <div className="edit hover:bg-emerald-400">
-                    <span className="material-symbols-outlined px-1 hidden md:block">
-                        deployed_code_account
-                    </span>
-                    <div className="text-slate-400 text-xs">
-                        Petugas
+                <div className="edit hover:bg-white transition duration-500">
+                    <div className="w-fit mx-auto">
+                        <span className="material-symbols-outlined px-1 hidden md:block">
+                            deployed_code_account
+                        </span>
+                        <div className="text-slate-400 text-xs">
+                            Petugas
+                        </div>
                     </div>
                 </div>
-                <div className="edit hover:bg-emerald-400">
-                    <span className="material-symbols-outlined px-1 hidden md:block">
-                        delete
-                    </span>
-                    <div className="text-slate-400 text-xs">
-                        Delete
+                <div className="edit hover:bg-white transition duration-500">
+                    <div className="w-fit mx-auto">
+                        <span className="material-symbols-outlined px-1 hidden md:block">
+                            delete
+                        </span>
+                        <div className="text-slate-400 text-xs">
+                            Delete
+                        </div>
                     </div>
                 </div>
             </div>

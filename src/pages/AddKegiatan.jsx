@@ -122,51 +122,57 @@ function AddKegiatan() {
         });
     }
 
-    const sendIDtoCheck = (id) => {
+    const sendIDtoCheck = async (id) => {
         const requestOptions = {
             method: 'POST', // Metode HTTP
             headers: {
                 'Content-Type': 'application/json', // Tentukan tipe konten yang Anda kirimkan,
-                'token' : cookies["token"],
+                'token': cookies["token"],
             },
-            body: JSON.stringify({ 
-                
-                }) 
+            body: JSON.stringify({})
         };
-
-        fetch('http://localhost:3001/check_id_kegiatan/' + id, requestOptions)
-        .then(response => response.json())
-        .then(data => {
-            console.log(data.msg);
-            if (data.msg === "Sukses"){
-                return true;
-            }else{
-                return false;
-            }
-        });
+    
+        const response = await fetch('http://localhost:3001/check_id_kegiatan/' + id, requestOptions);
+        const data = await response.json();
+        const bisa_dipakai = data.bisa;
+        return bisa_dipakai;
     }
-
-    const checkId = () => {
-        if (formData.idKegiatan === ""){
+    
+    const checkId = async () => {
+        if (formData.idKegiatan === "") {
             alert("id kegiatan masih kosong")
-        }else{
+        } else {
             // check ke API disini
-            console.log(sendIDtoCheck(formData.idKegiatan));
-            if (sendIDtoCheck(formData.idKegiatan)){
-                alert(formData.idKegiatan);
+            const bisa = await sendIDtoCheck(formData.idKegiatan);
+            console.log(bisa);
+            if (bisa) {
+                alert("ID bisa digunakan");
+                // Atur kelas jika id bisa digunakan disini
                 setChekedId(true);
-            }else{
+            } else {
                 alert("Gunakan ID yang lain")
-            }   
-            
+            }
         }
-    }
+    }    
 
       const handleChange = (e) => {
         // mengubah state saat nilai input berubah
         setFormData({ ...formData, [e.target.name]: e.target.value });
         if (e.target.name === "idKegiatan"){
             setChekedId(false);
+        }
+
+        if (e.target.name === "namaKegiatan"){
+            const arr_split = formData["namaKegiatan"].split(' ');
+            let the_id = ""
+            arr_split.forEach(element => {
+                the_id += element[0];
+            });
+            console.log(the_id);
+            setFormData(prevState => ({
+                ...prevState, // Menyalin state formData yang ada
+                idKegiatan: the_id // Mengatur nilai idKegiatan ke newValue
+              }));
         }
       };
 
@@ -181,7 +187,7 @@ function AddKegiatan() {
                     fill_sensus(formData.idKegiatan);
                     navigate("/AssignPetugas/" + formData.idKegiatan);
                 }else{
-                    navigate("/Sampel/" + formData.idKegiatan)
+                    navigate("/Sampel/" + formData.idKegiatan);
                 }
                 
             }else{

@@ -1,5 +1,7 @@
 import { useState,useEffect, useRef } from "react";
 import ConfirmCard from './confirmCard';
+import { Bounce, ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 function ListRekap(props) {
 
@@ -101,6 +103,8 @@ function ListRekap(props) {
             fetch('http://localhost:3001/update_RB' , requestOptions)
             .then(response => response.json())
             .then(data => {
+                console.log(data);
+                
                 // console.log(data)
             });
     }
@@ -167,10 +171,22 @@ function ListRekap(props) {
                 select.classList.add('pointer-events-none')
                 select.classList.add('opacity-75')
 
+                // Toast
+                toast("Data berhasil diiput", {
+                    position: "bottom-left",
+                    hideProgressBar: true,
+                    autoClose: true,
+                    closeOnClick: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+                })
+
                 // fetch data ke backend
                 select.classList.add('disabled-element')
                 const time_now = timeNow()
                 updateRB(id_dok,penerima,1,time_now);
+
             }else{
                 alert("Pilih penerima");
             }

@@ -32,10 +32,14 @@ const SampelPage = () => {
                 .then(data => {
                     setData(data);
                     console.log(data);
-                    if(data[0].jenis === "1"){
+                    console.log(data[0]);
+                    console.log(data[0].jenis);
+                    if(data && data[0] && (data[0].jenis === "1")){
                         setIsSurvei(false);
                     }
-                    setNamaKegiatan(data[0].nama)
+                    if(data && data[0] && data[0].nama){
+                        setNamaKegiatan(data[0].nama)
+                    }
                     setIsLoading(false);
                 });
         }
