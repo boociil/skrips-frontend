@@ -64,6 +64,7 @@ function AdminHomePage() {
                 </div>
             <ButtonAdd click = {handleClick} />
             </div>
+
         </>
     )
 }

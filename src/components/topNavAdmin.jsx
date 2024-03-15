@@ -51,8 +51,8 @@ function TopNavAdmin(props = {active : 'home'}) {
     }
     
     return (
-        <div className="font-poppins z-50">
-            <div className="navbar-medium-top hidden top-0 navbar-top-admin fixed md:flex mx-auto bg-white shadow-lg w-full">
+        <div className="font-poppins">
+            <div className="navbar-medium-top z-50 hidden top-0 navbar-top-admin fixed md:flex mx-auto bg-white shadow-lg w-full">
                 <div className="mx-auto items-center font-semibold">
                     <ul className="flex">
                         <li className="home mx-4 my-1 flex p-3">

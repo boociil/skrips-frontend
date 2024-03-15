@@ -105,7 +105,6 @@ function ListRekap(props) {
             .then(data => {
                 console.log(data);
                 
-                // console.log(data)
             });
     }
 
@@ -171,21 +170,21 @@ function ListRekap(props) {
                 select.classList.add('pointer-events-none')
                 select.classList.add('opacity-75')
 
-                // Toast
-                toast("Data berhasil diiput", {
-                    position: "bottom-left",
-                    hideProgressBar: true,
-                    autoClose: true,
-                    closeOnClick: true,
-                    progress: undefined,
-                    theme: "light",
-                    transition: Bounce,
-                })
-
                 // fetch data ke backend
                 select.classList.add('disabled-element')
                 const time_now = timeNow()
                 updateRB(id_dok,penerima,1,time_now);
+
+                // Toast
+                toast("Data berhasil diiput", {
+                    position: "bottom-right",
+                    hideProgressBar: true,
+                    autoClose: 1000,
+                    closeOnClick: true,
+                    theme: "light",
+                    transition: Bounce,
+                    pauseOnHover: false,
+                })
 
             }else{
                 alert("Pilih penerima");
@@ -230,9 +229,6 @@ function ListRekap(props) {
     };
 
     const desaClick = (kode_desa,kode_kec_1) => {
-
-        
-
         if(kode_kec_1 === kodeKecActive1){
             if (kode_desa === kodeDesaActive){
                 setKodekecActive1(null);
@@ -254,6 +250,7 @@ function ListRekap(props) {
 
     return (
         <>
+            <ToastContainer />
             {isLoading ? (
                 <div>
                     {/* Ketika komponen sedang loading, tambahkan animasi disini */}
@@ -262,20 +259,21 @@ function ListRekap(props) {
             ) : (
                 <div className="here">
                     {showConfirmCard ? (
-                                            <>
-                                                <ConfirmCard 
-                                                    message={`Batalkan progres RB?`}
-                                                    subMessage={`Anda masih bisa mensubmit, tapi waktu akan terupdate`}
-                                                    onConfirm={handleConfirm}
-                                                    onCancel={handleCancel}
-                                                />
-                                            </>
-                                            
-                                        ) : (
-                                            <>
-                                            </>
-                                        )}
+                            <>
+                                <ConfirmCard 
+                                    message={`Batalkan progres RB?`}
+                                    subMessage={`Anda masih bisa mensubmit, tapi waktu akan terupdate`}
+                                    onConfirm={handleConfirm}
+                                    onCancel={handleCancel}
+                                />
+                            </>
+                            
+                        ) : (
+                            <>
+                            </>
+                        )}
                     {
+                        
                         data.map((item,index) => {
                             // show Kec
                             if (item.kode_kec !== prevKec){
@@ -294,7 +292,7 @@ function ListRekap(props) {
                                             if(kodeKecActive[subItem.kode_kec]){
                                                 if(subItem.kode_desa !== prevDesa){
                                                     prevDesa = subItem.kode_desa
-                                                    let class_desa = "Desa transition duration-300 scale-95 cursor-pointer my-1 mr-3 ml-6 bg-[#17B715] hover:bg-[#30D32E] text-white md:p-3 p-2 rounded-md text-xs flex opacity max-w-4xl md:mx-auto"
+                                                    let class_desa = "Desa transition duration-300 scale-100 cursor-pointer my-1 mr-3 ml-6 bg-[#17B715] hover:bg-[#30D32E] text-white md:p-3 p-2 rounded-md text-xs flex opacity max-w-4xl md:mx-auto"
                                                     let class_desa_2 = "Desa transition duration-300 scale-100 cursor-pointer my-1 mr-3 ml-6 bg-[#17B715] hover:bg-[#30D32E] text-white md:p-3 p-2 rounded-md text-xs flex opacity max-w-4xl md:mx-auto"
                                                     prevDesa = subItem.kode_desa
                                                     return (
