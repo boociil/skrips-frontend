@@ -1,8 +1,11 @@
 import { useState,useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+
 
 function ListAssignPetugas(props) {
 
     const penerimaRef = useRef({});
+    const navigate = useNavigate();
     const [ data, setData ] = useState([]);
     const [ isLoading, setIsLoading ] = useState(true);
     const [ isLoadingPetugas, setIsLoadingPetugas ] = useState(true);
@@ -15,7 +18,6 @@ function ListAssignPetugas(props) {
     const [ koseka, setKoseka ] = useState([])
     const [ dataPetugas, setDataPetugas ] = useState([]);
     
-
     useEffect(() =>{
 
         const fetchData = () => {   
@@ -178,7 +180,6 @@ function ListAssignPetugas(props) {
         const arrpml = Object.assign(pml)
         const arrKoseka = Object.assign(koseka)
         let arr_to_send = ([arrppl,arrpml,arrKoseka])
-        console.log(arr_to_send);
 
         // Send Data
         const requestOptions = {
@@ -194,6 +195,7 @@ function ListAssignPetugas(props) {
         .then(data => {
             console.log(data);
         });
+        navigate("/Rekap");
     }
     
 

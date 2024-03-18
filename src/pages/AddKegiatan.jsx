@@ -83,26 +83,6 @@ function AddKegiatan() {
         return true;
     }
 
-    const check_id = (id) => {
-        const requestOptions = {
-            method: 'POST', // Metode HTTP
-            headers: {
-                'Content-Type': 'application/json', // Tentukan tipe konten yang Anda kirimkan,
-                'token' : cookies["token"],
-            },
-            body: JSON.stringify({ 
-                
-                }) 
-        };
-        
-        fetch('http://localhost:3001/add_kegiatan', requestOptions)
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            
-        });
-    }
-
     const fill_sensus = (id) => {
         const requestOptions = {
             method: 'POST', // Metode HTTP
@@ -146,7 +126,7 @@ function AddKegiatan() {
             const bisa = await sendIDtoCheck(formData.idKegiatan);
             console.log(bisa);
             if (bisa) {
-                alert("ID bisa digunakan");
+                alert("ID bisa digunakan "+ formData.idKegiatan);
                 // Atur kelas jika id bisa digunakan disini
                 setChekedId(true);
             } else {
@@ -156,17 +136,34 @@ function AddKegiatan() {
     }    
 
       const handleChange = (e) => {
+
+        function isAllDigits(str) {
+            // Mengecek apakah string hanya terdiri dari angka 0-9
+            return /^\d+$/.test(str);
+        }
+
         // mengubah state saat nilai input berubah
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        setFormData(prevState => ({
+            ...prevState, // Menyalin state formData yang ada
+            [e.target.name]: e.target.value // Mengatur nilai idKegiatan ke newValue
+          }));
+
         if (e.target.name === "idKegiatan"){
             setChekedId(false);
         }
 
+        // AutoFill IDKegiatan
         if (e.target.name === "namaKegiatan"){
-            const arr_split = formData["namaKegiatan"].split(' ');
+            console.log("target name berubah");
+            const arr_split = formData["namaKegiatan"].split(" ")
+            console.log("arr split : ", arr_split);
             let the_id = ""
             arr_split.forEach(element => {
-                the_id += element[0];
+                if(isAllDigits(element)){
+                    the_id += element;
+                }else{
+                    the_id += element[0];
+                }
             });
             console.log(the_id);
             setFormData(prevState => ({

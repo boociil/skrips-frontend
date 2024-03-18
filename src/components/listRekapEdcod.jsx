@@ -1,5 +1,7 @@
 import { useState,useEffect, useRef } from "react";
 import ConfirmCard from './confirmCard';
+import { Bounce, ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 function ListRekap(props) {
 
@@ -85,26 +87,35 @@ function ListRekap(props) {
     }
 
     const updateEdcod = (id_dok,petugas,status,time) => {
-        
-        const requestOptions = {
-            method: 'POST', // Metode HTTP
-            headers: {
-                'Content-Type': 'application/json' // Tentukan tipe konten yang Anda kirimkan
-            },
-            body: JSON.stringify({ 
-                "id_kegiatan" : props.id,
-                "id_dok" : id_dok,
-                "tgl_edcod" : time,
-                "petugas_edcod" : petugas,
-                "status_edcod" : status
-             }) 
-        };
-        
+        return new Promise((resolve, reject) => {
+            const requestOptions = {
+                method: 'POST', // Metode HTTP
+                headers: {
+                    'Content-Type': 'application/json' // Tentukan tipe konten yang Anda kirimkan
+                },
+                body: JSON.stringify({ 
+                    "id_kegiatan" : props.id,
+                    "id_dok" : id_dok,
+                    "tgl_edcod" : time,
+                    "petugas_edcod" : petugas,
+                    "status_edcod" : status
+                 }) 
+            };
+
             fetch('http://localhost:3001/update_Edcod' , requestOptions)
             .then(response => response.json())
             .then(data => {
                 console.log(data)
-            });
+                if (data.msg === "Update Berhasil"){
+                    resolve(true);
+                }else{
+                    reject("Gagal Memperbarui data")
+                }
+            })
+            .catch(error => {
+                reject(error)
+            })
+        });
     }
 
     const setSelectRef = (dokId, ref) => {
@@ -121,21 +132,43 @@ function ListRekap(props) {
         const select = penerimaRef.current[idDokActive]
         const div_time = document.getElementById('time-' + idxActive);
 
-        // Operasi
-        button.classList.remove('text-[#14CB11]');
-        button.classList.add('text-[#EF0D0D]');
-        select.classList.remove('pointer-events-none')
-        select.classList.remove('opacity-75')
-        div_time.innerHTML = '-'
-        button.innerHTML = "Belum";
-        setSelectPenerima(prevSelectValues => ({
-            ...prevSelectValues,
-            [idDokActive]: select.value
-        }));
-
         // fetch data ke backend
-        updateEdcod(idDokActive,penerima,'0','0000-00-00 00:00:00');
+        updateEdcod(idDokActive,penerima,'0','0000-00-00 00:00:00')
+        .then(success => {
+            // Operasi
+            button.classList.remove('text-[#14CB11]');
+            button.classList.add('text-[#EF0D0D]');
+            select.classList.remove('pointer-events-none')
+            select.classList.remove('opacity-75')
+            div_time.innerHTML = '-'
+            button.innerHTML = "Belum";
+            setSelectPenerima(prevSelectValues => ({
+                ...prevSelectValues,
+                [idDokActive]: select.value
+            }));
 
+            // toast
+            toast.warning("Proses dibatalkan", {
+                position: "bottom-right",
+                hideProgressBar: true,
+                autoClose: 1000,
+                closeOnClick: true,
+                theme: "light",
+                transition: Bounce,
+                pauseOnHover: false,
+            })
+        })
+        .catch(error => {
+            toast.error("Terjadi Kesalahan", {
+                position: "bottom-right",
+                hideProgressBar: true,
+                autoClose: 1000,
+                closeOnClick: true,
+                theme: "light",
+                transition: Bounce,
+                pauseOnHover: false,
+            })
+        })
         // Netralkan kembali id_dok dan idx
         setIdDokActive(null);
         setIdxActive(null);
@@ -178,7 +211,30 @@ function ListRekap(props) {
                 select.classList.add('disabled-element')
 
                 // fetch data ke backend
-                updateEdcod(id_dok,penerima,1,time_now);
+                updateEdcod(id_dok,penerima,1,time_now)
+                .then(success => {
+                    toast.success("Data berhasil diiput", {
+                        position: "bottom-right",
+                        hideProgressBar: true,
+                        autoClose: 1000,
+                        closeOnClick: true,
+                        theme: "light",
+                        transition: Bounce,
+                        pauseOnHover: false,
+                    })
+                })
+                .catch(error => {
+
+                    toast.error("Terjadi Kesalahan", {
+                        position: "bottom-right",
+                        hideProgressBar: true,
+                        autoClose: 1000,
+                        closeOnClick: true,
+                        theme: "light",
+                        transition: Bounce,
+                        pauseOnHover: false,
+                    })
+                });  
                    
             }else{
                 alert("Pilih Petugas!");
@@ -247,6 +303,7 @@ function ListRekap(props) {
 
     return (
         <>
+            <ToastContainer />
             {isLoading ? (
                 <div>
                     {/* Ketika komponen sedang loading, tambahkan animasi disini */}
@@ -277,9 +334,12 @@ function ListRekap(props) {
                                 return (
                                     <div key={index} className="row mt-3 max-w-5xl mx-auto">
                                         
-                                        <div className="kecamatan cursor-pointer mx-3 flex mt-1 mb-1 p-3 bg-[#418EC6] text-white text-xs rounded-md hover:bg-sky-400" onClick={ () => handleCardClick(item.kode_kec)}>    
-                                            <span className="w-fit ml-1">{item.kode_kec}</span>
-                                            <span className="w-full text-center">{item.Kec}</span>
+                                        <div className="kecamatan cursor-pointer mx-3 flex md:grid md:grid-cols-7 mt-1 mb-1 p-3 bg-[#418EC6] text-white text-xs rounded-md hover:bg-sky-400 " onClick={ () => handleCardClick(item.kode_kec)}>    
+                                            <div className="w-fit md:col-start-1 ml-1">{item.kode_kec}</div>
+                                            <div className="w-full md:col-start-2 md:col-span-3 text-center md:text-left">{item.Kec}</div>
+                                            <div className="hidden md:block md:col-start-5">-</div>
+                                            <div className="hidden md:block md:col-start-6">-</div>
+                                            <div className="hidden md:block md:col-start-7">-</div>
                                         </div>
 
                                         {data.filter((subItem) => item.kode_kec === subItem.kode_kec).map((subItem,subIndex) => {
@@ -328,7 +388,7 @@ function ListRekap(props) {
                                                                         let class_sls = "mr-3 p-1 md:p-2 md:grid md:grid-cols-8 ml-9 my-1 bg-[#F5F4F4] rounded-md text-xs flex md:mx-auto max-w-3xl transition duration-300 scale-95";
                                                                         let class_sls2 = "mr-3 p-1 md:p-2 md:grid md:grid-cols-8 ml-9 my-1 bg-[#F5F4F4] rounded-md text-xs flex md:mx-auto max-w-3xl transition duration-300 scale-95";
                                                                         let index_admin = dataAdmin.findIndex(item => item.id === innerItem.petugas_edcod)
-                                                                        console.log(index_admin)
+                                                                        
                                                                         return(
                                                                             <div key={innerIndex} className={isClassAdded ? class_sls2 : class_sls}>
                                                                                 <div className="w-fit">{innerItem.kode_sls}</div>

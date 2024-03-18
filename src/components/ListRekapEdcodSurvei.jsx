@@ -254,9 +254,12 @@ function ListRekapEdcodSurvei(props, { onDataFromChild }) {
                                 return (
                                     <div key={index} className="row mt-3 max-w-5xl mx-auto">
                                         
-                                        <div className="kecamatan cursor-pointer mx-3 flex mt-1 mb-1 p-3 bg-[#418EC6] text-white text-xs rounded-md hover:bg-sky-400" onClick={ () => handleCardClick(item.kode_kec)}>    
-                                            <span className="w-fit ml-1">{item.kode_kec}</span>
-                                            <span className="w-full text-center">{item.Kec}</span>
+                                        <div className="kecamatan cursor-pointer mx-3 flex md:grid md:grid-cols-7 mt-1 mb-1 p-3 bg-[#418EC6] text-white text-xs rounded-md hover:bg-sky-400 " onClick={ () => handleCardClick(item.kode_kec)}>    
+                                            <div className="w-fit md:col-start-1 ml-1">{item.kode_kec}</div>
+                                            <div className="w-full md:col-start-2 md:col-span-3 text-center md:text-left">{item.Kec}</div>
+                                            <div className="hidden md:block md:col-start-5">-</div>
+                                            <div className="hidden md:block md:col-start-6">-</div>
+                                            <div className="hidden md:block md:col-start-7">-</div>
                                         </div>
 
                                         {data.filter((subItem) => item.kode_kec === subItem.kode_kec).map((subItem,subIndex) => {

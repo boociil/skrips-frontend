@@ -68,7 +68,7 @@ function DashboardWithId() {
                 .then(response => response.json())
                 .then(data => {
                     setDataKegiatan(data);
-                    // console.log(data);
+                    console.log('deadline ',data);
                     setNamaKegiatan(data[0].nama)
                     setIsSurvei(data[0].jenis === "2");
 
@@ -112,13 +112,13 @@ function DashboardWithId() {
                 body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
             };
                 let start_link = "http://localhost:3001/get_progres_kecamatan_"
-                // console.log("issurvei", dataKegiatan);
+                console.log("issurvei", dataKegiatan);
                 isSurvei ? start_link += "survei/" : start_link += "sensus/"
-                // console.log(start_link + id_kegiatan);
+                console.log(start_link + id_kegiatan);
                 fetch(start_link + id_kegiatan , requestOptions)
                 .then(response => response.json())
                 .then(data => {
-                    // console.log(data)
+                    console.log(data)
                     setDataProgresKecamatan(data);
                     setIsLoadingProgres(false);
                 });
@@ -162,16 +162,15 @@ function DashboardWithId() {
                     setStartEntri(entri_month + " " + entri_date + ", " + entri_year);
                     ////////////////////////////////////////
 
-                    
-
                     setLoadingOverallProgres(false);
                 });
         }
+
         fetchData();
         fetchDataProgres();
         fetchDataOveralProgres();
         
-    }, [])
+    }, [isSurvei])
 
     
 
@@ -187,7 +186,7 @@ function DashboardWithId() {
                         <>
                             <div className="cont-atas md:max-w-7xl bg-white rounded-lg shadow-lg mx-3 mt-4 p-3 md:mt-24 sm:h-40 sm:relative overflow-hidden z-[-1] max-w-6xl md:mx-auto">
                                     <div className="hidden sm:block sm:rounded-full sm:absolute w-60 h-60 bg-[#BAE6FD] sm:-top-36 sm:-left-36"></div>
-                                    <div className="hidden sm:block sm:rounded-full sm:absolute w-96 h-96 bg-[#23AFF9] sm:-right-12 sm:-top-40"></div>
+                                    <div className="hidden sm:block sm:rounded-full sm:absolute w-96 h-96 bg-[#85D5FF] sm:-right-12 sm:-top-40"></div>
                                     <div className="hidden sm:block sm:rounded-full sm:absolute w-80 h-80 bg-[#23AFF9] sm:-right-52 sm:-top-40"></div>
                                     <div className="sm:bottom-4 sm:absolute">
                                         <h2 className="ml-2 font-semibold sm:bottom-0 md:text-xl text-sm">{namaKegiatan}</h2>

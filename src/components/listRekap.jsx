@@ -1,20 +1,26 @@
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import { useEffect } from "react";
 
 
 function ListRekap(props) {
 
     const navigate = useNavigate();
     const [ cookie, setCookie, removeCookie ] = useCookies()
+    let isAdmin = false
+
+    if(cookie.role === "admin"){
+        isAdmin = true
+    }
 
     let pos = props.position
     let class_name;
     if (pos === 'TOP'){
-        class_name = 'cursor-pointer grid grid-rows-1 text-xs sm:text-sm md:col-span-5 grid-cols-3 md:grid-cols-5  hover:bg-slate-200  transition duration-500 flex bg-white shadow-lg rounded-t-lg border-b-2 border-b-slate-300 max-w-2xl w-full md:mx-auto'
+        class_name = 'cursor-pointer grid grid-rows-1 text-xs sm:text-sm md:col-span-5 grid-cols-3 md:grid-cols-5  hover:bg-slate-200 hover:scale-105 transition duration-500 transition duration-500 flex bg-white shadow-lg rounded-t-lg border-b-2 border-b-slate-300 max-w-3xl w-full md:mx-auto'
     }else if (pos === 'MID'){
-        class_name = 'cursor-pointer grid grid-rows-1 text-xs sm:text-sm md:col-span-5 grid-cols-3 md:grid-cols-5 hover:bg-slate-200  transition duration-500 flex bg-white shadow-lg border-b-2 border-b-slate-300 max-w-2xl w-full md:mx-auto'
+        class_name = 'cursor-pointer grid grid-rows-1 text-xs sm:text-sm md:col-span-5 grid-cols-3 md:grid-cols-5 hover:bg-slate-200 hover:scale-105 transition duration-500 transition duration-500 flex bg-white shadow-lg border-b-2 border-b-slate-300 max-w-3xl w-full md:mx-auto'
     }else{
-        class_name = 'cursor-pointer grid grid-rows-1 text-xs sm:text-sm md:col-span-5 grid-cols-3 md:grid-cols-5 hover:bg-slate-200  transition duration-500 flex bg-white shadow-lg rounded-b-lg max-w-2xl w-full md:mx-auto'
+        class_name = 'cursor-pointer grid grid-rows-1 text-xs sm:text-sm md:col-span-5 grid-cols-3 md:grid-cols-5 hover:bg-slate-200 hover:scale-105 transition duration-500 transition duration-500 flex bg-white shadow-lg rounded-b-lg max-w-3xl w-full md:mx-auto'
     }
 
     let status;
@@ -72,8 +78,13 @@ function ListRekap(props) {
     const deleteClick = () => {
         delete_kegiatan(props.id);
         alert("delete " + props.id)
+        window.location.reload();
     }
-
+    
+    const petugasClick = () => {
+        navigate("/AssignPetugas/" + props.id);
+    }
+    
     const convert_bulan = (b) => {
         const the_b = (
             {
@@ -109,7 +120,7 @@ function ListRekap(props) {
 
     return (
         <>
-            <div className="sm:grid sm:grid-rows-1 grid-rows-1 sm:grid-cols-6 max-w-5xl md:mx-auto ">
+            <div className="sm:flex max-w-5xl md:mx-auto ">
                 <div className={class_name} onClick={divHandleClick.bind(this,props.id)} >
                     <div className="title px-3 py-2 col-span-2 w-full" >
                         <div className="">{props.name}</div>
@@ -139,40 +150,45 @@ function ListRekap(props) {
                         </div>
                     </div>
                 </div>
-                <div className="action hidden md:grid md:grid-cols-3 items-center justify-center ">
-                        <div className="edit hover:bg-slate-200 p-1 transition duration-500 cursor-pointer bg-white shadow-lg rounded-l-lg">
-                            <div className="w-fit mx-auto">
-                                <span className="material-symbols-outlined px-1 hidden md:block ">
-                                    edit
-                                </span>
-                                <div className="text-slate-400 text-xs">
-                                    Edit
+                {
+                    isAdmin ? (
+                        <div className="action hidden md:grid md:grid-cols-3 items-center justify-center ">
+                            <div className="edit hover:bg-slate-200 p-1 transition duration-500 cursor-pointer bg-white shadow-lg rounded-l-lg">
+                                <div className="w-fit mx-auto">
+                                    <span className="material-symbols-outlined px-1 hidden md:block ">
+                                        edit
+                                    </span>
+                                    <div className="text-slate-400 text-xs">
+                                        Edit
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="edit hover:bg-slate-200 p-1 transition duration-500 cursor-pointer bg-white shadow-lg">
-                            <div className="w-fit mx-auto">
-                                <span className="material-symbols-outlined px-1 hidden md:block">
-                                    deployed_code_account
-                                </span>
-                                <div className="text-slate-400 text-xs">
-                                    Petugas
+                            <div className="edit hover:bg-slate-200 border-l-2 p-1 transition duration-500 cursor-pointer bg-white shadow-lg" onClick={petugasClick}>
+                                <div className="w-fit mx-auto">
+                                    <span className="material-symbols-outlined px-1 hidden md:block">
+                                        deployed_code_account
+                                    </span>
+                                    <div className="text-slate-400 text-xs">
+                                        Petugas
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="edit hover:bg-slate-200 p-1 transition duration-500 cursor-pointer bg-white shadow-lg rounded-r-lg" onClick={deleteClick}>
-                            <div className="w-fit mx-auto">
-                                <span className="material-symbols-outlined px-1 hidden md:block">
-                                    delete
-                                </span>
-                                <div className="text-slate-400 text-xs">
-                                    Delete
+                            <div className="edit hover:bg-slate-200 border-l-2 p-1 transition duration-500 cursor-pointer bg-white shadow-lg rounded-r-lg" onClick={deleteClick}>
+                                <div className="w-fit mx-auto">
+                                    <span className="material-symbols-outlined px-1 hidden md:block">
+                                        delete
+                                    </span>
+                                    <div className="text-slate-400 text-xs">
+                                        Delete
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                     </div>
+                    ) : (
+                        <></>
+                    )
+                }
             </div>
-            
         </>
     )
 }

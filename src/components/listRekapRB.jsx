@@ -84,30 +84,39 @@ function ListRekap(props) {
         return time;
     }
 
-    const updateRB = (id_dok,penerima,status,time) => {
-        
-        const requestOptions = {
-            method: 'POST', // Metode HTTP
-            headers: {
-                'Content-Type': 'application/json' // Tentukan tipe konten yang Anda kirimkan
-            },
-            body: JSON.stringify({ 
-                "id_kegiatan" : props.id,
-                "id_dok" : id_dok,
-                "tgl_pengdok" : time,
-                "penerima_dok" : penerima,
-                "status_pengdok" : status
-             }) 
-        };
-        
+    const updateRB = (id_dok, penerima, status, time) => {
+        return new Promise((resolve, reject) => {
+            const requestOptions = {
+                method: 'POST', // Metode HTTP
+                headers: {
+                    'Content-Type': 'application/json' // Tentukan tipe konten yang Anda kirimkan
+                },
+                body: JSON.stringify({ 
+                    "id_kegiatan" : props.id,
+                    "id_dok" : id_dok,
+                    "tgl_pengdok" : time,
+                    "penerima_dok" : penerima,
+                    "status_pengdok" : status
+                }) 
+            };
+    
             fetch('http://localhost:3001/update_RB' , requestOptions)
             .then(response => response.json())
             .then(data => {
                 console.log(data);
-                
+                if (data.msg === "Update Berhasil") {
+                    console.log("Sukses");
+                    resolve(true);
+                } else {
+                    reject("Gagal memperbarui data");
+                }
+            })
+            .catch(error => {
+                reject(error);
             });
-    }
-
+        });
+    };
+    
     const setSelectRef = (dokId, ref) => {
         penerimaRef.current[dokId] = ref;
     };
@@ -122,17 +131,44 @@ function ListRekap(props) {
         const select = penerimaRef.current[idDokActive]
 
         // Operasi
-        button.classList.remove('text-[#14CB11]');
-        button.classList.add('text-[#EF0D0D]');
-        select.classList.remove('pointer-events-none')
-        select.classList.remove('opacity-75')
-        button.innerHTML = "Belum";
-        setSelectPenerima(prevSelectValues => ({
-            ...prevSelectValues,
-            [idDokActive]: select.value
-        }));
+        
         // fetch data ke backend
-        updateRB(idDokActive,penerima,null,null);
+        updateRB(idDokActive, penerima, null, null)
+            .then(success => {
+                // ganti class button
+                button.classList.remove('text-[#14CB11]');
+                button.classList.add('text-[#EF0D0D]');
+                select.classList.remove('pointer-events-none')
+                select.classList.remove('opacity-75')
+                button.innerHTML = "Belum";
+
+                setSelectPenerima(prevSelectValues => ({
+                    ...prevSelectValues,
+                    [idDokActive]: select.value
+                }));
+
+                // toast
+                toast.warning("Proses dibatalkan", {
+                    position: "bottom-right",
+                    hideProgressBar: true,
+                    autoClose: 1000,
+                    closeOnClick: true,
+                    theme: "light",
+                    transition: Bounce,
+                    pauseOnHover: false,
+                })
+            })
+            .catch(error => {
+                toast.error("Terjadi Kesalahan", {
+                    position: "bottom-right",
+                    hideProgressBar: true,
+                    autoClose: 1000,
+                    closeOnClick: true,
+                    theme: "light",
+                    transition: Bounce,
+                    pauseOnHover: false,
+                })
+            });
 
         // Netralkan kembali id_dok dan idx
         setIdDokActive(null);
@@ -164,27 +200,41 @@ function ListRekap(props) {
             
         }else{
             if (penerima){
-                button.classList.remove('text-[#EF0D0D]');
-                button.classList.add('text-[#14CB11]');
-                button.innerHTML = "Sudah";
-                select.classList.add('pointer-events-none')
-                select.classList.add('opacity-75')
 
-                // fetch data ke backend
-                select.classList.add('disabled-element')
                 const time_now = timeNow()
-                updateRB(id_dok,penerima,1,time_now);
 
-                // Toast
-                toast("Data berhasil diiput", {
-                    position: "bottom-right",
-                    hideProgressBar: true,
-                    autoClose: 1000,
-                    closeOnClick: true,
-                    theme: "light",
-                    transition: Bounce,
-                    pauseOnHover: false,
+                updateRB(id_dok, penerima, 1, time_now)
+                .then(success => {
+                    button.classList.remove('text-[#EF0D0D]');
+                    button.classList.add('text-[#14CB11]');
+                    button.innerHTML = "Sudah";
+                    select.classList.add('pointer-events-none')
+                    select.classList.add('opacity-75')
+    
+                    select.classList.add('disabled-element')
+
+                    toast.success("Data berhasil diiput", {
+                        position: "bottom-right",
+                        hideProgressBar: true,
+                        autoClose: 1000,
+                        closeOnClick: true,
+                        theme: "light",
+                        transition: Bounce,
+                        pauseOnHover: false,
+                    })
                 })
+                .catch(error => {
+
+                    toast.error("Terjadi Kesalahan", {
+                        position: "bottom-right",
+                        hideProgressBar: true,
+                        autoClose: 1000,
+                        closeOnClick: true,
+                        theme: "light",
+                        transition: Bounce,
+                        pauseOnHover: false,
+                    })
+                });        
 
             }else{
                 alert("Pilih penerima");
@@ -246,8 +296,6 @@ function ListRekap(props) {
     }
     
 
-    
-
     return (
         <>
             <ToastContainer />
@@ -281,9 +329,12 @@ function ListRekap(props) {
                                 return (
                                     <div key={index} className="row mt-3 max-w-5xl mx-auto">
                                         
-                                        <div className="kecamatan cursor-pointer mx-3 flex mt-1 mb-1 p-3 bg-[#418EC6] text-white text-xs rounded-md hover:bg-sky-400" onClick={ () => handleCardClick(item.kode_kec)}>    
-                                            <span className="w-fit ml-1">{item.kode_kec}</span>
-                                            <span className="w-full text-center">{item.Kec}</span>
+                                        <div className="kecamatan cursor-pointer mx-3 flex md:grid md:grid-cols-7 mt-1 mb-1 p-3 bg-[#418EC6] text-white text-xs rounded-md hover:bg-sky-400 " onClick={ () => handleCardClick(item.kode_kec)}>    
+                                            <div className="w-fit md:col-start-1 ml-1">{item.kode_kec}</div>
+                                            <div className="w-full md:col-start-2 md:col-span-3 text-center md:text-left">{item.Kec}</div>
+                                            <div className="hidden md:block md:col-start-5">-</div>
+                                            <div className="hidden md:block md:col-start-6">-</div>
+                                            <div className="hidden md:block md:col-start-7">-</div>
                                         </div>
 
                                         {data.filter((subItem) => item.kode_kec === subItem.kode_kec).map((subItem,subIndex) => {
