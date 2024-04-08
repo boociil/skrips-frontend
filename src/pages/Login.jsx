@@ -45,7 +45,6 @@ function Login() {
         fetch('http://localhost:3001/Login', requestOptions)
         .then(response => response.json())
         .then(data => {
-            console.log(data);
             if(data.msg === "Success"){
                 setCookie('token',data.accessToken)
                 setCookie('role',data.role)
@@ -68,7 +67,6 @@ function Login() {
         } 
     }
 
-    console.log("cookies : ", cookies.isLogin);
     return (
         <div className="mx-4 mt-32 font-poppins bg-white shadow-2xl rounded-xl overflow-hidden md:flex md:container md:mx-auto sm:max-w-3xl lg:max-w-4xl">
             <div className="bagian-kiri px-3 box-border container">

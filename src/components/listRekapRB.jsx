@@ -178,13 +178,11 @@ function ListRekap(props) {
     const handleCancel = () => {
         setShowConfirmCard(false);
 
-        //
-
         // Netralkan kembali id_dok dan idx
         setIdDokActive(null);
         setIdxActive(null);
     }
-
+    // nbs,nks,ruta,x
     const clickButtonSLS = (id_dok,idx) => {
 
         setIdDokActive(id_dok);

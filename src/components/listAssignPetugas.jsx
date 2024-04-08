@@ -1,7 +1,9 @@
 import { useState,useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 function ListAssignPetugas(props) {
 
+    const navigate = useNavigate();
     const penerimaRef = useRef({});
     const [ data, setData ] = useState([]);
     const [ isLoading, setIsLoading ] = useState(true);
@@ -90,16 +92,6 @@ function ListAssignPetugas(props) {
         return time;
     }
 
-    
-    const handleSelectPenerimaChange = (event, id) => {
-        const value = event.target.value;
-    
-        // Menyalin objek selectValues dan memperbarui nilai untuk elemen yang sesuai
-        setSelectPenerima(prevSelectValues => ({
-          ...prevSelectValues,
-          [id]: value
-        }));
-    };
 
     function delay(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
@@ -204,6 +196,7 @@ function ListAssignPetugas(props) {
             .then(data => {
                 console.log(data);
             });
+            navigate("/Rekap");
     }
     
 
@@ -276,6 +269,12 @@ function ListAssignPetugas(props) {
                                                                                     ) : (
 
                                                                                     <>
+                                                                                        <input 
+                                                                                            className="text-center rounded-md"
+                                                                                            type="number" 
+                                                                                            name="total_dokumen"
+                                                                                            placeholder="total dokumen"
+                                                                                        />
                                                                                         
                                                                                         {/* ppl */}
                                                                                         <select 

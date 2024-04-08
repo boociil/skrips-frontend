@@ -1,5 +1,8 @@
 import { useState,useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { Bounce, ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import ConfirmCard from './confirmCard';
 
 function ListRekapEdcodSurvei(props, { onDataFromChild }) {
 
@@ -14,6 +17,11 @@ function ListRekapEdcodSurvei(props, { onDataFromChild }) {
     const [ showTItleKec, setShowTitleKec ] = useState({});
     const [ isLoadingPetugas, setIsLoadingPetugas ] = useState(true);
     const [ penerimaDok, setPenerimaDok ] = useState({})
+    const [ showConfirmCard, setShowConfirmCard ] = useState(false);
+    const [ nbsActive, setNbsActive ] = useState();
+    const [ nksActive, setNksActive ] = useState();
+    const [ rutaActive, setRutaActive ] = useState();
+    const [ xActive, setXActive ] = useState();
     const penerimaRef = useRef({});
 
     useEffect(() =>{
@@ -98,28 +106,36 @@ function ListRekapEdcodSurvei(props, { onDataFromChild }) {
     };
 
     const updateEdcod = (nbs,nks,ruta,time,status,petugas) => {
-        
-        const requestOptions = {
-            method: 'POST', // Metode HTTP
-            headers: {
-                'Content-Type': 'application/json' // Tentukan tipe konten yang Anda kirimkan
-            },
-            body: JSON.stringify({ 
-                "id_kegiatan" : props.id,
-                "no_blok_sensus" : nbs,
-                "no_kerangka_sampel" : nks,
-                "no_ruta" : ruta,
-                "tgl_edcod" : time,
-                "petugas_edcod" : petugas,
-                "status_edcod" : status
-             }) 
-        };
-        
+        return new Promise((resolve, reject) => {
+            const requestOptions = {
+                method: 'POST', // Metode HTTP
+                headers: {
+                    'Content-Type': 'application/json' // Tentukan tipe konten yang Anda kirimkan
+                },
+                body: JSON.stringify({ 
+                    "id_kegiatan" : props.id,
+                    "no_blok_sensus" : nbs,
+                    "no_kerangka_sampel" : nks,
+                    "no_ruta" : ruta,
+                    "tgl_edcod" : time,
+                    "petugas_edcod" : petugas,
+                    "status_edcod" : status
+                 }) 
+            };
+            
             fetch('http://localhost:3001/update_Edcod_survei' , requestOptions)
             .then(response => response.json())
             .then(data => {
                 // console.log(data)
+                if (data.msg === "Update Berhasil") {
+                    console.log("Sukses");
+                    resolve(true);
+                } else {
+                    reject("Gagal memperbarui data");
+                }
             });
+        })
+        
     }
 
     const timeNow = () => {
@@ -151,13 +167,76 @@ function ListRekapEdcodSurvei(props, { onDataFromChild }) {
         }));
     }
 
-
     const setSelectRef = (num, ref) => {
         penerimaRef.current[num] = ref
     };
 
+    const handleCancel = () => {
+        setShowConfirmCard(false);
+        setRutaActive(null);
+        setXActive(null);
+        setNbsActive(null);
+        setNksActive(null);
+    }
+
+    const handleConfirm = () => {
+
+        const num = rutaActive + "" + xActive
+        const button = document.getElementById('button-' + rutaActive + '-' + xActive  );
+        const select = penerimaRef.current[num]
+
+        // fetch data ke backend
+        updateEdcod(nbsActive,nksActive,rutaActive,"0000-00-00 00:00:00",0,undefined)
+        .then(success => {
+            button.classList.remove('text-[#14CB11]');
+            button.classList.add('text-[#EF0D0D]');
+            select.classList.remove('pointer-events-none')
+            select.classList.remove('opacity-75')
+            button.innerHTML = "Belum";
+            setPenerimaDok(prevSelectValues => ({
+                ...prevSelectValues,
+                [xActive]: {
+                    ...prevSelectValues[xActive],
+                    [rutaActive]: select.value
+                }
+            }));
+
+            toast.warning("Proses dibatalkan", {
+                position: "bottom-right",
+                hideProgressBar: true,
+                autoClose: 1000,
+                closeOnClick: true,
+                theme: "light",
+                transition: Bounce,
+                pauseOnHover: false,
+            })
+        })
+        .catch(error => {
+            toast.error("Terjadi Kesalahan", {
+                position: "bottom-right",
+                hideProgressBar: true,
+                autoClose: 1000,
+                closeOnClick: true,
+                theme: "light",
+                transition: Bounce,
+                pauseOnHover: false,
+            })
+        })
+
+        setShowConfirmCard(false);
+        setRutaActive(null);
+        setXActive(null);
+        setNbsActive(null);
+        setNksActive(null);
+    }
+
     const clickButtonSampel = (ruta,x,nbs,nks) => {
         
+        setRutaActive(ruta);
+        setXActive(x);
+        setNbsActive(nbs);
+        setNksActive(nks);
+
         const num = ruta + "" + x
         const button = document.getElementById('button-' + ruta + '-' + x  );
         const select = penerimaRef.current[num]
@@ -172,30 +251,41 @@ function ListRekapEdcodSurvei(props, { onDataFromChild }) {
         const time_now = timeNow()
 
         if(button.innerHTML === "Sudah"){
-            button.classList.remove('text-[#14CB11]');
-            button.classList.add('text-[#EF0D0D]');
-            select.classList.remove('pointer-events-none')
-            select.classList.remove('opacity-75')
-            button.innerHTML = "Belum";
-            setPenerimaDok(prevSelectValues => ({
-                ...prevSelectValues,
-                [x]: {
-                    ...prevSelectValues[x],
-                    [ruta]: select.value
-                }
-            }));
-            // fetch data ke backend
-            updateEdcod(nbs,nks,ruta,"0000-00-00 00:00:00",0,undefined);
+            setShowConfirmCard(true);
+            
         }else{
             if (the_value){
-                button.classList.remove('text-[#EF0D0D]');
-                button.classList.add('text-[#14CB11]');
-                button.innerHTML = "Sudah";
-                select.classList.add('pointer-events-none')
-                select.classList.add('opacity-75')
 
                 // fetch data ke backend
-                updateEdcod(nbs,nks,ruta,time_now,1,the_value);
+                updateEdcod(nbs,nks,ruta,time_now,1,the_value)
+                .then(success => {
+                    button.classList.remove('text-[#EF0D0D]');
+                    button.classList.add('text-[#14CB11]');
+                    button.innerHTML = "Sudah";
+                    select.classList.add('pointer-events-none')
+                    select.classList.add('opacity-75')
+
+                    toast.success("Data berhasil diiput", {
+                        position: "bottom-right",
+                        hideProgressBar: true,
+                        autoClose: 1000,
+                        closeOnClick: true,
+                        theme: "light",
+                        transition: Bounce,
+                        pauseOnHover: false,
+                    })
+                })
+                .catch(success => {
+                    toast.error("Terjadi Kesalahan", {
+                        position: "bottom-right",
+                        hideProgressBar: true,
+                        autoClose: 1000,
+                        closeOnClick: true,
+                        theme: "light",
+                        transition: Bounce,
+                        pauseOnHover: false,
+                    })
+                })
             }else{
                 alert("Pilih penerima");
             }
@@ -236,6 +326,7 @@ function ListRekapEdcodSurvei(props, { onDataFromChild }) {
 
     return (
         <>
+        <ToastContainer />
             {isLoading ? (
                 <div>
                     {/* Ketika komponen sedang loading, tambahkan animasi disini */}
@@ -243,9 +334,20 @@ function ListRekapEdcodSurvei(props, { onDataFromChild }) {
                 </div>
             ) : (
                 <div className="here">
-                    <div className="">
-                        
-                    </div>
+                    {showConfirmCard ? (
+                            <>
+                                <ConfirmCard 
+                                    message={`Batalkan progres RB?`}
+                                    subMessage={`Anda masih bisa mensubmit, tapi waktu akan terupdate`}
+                                    onConfirm={handleConfirm}
+                                    onCancel={handleCancel}
+                                />
+                            </>
+                            
+                        ) : (
+                            <>
+                            </>
+                    )}
                     {
                         data.map((item,index) => {
                             // show Kec

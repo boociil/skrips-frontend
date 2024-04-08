@@ -9,7 +9,7 @@ function AddKegiatan() {
     const navigate = useNavigate();
     const [ cookies, setCookie, removeCookie ] = useCookies(['token']);
     const [ chekedId, setChekedId ] = useState();
-    let isSurvei = false;
+    const [ loading, setIsLoading ] = useState(false);
 
     const [formData, setFormData] = useState({
         // inisialisasi state untuk menyimpan data form
@@ -26,33 +26,39 @@ function AddKegiatan() {
         koseka:'Ada',
       });
 
-    const sendData = ( ) => {
-
-        const requestOptions = {
-            method: 'POST', // Metode HTTP
-            headers: {
-                'Content-Type': 'application/json', // Tentukan tipe konten yang Anda kirimkan,
-                'token' : cookies["token"],
-            },
-            body: JSON.stringify({ 
-                "id" : formData.idKegiatan,
-                "nama" : formData.namaKegiatan,
-                "jenis" : formData.jenisKegiatan,
-                "tgl_mulai" : formData.tanggalMulai,
-                "target_selesai": formData.targetSelesai,
-                "koseka" : formData.koseka,
-                "target_pengdok" : formData.targetRB,
-                "target_edcod" : formData.targetEdcod,
-                "target_entri" : formData.targetEntri,
-                }) 
-        };
-        
-        fetch('http://localhost:3001/add_kegiatan', requestOptions)
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
+    const sendData = () => {
+        setIsLoading(true);
+        return new Promise((resolve,reject) => {
+            const requestOptions = {
+                method: 'POST', // Metode HTTP
+                headers: {
+                    'Content-Type': 'application/json', // Tentukan tipe konten yang Anda kirimkan,
+                    'token' : cookies["token"],
+                },
+                body: JSON.stringify({ 
+                    "id" : formData.idKegiatan,
+                    "nama" : formData.namaKegiatan,
+                    "jenis" : formData.jenisKegiatan,
+                    "tgl_mulai" : formData.tanggalMulai,
+                    "target_selesai": formData.targetSelesai,
+                    "koseka" : formData.koseka,
+                    "target_pengdok" : formData.targetRB,
+                    "target_edcod" : formData.targetEdcod,
+                    "target_entri" : formData.targetEntri,
+                    }) 
+            };
             
-        });
+            fetch('http://localhost:3001/add_kegiatan', requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                if (data.msg === "Berhasil") {
+                    resolve(true);
+                } else {
+                    reject(data.msg);
+                }
+            });
+        })
     }
 
     const check_empty = () => {
@@ -101,40 +107,7 @@ function AddKegiatan() {
             console.log("dari fill sensus : ", data);
         });
     }
-
-    const sendIDtoCheck = async (id) => {
-        const requestOptions = {
-            method: 'POST', // Metode HTTP
-            headers: {
-                'Content-Type': 'application/json', // Tentukan tipe konten yang Anda kirimkan,
-                'token': cookies["token"],
-            },
-            body: JSON.stringify({})
-        };
-    
-        const response = await fetch('http://localhost:3001/check_id_kegiatan/' + id, requestOptions);
-        const data = await response.json();
-        const bisa_dipakai = data.bisa;
-        return bisa_dipakai;
-    }
-    
-    const checkId = async () => {
-        if (formData.idKegiatan === "") {
-            alert("id kegiatan masih kosong")
-        } else {
-            // check ke API disini
-            const bisa = await sendIDtoCheck(formData.idKegiatan);
-            console.log(bisa);
-            if (bisa) {
-                alert("ID bisa digunakan "+ formData.idKegiatan);
-                // Atur kelas jika id bisa digunakan disini
-                setChekedId(true);
-            } else {
-                alert("Gunakan ID yang lain")
-            }
-        }
-    }    
-
+       
       const handleChange = (e) => {
 
         function isAllDigits(str) {
@@ -149,7 +122,12 @@ function AddKegiatan() {
           }));
 
         if (e.target.name === "idKegiatan"){
-            setChekedId(false);
+            const id_input = document.getElementById('id-kegiatan');
+            const ket_id = document.getElementById('ket-id')
+            ket_id.innerHTML = ""
+            id_input.classList.remove("border-2");
+            id_input.classList.remove("border-red-500");
+            ket_id.classList.add("hidden");
         }
 
         // AutoFill IDKegiatan
@@ -173,24 +151,30 @@ function AddKegiatan() {
         }
       };
 
-      const handleSubmit = (event) =>{
+      const handleSubmit = async (event) =>{
         if (check_empty()){
-            if (chekedId){
-                event.preventDefault();
-                alert(JSON.stringify(formData));
-                console.log(cookies["token"]);
-                sendData();
+            event.preventDefault();
+            // alert(JSON.stringify(formData));
+            console.log(cookies["token"]);
+            await sendData()
+            .then(success => {
                 if (formData.jenisKegiatan === "1"){
+
                     fill_sensus(formData.idKegiatan);
                     navigate("/AssignPetugas/" + formData.idKegiatan);
                 }else{
                     navigate("/Sampel/" + formData.idKegiatan);
                 }
-                
-            }else{
-                alert("Chek id dulu");
-            }
-            
+            })
+            .catch(error => {
+                const id_input = document.getElementById('id-kegiatan');
+                const ket_id = document.getElementById('ket-id')
+                ket_id.innerHTML = "*" + error
+                id_input.classList.add("border-2");
+                id_input.classList.add("border-red-500");
+                ket_id.classList.remove("hidden");
+            })
+            setIsLoading(false);
         }else{
             alert("Masih ada isian kosong")
         }
@@ -217,18 +201,19 @@ function AddKegiatan() {
                         </div>
 
                         <div className="id-kegiatan mb-3">
-                            <div className="sm:ml md:ml-3-6 ml-3 flex">
-                                <label className="text-sm"> ID kegiatan
+                            <div className="sm:ml md:ml-3-6 ml-3">
+                                <label className="text-sm w-full"> ID kegiatan
                                     <input 
-                                        className='bg-[#F6F6F9] mt-1 text-xs px-3 md:mx-0 lg:mx-auto py-2 mb-3 block rounded-lg focus:ring-1 focus:ring-sky-500 focus:border-sky-500'
+                                        className='bg-[#F6F6F9] mt-1 text-xs px-3 md:mx-0 py-2 mb-3 block rounded-lg w-full focus:ring-1 focus:ring-sky-500 focus:border-sky-500 max-w-72'
                                         name="idKegiatan"
+                                        id="id-kegiatan"
                                         type="text" 
                                         placeholder='ID'
                                         value={formData.idKegiatan}
                                         onChange={handleChange} 
                                     />
-                                </label>
-                                <button className="block hover:bg-emerald-400 rounded-lg bg-[#14CB11] text-white p-2 ml-4 sm:ml-12 max-h-9 mt-5 text-xs" onClick={checkId}>Check ID</button>         
+                                </label>    
+                                <div className="ket-id text-xs text-red-500 hidden" id="ket-id"></div>
                             </div>
                         </div>
                     </div>
@@ -295,7 +280,7 @@ function AddKegiatan() {
                         
 
                         <div className="sm:ml-6 md:ml-3 ml-3">
-                            <label className="text-sm"> Target Receiving Editing Coding
+                            <label className="text-sm"> Target Editing Coding
                                 <input 
                                     className='bg-[#F6F6F9] mt-1 text-xs px-3 md:mx-0 lg:mx-auto py-2 mb-3 block rounded-lg w-full focus:ring-1 focus:ring-sky-500 focus:border-sky-500 max-w-72  '
                                     name="targetEdcod"
@@ -308,7 +293,7 @@ function AddKegiatan() {
                         
 
                         <div className="sm:ml-6 md:ml-3 ml-3">
-                            <label className="text-sm"> Target Receiving Entri
+                            <label className="text-sm"> Target Entri
                                 <input 
                                     className='bg-[#F6F6F9] mt-1 text-xs px-3 md:mx-0 lg:mx-auto py-2 mb-3 block rounded-lg w-full focus:ring-1 focus:ring-sky-500 focus:border-sky-500 max-w-72  '
                                     name="targetEntri"
@@ -321,7 +306,18 @@ function AddKegiatan() {
                     </div>
                     
                     
-                    <button onClick={handleSubmit} className="bg-[#418EC6] hover:bg-sky-500 block mt-6 mx-auto w-28 text-white p-3 rounded-lg">Tambah</button>
+                    <button onClick={handleSubmit} className="bg-[#418EC6] hover:bg-sky-500 block mt-6 mx-auto w-28 text-white p-3 rounded-lg">
+                    { loading ? (
+                            <>
+                                Loading
+                            </>
+                        ) : (
+                            <>
+                                Tambah
+                            </>
+                        )
+                    }
+                    </button>
                 
             </div>
         </>

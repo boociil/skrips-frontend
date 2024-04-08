@@ -1,7 +1,8 @@
 import { Outlet,  NavLink, useNavigate } from "react-router-dom";
 import React, { useState } from 'react';
 import { useCookies } from "react-cookie";
-
+import { Bounce, ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 function TopNavAdmin(props = {active : 'home'}) {
 
@@ -10,6 +11,30 @@ function TopNavAdmin(props = {active : 'home'}) {
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
     const navigate = useNavigate();
     
+    const logout = () => {
+        console.log(cookies["token"]);
+        return new Promise((resolve,reject) => {
+            const requestOptions = {
+                method: 'POST', // Metode HTTP
+                headers: {
+                    'Content-Type': 'application/json', // Tentukan tipe konten yang Anda kirimkan,
+                    'token' : cookies["token"],
+                }
+            };
+            
+            fetch('http://localhost:3001/logout', requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                if (data.msg === "Success"){
+                    resolve(true);
+                }else{
+                    reject(data.msg);
+                }
+            });
+        })
+
+    }
 
     const closeSideMenu = () => {
         setOpenStatus(true)
@@ -36,12 +61,27 @@ function TopNavAdmin(props = {active : 'home'}) {
     //     setClassActive(class_name);
     // };
 
-    const removeAllCookie = () => {
-        removeCookie('user');
-        removeCookie('role')
-        removeCookie('token')
-        removeCookie('isLogin')
-        navigate('/');
+    const removeAllCookie = async () => {
+        // console.log(cookies["token"]);
+        await logout()
+        .then(success => {
+            removeCookie('user');
+            removeCookie('role')
+            removeCookie('token')
+            removeCookie('isLogin')
+            navigate('/');
+        })
+        .catch(error => {
+            toast.error("" + error, {
+                position: "bottom-right",
+                hideProgressBar: true,
+                autoClose: 1000,
+                closeOnClick: true,
+                theme: "light",
+                transition: Bounce,
+                pauseOnHover: false,
+            })
+        })
     }
 
     let isAdmin = false;
@@ -52,6 +92,7 @@ function TopNavAdmin(props = {active : 'home'}) {
     
     return (
         <div className="font-poppins">
+            <ToastContainer />
             <div className="navbar-medium-top z-50 hidden top-0 navbar-top-admin fixed md:flex mx-auto bg-white shadow-lg w-full">
                 <div className="mx-auto items-center font-semibold">
                     <ul className="flex">
