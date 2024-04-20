@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import ButtonAdd from "../components/buttonAdd";
 import { useCookies } from "react-cookie";
 import TopNavAdmin from "../components/topNavAdmin";
+import { Bounce, ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function Users() {
@@ -11,7 +13,9 @@ function Users() {
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
     const [ dataUsers ,setDataUsers ] = useState();
     const [ loadingData, setLoadingData ] = useState(true);
+    const [ len, setLen ] = useState();
 
+    // let l = dataUsers.length;
     const getUsersData = () => {
 
         const requestOptions = {
@@ -25,7 +29,8 @@ function Users() {
         fetch('http://localhost:3001/get_all_users', requestOptions)
         .then(response => response.json())
         .then(data => {
-            console.log(data);
+            console.log(typeof(data));
+            setLen(data.length)
             setDataUsers(data);
             setLoadingData(false);
         });
@@ -37,9 +42,60 @@ function Users() {
 
     useEffect(() => {
         getUsersData()
-        //const theHtml = document.querySelector('#root')
-        //theHtml.classList.add('bg-white');
-    }, []);
+        
+    }, [len]);
+
+    const delet_user = (username) => {
+        return new Promise ((resolve,reject) => {
+            const requestOptions = {
+                method: 'POST', // Metode HTTP
+                headers: {
+                    'Content-Type': 'application/json', // Tentukan tipe konten yang Anda kirimkan,
+                    'token' : cookies["token"],
+                }
+            };
+            
+            fetch('http://localhost:3001/delete_user/' + username, requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                if(data.msg === "Success"){
+                    resolve(true);
+                }else{
+                    reject(data.msg);
+                }
+            });
+        })
+    }
+
+    const onDeleteClick = async (username) => {
+        // alert(username)
+        await delet_user(username)
+        .then(success => {
+            setLen(len - 1)
+            toast.success("Hapus User Berhasil", {
+                position: "bottom-right",
+                hideProgressBar: true,
+                autoClose: 1000,
+                closeOnClick: true,
+                theme: "light",
+                transition: Bounce,
+                pauseOnHover: false,
+            })
+            // toast success
+        })
+        .catch(error => {
+            // toast gagal
+            toast.success("Error : " + error, {
+                position: "bottom-right",
+                hideProgressBar: true,
+                autoClose: 1000,
+                closeOnClick: true,
+                theme: "light",
+                transition: Bounce,
+                pauseOnHover: false,
+            })
+        })
+    }
 
     const data = [
         {username:"ryan123", firstName:"Ryan", lastName:"Ardiansyah",Role:"Admin", status:"1"},
@@ -61,6 +117,7 @@ function Users() {
 
     return (
         <>
+            <ToastContainer />
             <TopNavAdmin />
             { loadingData ? (
                 <div>
@@ -86,7 +143,13 @@ function Users() {
                                 <div className="cols-start-2">{item.firstName + " " +item.lastName} </div>
                                 <div className={"cols-start-3 w-fit p-1 rounded-lg " + getClassByRole(item.role)}>{item.role}</div>
                                 <div className="hidden md:block md:cols-start-4"><span className={item.status === 1 ? "lingkaran inline-block w-2 h-2 rounded-full bg-[#00FF57] mr-1" : "lingkaran inline-block w-2 h-2 rounded-full bg-[#FF6056] mr-1"}></span>{item.status === 1 ? "Online" : "Offline"}</div>
-                                
+                                <div>
+                                    <div className="flex cursor-pointer hover:bg-slate-500 hover:text-white transition duration-300 w-fit p-1 rounded-sm"
+                                        onClick={() => onDeleteClick(item.username)}
+                                        >
+                                            delete
+                                    </div>
+                                </div>
                             </div>
                             ))}
                     </div>

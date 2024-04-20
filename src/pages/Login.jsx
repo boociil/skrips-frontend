@@ -6,6 +6,7 @@ import { useCookies } from 'react-cookie';
 function Login() {
     
     const navigate = useNavigate();
+    const [ loginLoading, setLoginLoading ] = useState(false);
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
 
     const [formData, setFormData] = useState({
@@ -27,44 +28,58 @@ function Login() {
     const handleChange = (e) => {
         // mengubah state saat nilai input berubah
         setFormData({ ...formData, [e.target.name]: e.target.value });
+        const msg_div = document.getElementById("message-div")
+        if (!msg_div.classList.contains("hidden")){
+            msg_div.classList.add("hidden")
+        }
     };
 
     const sendData = ( loginData ) => {
-
-        const requestOptions = {
-            method: 'POST', // Metode HTTP
-            headers: {
-                'Content-Type': 'application/json' // Tentukan tipe konten yang Anda kirimkan
-            },
-            body: JSON.stringify({ 
-                "username" : loginData.username,
-                "password" : loginData.pass,
-             }) 
-        };
-        
-        fetch('http://localhost:3001/Login', requestOptions)
-        .then(response => response.json())
-        .then(data => {
-            if(data.msg === "Success"){
-                setCookie('token',data.accessToken)
-                setCookie('role',data.role)
-                setCookie('isLogin', true)
-                navigate('/Home');
-            }else{
-                alert("Password atau Username tidak benar");
-            }
-        });
+        return new Promise((resolve,reject) => {
+            const requestOptions = {
+                method: 'POST', // Metode HTTP
+                headers: {
+                    'Content-Type': 'application/json' // Tentukan tipe konten yang Anda kirimkan
+                },
+                body: JSON.stringify({ 
+                    "username" : loginData.username,
+                    "password" : loginData.pass,
+                 }) 
+            };
+            
+            fetch('http://localhost:3001/Login', requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                if(data.msg === "Success"){
+                    resolve(data);
+                }else{
+                    reject("Password atau Username tidak benar");
+                }
+            });
+        })
     }
 
-    const handleSubmit = (event) =>{
+    const handleSubmit = async (event) =>{
+        setLoginLoading(true);
         event.preventDefault();
         const checkFill = check_empty();
         if (checkFill){
             // console.log(formData);
-            sendData(formData)
+            await sendData(formData)
+            .then(success => {
+                setCookie('token',success.accessToken)
+                setCookie('role',success.role)
+                setCookie('isLogin', true)
+                navigate('/Home');
+            })
+            .catch(error => {
+                const msg_div = document.getElementById("message-div")
+                msg_div.classList.remove("hidden");
+            })
         }else{
             alert("Form tidak boleh kosong");
         } 
+        setLoginLoading(false);
     }
 
     return (
@@ -75,29 +90,40 @@ function Login() {
                         <p className='text-3xl pt-3 mb-2'>Welcome to Monitoring Site</p>
                         <p className='text-sm mb-3'>Tell us who you are...</p>
                     </div>
-                    <form onSubmit={handleSubmit}>
-                        <label className='text-sm block ml-1'>
-                            <input
-                                className='bg-[#F6F6F9] text-xs px-3 md:mx-0 lg:mx-auto mx-auto py-2 mb-3 block rounded-lg w-full focus:ring-1 focus:ring-sky-500 focus:border-sky-500 max-w-80 '
-                                name="username"
-                                type="text" 
-                                placeholder='Username'
-                                value={formData.username}
-                                onChange={handleChange}
-                            />
-                        </label>
-                        <label className='text-sm block ml-1'>
-                            <input
-                                className='bg-[#F6F6F9] md:mb-20 text-xs px-3 md:mx-0 lg:mx-auto mx-auto py-2 mb-3 block rounded-lg w-full focus:ring-1 focus:ring-sky-500 focus:border-sky-500 max-w-80'
-                                name="pass"
-                                type="password" 
-                                placeholder='Password'
-                                value={formData.pass}
-                                onChange={handleChange}
-                            />
-                        </label>
-                        <button className="block mb-8 bg-[#418EC6] hover:bg-sky-500 transition duration-300 px-3 py-2 rounded-lg mx-auto my-2 text-white text-xs md:text-sm md:w-24" type="submit">Login</button>
-                    </form>
+
+                    <label className='text-sm block ml-1'>
+                        <input
+                            className='bg-[#F6F6F9] text-xs px-3 md:mx-0 lg:mx-auto mx-auto py-2 mb-3 block rounded-lg w-full focus:ring-1 focus:ring-sky-500 focus:border-sky-500 max-w-80 '
+                            name="username"
+                            type="text" 
+                            placeholder='Username'
+                            value={formData.username}
+                            onChange={handleChange}
+                        />
+                    </label>
+                    <label className='text-sm block ml-1 md:mb-20'>
+                        <input
+                            className='bg-[#F6F6F9] text-xs px-3 md:mx-0 lg:mx-auto mx-auto py-2 mb-3 block rounded-lg w-full focus:ring-1 focus:ring-sky-500 focus:border-sky-500 max-w-80'
+                            name="pass"
+                            type="password" 
+                            placeholder='Password'
+                            value={formData.pass}
+                            onChange={handleChange}
+                        />
+                        <div className='text-red-500 text-xs  mx-auto max-w-80 hidden' id='message-div'>
+                            *username atau password tidak sesuai
+                        </div>
+                    </label>
+
+                    { loginLoading ? (
+                            <>
+                                <button className="block mb-8 bg-[#418EC6] hover:bg-sky-500 transition duration-300 px-3 py-2 rounded-lg mx-auto my-2 text-white text-xs md:text-sm md:w-24">Loading...</button>
+                            </>
+                        ) : (
+                            <>
+                                <button className="block mb-8 bg-[#418EC6] hover:bg-sky-500 transition duration-300 px-3 py-2 rounded-lg mx-auto my-2 text-white text-xs md:text-sm md:w-24" onClick={handleSubmit}>Login</button>
+                            </>
+                        )}
                 </div>
             </div>
             <div className="bagian-kanan bg-[#FFA1A1] hidden md:block min-w-96">

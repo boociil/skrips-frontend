@@ -37,7 +37,7 @@ function ListRekap(props) {
                 .then(response => response.json())
                 .then(data => {
                     setData(data);
-                    console.log(data)
+                    console.log("ini datanya",data)
                     setDataLen(data.length - 1);
                     setIsLoading(false)
                 });            
@@ -271,7 +271,7 @@ function ListRekap(props) {
         // animasi ketika desa muncul
         // setIsClassAdded(false);
         // delay(100).then( function () {
-        //     setIsClassAdded(true);
+        //     setIsClassAdded(true );
         // })
     
     };

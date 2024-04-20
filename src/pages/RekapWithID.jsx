@@ -60,12 +60,6 @@ const RekapWithID = () => {
                 .then(data => {
                     setData(data);
                     console.log(data[0].status);
-                    // Ketika status suatu kegiatan bukan sampling (1)
-                    // if (data[0].status === 1){
-                    //     // setCan(false);
-                    //     navigate("/Home")
-                    //     return;
-                    // }
                     setNamaKegiatan(data[0].nama)
                     setIsSurvei(data[0].jenis === "2");
                     setIsLoading(false);

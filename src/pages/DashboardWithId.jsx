@@ -68,7 +68,7 @@ function DashboardWithId() {
                 .then(response => response.json())
                 .then(data => {
                     setDataKegiatan(data);
-                    console.log('deadline ',data);
+                    // console.log('deadline ',data);
                     setNamaKegiatan(data[0].nama)
                     setIsSurvei(data[0].jenis === "2");
 
@@ -103,6 +103,7 @@ function DashboardWithId() {
                     setIsLoading(false);
                 });
         }
+        
         const fetchDataProgres = () => {
             const requestOptions = {
                 method: 'POST', // Metode HTTP
@@ -112,13 +113,13 @@ function DashboardWithId() {
                 body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
             };
                 let start_link = "http://localhost:3001/get_progres_kecamatan_"
-                console.log("issurvei", dataKegiatan);
+                // console.log("issurvei", dataKegiatan);
                 isSurvei ? start_link += "survei/" : start_link += "sensus/"
                 console.log(start_link + id_kegiatan);
                 fetch(start_link + id_kegiatan , requestOptions)
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data)
+                    // console.log(data)
                     setDataProgresKecamatan(data);
                     setIsLoadingProgres(false);
                 });
@@ -137,7 +138,7 @@ function DashboardWithId() {
                 fetch(start_link + id_kegiatan , requestOptions)
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data)
+                    // console.log(data)
                     setDataOverallProgres(data);
                     
                     // Date Setting
@@ -165,6 +166,8 @@ function DashboardWithId() {
                     setLoadingOverallProgres(false);
                 });
         }
+
+
 
         fetchData();
         fetchDataProgres();

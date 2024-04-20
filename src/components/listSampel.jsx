@@ -9,6 +9,7 @@ function ListSampel(props, { onDataFromChild }) {
     const navigate = useNavigate()
     const generatedSampelRef = useRef({})
     const [ data, setData ] = useState([]);
+    const [ data2, setData2 ] = useState([]);
     const [ isLoading, setIsLoading ] = useState(true);
     const [ dataLen, setDataLen ] = useState();
     const [ kodeKecActive, setKodeKecActive ] = useState({});
@@ -47,13 +48,34 @@ function ListSampel(props, { onDataFromChild }) {
                 .then(response => response.json())
                 .then(data => {
                     setData(data);
-                    console.log(data)
+                    console.log("data sls : ", data)
                     setDataLen(data.length - 1);
                     setIsLoading(false)
                 });            
         }
 
+        const fetchData2 = () => {
+
+            const requestOptions = {
+                method: 'POST', // Metode HTTP
+                headers: {
+                    'Content-Type': 'application/json' // Tentukan tipe konten yang Anda kirimkan
+                },
+                    body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
+                };
+                const link = 'http://localhost:3001/get_sls2'
+                fetch(link,  requestOptions)
+                .then(response => response.json())
+                .then(data => {
+                    setData2(data);
+                    console.log("data sls2 : ", data)
+                    // setDataLen(data.length - 1);
+                    // setIsLoading(false)
+                });            
+        }
+
         fetchData();
+        fetchData2();
         // fetchDataUsers();
 
     },[props.id]);
@@ -219,14 +241,6 @@ function ListSampel(props, { onDataFromChild }) {
 
     const onSubmitButtonClick = () => {
 
-        console.log(krt);
-        console.log(noBS);
-        console.log(noKS);
-        console.log(ruta);
-        console.log(isSampel);
-        console.log(desa);
-        console.log(kec);
-
         let o = ({})
 
         console.log("str",krt)
@@ -315,7 +329,7 @@ function ListSampel(props, { onDataFromChild }) {
                         </button>
                     </div>
                     {
-                        data.map((item,index) => {
+                        data2.map((item,index) => {
                             // show Kec
                             if (item.kode_kec !== prevKec){
                                 prevKec = item.kode_kec;
@@ -327,7 +341,7 @@ function ListSampel(props, { onDataFromChild }) {
                                             <span className="w-full text-center">{item.Kec}</span>
                                         </div>
 
-                                        {data.filter((subItem) => item.kode_kec === subItem.kode_kec).map((subItem,subIndex) => {
+                                        {data2.filter((subItem) => item.kode_kec === subItem.kode_kec).map((subItem,subIndex) => {
                                             
                                             // show desa
                                             if(kodeKecActive[subItem.kode_kec]){
@@ -364,7 +378,7 @@ function ListSampel(props, { onDataFromChild }) {
                                                             )
                                                                 
                                                             } */}
-                                                            {data.filter((innerItem) => (innerItem.kode_desa === subItem.kode_desa) && (innerItem.kode_kec === subItem.kode_kec) ).map((innerItem,innerIndex) => {
+                                                            {data2.filter((innerItem) => (innerItem.kode_desa === subItem.kode_desa) && (innerItem.kode_kec === subItem.kode_kec) ).map((innerItem,innerIndex) => {
                                                                 
                                                                 //show sls
                                                                 
@@ -374,13 +388,13 @@ function ListSampel(props, { onDataFromChild }) {
                                                                     the_open = kodeDesaActive[innerItem.kode_kec][innerItem.kode_desa]
                                                                 }
 
-                                                                
 
                                                                 if(the_open){
                                                                     return(
                                                                         <div  key={innerIndex}>
                                                                             <div className={`mr-3 p-1 sm:p-2 sm:grid sm:grid-cols-7  ml-9 my-1 bg-[#F5F4F4] rounded-md text-xs flex md:mx-auto max-w-3xl transition duration-300 scale-95`}>
-                                                                                <div className="w-full md:w-fit ml-2 col-start-1 col-span-2">{" " + innerItem.Korong}</div>
+                                                                                <span className="w-fit text-center">{item.kode_sls}</span>
+                                                                                <div className="w-full md:w-fit ml-2 col-start-1 col-span-2">{" " + innerItem.SLS}</div>
                                                                                 <div className={`flex items-center mx-auto ${isSampel[innerItem.id] ? ('') : ('hidden')}`}>
                                                                                     <input 
                                                                                         name="noKS"
@@ -421,6 +435,7 @@ function ListSampel(props, { onDataFromChild }) {
                                                                                         Generate Sampel
                                                                                 </button>
 
+                                                                                {/* CHEKBOX isSampel */}
                                                                                 <div className="flex items-center mx-auto">
                                                                                     <input 
                                                                                     type="checkbox" 
