@@ -133,12 +133,13 @@ function DashboardWithId() {
                 },
                 body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
             };
-                let start_link = "http://localhost:3001/get_progres_sensus/"
+                let start_link = "http://localhost:3001/get_progres_"
+                isSurvei ? start_link += "survei/" : start_link += "sensus/"
                 // console.log(start_link);
                 fetch(start_link + id_kegiatan , requestOptions)
                 .then(response => response.json())
                 .then(data => {
-                    // console.log(data)
+                    console.log(data)
                     setDataOverallProgres(data);
                     
                     // Date Setting

@@ -71,6 +71,7 @@ function Login() {
                 setCookie('role',success.role)
                 setCookie('isLogin', true)
                 navigate('/Home');
+                // console.log(success);
             })
             .catch(error => {
                 const msg_div = document.getElementById("message-div")
