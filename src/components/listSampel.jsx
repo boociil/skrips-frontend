@@ -393,15 +393,17 @@ function ListSampel(props, { onDataFromChild }) {
                                                                     return(
                                                                         <div  key={innerIndex}>
                                                                             <div className={`mr-3 p-1 sm:p-2 sm:grid sm:grid-cols-7  ml-9 my-1 bg-[#F5F4F4] rounded-md text-xs flex md:mx-auto max-w-3xl transition duration-300 scale-95`}>
-                                                                                <span className="w-fit text-center">{item.kode_sls}</span>
-                                                                                <div className="w-full md:w-fit ml-2 col-start-1 col-span-2">{" " + innerItem.SLS}</div>
-                                                                                <div className={`flex items-center mx-auto ${isSampel[innerItem.id] ? ('') : ('hidden')}`}>
+                                                                                <div className={`w-full md:w-fit ml-2 col-start-1 col-span-2  h-4 ${isSampel[innerIndex] ? ('') : ('overflow-hidden whitespace-nowrap text-overflow-ellipsis')}`}>
+                                                                                    <span className="w-fit text-center">{innerItem.kode_sls}</span>
+                                                                                    {" " + innerItem.SLS}
+                                                                                </div>
+                                                                                <div className={`flex items-center mx-auto ${isSampel[innerIndex] ? ('') : ('hidden')}`}>
                                                                                     <input 
                                                                                         name="noKS"
                                                                                         placeholder="NKS"
                                                                                         type="text" 
-                                                                                        value={noKS[innerItem.id] || ''}
-                                                                                        onChange={(event) => {onNoKSChange(event,innerItem.id)}}
+                                                                                        value={noKS[innerIndex] || ''}
+                                                                                        onChange={(event) => {onNoKSChange(event,innerIndex)}}
                                                                                         className="kerangka-sampel text-center col-start-3 min-h-8 w-20 rounded-lg text-sm ml-1" 
                                                                                     />
                                                                                 </div>
@@ -411,9 +413,9 @@ function ListSampel(props, { onDataFromChild }) {
                                                                                     name="noBs"
                                                                                     placeholder="NBS"
                                                                                     type="text" 
-                                                                                    value={noBS[innerItem.id] || ''}
-                                                                                    onChange={(event) => {onNoBsChange(event,innerItem.id)}}
-                                                                                    className={`Blok-Sensus text-center col-start-4 min-h-8 w-20 rounded-lg text-sm ml-4 ${isSampel[innerItem.id] ? ('') : ('hidden')}`} 
+                                                                                    value={noBS[innerIndex] || ''}
+                                                                                    onChange={(event) => {onNoBsChange(event,innerIndex)}}
+                                                                                    className={`Blok-Sensus text-center col-start-4 min-h-8 w-20 rounded-lg text-sm ml-4 ${isSampel[innerIndex] ? ('') : ('hidden')}`} 
                                                                                     />   
                                                                                 </div>
                                                                                 
@@ -422,15 +424,15 @@ function ListSampel(props, { onDataFromChild }) {
                                                                                     name="ruta"
                                                                                     type="number" 
                                                                                     placeholder="Jumlah Ruta"
-                                                                                    value={ruta[innerItem.id] || ''}
-                                                                                    onChange={(event) => {onRutaChange(event,innerItem.id)}}
-                                                                                    className={`jumlah-ruta col-start-5 min-h-8 w-20 rounded-md ml-4 text-center ${isSampel[innerItem.id] ? ('') : ('hidden')}`}
+                                                                                    value={ruta[innerIndex] || ''}
+                                                                                    onChange={(event) => {onRutaChange(event,innerIndex)}}
+                                                                                    className={`jumlah-ruta col-start-5 min-h-8 w-20 rounded-md ml-4 text-center ${isSampel[innerIndex] ? ('') : ('hidden')}`}
                                                                                     />
                                                                                 </div>
                                                                                 
                                                                                 <button 
-                                                                                    className={`bg-white col-start-6 ml-2 rounded-lg hover:bg-slate-200 ${isSampel[innerItem.id] ? ('') : ('hidden')} `}
-                                                                                    onClick={() => generateButtonClick(innerItem.id)}
+                                                                                    className={`bg-white col-start-6 ml-2 rounded-lg hover:bg-slate-200 ${isSampel[innerIndex] ? ('') : ('hidden')} `}
+                                                                                    onClick={() => generateButtonClick(innerIndex)}
                                                                                     >
                                                                                         Generate Sampel
                                                                                 </button>
@@ -442,16 +444,16 @@ function ListSampel(props, { onDataFromChild }) {
                                                                                     name="" 
                                                                                     id="" 
                                                                                     className="w-4 h-4" 
-                                                                                    checked={isSampel[innerItem.id] || false}
-                                                                                    onChange={() => {isSampelChange(innerItem.id,innerItem.kode_desa,innerItem.kode_kec)}}
+                                                                                    checked={isSampel[innerIndex] || false}
+                                                                                    onChange={() => {isSampelChange(innerIndex,innerItem.kode_desa,innerItem.kode_kec)}}
                                                                                     />
                                                                                 </div>
                                                                             </div>
 
                                                                             {
-                                                                                generateSampel[innerItem.id] ? (
-                                                                                    <div className={`generated-sampel  ml-10 mr-4 md:mx-auto max-w-2xl ${isSampel[innerItem.id] ? ('') : ('hidden')}`} ref={ref => setGeneratedSampelRef(innerItem.id, ref)}>
-                                                                                        <GeneratedSampel total={ruta[innerItem.id]} isi={krt} id={innerItem.id} onChange={onKRTChange} />
+                                                                                generateSampel[innerIndex] ? (
+                                                                                    <div className={`generated-sampel  ml-10 mr-4 md:mx-auto max-w-2xl ${isSampel[innerIndex] ? ('') : ('hidden')}`} ref={ref => setGeneratedSampelRef(innerIndex, ref)}>
+                                                                                        <GeneratedSampel total={ruta[innerIndex]} isi={krt} id={innerIndex} onChange={onKRTChange} />
                                                                                     </div>
                                                                                 ) : (
                                                                                     <>

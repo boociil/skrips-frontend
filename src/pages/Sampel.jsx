@@ -3,6 +3,7 @@ import { useEffect,useState } from "react";
 import ListSampel from "../components/listSampel";
 import { useCookies } from "react-cookie";
 import TopNavAdmin from "../components/topNavAdmin";
+import UploadSampel from "../components/UploadSampel";
 
 
 const SampelPage = () => {
@@ -94,6 +95,10 @@ const SampelPage = () => {
                         
 
                         <div className="cont-bawah p-3 bg-white rounded-lg shadow-lg mt-4 mx-3 mb-2 max-w-6xl md:mx-auto">
+                            <div className="Title flex items-center justify-center my-6">
+                                <span className="text-xl">Upload Sampel</span>
+                            </div>
+                                <UploadSampel />
                             <div className="Title flex items-center justify-center my-6">
                                 <span className="text-xl">Pilih Sampel</span>
                             </div>
