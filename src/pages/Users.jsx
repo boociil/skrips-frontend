@@ -147,7 +147,7 @@ function Users() {
                                     <div className="flex cursor-pointer hover:bg-slate-500 hover:text-white transition duration-300 w-fit p-1 rounded-sm"
                                         onClick={() => onDeleteClick(item.username)}
                                         >
-                                            delete
+                                            Delete
                                     </div>
                                 </div>
                             </div>

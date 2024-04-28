@@ -2,7 +2,6 @@ import './App.css';
 import 'tailwindcss/tailwind.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
-import Helloworld from "./pages/helloword";
 import Register from './pages/Register';
 import AdminHomePage from './pages/AdminHomePage';
 import Train from './pages/Train';
@@ -19,7 +18,8 @@ import { useCookies } from 'react-cookie';
 import NotFound from './pages/NotFound';
 import AddMitra from './pages/AddMitra';
 import PrivateRoutes from './components/PrivateRoutes'
-
+import AdminRoutes from './components/AdminRoutes';
+import PengawasRoutes from './components/PengawasRoutes';
 
 
 function App() {
@@ -30,22 +30,36 @@ function App() {
     <>
       <BrowserRouter>
           <Routes>
+            {/* Routes untuk login page */}
             <Route index element={<Login />}></Route>
-            <Route path="/Home" element={<AdminHomePage />}></Route>
-            <Route path="/Home/:id_kegiatan" element={<DashboardWithId />}></Route>
-            <Route path="/Login" element={<Login />}></Route>
-            <Route path="/Hello" element={<Helloworld />}></Route>
-            <Route path="/Rekap/AddKegiatan" element={<AddKegiatan />}></Route>
-            <Route path="/Users" element={<Users />}/>
-            <Route path="/Users/Register" element={<Register />}/>
-            <Route path="/Mitra" element={<Mitra />} />
-            <Route path="/Mitra/Register" element={<AddMitra />} />
-            <Route path="/Rekap" element={<Rekap />} />
-            <Route path="/Rekap/:id" element={<RekapWithID />} />
-            <Route path="/AssignPetugas/:id" element={<AssignPetugasSensus />} />
-            <Route path="/Sampel/:id" element={<SampelPage />} />
+            {/* Routes train page */}
             <Route path='/Train' element={<Train />}></Route>
-            <Route path='*' element={<NotFound />} />
+
+            {/* Routes selain login page, yang harus login terlebih dahulu */}
+            <Route element={<PrivateRoutes />}>
+              <Route path="/Home" element={<AdminHomePage />}></Route>
+              <Route path="/Home/:id_kegiatan" element={<DashboardWithId />}></Route>
+
+              {/* Routes Pengaaws */}
+              <Route element={<PengawasRoutes />}>
+                <Route path="/Rekap/AddKegiatan" element={<AddKegiatan />}></Route>
+                <Route path="/Mitra" element={<Mitra />} />
+                <Route path="/Mitra/Register" element={<AddMitra />} />
+                <Route path="/Rekap" element={<Rekap />} />
+                <Route path="/Rekap/:id" element={<RekapWithID />} />
+                <Route path="/AssignPetugas/:id" element={<AssignPetugasSensus />} />
+                <Route path="/Sampel/:id" element={<SampelPage />} />
+              </Route>
+
+              {/* Routes Admin */}
+              <Route element={<AdminRoutes />}>
+                <Route path='/Users' element={<Users />} />
+                <Route path="/Users/Register" element={<Register />}/>
+              </Route>
+
+              {/* Ketika pengguna mengakses routes yang tidak terdaftar */}
+              <Route path='*' element={<NotFound />} />
+            </Route>
           </Routes>
       </BrowserRouter>
     </>

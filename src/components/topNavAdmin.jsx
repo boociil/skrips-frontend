@@ -86,8 +86,14 @@ function TopNavAdmin(props = {active : 'home'}) {
 
     let isAdmin = false;
 
-    if(cookies.role === 'admin'){
+    if(cookies.role === 'Admin'){
         isAdmin = true;
+    }
+
+    let isPeng = false;
+
+    if(cookies.role === 'Admin' || cookies.role === 'Pengawas'){
+        isPeng = true;
     }
     
     return (
@@ -101,17 +107,37 @@ function TopNavAdmin(props = {active : 'home'}) {
                                 Dashboard
                             </span>Dashboard</NavLink>
                         </li>
-                        <li className="home mx-4 my-1 flex p-3">
-                            <NavLink to="/Rekap" className={({ isActive }) => isActive? "border-b-[#418EC6] border-b-4 flex pb-2": 'hover:scale-105 transition duration-500 hover:border-b-[#418EC6] hover:border-b-4 pb-2 flex'}><span className="material-symbols-outlined mx-1">
-                                article_shortcut
-                            </span>Rekap</NavLink>
-                        </li>
-                        <li className="home mx-4 my-1 flex p-3">
-                            <NavLink to="/Mitra" className={({ isActive }) => isActive? "border-b-[#418EC6] border-b-4 flex pb-2": 'hover:scale-105 transition duration-500 hover:border-b-[#418EC6] hover:border-b-4 pb-2 flex'}>
-                            <span className="material-symbols-outlined mx-1">
-                                handshake
-                            </span>Mitra</NavLink>
-                        </li>
+                        
+                        
+                        {
+                            isPeng ? (
+                                <>
+                                    <li className="home mx-4 my-1 flex p-3">
+                                        <NavLink to="/Rekap" className={({ isActive }) => isActive? "border-b-[#418EC6] border-b-4 flex pb-2": 'hover:scale-105 transition duration-500 hover:border-b-[#418EC6] hover:border-b-4 pb-2 flex'}><span className="material-symbols-outlined mx-1">
+                                            article_shortcut
+                                        </span>Rekap</NavLink>
+                                    </li>
+                                </>
+                            ) : (
+                                <>
+                                </>
+                            )
+                        }
+                        {
+                            isPeng ? (
+                                <>
+                                    <li className="home mx-4 my-1 flex p-3">
+                                        <NavLink to="/Mitra" className={({ isActive }) => isActive? "border-b-[#418EC6] border-b-4 flex pb-2": 'hover:scale-105 transition duration-500 hover:border-b-[#418EC6] hover:border-b-4 pb-2 flex'}>
+                                        <span className="material-symbols-outlined mx-1">
+                                            handshake
+                                        </span>Mitra</NavLink>
+                                    </li>
+                                </>
+                            ) : (
+                                <>
+                                </>
+                            )
+                        }
                         {
                             isAdmin ? (
                                 <>

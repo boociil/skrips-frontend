@@ -1,14 +1,14 @@
 import { Outlet, Navigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 
-const PrivateRoutes = () => {
+const AdminRoutes = () => {
   const [cookies] = useCookies(['isLogin']);
 
-  return cookies.isLogin ? (
+  return (cookies.role === "Admin") ? (
     <Outlet />
   ) : (
-    <Navigate to="/" />
+    <Navigate to="/Home" />
   );
 };
 
-export default PrivateRoutes;
+export default AdminRoutes;

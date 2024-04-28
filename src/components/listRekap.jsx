@@ -9,7 +9,7 @@ function ListRekap(props) {
     const [ cookie, setCookie, removeCookie ] = useCookies()
     let isAdmin = false
 
-    if(cookie.role === "admin"){
+    if(cookie.role === "Admin"){
         isAdmin = true
     }
 
