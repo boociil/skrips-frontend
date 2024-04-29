@@ -50,6 +50,12 @@ function Users() {
     }, []);
 
 
+    let isAdmin = false;
+
+    if(cookies.role === 'Admin'){
+        isAdmin = true;
+    }
+
     return (
         <>
             <TopNavAdmin />
@@ -83,7 +89,16 @@ function Users() {
                                 })}
                             </div>
                         </div>
-                        <ButtonAdd click = {handleClick} />
+                        {
+                            isAdmin ? (
+                                <>
+                                    <ButtonAdd click = {handleClick} />
+                                </>
+                            ) : (
+                                <>
+                                </>
+                            )
+                        }
                     </div>
                 </>
             ) }

@@ -20,6 +20,7 @@ import AddMitra from './pages/AddMitra';
 import PrivateRoutes from './components/PrivateRoutes'
 import AdminRoutes from './components/AdminRoutes';
 import PengawasRoutes from './components/PengawasRoutes';
+import UpdateKegiatan from './pages/UpdateKegiatan';
 
 
 function App() {
@@ -47,6 +48,7 @@ function App() {
                 <Route path="/Mitra/Register" element={<AddMitra />} />
                 <Route path="/Rekap" element={<Rekap />} />
                 <Route path="/Rekap/:id" element={<RekapWithID />} />
+                <Route path="/Rekap/Update/:id" element={<UpdateKegiatan />} />
                 <Route path="/AssignPetugas/:id" element={<AssignPetugasSensus />} />
                 <Route path="/Sampel/:id" element={<SampelPage />} />
               </Route>

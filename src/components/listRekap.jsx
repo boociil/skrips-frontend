@@ -84,6 +84,10 @@ function ListRekap(props) {
     const petugasClick = () => {
         navigate("/AssignPetugas/" + props.id);
     }
+
+    const editClick = (id) => {
+        navigate("/Rekap/Update/" + props.id);
+    }
     
     const convert_bulan = (b) => {
         const the_b = (
@@ -150,11 +154,10 @@ function ListRekap(props) {
                         </div>
                     </div>
                 </div>
-                {
-                    isAdmin ? (
+                
                         <div className="action hidden md:grid md:grid-cols-3 items-center justify-center ">
                             <div className="edit hover:bg-slate-200 p-1 transition duration-500 cursor-pointer bg-white shadow-lg rounded-l-lg">
-                                <div className="w-fit mx-auto">
+                                <div className="w-fit mx-auto" onClick={editClick}>
                                     <span className="material-symbols-outlined px-1 hidden md:block ">
                                         edit
                                     </span>
@@ -184,10 +187,7 @@ function ListRekap(props) {
                                 </div>
                             </div>
                     </div>
-                    ) : (
-                        <></>
-                    )
-                }
+                    
             </div>
         </>
     )

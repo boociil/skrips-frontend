@@ -1,21 +1,24 @@
-import { useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import TopNavAdmin from "../components/topNavAdmin";
 
 
-function AddKegiatan() {
+function UpdateKegiatan() {
+    
+    const id = useParams()
 
     const navigate = useNavigate();
     const [ cookies, setCookie, removeCookie ] = useCookies(['token']);
     const [ chekedId, setChekedId ] = useState();
     const [ loading, setIsLoading ] = useState(false);
+    const [ dataKegiatan, setDataKegiatan ] = useState()
 
     const [formData, setFormData] = useState({
         // inisialisasi state untuk menyimpan data form
         namaKegiatan: '',
         idKegiatan: '',
-        jenisKegiatan: "1",
+        jenisKegiatan: '',
         tanggalMulai : '',
         targetSelesai: '',
         targetRB : '',
@@ -23,8 +26,66 @@ function AddKegiatan() {
         targetEntri : '',
         targetPemutakhiran: '',
         targetPencacahan: '',
-        koseka:'Ada',
+        koseka:'',
       });
+
+      useEffect(() => {
+
+        const fetchData = () => {
+            const requestOptions = {
+                method: 'POST', // Metode HTTP
+                headers: {
+                    'Content-Type': 'application/json' // Tentukan tipe konten yang Anda kirimkan
+                },
+                body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
+            };
+            
+            fetch('http://localhost:3001/get_info/' + id.id , requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                setDataKegiatan(data);
+                setFormData(prevState => ({
+                    ...prevState, // Menyalin state formData yang ada
+                    [formData.namaKegiatan]: data.nama // Mengatur nilai idKegiatan ke newValue
+                }));
+                setFormData(prevState => ({
+                    ...prevState, // Menyalin state formData yang ada
+                    [formData.idKegiatan]: data.id // Mengatur nilai idKegiatan ke newValue
+                }));
+                setFormData(prevState => ({
+                    ...prevState, // Menyalin state formData yang ada
+                    [formData.jenisKegiatan]: data.jenis // Mengatur nilai idKegiatan ke newValue
+                }));
+                setFormData(prevState => ({
+                    ...prevState, // Menyalin state formData yang ada
+                    [formData.koseka]: data.koseka // Mengatur nilai idKegiatan ke newValue
+                }));
+                setFormData(prevState => ({
+                    ...prevState, // Menyalin state formData yang ada
+                    [formData.tanggalMulai]: data.tanggal_mulai // Mengatur nilai idKegiatan ke newValue
+                }));
+                setFormData(prevState => ({
+                    ...prevState, // Menyalin state formData yang ada
+                    [formData.targetSelesai]: data.target_selesai // Mengatur nilai idKegiatan ke newValue
+                }));
+                setFormData(prevState => ({
+                    ...prevState, // Menyalin state formData yang ada
+                    [formData.targetEdcod]: data.target_edcod // Mengatur nilai idKegiatan ke newValue
+                }));
+                setFormData(prevState => ({
+                    ...prevState, // Menyalin state formData yang ada
+                    [formData.targetRB]: data.target_pengdok // Mengatur nilai idKegiatan ke newValue
+                }));
+                setFormData(prevState => ({
+                    ...prevState, // Menyalin state formData yang ada
+                    [formData.targetEntri]: data.target_entri // Mengatur nilai idKegiatan ke newValue
+                }));
+                console.log('  ',data);
+            });
+        }
+        
+        fetchData();
+      }, [])
 
     const sendData = () => {
         setIsLoading(true);
@@ -88,25 +149,6 @@ function AddKegiatan() {
         }
         return true;
     }
-
-    const fill_sensus = (id) => {
-        const requestOptions = {
-            method: 'POST', // Metode HTTP
-            headers: {
-                'Content-Type': 'application/json', // Tentukan tipe konten yang Anda kirimkan,
-                'token' : cookies["token"],
-            },
-            body: JSON.stringify({ 
-                
-                }) 
-        };
-
-        fetch('http://localhost:3001/fill_sensus/' + id, requestOptions)
-        .then(response => response.json())
-        .then(data => {
-            console.log("dari fill sensus : ", data);
-        });
-    }
        
       const handleChange = (e) => {
 
@@ -121,14 +163,6 @@ function AddKegiatan() {
             [e.target.name]: e.target.value // Mengatur nilai idKegiatan ke newValue
           }));
 
-        if (e.target.name === "idKegiatan"){
-            const id_input = document.getElementById('id-kegiatan');
-            const ket_id = document.getElementById('ket-id')
-            ket_id.innerHTML = ""
-            id_input.classList.remove("border-2");
-            id_input.classList.remove("border-red-500");
-            ket_id.classList.add("hidden");
-        }
 
         // AutoFill IDKegiatan
         // if (e.target.name === "namaKegiatan"){
@@ -155,25 +189,24 @@ function AddKegiatan() {
         if (check_empty()){
             event.preventDefault();
             // alert(JSON.stringify(formData));
-            console.log(cookies["token"]);
-            await sendData()
-            .then(success => {
-                if (formData.jenisKegiatan === "1"){
+            // await sendData()
+            // .then(success => {
+            //     if (formData.jenisKegiatan === "1"){
 
-                    fill_sensus(formData.idKegiatan);
-                    navigate("/AssignPetugas/" + formData.idKegiatan);
-                }else{
-                    navigate("/Sampel/" + formData.idKegiatan);
-                }
-            })
-            .catch(error => {
-                const id_input = document.getElementById('id-kegiatan');
-                const ket_id = document.getElementById('ket-id')
-                ket_id.innerHTML = "*" + error
-                id_input.classList.add("border-2");
-                id_input.classList.add("border-red-500");
-                ket_id.classList.remove("hidden");
-            })
+            //         fill_sensus(formData.idKegiatan);
+            //         navigate("/AssignPetugas/" + formData.idKegiatan);
+            //     }else{
+            //         navigate("/Sampel/" + formData.idKegiatan);
+            //     }
+            // })
+            // .catch(error => {
+            //     const id_input = document.getElementById('id-kegiatan');
+            //     const ket_id = document.getElementById('ket-id')
+            //     ket_id.innerHTML = "*" + error
+            //     id_input.classList.add("border-2");
+            //     id_input.classList.add("border-red-500");
+            //     ket_id.classList.remove("hidden");
+            // })
             setIsLoading(false);
         }else{
             alert("Masih ada isian kosong")
@@ -184,7 +217,7 @@ function AddKegiatan() {
         <>
             <TopNavAdmin/>
             <div className="font-poppins parent-form my-4 md:mt-24 mx-4 p-3 shadow-xl bg-white rounded-3xl lg:mt-32 lg:max-w-4xl md:container md:mx-auto max-w-5xl">
-                <h1 className="text-2xl font-semibold mb-4 sm:mb-8 text-center">Tambah Kegiatan</h1>
+                <h1 className="text-2xl font-semibold mb-4 sm:mb-8 text-center">Update Kegiatan</h1>
                 
                     <div className="nama-id md:grid md:grid-cols-2 ">
                         <div className="sm:ml-6 md:ml-3 ml-3 ">
@@ -211,6 +244,7 @@ function AddKegiatan() {
                                         placeholder='ID'
                                         value={formData.idKegiatan}
                                         onChange={handleChange} 
+                                        disabled
                                     />
                                 </label>    
                                 <div className="ket-id text-xs text-red-500 hidden" id="ket-id"></div>
@@ -313,7 +347,7 @@ function AddKegiatan() {
                             </>
                         ) : (
                             <>
-                                Tambah
+                                Update
                             </>
                         )
                     }
@@ -324,4 +358,4 @@ function AddKegiatan() {
     )
 }
 
-export default AddKegiatan
+export default UpdateKegiatan;

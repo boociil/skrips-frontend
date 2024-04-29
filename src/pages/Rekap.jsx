@@ -46,6 +46,12 @@ function AdminHomePage() {
     },[dataLen]);
 
 
+    let isAdmin = false;
+
+    if(cookies.role === 'Admin'){
+        isAdmin = true;
+    }
+
     return (
         <>
             <TopNavAdmin />
@@ -62,7 +68,17 @@ function AdminHomePage() {
                         ))
                     }
                 </div>
-            <ButtonAdd click = {handleClick} />
+                {
+                    isAdmin ? (
+                        <>
+                            <ButtonAdd click = {handleClick} />
+                        </>
+                    ) : (
+                        <>
+                        </>
+                    )
+                }
+                
             </div>
 
         </>

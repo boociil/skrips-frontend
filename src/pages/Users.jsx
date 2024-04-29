@@ -126,7 +126,7 @@ function Users() {
                 </div>
             ) : (
                 <div className="font-poppins md:mt-28 mx-auto max-w-4xl">
-                <h2 className="ml-6 mt-6">Users Management</h2>
+                <h2 className="ml-6 mt-6 text-xl">Users Management</h2>
 
                 <div className="the-table mx-auto mt-4 md:mt-8 ml-4">
                     <div className="title mx-auto grid grid-cols-3 md:grid-cols-5 text-slate-600 text-xs mb-4">

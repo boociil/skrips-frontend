@@ -86,7 +86,7 @@ function Login() {
     return (
         <div className="mx-4 mt-32 font-poppins bg-white shadow-2xl rounded-xl overflow-hidden md:flex md:container md:mx-auto sm:max-w-3xl lg:max-w-4xl">
             <div className="bagian-kiri px-3 box-border container">
-                <div className='form'>
+                <form className='form' onSubmit={handleSubmit}>
                     <div className='title-content container mx-auto pb-2.5 md:pb-16 lg:pb-24 ml-2'>
                         <p className='text-3xl pt-3 mb-2'>Welcome to Monitoring Site</p>
                         <p className='text-sm mb-3'>Tell us who you are...</p>
@@ -122,10 +122,10 @@ function Login() {
                             </>
                         ) : (
                             <>
-                                <button className="block mb-8 bg-[#418EC6] hover:bg-sky-500 transition duration-300 px-3 py-2 rounded-lg mx-auto my-2 text-white text-xs md:text-sm md:w-24" onClick={handleSubmit}>Login</button>
+                                <button className="block mb-8 bg-[#418EC6] hover:bg-sky-500 transition duration-300 px-3 py-2 rounded-lg mx-auto my-2 text-white text-xs md:text-sm md:w-24" type='submit'>Login</button>
                             </>
                         )}
-                </div>
+                </form>
             </div>
             <div className="bagian-kanan bg-[#FFA1A1] hidden md:block min-w-96">
                 <img src={loginImg} alt='Gambar yang melambangkan monitoring' className='h-auto items-center object-cover w-full'></img>
