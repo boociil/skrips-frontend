@@ -185,7 +185,7 @@ function ListRekapEntriSurvei(props, { onDataFromChild }) {
 
         
         // fetch data ke backend
-        updateEntri(nbsActive,nksActive,rutaActive,"0000-00-00 00:00:00",0,undefined)
+        updateEntri(nbsActive,nksActive,rutaActive,null,null,null)
         .then(success => {
             button.classList.remove('text-[#14CB11]');
             button.classList.add('text-[#EF0D0D]');

@@ -143,7 +143,7 @@ function ListRekap(props) {
         const select_moda = modaRef.current[idDokActive]
 
         // fetch data ke backend
-        updateEntri(idDokActive,penerima,'0','0000-00-00 00:00:00',moda)
+        updateEntri(idDokActive,null,null,null,null)
             .then(success => {
                 // Operasi
                 button.classList.remove('text-[#14CB11]');

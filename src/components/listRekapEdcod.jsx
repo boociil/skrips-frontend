@@ -133,7 +133,7 @@ function ListRekap(props) {
         const div_time = document.getElementById('time-' + idxActive);
 
         // fetch data ke backend
-        updateEdcod(idDokActive,penerima,'0','0000-00-00 00:00:00')
+        updateEdcod(idDokActive,null,null,null)
         .then(success => {
             // Operasi
             button.classList.remove('text-[#14CB11]');

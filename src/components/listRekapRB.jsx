@@ -133,7 +133,7 @@ function ListRekap(props) {
         // Operasi
         
         // fetch data ke backend
-        updateRB(idDokActive, penerima, null, null)
+        updateRB(idDokActive, null, null, null)
             .then(success => {
                 // ganti class button
                 button.classList.remove('text-[#14CB11]');

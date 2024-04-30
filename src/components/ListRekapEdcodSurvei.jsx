@@ -186,7 +186,7 @@ function ListRekapEdcodSurvei(props, { onDataFromChild }) {
         const select = penerimaRef.current[num]
 
         // fetch data ke backend
-        updateEdcod(nbsActive,nksActive,rutaActive,"0000-00-00 00:00:00",0,undefined)
+        updateEdcod(nbsActive,nksActive,rutaActive,null,null,null)
         .then(success => {
             button.classList.remove('text-[#14CB11]');
             button.classList.add('text-[#EF0D0D]');

@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom"
 import { Bar,Line,Doughnut } from "react-chartjs-2";
 import 'chart.js/auto';
 import TopNavAdmin from "../components/topNavAdmin";
-
+import Loading from "../components/Loading";
 
 function DashboardWithId() {
     const { id_kegiatan } = useParams();    
@@ -21,6 +21,12 @@ function DashboardWithId() {
     const [ deadlineRb, setDeadlineRb ] = useState();
     const [ deadlineEdcod, setDeadlineEdcod ] = useState();
     const [ deadlineEntri, setDeadlineEntri ] = useState();
+    const [ loadingProgresPengdok, setLoadingProgresPengdok ] = useState(true);
+    const [ loadingProgresEdcod, setLoadingProgresEdcod ] = useState(true);
+    const [ loadingProgresEntri, setLoadingProgresEntri ] = useState(true);
+    const [ dataPetugasRB, setDataPetugasRB ] = useState();
+    const [ dataPetugasEdcod, setDataPetugasEdcod ] = useState();
+    const [ dataPetugasEntri, setDataPetugasEntri ] = useState();
 
     const convert_bulan = (b) => {
         const the_b = (
@@ -68,7 +74,7 @@ function DashboardWithId() {
                 .then(response => response.json())
                 .then(data => {
                     setDataKegiatan(data);
-                    // console.log('deadline ',data);
+                    console.log('deadline ',data);
                     setNamaKegiatan(data[0].nama)
                     setIsSurvei(data[0].jenis === "2");
 
@@ -82,6 +88,7 @@ function DashboardWithId() {
                     let target_edcod = data[0].target_edcod
                     target_edcod = target_edcod.slice(0,10)
                     const date_edcod = new Date(target_edcod)
+                    console.log(date_edcod);
 
                     let target_entri = data[0].target_entri
                     target_entri = target_entri.slice(0,10)
@@ -104,7 +111,7 @@ function DashboardWithId() {
                 });
         }
         
-        const fetchDataProgres = () => {
+        const fetchDataProgresKecmatan = () => {
             const requestOptions = {
                 method: 'POST', // Metode HTTP
                 headers: {
@@ -124,6 +131,73 @@ function DashboardWithId() {
                     setIsLoadingProgres(false);
                 });
         }
+
+        const fetchDataProgresPetugasPengdok = () => {
+            const requestOptions = {
+                method: 'POST', // Metode HTTP
+                headers: {
+                    'Content-Type': 'application/json' // Tentukan tipe konten yang Anda kirimkan
+                },
+                body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
+            };
+                let start_link = "http://localhost:3001/get_progres_pengdok_"
+                // console.log("issurvei", dataKegiatan);
+                isSurvei ? start_link += "survei/" : start_link += "sensus/"
+                console.log(start_link + id_kegiatan);
+                fetch(start_link + id_kegiatan , requestOptions)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    setDataPetugasRB(data);
+                    setLoadingProgresPengdok(false);
+                    
+                });
+        }
+
+        const fetchDataProgresPetugasEdcod = () => {
+            const requestOptions = {
+                method: 'POST', // Metode HTTP
+                headers: {
+                    'Content-Type': 'application/json' // Tentukan tipe konten yang Anda kirimkan
+                },
+                body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
+            };
+                let start_link = "http://localhost:3001/get_progres_edcod_"
+                // console.log("issurvei", dataKegiatan);
+                isSurvei ? start_link += "survei/" : start_link += "sensus/"
+                console.log(start_link + id_kegiatan);
+                fetch(start_link + id_kegiatan , requestOptions)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    setDataPetugasEdcod(data);
+                    setLoadingProgresEdcod(false);
+                    
+                });
+        }
+
+        const fetchDataProgresPetugasEntri = () => {
+            const requestOptions = {
+                method: 'POST', // Metode HTTP
+                headers: {
+                    'Content-Type': 'application/json' // Tentukan tipe konten yang Anda kirimkan
+                },
+                body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
+            };
+                let start_link = "http://localhost:3001/get_progres_entri_"
+                // console.log("issurvei", dataKegiatan);
+                isSurvei ? start_link += "survei/" : start_link += "sensus/"
+                console.log(start_link + id_kegiatan);
+                fetch(start_link + id_kegiatan , requestOptions)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    setDataPetugasEntri(data);
+                    setLoadingProgresEntri(false);
+                    
+                });
+        }
+        
 
         const fetchDataOveralProgres = () => {
             const requestOptions = {
@@ -163,7 +237,6 @@ function DashboardWithId() {
                     setStartEdcod(edcod_month + " " + edcod_date + ", " + edcod_year);
                     setStartEntri(entri_month + " " + entri_date + ", " + entri_year);
                     ////////////////////////////////////////
-
                     setLoadingOverallProgres(false);
                 });
         }
@@ -171,8 +244,11 @@ function DashboardWithId() {
 
 
         fetchData();
-        fetchDataProgres();
+        fetchDataProgresKecmatan();
         fetchDataOveralProgres();
+        fetchDataProgresPetugasPengdok();
+        fetchDataProgresPetugasEdcod();
+        fetchDataProgresPetugasEntri();
         
     }, [isSurvei])
 
@@ -185,6 +261,7 @@ function DashboardWithId() {
                 {
                     isLoading ? (
                         <>
+                            
                         </>
                     ) : (
                         <>
@@ -208,54 +285,60 @@ function DashboardWithId() {
                                             <div className="sm:flex md:flex-grow md:max-w-1/2 ">
                                                 <div className="NUMBER grid grid-cols-3 sm:block">
                                                     <div className="persentase-RB mt-5 border-2 mx-2 mb-2 border-[#23AFF9] w-fit rounded-2xl py-2 pl-2 pr-6 min-w-24 sm:min-w-32 max-h-14">
-                                                        <div className="text-xs">Progres <span className="hidden sm:inline-block">RB</span></div>
-                                                        <div className="text-xs font-semibold">
+                                                        
                                                             {
                                                                 loadingOverallProgres ? (
                                                                     <>
-                                                                        Loading...
+                                                                        <Loading/>
                                                                     </>
                                                                 ) : (
                                                                     <>
-                                                                        {((dataOverallProgres[0]["rb"]/dataOverallProgres[0]["total"])*100).toFixed(2)}%
+                                                                        <div className="text-xs">Progres <span className="hidden sm:inline-block">RB</span></div>
+                                                                        <div className="text-xs font-semibold">
+                                                                            {((dataOverallProgres[0]["rb"]/dataOverallProgres[0]["total"])*100).toFixed(2)}%
+                                                                        </div>
                                                                     </>
                                                                 )
                                                             }
-                                                        </div>
+                                                        
                                                     </div>
 
-                                                    <div className="persentase-RB mt-5 border-2 mx-2 mb-2 border-sky-200 w-fit rounded-2xl py-2 pl-2 pr-6 min-w-24 sm:min-w-32 max-h-14">
-                                                        <div className="text-xs">Deadline</div>
-                                                        <div className="text-xs font-semibold">
+                                                    <div className="Deadline-RB mt-5 border-2 mx-2 mb-2 border-sky-200 w-fit rounded-2xl py-2 pl-2 pr-6 min-w-24 sm:min-w-32 max-h-14">
+                                                        
                                                             {
                                                                 loadingOverallProgres ? (
                                                                     <>
-                                                                        Loading...
+                                                                        <Loading/>
                                                                     </>
                                                                 ) : (
                                                                     <>
-                                                                        {deadlineRb} Hari
+                                                                        <div className="text-xs">Deadline</div>
+                                                                        <div className="text-xs font-semibold">
+                                                                            {deadlineRb} Hari
+                                                                        </div>
                                                                     </>
                                                                 )
                                                             }
-                                                        </div>
+                                                        
                                                     </div>
 
-                                                    <div className="persentase-RB mt-5 border-2 mx-2 mb-2 border-sky-200 w-fit rounded-2xl py-2 pl-2  min-w-24 sm:min-w-32 max-h-14">
-                                                        <div className="text-xs"><span className="hidden sm:inline-block">Tanggal</span> Mulai</div>
-                                                        <div className="text-xs font-semibold">
+                                                    <div className="Start-RB mt-5 border-2 mx-2 mb-2 border-sky-200 w-fit rounded-2xl py-2 pl-2  min-w-24 sm:min-w-32 max-h-14">
+                                                        
                                                         {
                                                             loadingOverallProgres ? (
                                                                 <>
-                                                                    Loading...
+                                                                    <Loading/>
                                                                 </>
                                                             ) : (
                                                                 <>
-                                                                    {startRB}
+                                                                    <div className="text-xs"><span className="hidden sm:inline-block">Tanggal</span> Mulai</div>
+                                                                    <div className="text-xs font-semibold">
+                                                                        {startRB}
+                                                                    </div>
                                                                 </>
                                                             )
                                                         }
-                                                        </div>
+                                                        
                                                     </div>
                                                 </div>
                                                 
@@ -263,7 +346,7 @@ function DashboardWithId() {
                                                         {
                                                             loadingOverallProgres ? (
                                                                 <>
-                                                                    Loading...
+                                                                    <Loading/>
                                                                 </>
                                                             ) : (
                                                                 <>
@@ -299,37 +382,24 @@ function DashboardWithId() {
                                                             <div className="text-center font-medium">Total Dokumen</div>
                                                         </div>
                                                         {
-                                                            loadingOverallProgres ? (
+                                                            loadingProgresPengdok ? (
                                                                 <>
-                                                                    Loading...
+                                                                    <Loading/>
                                                                 </>
                                                             ) : (
                                                                 <>
+                                                                    {
+                                                                        dataPetugasRB.map((item,index) => {
+                                                                            return (
+                                                                                <div className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center min-h-6">
+                                                                                    <div className="text-center">{item.firstName + " " + item.lastName}</div>
+                                                                                    <div className="text-center">{item.TOTAL}</div>
+                                                                                </div>
+                                                                            )
+                                                                        })
+                                                                    }
                                                                     
-                                                                    <div className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center min-h-6">
-                                                                        <div className="text-center">Muhammad Abdillah</div>
-                                                                        <div className="text-center">24</div>
-                                                                    </div>
-                                                                    <div className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center min-h-6 ">
-                                                                        <div className="text-center">Amirul Budiman</div>
-                                                                        <div className="text-center">36</div>
-                                                                    </div>
-                                                                    <div className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center min-h-6 ">
-                                                                        <div className="text-center">Cipto Mangunkusumo</div>
-                                                                        <div className="text-center">13</div>
-                                                                    </div>
-                                                                    <div className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center min-h-6 ">
-                                                                        <div className="text-center">Farhan Halim</div>
-                                                                        <div className="text-center">7</div>
-                                                                    </div>
-                                                                    <div className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center min-h-6 ">
-                                                                        <div className="text-center">Gustika Wahyu</div>
-                                                                        <div className="text-center">3</div>
-                                                                    </div>
-                                                                    <div className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center min-h-6 ">
-                                                                        <div className="text-center">Wahyudi Husbi</div>
-                                                                        <div className="text-center">1</div>
-                                                                    </div>
+                                                                    
                                                                     <div className="text-xs text-center mt-2 text-slate-400 underline cursor-pointer" onClick={() => {}}>Lihat Selengkapnya</div>
                                                                 </>
                                                             )
@@ -347,7 +417,7 @@ function DashboardWithId() {
                                                         
                                                         { isLoadingProgres ? (
                                                             <div className="p-3">
-                                                                Loading...
+                                                                <Loading/>
                                                             </div>
                                                         ) : (
                                                             <>
@@ -394,54 +464,60 @@ function DashboardWithId() {
                                             <div className="sm:flex md:flex-grow md:max-w-1/2 ">
                                                 <div className="NUMBER grid grid-cols-3 sm:block">
                                                     <div className="persentase-RB mt-5 border-2 mx-2 mb-2 border-[#23AFF9] w-fit rounded-2xl py-2 pl-2 pr-6 min-w-24 sm:min-w-32 max-h-14">
-                                                        <div className="text-xs">Progres <span className="hidden sm:inline-block">Edcod</span></div>
-                                                        <div className="text-xs font-semibold">
+                                                        
                                                             {
                                                                 loadingOverallProgres ? (
                                                                     <>
-                                                                        Loading...
+                                                                        <Loading/>
                                                                     </>
                                                                 ) : (
                                                                     <>
+                                                                    <div className="text-xs">Progres <span className="hidden sm:inline-block">Edcod</span></div>
+                                                                    <div className="text-xs font-semibold">
                                                                         {((dataOverallProgres[0]["edcod"]/dataOverallProgres[0]["total"])*100).toFixed(2)}%
+                                                                    </div>
                                                                     </>
                                                                 )
                                                             }
-                                                        </div>
+                                                        
                                                     </div>
 
                                                     <div className="persentase-RB mt-5 border-2 mx-2 mb-2 border-sky-200 w-fit rounded-2xl py-2 pl-2 pr-6 min-w-24 sm:min-w-32 max-h-14">
-                                                        <div className="text-xs">Deadline</div>
-                                                        <div className="text-xs font-semibold">
+                                                        
                                                             {
                                                                 loadingOverallProgres ? (
                                                                     <>
-                                                                        Loading...
+                                                                        <Loading/>
                                                                     </>
                                                                 ) : (
                                                                     <>
-                                                                        {deadlineEdcod} Hari
+                                                                        <div className="text-xs">Deadline</div>
+                                                                        <div className="text-xs font-semibold">
+                                                                            {deadlineEdcod} Hari
+                                                                        </div>
                                                                     </>
                                                                 )
                                                             }
-                                                        </div>
+                                                        
                                                     </div>
 
                                                     <div className="persentase-RB mt-5 border-2 mx-2 mb-2 border-sky-200 w-fit rounded-2xl py-2 pl-2  min-w-24 sm:min-w-32 max-h-14">
-                                                        <div className="text-xs"><span className="hidden sm:inline-block">Tanggal</span> Mulai</div>
-                                                        <div className="text-xs font-semibold">
+                                                        
                                                         {
                                                             loadingOverallProgres ? (
                                                                 <>
-                                                                    Loading...
+                                                                    <Loading/>
                                                                 </>
                                                             ) : (
                                                                 <>
-                                                                    {startEdcod}
+                                                                    <div className="text-xs"><span className="hidden sm:inline-block">Tanggal</span> Mulai</div>
+                                                                    <div className="text-xs font-semibold">
+                                                                        {startEdcod}
+                                                                    </div>
                                                                 </>
                                                             )
                                                         }
-                                                        </div>
+                                                        
                                                     </div>
                                                 </div>
                                                 
@@ -449,7 +525,7 @@ function DashboardWithId() {
                                                         {
                                                             loadingOverallProgres ? (
                                                                 <>
-                                                                    Loading...
+                                                                    <Loading/>
                                                                 </>
                                                             ) : (
                                                                 <>
@@ -485,37 +561,24 @@ function DashboardWithId() {
                                                             <div className="text-center font-medium">Total Dokumen</div>
                                                         </div>
                                                         {
-                                                            loadingOverallProgres ? (
+                                                            loadingProgresEdcod ? (
                                                                 <>
-                                                                    Loading...
+                                                                    <Loading/>
                                                                 </>
                                                             ) : (
                                                                 <>
+                                                                    {
+                                                                        dataPetugasEdcod.map((item,index) => {
+                                                                            return (
+                                                                                <div className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center min-h-6">
+                                                                                    <div className="text-center">{item.nama}</div>
+                                                                                    <div className="text-center">{item.TOTAL}</div>
+                                                                                </div>
+                                                                            )
+                                                                        })
+                                                                    }
                                                                     
-                                                                    <div className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center min-h-6">
-                                                                        <div className="text-center">Muhammad Abdillah</div>
-                                                                        <div className="text-center">24</div>
-                                                                    </div>
-                                                                    <div className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center min-h-6 ">
-                                                                        <div className="text-center">Amirul Budiman</div>
-                                                                        <div className="text-center">36</div>
-                                                                    </div>
-                                                                    <div className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center min-h-6 ">
-                                                                        <div className="text-center">Cipto Mangunkusumo</div>
-                                                                        <div className="text-center">13</div>
-                                                                    </div>
-                                                                    <div className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center min-h-6 ">
-                                                                        <div className="text-center">Farhan Halim</div>
-                                                                        <div className="text-center">7</div>
-                                                                    </div>
-                                                                    <div className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center min-h-6 ">
-                                                                        <div className="text-center">Gustika Wahyu</div>
-                                                                        <div className="text-center">3</div>
-                                                                    </div>
-                                                                    <div className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center min-h-6 ">
-                                                                        <div className="text-center">Wahyudi Husbi</div>
-                                                                        <div className="text-center">1</div>
-                                                                    </div>
+                                                                    
                                                                     <div className="text-xs text-center mt-2 text-slate-400 underline cursor-pointer" onClick={() => {}}>Lihat Selengkapnya</div>
                                                                 </>
                                                             )
@@ -679,37 +742,24 @@ function DashboardWithId() {
                                                             <div className="text-center font-medium">Total Dokumen</div>
                                                         </div>
                                                         {
-                                                            loadingOverallProgres ? (
+                                                            loadingProgresEntri ? (
                                                                 <>
                                                                     Loading...
                                                                 </>
                                                             ) : (
                                                                 <>
+                                                                    {
+                                                                        dataPetugasEntri.map((item,index) => {
+                                                                            return (
+                                                                                <div className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center min-h-6">
+                                                                                    <div className="text-center">{item.nama}</div>
+                                                                                    <div className="text-center">{item.TOTAL}</div>
+                                                                                </div>
+                                                                            )
+                                                                        })
+                                                                    }
                                                                     
-                                                                    <div className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center min-h-6">
-                                                                        <div className="text-center">Muhammad Abdillah</div>
-                                                                        <div className="text-center">24</div>
-                                                                    </div>
-                                                                    <div className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center min-h-6 ">
-                                                                        <div className="text-center">Amirul Budiman</div>
-                                                                        <div className="text-center">36</div>
-                                                                    </div>
-                                                                    <div className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center min-h-6 ">
-                                                                        <div className="text-center">Cipto Mangunkusumo</div>
-                                                                        <div className="text-center">13</div>
-                                                                    </div>
-                                                                    <div className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center min-h-6 ">
-                                                                        <div className="text-center">Farhan Halim</div>
-                                                                        <div className="text-center">7</div>
-                                                                    </div>
-                                                                    <div className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center min-h-6 ">
-                                                                        <div className="text-center">Gustika Wahyu</div>
-                                                                        <div className="text-center">3</div>
-                                                                    </div>
-                                                                    <div className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center min-h-6 ">
-                                                                        <div className="text-center">Wahyudi Husbi</div>
-                                                                        <div className="text-center">1</div>
-                                                                    </div>
+                                                                    
                                                                     <div className="text-xs text-center mt-2 text-slate-400 underline cursor-pointer" onClick={() => {}}>Lihat Selengkapnya</div>
                                                                 </>
                                                             )
