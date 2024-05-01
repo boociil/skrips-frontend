@@ -11,6 +11,7 @@ function AdminHomePage() {
     const [data,setData] = useState([]);
     const [dataLen,setDataLen] = useState();
     const [ cookie ] = useCookies([]);
+    const [ searchItem, setSearchItem ] = useState('');
 
     // const handleClick = () => {
     //     navigate('AddKegiatan');
@@ -32,6 +33,7 @@ function AdminHomePage() {
                 .then(response => response.json())
                 .then(data => {
                     setData(data);
+                    console.log(data[0].nama.toLowerCase());
                     console.log(data);
                     setDataLen(data.length - 1);
                 });
@@ -44,21 +46,36 @@ function AdminHomePage() {
 
     },[dataLen]);
 
+    const onSearchChange = (event) => {
+        setSearchItem(event.target.value);
+    }
 
-    console.log(cookie.isLogin);
     return (
         <>
         <TopNavbarAdmin />
 
         <div className="mt-10 md:mt-32 mx-4 font-poppins">
-            <h1 className="text-xl mb-4 md:mb-8 md:pl-8 lg:pl-48">Mau Monitoring Apa Hari ini?</h1>
-            <div className="quick-search">
-                
+
+            <div className="max-w-5xl md:mx-auto">
+                <h1 className="text-xl mb-4 md:mb-8">Mau Monitoring Apa Hari ini?</h1>
             </div>
             
+            <div className="max-w-5xl md:mx-auto">
+                <input type="text" className="mb-4 rounded-md sm:w-96 w-60 h-6 p-4 lg:mx-auto" placeholder="Search..." onChange={onSearchChange}/>
+            </div>
+            
+
             <div className="list-kegiatan mx-auto">
                 {
-                    data.map((item, index)=>(
+                    data
+                    .filter(item => {
+                        if(typeof item.nama === 'string'){
+                            return item.nama.toLowerCase().includes(searchItem.toLowerCase());
+                        }
+                        return false;
+                    })
+                        
+                    .map((item, index)=>(
                         <ListKegiatan key={item.id} position={index !== 0 ? (index === dataLen ? 'BOT' : 'MID' ) : 'TOP'} name={item.nama} id={item.id} metode={item.initiator_id} status={item.status} tgl={item.tanggal_mulai} index={item.length}/>
                     ))
                 }

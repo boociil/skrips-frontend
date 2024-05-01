@@ -11,6 +11,7 @@ function AdminHomePage() {
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
     const [data,setData] = useState([]);
     const [dataLen,setDataLen] = useState();
+    const [ searchItem, setSearchItem ] = useState('');
 
     const handleClick = () => {
         navigate('AddKegiatan');
@@ -45,6 +46,9 @@ function AdminHomePage() {
 
     },[dataLen]);
 
+    const onSearchChange = (event) => {
+        setSearchItem(event.target.value);
+    }
 
     let isAdmin = false;
 
@@ -60,10 +64,21 @@ function AdminHomePage() {
                 <div className="quick-search">
                     
                 </div>
+
+                <div className="max-w-5xl lg:pl-9 md:mx-auto">
+                    <input type="text" className="mb-4 rounded-md sm:w-96 w-60 h-6 p-4 lg:mx-auto" placeholder="Search..." onChange={onSearchChange}/>
+                </div>
                 
                 <div className="list-kegiatan mx-auto">
                     {
-                        data.map((item, index)=>(
+                        data
+                        .filter(item => {
+                            if(typeof item.nama === 'string'){
+                                return item.nama.toLowerCase().includes(searchItem.toLowerCase());
+                            }
+                            return false;
+                        })
+                        .map((item, index)=>(
                             <ListRekap key={item.id} position={index !== 0 ? (index === dataLen ? 'BOT' : 'MID' ) : 'TOP'} name={item.nama} id={item.id} metode={item.initiator_id} status={item.status} tgl={item.tanggal_mulai} index={item.length}/>
                         ))
                     }
