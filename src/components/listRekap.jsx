@@ -49,7 +49,7 @@ function ListRekap(props) {
 
     const divHandleClick = (id) => {
         if (status_num === 1){
-            navigate("/Sampel/" + id)
+            navigate("/Rekap/Sampel/" + id)
         }else{
             navigate(id);
         }    

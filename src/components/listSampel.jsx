@@ -48,7 +48,7 @@ function ListSampel(props, { onDataFromChild }) {
                 .then(response => response.json())
                 .then(data => {
                     setData(data);
-                    console.log("data sls : ", data)
+                    
                     setDataLen(data.length - 1);
                     setIsLoading(false)
                 });            
@@ -68,7 +68,7 @@ function ListSampel(props, { onDataFromChild }) {
                 .then(response => response.json())
                 .then(data => {
                     setData2(data);
-                    console.log("data sls2 : ", data)
+                    
                     // setDataLen(data.length - 1);
                     // setIsLoading(false)
                 });            
@@ -256,9 +256,9 @@ function ListSampel(props, { onDataFromChild }) {
             o[key]["kode_desa"] = desa[key]
             o[key]["kode_kec"] = kec[key]
         }
-        sendData(o);
+        // sendData(o);
         console.log("o",JSON.stringify(o));
-        navigate("/AssignPetugas/" + props.id)
+        // navigate("/AssignPetugas/" + props.id)
     }
 
     const handleCardClick = (kode_kec) => {

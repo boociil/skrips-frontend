@@ -1,5 +1,7 @@
 import { useState } from "react";
 import excel_png from '../img/excel.png'
+import * as XLSX from 'xlsx';
+
 
 const UploadSampel = () => {
 
@@ -30,18 +32,49 @@ const UploadSampel = () => {
         } catch (error) {
           console.error('Error downloading file:', error);
         }
-      };
+    };
+
+    const sendFile = async () => {
+        const formData = new FormData();
+        formData.append('file', selectedFile);
+
+        try {
+            const response = await fetch('http://localhost:3001/upload', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to upload file');
+            }
+            
+            console.log('File uploaded successfully');
+
+        } catch (error) {
+            console.error('Error uploading file:', error.message);
+        }
+    }
 
     return (
         <>
             <div className="rounded-md p-2 mx-auto border-2 max-w-md">
                 
                 <div className="mx-auto w-fit mb-4 mt-2">
+                    
                     <label
                         htmlFor="file-upload"
-                        className="cursor-pointer bg-[#418EC6] hover:bg-sky-400 text-white font-bold py-2 px-4 rounded"
-                    >
-                        Upload
+                        className="cursor-pointer bg-[#418EC6] hover:bg-sky-400 text-white font-bold py-2 px-4 rounded  mr-4"
+                    >   
+                    {selectedFile ? (
+                        <>
+                            Reupload
+                        </>
+                    ) : (
+                        <>
+                            Upload
+                        </>
+                    )}
+                        
                     </label>
                     <input
                         id="file-upload"
@@ -49,27 +82,17 @@ const UploadSampel = () => {
                         className="hidden"
                         onChange={handleFileChange}
                     />
+                    <button className="cursor-pointer bg-emerald-500 hover:bg-emerald-400 text-white font-bold py-2 px-4 rounded" onClick={downloadFile}>Download template (xlsx)</button>
                 </div>
                 
                 {selectedFile && (
-                    <div>
-                    <p>Nama file: {selectedFile.name}</p>
-                    <p>Tipe file: {selectedFile.type}</p>
-                    <p>Ukuran file: {selectedFile.size} bytes</p>
+                    <div className="mx-auto flex flex-col items-center">
+                        <p className="text-center mb-1">{selectedFile.name} Uploaded</p>
+                        <button className="cursor-pointer bg-emerald-500 hover:bg-emerald-400 text-white font-bold py-2 px-4 rounded" onClick={sendFile}>Submit</button>
                     </div>
                 )}
 
-                <hr className="mb-4"/>
-
-
-                <div className="title mx-auto w-fit mb-4">Download Template Sampel</div>
-                <div className="tempat-logo mx-auto mb-4 flex">
-                    <div className="logo-excel w-11 h-10 cursor-pointer mx-auto" onClick={downloadFile}>
-                        <img src={excel_png} alt="excel" className="object-cover w-full h-full"/>
-
-                    </div>
-                    {/* Tambahkan logo lain disini */}
-                </div>
+                
             </div>
         </>
     )

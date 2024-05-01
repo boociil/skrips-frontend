@@ -32,9 +32,7 @@ const SampelPage = () => {
                 .then(response => response.json())
                 .then(data => {
                     setData(data);
-                    console.log(data);
-                    console.log(data[0]);
-                    console.log(data[0].jenis);
+                    
                     if(data && data[0] && (data[0].jenis === "1")){
                         setIsSurvei(false);
                     }
@@ -49,23 +47,6 @@ const SampelPage = () => {
 
     },[id]);
 
-    const getNav = () => {
-        if (cookies.role === 'admin'){
-            return (
-                <TopNavAdmin />
-            )
-        }
-        if (cookies.role === 'pengawas'){
-            return (
-                <TopNavAdmin />
-            )
-        }
-        if (cookies.role === 'operator'){
-            return (
-                <TopNavAdmin />
-            )
-        }
-    }
 
     if (!isSurvei){
         console.log(isSurvei);
@@ -73,7 +54,7 @@ const SampelPage = () => {
     }
     return (
         <>
-            {getNav()}
+            <TopNavAdmin/>
             <div>
                 { isLoading ? (
                     <div>

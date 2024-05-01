@@ -50,7 +50,7 @@ function App() {
                 <Route path="/Rekap/:id" element={<RekapWithID />} />
                 <Route path="/Rekap/Update/:id" element={<UpdateKegiatan />} />
                 <Route path="/AssignPetugas/:id" element={<AssignPetugasSensus />} />
-                <Route path="/Sampel/:id" element={<SampelPage />} />
+                <Route path="/Rekap/Sampel/:id" element={<SampelPage />} />
               </Route>
 
               {/* Routes Admin */}
