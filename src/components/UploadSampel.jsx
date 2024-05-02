@@ -1,9 +1,12 @@
 import { useState } from "react";
+import { useParams } from "react-router-dom"
 import excel_png from '../img/excel.png'
 import * as XLSX from 'xlsx';
 
 
 const UploadSampel = () => {
+
+    const { id } = useParams();
 
     const [selectedFile, setSelectedFile] = useState(null);
 
@@ -37,6 +40,8 @@ const UploadSampel = () => {
     const sendFile = async () => {
         const formData = new FormData();
         formData.append('file', selectedFile);
+
+        formData.append('id_kegiatan', id);
 
         try {
             const response = await fetch('http://localhost:3001/upload', {

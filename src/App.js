@@ -33,8 +33,7 @@ function App() {
           <Routes>
             {/* Routes untuk login page */}
             <Route index element={<Login />}></Route>
-            {/* Routes train page */}
-            <Route path='/Train' element={<Train />}></Route>
+
 
             {/* Routes selain login page, yang harus login terlebih dahulu */}
             <Route element={<PrivateRoutes />}>

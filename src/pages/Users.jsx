@@ -21,7 +21,7 @@ function Users() {
         const requestOptions = {
             method: 'POST', // Metode HTTP
             headers: {
-                'Content-Type': 'application/json', // Tentukan tipe konten yang Anda kirimkan,
+                'Content-Type': 'application/json', 
                 'token' : cookies["token"],
             }
         };
@@ -29,7 +29,7 @@ function Users() {
         fetch('http://localhost:3001/get_all_users', requestOptions)
         .then(response => response.json())
         .then(data => {
-            console.log(typeof(data));
+            
             setLen(data.length)
             setDataUsers(data);
             setLoadingData(false);
