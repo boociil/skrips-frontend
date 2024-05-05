@@ -30,12 +30,12 @@ function ListKegiatan(props) {
     }
 
     const divHandleClick = (id) => {
-        navigate(id);
+        navigate("/Users/" + props.username);
     }
 
 
     return (
-        <div className={class_name} >
+        <div className={class_name} onClick={divHandleClick}>
             <div className="title px-3 py-2 w-full" >
                 <div className=""><span className={props.status === 1 ? "lingkaran inline-block w-2 h-2 rounded-full bg-[#00FF57] mr-1 md:hidden" : "md:hidden lingkaran inline-block w-2 h-2 rounded-full bg-[#FF6056] mr-1"}></span>{props.username}</div>
                 <div className="block text-slate-400 text-xs">Username</div>

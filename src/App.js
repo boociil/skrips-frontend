@@ -21,6 +21,7 @@ import PrivateRoutes from './components/PrivateRoutes'
 import AdminRoutes from './components/AdminRoutes';
 import PengawasRoutes from './components/PengawasRoutes';
 import UpdateKegiatan from './pages/UpdateKegiatan';
+import UsersWithId from './pages/UsersWithId';
 
 
 function App() {
@@ -56,6 +57,7 @@ function App() {
               <Route element={<AdminRoutes />}>
                 <Route path='/Users' element={<Users />} />
                 <Route path="/Users/Register" element={<Register />}/>
+                <Route path="/Users/:username" element={<UsersWithId />}/>
               </Route>
 
               {/* Ketika pengguna mengakses routes yang tidak terdaftar */}

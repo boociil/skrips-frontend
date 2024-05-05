@@ -12,10 +12,9 @@ function TopNavAdmin(props = {active : 'home'}) {
     const navigate = useNavigate();
     const [ showOption, setShowOption ] = useState(false);
 
-    console.log(cookies);
     
     const logout = () => {
-        console.log(cookies["token"]);
+        
         return new Promise((resolve,reject) => {
             const requestOptions = {
                 method: 'POST', // Metode HTTP
@@ -168,7 +167,7 @@ function TopNavAdmin(props = {active : 'home'}) {
                         <div className="Role text-xs text-slate-500 text-right group-hover:opacity-0 transition duration-500">{cookies['role']}</div>
                     </div>
                     <div className="arrow mt-2 ml-1">
-                        <span class={`material-symbols-outlined group-hover:scale-125 transition duration-500 ${showOption ? ('rotate-180') : ('')}`}>
+                        <span className={`material-symbols-outlined group-hover:scale-125 transition duration-500 ${showOption ? ('rotate-180') : ('')}`}>
                             keyboard_arrow_down
                         </span>
                     </div>
