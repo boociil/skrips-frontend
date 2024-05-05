@@ -10,6 +10,9 @@ function TopNavAdmin(props = {active : 'home'}) {
     const [openStatus, setOpenStatus] = useState(false);
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
     const navigate = useNavigate();
+    const [ showOption, setShowOption ] = useState(false);
+
+    console.log(cookies);
     
     const logout = () => {
         console.log(cookies["token"]);
@@ -33,7 +36,15 @@ function TopNavAdmin(props = {active : 'home'}) {
                 }
             });
         })
+    }
 
+    const onShowClick = () => {
+        if (showOption){
+            setShowOption(false);
+        }else{
+            setShowOption(true);
+        }
+        
     }
 
     const closeSideMenu = () => {
@@ -57,9 +68,6 @@ function TopNavAdmin(props = {active : 'home'}) {
             menu.classList.add('translate-x-full')
         }
     }
-    // const handleButtonClick = (class_name) => {
-    //     setClassActive(class_name);
-    // };
 
     const removeAllCookie = async () => {
         // console.log(cookies["token"]);
@@ -154,11 +162,45 @@ function TopNavAdmin(props = {active : 'home'}) {
                         }
                     </ul>
                 </div>
-                <div className="p-3 underline cursor-pointer" onClick={() => removeAllCookie()}>
-                    Logout
+                <div className="p-3 cursor-pointer flex group" onClick={onShowClick}>
+                    <div className="tulisan">
+                        <div className="Username text-right group-hover:translate-y-2 transition duration-500">Hi, {cookies['username']}</div>
+                        <div className="Role text-xs text-slate-500 text-right group-hover:opacity-0 transition duration-500">{cookies['role']}</div>
+                    </div>
+                    <div className="arrow mt-2 ml-1">
+                        <span class={`material-symbols-outlined group-hover:scale-125 transition duration-500 ${showOption ? ('rotate-180') : ('')}`}>
+                            keyboard_arrow_down
+                        </span>
+                    </div>
                 </div>
-            <Outlet />
+
+                { showOption ? (
+                    <div className="user-option fixed bg-white right-2 top-20 p-2 rounded-xl shadow-lg" id="user-option">
+                        <div className="option flex gap-3">
+                            <div className="my-account flex flex-col items cursor-pointer hover:bg-[#F5F4F4] p-1 rounded-lg group">
+                                <span class="material-symbols-outlined mx-auto group-hover:opacity-0 transition duration-500">
+                                    person
+                                </span>
+                                <div className="text-xs text-slate-500 group-hover:-translate-y-3 group-hover:text-black transition duration-500">
+                                    My Info
+                                </div>
+                            </div>
+                            <div className="logout flex flex-col items cursor-pointer hover:bg-[#F5F4F4] p-1 rounded-lg group" onClick={() => removeAllCookie()}>
+                                <span class="material-symbols-outlined mx-auto text-red-400 group-hover:opacity-0 transition duration-500">
+                                    power_settings_new
+                                </span>
+                                <div className="text-xs text-slate-500 group-hover:-translate-y-3 group-hover:text-red-500 transition duration-500">
+                                    Logout
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                ) : (
+                    <></>
+                )}
             </div>
+
+
 
             
             <div className="mobile-navigation z-50 md:hidden w-full">

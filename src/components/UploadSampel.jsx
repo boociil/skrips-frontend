@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom"
+import { Bounce, ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import excel_png from '../img/excel.png'
 import * as XLSX from 'xlsx';
 
@@ -50,13 +52,39 @@ const UploadSampel = () => {
             });
 
             if (!response.ok) {
+                toast.error('Failed to Upload File', {
+                    position: "bottom-right",
+                    hideProgressBar: true,
+                    autoClose: 1000,
+                    closeOnClick: true,
+                    theme: "light",
+                    transition: Bounce,
+                    pauseOnHover: false,
+                })
                 throw new Error('Failed to upload file');
             }
             
-            console.log('File uploaded successfully');
+            // Toast Success
+            toast.success("Upload Berhasil", {
+                position: "bottom-right",
+                hideProgressBar: true,
+                autoClose: 1000,
+                closeOnClick: true,
+                theme: "light",
+                transition: Bounce,
+                pauseOnHover: false,
+            })
 
         } catch (error) {
-            console.error('Error uploading file:', error.message);
+            toast.error(error, {
+                position: "bottom-right",
+                hideProgressBar: true,
+                autoClose: 1000,
+                closeOnClick: true,
+                theme: "light",
+                transition: Bounce,
+                pauseOnHover: false,
+            });
         }
     }
 
@@ -92,7 +120,7 @@ const UploadSampel = () => {
                 
                 {selectedFile && (
                     <div className="mx-auto flex flex-col items-center">
-                        <p className="text-center mb-1">{selectedFile.name} Uploaded</p>
+                        <p className="text-center mb-1">{selectedFile.name}</p>
                         <button className="cursor-pointer bg-emerald-500 hover:bg-emerald-400 text-white font-bold py-2 px-4 rounded" onClick={sendFile}>Submit</button>
                     </div>
                 )}

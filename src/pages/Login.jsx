@@ -69,6 +69,7 @@ function Login() {
             .then(success => {
                 setCookie('token',success.accessToken)
                 setCookie('role',success.role)
+                setCookie('username',success.username)
                 setCookie('isLogin', true)
                 navigate('/Home');
                 // console.log(success);

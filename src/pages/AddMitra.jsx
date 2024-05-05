@@ -123,7 +123,7 @@ function AddMitra() {
             {/* <ToastContainer /> */}
             <TopNavAdmin />
             <div className="font-poppins parent-form my-4 md:mt-24 mx-4 p-3 shadow-xl bg-white rounded-3xl lg:mt-32 lg:max-w-4xl md:container md:mx-auto max-w-5xl">
-                <h1 className="text-2xl font-semibold mb-4 sm:mb-8 text-center">Tambah Mitra Editing/Coding</h1>
+                <h1 className="text-2xl font-semibold mb-4 sm:mb-8 text-center">Tambah Mitra</h1>
                 <div className="the-form ">
                     
 

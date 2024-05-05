@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import ButtonAdd from "../components/buttonAdd";
 import { useCookies } from "react-cookie";
 import TopNavAdmin from "../components/topNavAdmin";
+import ListMitra from "../components/listMitra";
 
 
 function Users() {
@@ -11,6 +12,8 @@ function Users() {
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
     const [data2, setData2 ] = useState();
     const [isLoading, setIsLoading ] = useState(true);
+    const [ len, setLen ] = useState();
+    const [ searchItem, setSearchItem ] = useState('');
 
     useEffect(() =>{
 
@@ -27,7 +30,8 @@ function Users() {
                 fetch('http://localhost:3001/get_all_mitra', requestOptions)
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data);
+                    // console.log(data);
+                    setLen(data.length)
                     setData2(data);
                     setIsLoading(false)
                 });
@@ -44,11 +48,6 @@ function Users() {
         navigate('Register');
     }
 
-    useEffect(() => {
-        //const theHtml = document.querySelector('#root')
-        //theHtml.classList.add('bg-white');
-    }, []);
-
 
     let isAdmin = false;
 
@@ -56,52 +55,71 @@ function Users() {
         isAdmin = true;
     }
 
+    const onSearchChange = (event) => {
+        setSearchItem(event.target.value);
+    }
+
     return (
         <>
             <TopNavAdmin />
-            {isLoading ? (
-                <></>
-            ) : (
-                <>
-                    <div className="font-poppins md:mt-28 mx-auto max-w-4xl">
-                        <h2 className="ml-4 mt-6 text-xl">Mitra Management</h2>
+            <div className="mb-10 mx-4">
 
-                        <div className="the-table mx-auto mt-4 md:mt-8 ml-6">
-                            <div className="title mx-auto grid grid-cols-2 md:grid-cols-4 text-slate-600 text-xs mb-4">
-                                <div className="col-start-1">Nama</div>
-                                <div className="col-start-2 md:block text-center">Status</div>
-                                <div className="hidden md:block md:col-start-3 ">Mulai Kontrak</div>
-                                <div className="hidden md:col-start-4 md:block">Selesai Kontrak</div>
+            
+                {isLoading ? (
+                    <>
+                    </>
+                ) : (
+                    <>
+                        <div className="font-poppins md:mt-28 mx-auto max-w-4xl">
+                            <h2 className="ml-4 mt-6 text-xl">Mitra Management</h2>
+
+                            <div className="the-table mx-auto mt-4 md:mt-8 ml-6">
+                                
                             </div>
-                            <div className="content  text-slate-600 text-sm">
-                                {data2.map((item, index) => {
 
-                                    
+                            <div className="max-w-5xl md:mx-auto">
+                                <input type="text" className="mb-4 rounded-md sm:w-96 w-60 h-6 p-4 lg:mx-auto" placeholder="Search..." onChange={onSearchChange}/>
+                            </div>
 
+                            <div className="the-table mx-auto">
+                                
+
+
+                                {data2
+                                
+                                .filter(item => {
+                                    if(typeof item.nama === 'string'){
+                                        return item.nama.toLowerCase().includes(searchItem.toLowerCase());
+                                    }
+                                    return false;
+                                })
+
+                                .map((item, index) => {
                                     return (
-                                        <div key={index} className="my-1 grid grid-cols-2 md:grid-cols-4">
-                                            <div className="cols-start-1 max-h-6 overflow-hidden">{item.nama}</div>
-                                            <div className="cols-start-2 text-center">{item.status} </div>
-                                            <div className="hidden md:block cols-start-3 w-fit max-h-8 p-1 rounded-lg">{item.start_contract}</div>
-                                            <div className="hidden md:block md:cols-start-4">{item.end_contract}</div>
+
+                                        <div key={index}>
+                                            {/* <ListBuble pos={index !== 0 ? (index === len-1 ? 'BOT' : 'MID' ) : 'TOP'} item={[item.nama,item.status,item.start_contract,item.end_contract]} title={['Nama','Status','Start','End']} small={[1,1,0,0]} /> */}
+                                            <ListMitra position={index !== 0 ? (index === len-1 ? 'BOT' : 'MID' ) : 'TOP'} nama={item.nama} status={item.status} start={item.start_contract}  end={item.end_contract}/>
                                         </div>
                                     )
                                 })}
+                                
                             </div>
+                                
+                            {
+                                isAdmin ? (
+                                    <>
+                                        <ButtonAdd click = {handleClick} />
+                                    </>
+                                ) : (
+                                    <>
+                                    </>
+                                )
+                            }
                         </div>
-                        {
-                            isAdmin ? (
-                                <>
-                                    <ButtonAdd click = {handleClick} />
-                                </>
-                            ) : (
-                                <>
-                                </>
-                            )
-                        }
-                    </div>
-                </>
-            ) }
+                    </>
+                ) }
+            </div>
         </>
         
     )

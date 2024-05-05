@@ -60,7 +60,13 @@ function AdminHomePage() {
         <>
             <TopNavAdmin />
             <div className="mt-10 md:mt-32 mx-4 font-poppins">
-                <h1 className="text-xl mb-4 md:mb-8 md:pl-8 lg:pl-48">Ayo Lanjutkan Kegiatan!</h1>
+
+                <div className="max-w-5xl md:mx-auto">
+                    <h1 className="text-xl mb-4 md:mb-8 lg:ml-10">Ayo Lanjutkan Kegiatan!</h1>
+                </div>
+
+    
+                
                 <div className="quick-search">
                     
                 </div>
