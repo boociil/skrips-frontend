@@ -74,7 +74,7 @@ function DashboardWithId() {
                 .then(response => response.json())
                 .then(data => {
                     setDataKegiatan(data);
-                    console.log('deadline ',data);
+                    // console.log('deadline ',data);
                     setNamaKegiatan(data[0].nama)
                     setIsSurvei(data[0].jenis === "2");
 
@@ -126,7 +126,7 @@ function DashboardWithId() {
                 fetch(start_link + id_kegiatan , requestOptions)
                 .then(response => response.json())
                 .then(data => {
-                    // console.log(data)
+                    console.log(data)
                     setDataProgresKecamatan(data);
                     setIsLoadingProgres(false);
                 });
@@ -143,11 +143,11 @@ function DashboardWithId() {
                 let start_link = "http://localhost:3001/get_progres_pengdok_"
                 // console.log("issurvei", dataKegiatan);
                 isSurvei ? start_link += "survei/" : start_link += "sensus/"
-                console.log(start_link + id_kegiatan);
+                // console.log(start_link + id_kegiatan);
                 fetch(start_link + id_kegiatan , requestOptions)
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data)
+                    // console.log(data)
                     setDataPetugasRB(data);
                     setLoadingProgresPengdok(false);
                     
@@ -165,11 +165,11 @@ function DashboardWithId() {
                 let start_link = "http://localhost:3001/get_progres_edcod_"
                 // console.log("issurvei", dataKegiatan);
                 isSurvei ? start_link += "survei/" : start_link += "sensus/"
-                console.log(start_link + id_kegiatan);
+                // console.log(start_link + id_kegiatan);
                 fetch(start_link + id_kegiatan , requestOptions)
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data)
+                    // console.log(data)
                     setDataPetugasEdcod(data);
                     setLoadingProgresEdcod(false);
                     
@@ -187,7 +187,7 @@ function DashboardWithId() {
                 let start_link = "http://localhost:3001/get_progres_entri_"
                 // console.log("issurvei", dataKegiatan);
                 isSurvei ? start_link += "survei/" : start_link += "sensus/"
-                console.log(start_link + id_kegiatan);
+                // console.log(start_link + id_kegiatan);
                 fetch(start_link + id_kegiatan , requestOptions)
                 .then(response => response.json())
                 .then(data => {
@@ -391,8 +391,8 @@ function DashboardWithId() {
                                                                     {
                                                                         dataPetugasRB.map((item,index) => {
                                                                             return (
-                                                                                <div className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center min-h-6">
-                                                                                    <div className="text-center">{item.firstName + " " + item.lastName}</div>
+                                                                                <div key={index} className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center min-h-6">
+                                                                                    <div className="text-left ml-1 truncate">{item.firstName + " " + item.lastName}</div>
                                                                                     <div className="text-center">{item.TOTAL}</div>
                                                                                 </div>
                                                                             )
@@ -570,8 +570,8 @@ function DashboardWithId() {
                                                                     {
                                                                         dataPetugasEdcod.map((item,index) => {
                                                                             return (
-                                                                                <div className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center min-h-6">
-                                                                                    <div className="text-center">{item.nama}</div>
+                                                                                <div key={index} className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center min-h-6">
+                                                                                    <div className="text-left ml-1 truncate">{item.nama}</div>
                                                                                     <div className="text-center">{item.TOTAL}</div>
                                                                                 </div>
                                                                             )
@@ -751,8 +751,8 @@ function DashboardWithId() {
                                                                     {
                                                                         dataPetugasEntri.map((item,index) => {
                                                                             return (
-                                                                                <div className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center min-h-6">
-                                                                                    <div className="text-center">{item.nama}</div>
+                                                                                <div key={index} className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center min-h-6">
+                                                                                    <div className="text-left ml-1 truncate">{item.nama}</div>
                                                                                     <div className="text-center">{item.TOTAL}</div>
                                                                                 </div>
                                                                             )

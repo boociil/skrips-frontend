@@ -2,6 +2,7 @@ import { useState,useEffect, useRef } from "react";
 import ConfirmCard from './confirmCard';
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import Loading from "../components/Loading"
 
 function ListRekap(props) {
 
@@ -328,7 +329,7 @@ function ListRekap(props) {
             {isLoading ? (
                 <div>
                     {/* Ketika komponen sedang loading, tambahkan animasi disini */}
-                    Lagi Loading
+                    <Loading/>
                 </div>
             ) : (
                 <div className="here">
@@ -355,12 +356,12 @@ function ListRekap(props) {
                                 return (
                                     <div key={index} className="row mt-3 max-w-5xl mx-auto">
                                         
-                                        <div className="kecamatan cursor-pointer mx-3 flex md:grid md:grid-cols-7 mt-1 mb-1 p-3 bg-[#418EC6] text-white text-xs rounded-md hover:bg-sky-400 " onClick={ () => handleCardClick(item.kode_kec)}>    
-                                            <div className="w-fit md:col-start-1 ml-1">{item.kode_kec}</div>
-                                            <div className="w-full md:col-start-2 md:col-span-3 text-center md:text-left">{item.Kec}</div>
+                                        <div className="kecamatan w-full cursor-pointer flex gap-2 mt-1 mb-1 p-3 bg-[#418EC6] text-white text-xs rounded-md hover:bg-sky-400 " onClick={ () => handleCardClick(item.kode_kec)}>    
+                                            <div className="w-fit md:col-start-1 ml-1 ">{item.kode_kec}</div>
+                                            <div className="w-full md:col-start-2 md:col-span-3 ">{item.Kec}</div>
                                             <div className="hidden md:block md:col-start-5">-</div>
                                             <div className="hidden md:block md:col-start-6">-</div>
-                                            <div className="hidden md:block md:col-start-7">-</div>
+                                            <div className="">xx%</div>
                                         </div>
 
                                         {data.filter((subItem) => item.kode_kec === subItem.kode_kec).map((subItem,subIndex) => {
@@ -373,10 +374,10 @@ function ListRekap(props) {
                                                     let class_desa_2 = "Desa transition duration-300 scale-100 cursor-pointer my-1 mr-3 ml-6 bg-[#17B715] hover:bg-[#30D32E] text-white md:p-3 p-2 rounded-md text-xs flex opacity max-w-4xl md:mx-auto"
                                                     prevDesa = subItem.kode_desa
                                                     return (
-                                                        <div key={subIndex} className="the-inside-row">
-                                                            <div id="the-desa" className={isClassAdded ? class_desa_2 : class_desa} onClick={() => desaClick(subItem.kode_desa,subItem.kode_kec)}>
+                                                        <div key={subIndex} className="the-inside-row lg:grid lg:justify-items-end">
+                                                            <div id="the-desa" className="Desa transition lg:w-[94%] lg:ml-8 ml-10 gap-2 duration-300 scale-100 cursor-pointer my-1 bg-[#17B715] hover:bg-[#30D32E] text-white md:p-3 p-2 rounded-md text-xs flex" onClick={() => desaClick(subItem.kode_desa,subItem.kode_kec)}>
                                                                 <div className="w-fit">{subItem.kode_desa}</div>
-                                                                <div className="w-full text-center ">{subItem.Desa}</div>
+                                                                <div className="w-full">{subItem.Desa}</div>
                                                             </div>
 
                                                             {data.filter((innerItem) => (innerItem.kode_desa === subItem.kode_desa) && (innerItem.kode_kec === subItem.kode_kec) ).map((innerItem,innerIndex) => {
@@ -387,7 +388,7 @@ function ListRekap(props) {
                                                                     if (innerItem.kode_desa === kodeDesaActive){
                                                                         
                                                                         let edcod = "Belum"
-                                                                        let class_edcod = "status-edcod hover:bg-slate-100 col-start-8 w-fit text-center mr-2 md:mr-1 bg-white rounded-full md:p-3 p-2 border-2 border-slate-200"
+                                                                        let class_edcod = "status-edcod hover:bg-slate-100 col-start-8 w-fit text-center mr-2 md:mr-1 bg-white rounded-full md:px-3 px-1 md:py-1 py-1 border-2 border-slate-200"
                                                                         if (innerItem.status_entri == 1){
                                                                             edcod = "Sudah";
                                                                             class_edcod += " text-[#14CB11]"
@@ -411,83 +412,85 @@ function ListRekap(props) {
                                                                         let class_sls2 = "mr-3 p-1 md:p-2 md:grid md:grid-cols-8 ml-9 my-1 bg-[#F5F4F4] rounded-md text-xs flex md:mx-auto max-w-3xl transition duration-300 scale-95";
                                                                         let index_admin = dataAdmin.findIndex(item => item.id === innerItem.petugas_entri)
                                                                         return(
-                                                                            <div key={innerIndex} className={isClassAdded ? class_sls2 : class_sls}>
-                                                                                <div className="w-fit">{innerItem.kode_sls}</div>
-                                                                                <div className="w-full md:w-fit ml-2 col-start-2 col-span-2">{" " + innerItem.SLS}</div>
-                                                                                <label htmlFor={`select-${innerIndex}`}></label>
-                                                                                <div id={`time-${innerIndex}`} className="hidden md:block mx-auto col-start-5">{waktu_entri}</div>
-                                                                                <select 
-                                                                                    className={`rounded-lg mr-1 col-start-6 ${ada ? ('pointer-events-none opacity-75') : ('')}`}
-                                                                                    name="modaEntri"
-                                                                                    id={`moda-${innerItem.id_dok}`}
-                                                                                    ref={ref => setModaRef(innerItem.id_dok, ref)}
-                                                                                    value={modaEntri[innerItem.id_dok]}
-                                                                                    onChange={(event) => handleModaChange(event,innerItem.id_dok)}
-                                                                                >
-                                                                                    
-                                                                                    
+                                                                            <div key={innerIndex} className="the-inside-row lg:grid lg:justify-items-end w-full">
+                                                                                <div className="p-1 md:p-2 lg:w-[88%] ml-20 lg:ml-16 my-1 bg-[#F5F4F4] rounded-md text-xs flex scale-100">
+                                                                                    <div className="w-fit flex items-center">{innerItem.kode_sls}</div>
+                                                                                    <div className="w-full flex items-center md:w-fit ml-2 col-start-2 col-span-2">{" " + innerItem.SLS}</div>
+                                                                                    <label htmlFor={`select-${innerIndex}`}></label>
+                                                                                    <div id={`time-${innerIndex}`} className="hidden md:flex md:items-center mx-auto col-start-5">{waktu_entri}</div>
+                                                                                    <select 
+                                                                                        className={`rounded-lg mr-1 col-start-6 ${ada ? ('pointer-events-none opacity-75') : ('')}`}
+                                                                                        name="modaEntri"
+                                                                                        id={`moda-${innerItem.id_dok}`}
+                                                                                        ref={ref => setModaRef(innerItem.id_dok, ref)}
+                                                                                        value={modaEntri[innerItem.id_dok]}
+                                                                                        onChange={(event) => handleModaChange(event,innerItem.id_dok)}
+                                                                                    >
+                                                                                        
+                                                                                        
+                                                                                        {
+                                                                                            ada ? (
+                                                                                                <>
+                                                                                                    { (innerItem.moda_entri === 1) ? (
+                                                                                                        <>
+                                                                                                            <option value="1" key="1">Aplikasi</option>
+                                                                                                            <option value="2" key="2">Web</option>
+                                                                                                        </>
+                                                                                                    ) : (
+                                                                                                        <>
+                                                                                                            <option value="2" key="2">Web</option>
+                                                                                                            <option value="1" key="1">Aplikasi</option>
+                                                                                                        </>
+                                                                                                    )}
+                                                                                                </>
+                                                                                            ) : (
+                                                                                                <>
+                                                                                                    <option value="-" key="-">-</option>
+                                                                                                    <option value="1" key="1">Aplikasi</option>
+                                                                                                    <option value="2" key="2">Web</option>
+                                                                                                </>
+                                                                                            )
+                                                                                        }
+                                                                                    </select>
                                                                                     {
-                                                                                        ada ? (
+                                                                                        isLoadingPetugas ? (
                                                                                             <>
-                                                                                                { (innerItem.moda_entri === 1) ? (
-                                                                                                    <>
-                                                                                                        <option value="1" key="1">Aplikasi</option>
-                                                                                                        <option value="2" key="2">Web</option>
-                                                                                                    </>
-                                                                                                ) : (
-                                                                                                    <>
-                                                                                                        <option value="2" key="2">Web</option>
-                                                                                                        <option value="1" key="1">Aplikasi</option>
-                                                                                                    </>
-                                                                                                )}
+
                                                                                             </>
                                                                                         ) : (
-                                                                                            <>
-                                                                                                <option value="-" key="-">-</option>
-                                                                                                <option value="1" key="1">Aplikasi</option>
-                                                                                                <option value="2" key="2">Web</option>
-                                                                                            </>
-                                                                                        )
-                                                                                    }
-                                                                                </select>
-                                                                                {
-                                                                                    isLoadingPetugas ? (
-                                                                                        <>
 
-                                                                                        </>
-                                                                                    ) : (
-
-                                                                                    
-                                                                                    <select 
-                                                                                        className={`sm:mr-5 mr-1 rounded-lg col-start-7 min-w-16 max-w-16 overflow-hidden ${ada ? ('pointer-events-none opacity-75') : ('')}`}
-                                                                                        name="selectPenerima" 
-                                                                                        id={`select-${innerItem.id_dok}`}
-                                                                                        ref={ref => setSelectRef(innerItem.id_dok, ref)}
-                                                                                        value={selectPenerima[innerItem.id_dok]} 
-                                                                                        onChange={(event) => handleSelectPenerimaChange(event, innerItem.id_dok)}
-                                                                                    >
-                                                                                    { 
-                                                                                        ada ? (
-                                                                                            <>
-                                                                                                    <option value={innerItem.petugas_entri} key={innerItem.petugas_entri}>{dataAdmin[index_admin].nama}</option>
-                                                                                                    {dataAdmin.filter((admin) => admin.id !== innerItem.petugas_entri).map((admin,admin_index) => (
+                                                                                        
+                                                                                        <select 
+                                                                                            className={`sm:mr-5 mr-1 rounded-lg col-start-7 min-w-16 max-w-16 overflow-hidden ${ada ? ('pointer-events-none opacity-75') : ('')}`}
+                                                                                            name="selectPenerima" 
+                                                                                            id={`select-${innerItem.id_dok}`}
+                                                                                            ref={ref => setSelectRef(innerItem.id_dok, ref)}
+                                                                                            value={selectPenerima[innerItem.id_dok]} 
+                                                                                            onChange={(event) => handleSelectPenerimaChange(event, innerItem.id_dok)}
+                                                                                        >
+                                                                                        { 
+                                                                                            ada ? (
+                                                                                                <>
+                                                                                                        <option value={innerItem.petugas_entri} key={innerItem.petugas_entri}>{dataAdmin[index_admin].nama}</option>
+                                                                                                        {dataAdmin.filter((admin) => admin.id !== innerItem.petugas_entri).map((admin,admin_index) => (
+                                                                                                            <option value={admin.id} key={admin_index}>{admin.nama}</option>
+                                                                                                        ))}
+                                                                                                </>
+                                                                                            ) :(
+                                                                                                <>
+                                                                                                    <option value="-" key="-">-</option>
+                                                                                                    {dataAdmin.map((admin,admin_index) => (
                                                                                                         <option value={admin.id} key={admin_index}>{admin.nama}</option>
                                                                                                     ))}
-                                                                                            </>
-                                                                                        ) :(
-                                                                                            <>
-                                                                                                <option value="-" key="-">-</option>
-                                                                                                {dataAdmin.map((admin,admin_index) => (
-                                                                                                    <option value={admin.id} key={admin_index}>{admin.nama}</option>
-                                                                                                ))}
-                                                                                            </>
-                                                                                        )
+                                                                                                </>
+                                                                                            )
+                                                                                        }
+                                                                                        
+                                                                                    </select>
+                                                                                        )    
                                                                                     }
-                                                                                    
-                                                                                </select>
-                                                                                    )    
-                                                                            }
-                                                                                <button id={`button${innerIndex}`} className={class_edcod} onClick={() => clickButtonSLS(innerItem.id_dok,innerIndex)}>{edcod}</button>
+                                                                                    <button id={`button${innerIndex}`} className={class_edcod} onClick={() => clickButtonSLS(innerItem.id_dok,innerIndex)}>{edcod}</button>
+                                                                                </div>
                                                                             </div>
                                                                         )
                                                                     }

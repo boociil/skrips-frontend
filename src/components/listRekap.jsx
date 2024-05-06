@@ -16,11 +16,11 @@ function ListRekap(props) {
     let pos = props.position
     let class_name;
     if (pos === 'TOP'){
-        class_name = 'cursor-pointer grid grid-rows-1 text-xs sm:text-sm md:col-span-5 grid-cols-3 md:grid-cols-5  hover:bg-slate-200 hover:scale-105 transition duration-500 transition duration-500 flex bg-white shadow-lg rounded-t-lg border-b-2 border-b-slate-300 max-w-3xl w-full md:mx-auto'
+        class_name = 'cursor-pointer grid grid-rows-1 text-xs sm:text-sm md:col-span-5 grid-cols-3 md:grid-cols-5  hover:bg-slate-200 hover:scale-105 hover:rounded-lg transition duration-500 transition duration-500 flex bg-white shadow-lg rounded-t-lg border-b-2 border-b-slate-300 max-w-3xl w-full md:mx-auto'
     }else if (pos === 'MID'){
-        class_name = 'cursor-pointer grid grid-rows-1 text-xs sm:text-sm md:col-span-5 grid-cols-3 md:grid-cols-5 hover:bg-slate-200 hover:scale-105 transition duration-500 transition duration-500 flex bg-white shadow-lg border-b-2 border-b-slate-300 max-w-3xl w-full md:mx-auto'
+        class_name = 'cursor-pointer grid grid-rows-1 text-xs sm:text-sm md:col-span-5 grid-cols-3 md:grid-cols-5 hover:bg-slate-200 hover:scale-105 hover:rounded-lg transition duration-500 transition duration-500 flex bg-white shadow-lg border-b-2 border-b-slate-300 max-w-3xl w-full md:mx-auto'
     }else{
-        class_name = 'cursor-pointer grid grid-rows-1 text-xs sm:text-sm md:col-span-5 grid-cols-3 md:grid-cols-5 hover:bg-slate-200 hover:scale-105 transition duration-500 transition duration-500 flex bg-white shadow-lg rounded-b-lg max-w-3xl w-full md:mx-auto'
+        class_name = 'cursor-pointer grid grid-rows-1 text-xs sm:text-sm md:col-span-5 grid-cols-3 md:grid-cols-5 hover:bg-slate-200 hover:scale-105 hover:rounded-lg transition duration-500 transition duration-500 flex bg-white shadow-lg rounded-b-lg max-w-3xl w-full md:mx-auto'
     }
 
     let status;

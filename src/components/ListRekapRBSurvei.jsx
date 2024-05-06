@@ -40,10 +40,10 @@ function ListRekapRBSurvei(props, { onDataFromChild }) {
                 .then(response => response.json())
                 .then(data => {
                     setData(data);
-                    console.log("the data : ",data)
+                    // console.log("the data : ",data)
                     setDataLen(data.length - 1);
                     setIsLoading(false)
-                    console.log(link);
+                    // console.log(link);
                 });       
         }
 
@@ -61,9 +61,9 @@ function ListRekapRBSurvei(props, { onDataFromChild }) {
                 .then(response => response.json())
                 .then(data => {
                     setDataAdmin(data);
-                    console.log("admin", data);
+                    // console.log("admin", data);
                     dataAdmin.map((admin,admin_index) => {
-                        console.log(admin.username);
+                        // console.log(admin.username);
                     })
                     setIsLoadingPetugas(false);
                 });            
@@ -152,7 +152,7 @@ function ListRekapRBSurvei(props, { onDataFromChild }) {
     const handleRutaChange = (even,ruta,x) => {
         const value = even.target.value
 
-        console.log("ruta dan x : ",ruta,x);
+        // console.log("ruta dan x : ",ruta,x);
         setPenerimaDok(prevSelectValues => ({
             ...prevSelectValues,
             [x]: {
@@ -290,7 +290,7 @@ function ListRekapRBSurvei(props, { onDataFromChild }) {
 
     const desaClick = (kode_desa,kode_kec_1) => {
 
-        console.log(kode_desa, kode_kec_1);
+        // console.log(kode_desa, kode_kec_1);
 
         let the_code = ''
 
@@ -350,12 +350,12 @@ function ListRekapRBSurvei(props, { onDataFromChild }) {
                                 return (
                                     <div key={index} className="row mt-3 max-w-5xl mx-auto">
                                         
-                                        <div className="kecamatan cursor-pointer mx-3 flex md:grid md:grid-cols-7 mt-1 mb-1 p-3 bg-[#418EC6] text-white text-xs rounded-md hover:bg-sky-400 " onClick={ () => handleCardClick(item.kode_kec)}>    
-                                            <div className="w-fit md:col-start-1 ml-1">{item.kode_kec}</div>
-                                            <div className="w-full md:col-start-2 md:col-span-3 text-center md:text-left">{item.Kec}</div>
+                                        <div className="kecamatan w-full cursor-pointer flex gap-2 mt-1 mb-1 p-3 bg-[#418EC6] text-white text-xs rounded-md hover:bg-sky-400 " onClick={ () => handleCardClick(item.kode_kec)}>    
+                                            <div className="w-fit md:col-start-1 ml-1 ">{item.kode_kec}</div>
+                                            <div className="w-full md:col-start-2 md:col-span-3 ">{item.Kec}</div>
                                             <div className="hidden md:block md:col-start-5">-</div>
                                             <div className="hidden md:block md:col-start-6">-</div>
-                                            <div className="hidden md:block md:col-start-7">-</div>
+                                            <div className="">xx%</div>
                                         </div>
 
                                         {data.filter((subItem) => item.kode_kec === subItem.kode_kec).map((subItem,subIndex) => {
@@ -376,8 +376,8 @@ function ListRekapRBSurvei(props, { onDataFromChild }) {
                                                         return false
                                                     }
                                                     return (
-                                                        <div key={subIndex} className="the-inside-row">
-                                                            <div id="the-desa" className={isClassAdded ? class_desa_2 : class_desa} onClick={() => desaClick(subItem.kode_desa,subItem.kode_kec)}>
+                                                        <div key={subIndex} className="the-inside-row lg:grid lg:justify-items-end">
+                                                            <div id="the-desa" className="Desa transition lg:w-[94%] lg:ml-8 ml-10 gap-2 duration-300 scale-100 cursor-pointer my-1 bg-[#17B715] hover:bg-[#30D32E] text-white md:p-3 p-2 rounded-md text-xs flex" onClick={() => desaClick(subItem.kode_desa,subItem.kode_kec)}>
                                                                 <div className="w-fit">{subItem.kode_desa}</div>
                                                                 <div className="w-full text-center ">{subItem.Desa}</div>
                                                                 
@@ -395,8 +395,8 @@ function ListRekapRBSurvei(props, { onDataFromChild }) {
                                                                     if(innerItem.id_x !== prevKorong ){
                                                                         prevKorong = innerItem.id_x
                                                                         return(
-                                                                            <div  key={innerIndex}>
-                                                                                <div className={`mr-3 p-1 sm:p-2 sm:grid sm:grid-cols-6  ml-9 my-1 bg-[#F5F4F4] rounded-md text-xs flex md:mx-auto max-w-3xl transition duration-300 scale-95`}>
+                                                                            <div  key={innerIndex} className="the-inside-row lg:grid lg:justify-items-end w-full">
+                                                                                <div className={`p-1 md:p-2 lg:w-[88%] ml-20 lg:ml-16 my-1 bg-[#F5F4F4] rounded-md text-xs flex sm:grid sm:grid-cols-6 scale-100`}>
                                                                                     <div className="w-full md:w-fit ml-2 col-start-1 col-span-2">{" " + innerItem.nama_x}</div>    
                                                                                     <div className="no-bs">{innerItem.no_blok_sensus}</div>
                                                                                     <div className="no-bs">{innerItem.no_kerangka_sampel}</div>
@@ -479,7 +479,7 @@ function ListRekapRBSurvei(props, { onDataFromChild }) {
                                                                                                     
                                                                                                     
                                                                                                     <button 
-                                                                                                        className={`status-edcod hover:bg-slate-100 col-start-8 w-fit text-center mr-2 md:mr-1 bg-white rounded-full md:p-3 p-1 border-2 border-slate-200 ${isRB ? ("text-[#14CB11]") : ("text-[#EF0D0D]")}`}
+                                                                                                        className={`status-edcod hover:bg-slate-100 col-start-8 w-fit text-center mr-2 md:mr-1 bg-white rounded-full md:px-3 px-1 md:py-1 py-1 border-2 border-slate-200 ${isRB ? ("text-[#14CB11]") : ("text-[#EF0D0D]")}`}
                                                                                                         id={`button-${insideItem.no_ruta}-${insideItem.id_x}`}
                                                                                                         onClick={() => clickButtonSampel(insideItem.no_ruta, insideItem.id_x,insideItem.no_blok_sensus, insideItem.no_kerangka_sampel)}
                                                                                                         >

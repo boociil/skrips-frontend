@@ -4,22 +4,23 @@ import { useCookies } from "react-cookie";
 import TopNavAdmin from "../components/topNavAdmin";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import Loading from "../components/Loading"
 
 
 function UsersWithId() {
 
     const { username } = useParams();
 
-    const navigate = useNavigate();
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
     const [ dataUsers ,setDataUsers ] = useState();
+    const [ infoUsers, setInfoUsers ] = useState({});
     const [ loadingData, setLoadingData ] = useState(true);
+    const [ loadingInfoUsers, setLoadingInfoUsers ] = useState(true);
     const [ len, setLen ] = useState();
 
-    console.log(cookies['token']);
 
+    // console.log(cookies['token']);
 
-    // let l = dataUsers.length;
     const getUsersData = () => {
 
         const requestOptions = {
@@ -33,15 +34,34 @@ function UsersWithId() {
         fetch('http://localhost:3001/get_user_activity/' + username, requestOptions)
         .then(response => response.json())
         .then(data => {
-            console.log(data);
             setLen(data.length)
             setDataUsers(data);
             setLoadingData(false);
         });
     }
 
+    const getInfoUsers = () => {
+
+        const requestOptions = {
+            method: 'POST', // Metode HTTP
+            headers: {
+                'Content-Type': 'application/json', 
+                'token' : cookies["token"],
+            }
+        };
+        
+        fetch('http://localhost:3001/get_users_info/' + username, requestOptions)
+        .then(response => response.json())
+        .then(data => {
+            // console.log(data);
+            setInfoUsers(data);
+            setLoadingInfoUsers(false);
+        });
+    }
+
     useEffect(() => {
         getUsersData()
+        getInfoUsers()
     }, [len]);
 
     const delet_user = (username) => {
@@ -103,31 +123,32 @@ function UsersWithId() {
             <TopNavAdmin />
         <div className="mb-10 mx-4">
             
-            { loadingData ? (
-                <div>
-                    {/* Ketika komponen sedang loading, tambahkan animasi disini */}
-                    Lagi Loading
-                </div>
-            ) : (
                 <div className="font-poppins md:mt-28 max-w-4xl mx-auto">
-                    <h2 className="mt-6 text-xl mb-4 md:mb-8">Test {username}</h2>
+                    
+                    <div className="bagian-info-user">
+                        <div className="username">Username : {loadingInfoUsers ? (<><Loading/></>) : (<>{infoUsers[0].username}</>)}</div>
+                        <div className="username">Full Name : {loadingInfoUsers ? (<><Loading/></>) : (<>{infoUsers[0].firstName} {infoUsers[0].lastName}</>)}</div>
+                        <div className="username">Role : {loadingInfoUsers ? (<><Loading/></>) : (<>{infoUsers[0].role}</>)}</div>
+                    </div>
 
                     <div className="the-table mx-auto">
                         <h2 className="mt-6 text-xl mb-4 md:mb-8">List Activity : </h2>
                         <div className="content  text-slate-600 text-sm md:grid-cols-5">
-                            {
-                                dataUsers.slice(0,20).map((item,index) => (
-                                    <div className="flex gap-10" key={index}>
-                                        <div className="w-20">{item.last_activity}</div>
-                                        <div>{item.time.slice(0,10)}</div>
-                                    </div>
-                                ))
+                            {  loadingData ? (
+                                    <Loading/>
+                                ) : (
+                                    dataUsers.slice(0,20).map((item,index) => (
+                                        <div className="flex gap-10" key={index}>
+                                            <div className="w-20">{item.last_activity}</div>
+                                            <div>{item.time.slice(0,10)} {item.time.slice(11,19)}</div>
+                                        </div>
+                                    ))
+                                )
                             }
                         </div>
                     </div>
                 </div>
-            )}
-            
+          
         </div>
         </>
     )
