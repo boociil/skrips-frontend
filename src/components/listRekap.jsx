@@ -1,12 +1,15 @@
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import ConfirmCard from "./confirmCard";
 
 
 function ListRekap(props) {
 
     const navigate = useNavigate();
-    const [ cookie, setCookie, removeCookie ] = useCookies()
+    const [ cookie, setCookie, removeCookie ] = useCookies();
+    const [ showConfirmCard, setShowConfirmCard ] = useState();
+    const [ choosenId, setChoosenId ] = useState();
     let isAdmin = false
 
     if(cookie.role === "Admin"){
@@ -75,10 +78,18 @@ function ListRekap(props) {
             });
     }
 
-    const deleteClick = () => {
+    const onConfirms = () => {
         delete_kegiatan(props.id);
-        alert("delete " + props.id)
         window.location.reload();
+    }
+
+    const onCancels = () => {
+        setShowConfirmCard(false)   ;
+    }
+
+    const deleteClick = (id) => {
+        setChoosenId(id)
+        setShowConfirmCard(true);
     }
     
     const petugasClick = () => {
@@ -124,6 +135,13 @@ function ListRekap(props) {
 
     return (
         <>
+            { showConfirmCard ? (
+                <>
+                    <ConfirmCard message={`Delete kegiatan ${choosenId}?`} onConfirm={onConfirms} onCancel={onCancels} />
+                </>
+            ) : (
+                <></>
+            )}
             <div className="sm:flex max-w-5xl md:mx-auto ">
                 <div className={class_name} onClick={divHandleClick.bind(this,props.id)} >
                     <div className="title px-3 py-2 col-span-2 w-full" >
@@ -156,12 +174,12 @@ function ListRekap(props) {
                 </div>
                 
                         <div className="action hidden md:grid md:grid-cols-3 items-center justify-center ">
-                            <div className="edit hover:bg-slate-200 p-1 transition duration-500 cursor-pointer bg-white shadow-lg rounded-l-lg">
+                            <div className="edit hover:bg-slate-200 p-1 transition duration-500 cursor-pointer bg-white shadow-lg rounded-l-lg group">
                                 <div className="w-fit mx-auto" onClick={editClick}>
-                                    <span className="material-symbols-outlined px-1 hidden md:block ">
+                                    <span className="material-symbols-outlined px-1 hidden md:block group-hover:opacity-0 transition duration-500">
                                         edit
                                     </span>
-                                    <div className="text-slate-400 text-xs">
+                                    <div className="text-slate-400 text-xs group-hover:-translate-y-3 group-hover:text-black transition duration-500">
                                         Edit
                                     </div>
                                 </div>
@@ -176,12 +194,12 @@ function ListRekap(props) {
                                     </div>
                                 </div>
                             </div>
-                            <div className="edit hover:bg-slate-200 border-l-2 p-1 transition duration-500 cursor-pointer bg-white shadow-lg rounded-r-lg" onClick={deleteClick}>
+                            <div className="edit hover:bg-red-500 border-l-2 p-1 transition duration-500 cursor-pointer bg-white shadow-lg rounded-r-lg group" onClick={() => deleteClick(props.id)}>
                                 <div className="w-fit mx-auto">
-                                    <span className="material-symbols-outlined px-1 hidden md:block">
+                                    <span className="material-symbols-outlined px-1 hidden md:block group-hover:opacity-0 transition duration-500">
                                         delete
                                     </span>
-                                    <div className="text-slate-400 text-xs">
+                                    <div className="text-slate-400 text-xs group-hover:-translate-y-3 group-hover:text-white transition duration-500">
                                         Delete
                                     </div>
                                 </div>

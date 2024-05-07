@@ -184,11 +184,11 @@ function TopNavAdmin(props = {active : 'home'}) {
                                     My Info
                                 </div>
                             </div>
-                            <div className="logout flex flex-col items cursor-pointer hover:bg-[#F5F4F4] p-1 rounded-lg group" onClick={() => removeAllCookie()}>
+                            <div className="logout flex flex-col items cursor-pointer hover:bg-red-500 p-1 rounded-lg group" onClick={() => removeAllCookie()}>
                                 <span className="material-symbols-outlined mx-auto text-red-400 group-hover:opacity-0 transition duration-500">
                                     power_settings_new
                                 </span>
-                                <div className="text-xs text-slate-500 group-hover:-translate-y-3 group-hover:text-red-500 transition duration-500">
+                                <div className="text-xs text-slate-500 group-hover:-translate-y-3 group-hover:text-white transition duration-500">
                                     Logout
                                 </div>
                             </div>

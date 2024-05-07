@@ -163,7 +163,7 @@ function AddKegiatan() {
                     fill_sensus(formData.idKegiatan);
                     navigate("/AssignPetugas/" + formData.idKegiatan);
                 }else{
-                    navigate("/Sampel/" + formData.idKegiatan);
+                    navigate("/Rekap/Sampel/" + formData.idKegiatan);
                 }
             })
             .catch(error => {

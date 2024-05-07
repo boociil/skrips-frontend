@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom"
+import { Navigate, useNavigate, useParams } from "react-router-dom"
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import excel_png from '../img/excel.png'
@@ -11,6 +11,7 @@ const UploadSampel = () => {
     const { id } = useParams();
 
     const [selectedFile, setSelectedFile] = useState(null);
+    const navigate = useNavigate();
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
@@ -74,6 +75,8 @@ const UploadSampel = () => {
                 transition: Bounce,
                 pauseOnHover: false,
             })
+
+            navigate("/Rekap")
 
         } catch (error) {
             toast.error(error, {
