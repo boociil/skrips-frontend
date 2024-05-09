@@ -32,11 +32,11 @@ function ListActivity(props) {
     let pos = props.position
     let class_name;
     if (pos === 'TOP'){
-        class_name = 'grid grid-rows-1 text-xs sm:text-sm grid-cols-3  flex bg-white shadow-lg rounded-t-lg border-b-2 border-b-slate-300 min-w-full max-w-5xl md:mx-auto'
+        class_name = 'grid grid-rows-1 text-xs sm:text-sm grid-cols-3  flex bg-white shadow-lg rounded-t-lg border-b- border-b-slate-300 min-w-full max-w-5xl md:mx-auto border-b-2'
     }else if (pos === 'MID'){
-        class_name = 'grid grid-rows-1 text-xs sm:text-sm grid-cols-3 flex bg-white shadow-lg border-b-2 border-b-slate-300 min-w-full max-w-5xl md:mx-auto'
+        class_name = 'grid grid-rows-1 text-xs sm:text-sm grid-cols-3 flex bg-white shadow-lg border-b- border-b-slate-300 min-w-full max-w-5xl md:mx-auto border-b-2'
     }else{
-        class_name = 'grid grid-rows-1 text-xs sm:text-sm grid-cols-3 flex bg-white shadow-lg rounded-b-lg min-w-full max-w-5xl md:mx-auto'
+        class_name = 'grid grid-rows-1 text-xs sm:text-sm grid-cols-3 flex bg-white shadow-lg rounded-b-lg min-w-full max-w-5xl md:mx-auto border-b-2'
     }
 
     // Parse Tanggl
@@ -44,8 +44,6 @@ function ListActivity(props) {
     const date = new Date(times)
     const options = { timeZone: 'Asia/Jakarta' };
     const time_id =  date.toLocaleString('id-ID', options)
-    
-    console.log(time_id);
 
     const [tanggal, bulan, tahun_before_slice] = time_id.split('/');
     const tahun = tahun_before_slice.slice(0,4)

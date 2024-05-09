@@ -4,6 +4,7 @@ import { Bar,Line,Doughnut } from "react-chartjs-2";
 import 'chart.js/auto';
 import TopNavAdmin from "../components/topNavAdmin";
 import Loading from "../components/Loading";
+import TableDash from "../components/TabelDash"
 
 function DashboardWithId() {
     const { id_kegiatan } = useParams();    
@@ -27,6 +28,8 @@ function DashboardWithId() {
     const [ dataPetugasRB, setDataPetugasRB ] = useState();
     const [ dataPetugasEdcod, setDataPetugasEdcod ] = useState();
     const [ dataPetugasEntri, setDataPetugasEntri ] = useState();
+    const [ graphData, setGraphData ] = useState();
+    const [ showTabelPet, setShowTabelPet ] = useState();
 
     const convert_bulan = (b) => {
         const the_b = (
@@ -48,6 +51,10 @@ function DashboardWithId() {
         return the_b[b];
     }
 
+    const onClose = () => {
+        setShowTabelPet(null);
+    }
+
     const timeNow = () => {
         const now = new Date();
         const year = now.getFullYear();
@@ -59,9 +66,14 @@ function DashboardWithId() {
         return time;
     }
 
+    const onMoreClick = (tipe) => {
+        console.log(tipe);
+        setShowTabelPet(tipe)
+    }
+
     useEffect(() => {
 
-        const fetchData = () => {
+        const fetchGraphData = () => {
             const requestOptions = {
                 method: 'POST', // Metode HTTP
                 headers: {
@@ -70,7 +82,25 @@ function DashboardWithId() {
                 body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
             };
             
-                fetch('http://localhost:3001/get_info/' + id_kegiatan , requestOptions)
+            let start_link = "http://localhost:3001/progres_bar/"
+            fetch(start_link + id_kegiatan , requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                // console.log(data);
+                setGraphData(data)
+            });
+        }
+
+        const fetchData = async () => {
+            const requestOptions = {
+                method: 'POST', // Metode HTTP
+                headers: {
+                    'Content-Type': 'application/json' // Tentukan tipe konten yang Anda kirimkan
+                },
+                body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
+            };
+            
+                await fetch('http://localhost:3001/get_info/' + id_kegiatan , requestOptions)
                 .then(response => response.json())
                 .then(data => {
                     setDataKegiatan(data);
@@ -88,7 +118,7 @@ function DashboardWithId() {
                     let target_edcod = data[0].target_edcod
                     target_edcod = target_edcod.slice(0,10)
                     const date_edcod = new Date(target_edcod)
-                    console.log(date_edcod);
+                    // console.log(date_edcod);
 
                     let target_entri = data[0].target_entri
                     target_entri = target_entri.slice(0,10)
@@ -122,7 +152,7 @@ function DashboardWithId() {
                 let start_link = "http://localhost:3001/get_progres_kecamatan_"
                 // console.log("issurvei", dataKegiatan);
                 isSurvei ? start_link += "survei/" : start_link += "sensus/"
-                console.log(start_link + id_kegiatan);
+                // console.log(start_link + id_kegiatan);
                 fetch(start_link + id_kegiatan , requestOptions)
                 .then(response => response.json())
                 .then(data => {
@@ -191,7 +221,7 @@ function DashboardWithId() {
                 fetch(start_link + id_kegiatan , requestOptions)
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data);
+                    // console.log(data);
                     setDataPetugasEntri(data);
                     setLoadingProgresEntri(false);
                     
@@ -213,7 +243,7 @@ function DashboardWithId() {
                 fetch(start_link + id_kegiatan , requestOptions)
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data)
+                    // console.log(data)
                     setDataOverallProgres(data);
                     
                     // Date Setting
@@ -241,14 +271,13 @@ function DashboardWithId() {
                 });
         }
 
-
-
         fetchData();
         fetchDataProgresKecmatan();
         fetchDataOveralProgres();
         fetchDataProgresPetugasPengdok();
         fetchDataProgresPetugasEdcod();
         fetchDataProgresPetugasEntri();
+        fetchGraphData();
         
     }, [isSurvei])
 
@@ -400,7 +429,15 @@ function DashboardWithId() {
                                                                     }
                                                                     
                                                                     
-                                                                    <div className="text-xs text-center mt-2 text-slate-400 underline cursor-pointer" onClick={() => {}}>Lihat Selengkapnya</div>
+                                                                    <div className="text-xs text-center mt-2 text-slate-400 underline cursor-pointer" onClick={() => onMoreClick(1)}>Lihat Selengkapnya</div>
+
+                                                                    {(showTabelPet === 1) ? (
+                                                                        <>
+                                                                            <TableDash data={dataPetugasRB} type={1} onClose={onClose}/>
+                                                                        </>
+                                                                    ) : (
+                                                                        <></>
+                                                                    )}
                                                                 </>
                                                             )
                                                         }
@@ -434,13 +471,23 @@ function DashboardWithId() {
                                                                         }
                                                                         return(
                                                                             <div key={index} className="title pl-1 grid grid-cols-2 text-xs mt-1 border-b border-sky-200 items-center min-h-6 ">
-                                                                                <div className="text-center">{dataProgresKecamatan[item]["nama_kec"]}</div>
+                                                                                <div className="text-left pl-2">{dataProgresKecamatan[item]["nama_kec"]}</div>
                                                                                 <div className={`text-center font-medium ${isLow ? ('text-[#EC5F4C]') : ('')} ${isMed ? ('text-[#418EC6]') : ('')} ${isHigh ? ('text-[#14CB11]') : ('')}`}>{dataProgresKecamatan[item]["progres_rb"].toFixed(2)} %</div>
                                                                             </div>
                                                                         )
                                                                     })
                                                                 }
-                                                                <div className="text-xs text-center mt-2 text-slate-400 underline cursor-pointer" onClick={() => {}}>Lihat Selengkapnya</div>
+
+                                                                {
+                                                                    (showTabelPet === 4) ? (
+                                                                        <>
+                                                                            <TableDash data={dataProgresKecamatan} type={4} onClose={onClose}/>
+                                                                        </>
+                                                                    ) : (
+                                                                        <></>
+                                                                    )
+                                                                }
+                                                                <div className="text-xs text-center mt-2 text-slate-400 underline cursor-pointer" onClick={() => {onMoreClick(4)}}>Lihat Selengkapnya</div>
                                                             </>
                                                         )
                                                             
@@ -577,9 +624,17 @@ function DashboardWithId() {
                                                                             )
                                                                         })
                                                                     }
+
+                                                                    {(showTabelPet === 2) ? (
+                                                                        <>
+                                                                            <TableDash data={dataPetugasEdcod} type={2} onClose={onClose}/>
+                                                                        </>
+                                                                    ) : (
+                                                                        <></>
+                                                                    )}
                                                                     
                                                                     
-                                                                    <div className="text-xs text-center mt-2 text-slate-400 underline cursor-pointer" onClick={() => {}}>Lihat Selengkapnya</div>
+                                                                    <div className="text-xs text-center mt-2 text-slate-400 underline cursor-pointer" onClick={() => {onMoreClick(2)}}>Lihat Selengkapnya</div>
                                                                 </>
                                                             )
                                                         }
@@ -613,7 +668,7 @@ function DashboardWithId() {
                                                                         }
                                                                         return(
                                                                             <div key={index} className="title pl-1 grid grid-cols-2 text-xs mt-1 border-b border-sky-200 items-center min-h-6 ">
-                                                                                <div className="text-center">{dataProgresKecamatan[item]["nama_kec"]}</div>
+                                                                                <div className="text-left pl-2">{dataProgresKecamatan[item]["nama_kec"]}</div>
                                                                                 <div className={`text-center font-medium ${isLow ? ('text-[#EC5F4C]') : ('')} ${isMed ? ('text-[#418EC6]') : ('')} ${isHigh ? ('text-[#14CB11]') : ('')}`}>{dataProgresKecamatan[item]["progres_edcod"].toFixed(2)} %</div>
                                                                             </div>
                                                                         )
@@ -759,8 +814,15 @@ function DashboardWithId() {
                                                                         })
                                                                     }
                                                                     
+                                                                    {(showTabelPet === 3) ? (
+                                                                        <>
+                                                                            <TableDash data={dataPetugasEntri} type={3} onClose={onClose}/>
+                                                                        </>
+                                                                    ) : (
+                                                                        <></>
+                                                                    )}
                                                                     
-                                                                    <div className="text-xs text-center mt-2 text-slate-400 underline cursor-pointer" onClick={() => {}}>Lihat Selengkapnya</div>
+                                                                    <div className="text-xs text-center mt-2 text-slate-400 underline cursor-pointer" onClick={() => {onMoreClick(3)}}>Lihat Selengkapnya</div>
                                                                 </>
                                                             )
                                                         }
@@ -794,7 +856,7 @@ function DashboardWithId() {
                                                                         }
                                                                         return(
                                                                             <div key={index} className="title  grid grid-cols-2 pl-1 text-xs mt-1 border-b border-sky-200 items-center min-h-6 ">
-                                                                                <div className="text-center pl-1 borde">{dataProgresKecamatan[item]["nama_kec"]}</div>
+                                                                                <div className="text-left pl-2 borde">{dataProgresKecamatan[item]["nama_kec"]}</div>
                                                                                 <div className={`text-center font-medium ${isLow ? ('text-[#EC5F4C]') : ('')} ${isMed ? ('text-[#418EC6]') : ('')} ${isHigh ? ('text-[#14CB11]') : ('')}`}>{dataProgresKecamatan[item]["progres_entri"].toFixed(2)} %</div>
                                                                             </div>
                                                                         )
