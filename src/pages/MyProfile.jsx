@@ -2,25 +2,23 @@ import { useEffect,useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import TopNavAdmin from "../components/topNavAdmin";
-import { Bounce, ToastContainer, toast } from "react-toastify";
+import GantiInfoUser from "../components/GantiInfoUser";
 import 'react-toastify/dist/ReactToastify.css';
 import Loading from "../components/Loading"
 import ListActivity from "../components/ListActivity";
-import GantiInfoUser from "../components/GantiInfoUser";
 
-function UsersWithId() {
 
-    const { username } = useParams();
+function MyProfile() {
 
+    
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
+    const { username } = cookies.username
     const [ dataUsers ,setDataUsers ] = useState();
-    const [ infoUsers, setInfoUsers ] = useState({});
     const [ loadingData, setLoadingData ] = useState(true);
-    const [ loadingInfoUsers, setLoadingInfoUsers ] = useState(true);
     const [ len, setLen ] = useState();
     const [ count, setCount ] = useState();
-    const [ isMyProfile, setIsMyProfile ] = useState(false);
     const [ showGantiInfo, setShowGantiInfo ] = useState(false);
+
 
     const getUsersData = () => {
 
@@ -32,7 +30,7 @@ function UsersWithId() {
             }
         };
         
-        fetch('http://localhost:3001/get_user_activity/' + username, requestOptions)
+        fetch('http://localhost:3001/get_user_activity/' + cookies.username, requestOptions)
         .then(response => response.json())
         .then(data => {
             setLen(data.length)
@@ -48,52 +46,10 @@ function UsersWithId() {
         });
     }
 
-    const getInfoUsers = () => {
-
-        const requestOptions = {
-            method: 'POST', // Metode HTTP
-            headers: {
-                'Content-Type': 'application/json', 
-                'token' : cookies["token"],
-            }
-        };
-        
-        fetch('http://localhost:3001/get_users_info/' + username, requestOptions)
-        .then(response => response.json())
-        .then(data => {
-            // console.log(data);
-            setInfoUsers(data);
-            setLoadingInfoUsers(false);
-        });
-    }
-
     useEffect(() => {
         getUsersData()
-        getInfoUsers()
         
     }, [len]);
-
-    const delet_user = (username) => {
-        return new Promise ((resolve,reject) => {
-            const requestOptions = {
-                method: 'POST', // Metode HTTP
-                headers: {
-                    'Content-Type': 'application/json', // Tentukan tipe konten yang Anda kirimkan,
-                    'token' : cookies["token"],
-                }
-            };
-            
-            fetch('http://localhost:3001/delete_user/' + username, requestOptions)
-            .then(response => response.json())
-            .then(data => {
-                if(data.msg === "Success"){
-                    resolve(true);
-                }else{
-                    reject(data.msg);
-                }
-            });
-        })
-    }
 
     const onCountChange = (e) => {
         if(e.target.value > len){
@@ -105,36 +61,6 @@ function UsersWithId() {
         }
     }
 
-    const onDeleteClick = async (username) => {
-        // alert(username)
-        await delet_user(username)
-        .then(success => {
-            setLen(len - 1)
-            toast.success("Hapus User Berhasil", {
-                position: "bottom-right",
-                hideProgressBar: true,
-                autoClose: 1000,
-                closeOnClick: true,
-                theme: "light",
-                transition: Bounce,
-                pauseOnHover: false,
-            })
-            // toast success
-        })
-        .catch(error => {
-            // toast gagal
-            toast.success("Error : " + error, {
-                position: "bottom-right",
-                hideProgressBar: true,
-                autoClose: 1000,
-                closeOnClick: true,
-                theme: "light",
-                transition: Bounce,
-                pauseOnHover: false,
-            })
-        })
-    }
-
     const onGantiInfoClick = () => {
         setShowGantiInfo(true);
     }
@@ -143,9 +69,9 @@ function UsersWithId() {
         setShowGantiInfo(null);
     }
 
+
     return (
         <>
-            <ToastContainer />
             <TopNavAdmin />
             <div className="mb-10 mx-4">
                 <div className="font-poppins md:mt-28 max-w-4xl mx-auto">
@@ -154,27 +80,20 @@ function UsersWithId() {
                         <h3 className="title font-semibold text-lg mb-4">Information</h3>
                         <div className=" ">
                             <div className="username text-xs w-24 sm:text-base inline-block">Username</div> 
-                            <div className="text-xs sm:text-base inline-block">: {loadingInfoUsers ? (<><Loading/></>) : (<>{infoUsers[0].username}</>)}</div> 
+                            <div className="text-xs sm:text-base inline-block">: {cookies.username}</div> 
                             <div></div>
                             <div className="full-name text-xs sm:text-base w-24 inline-block">Full Name</div> 
-                            <div className="text-xs sm:text-base inline-block">: {loadingInfoUsers ? (<><Loading/></>) : (<>{infoUsers[0].firstName} {infoUsers[0].lastName}</>)}</div> 
+                            <div className="text-xs sm:text-base inline-block">: {cookies.fullName}</div> 
                             <div></div>
                             <div className="Role text-xs sm:text-base inline-block w-24">Role</div> 
-                            <div className="text-xs sm:text-base inline-block">: {loadingInfoUsers ? (<><Loading/></>) : (<>{infoUsers[0].role}</>)}</div> 
+                            <div className="text-xs sm:text-base inline-block">: {cookies.role}</div> 
                             <div></div>
-                            <div className={`absolute right-2 top-2 rounded-lg p-1 bg-[#F5F4F4] hover:bg-red-500 text-xs group cursor-pointer ${isMyProfile ? ('hidden') : ('')}`}>
-                                <span className="text-center text-red-500 material-symbols-outlined px-1 hidden md:block group-hover:opacity-0 transition duration-500">
-                                    delete
-                                </span>
-                                <div className="text-slate-400 text-xs md:group-hover:-translate-y-3 group-hover:text-white transition duration-500">
-                                    Delete
-                                </div>
-                            </div>
-                            <button className="bg-emerald-500 py-1 px-2 rounded-lg text-white mb-2 mt-4 ml-2" onClick={onGantiInfoClick}>Ganti Role</button>
+ 
+                            <button className="bg-emerald-500 py-1 px-2 rounded-lg text-white mb-2 mt-4 ml-2" onClick={onGantiInfoClick}>Ganti Password</button>
                             {
                                 showGantiInfo ? (
                                     <>
-                                        <GantiInfoUser onClose={onClose} isMyProfile={false} username={cookies.username}/>
+                                        <GantiInfoUser onClose={onClose} isMyProfile={true} username={cookies.username}/>
                                     </>
                                 ) : (
                                     <>
@@ -244,4 +163,4 @@ function UsersWithId() {
     )
 }
 
-export default UsersWithId;
+export default MyProfile;

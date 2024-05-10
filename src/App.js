@@ -22,6 +22,7 @@ import AdminRoutes from './components/AdminRoutes';
 import PengawasRoutes from './components/PengawasRoutes';
 import UpdateKegiatan from './pages/UpdateKegiatan';
 import UsersWithId from './pages/UsersWithId';
+import MyProfile from './pages/MyProfile';
 
 
 function App() {
@@ -59,6 +60,8 @@ function App() {
                 <Route path="/Users/Register" element={<Register />}/>
                 <Route path="/Users/:username" element={<UsersWithId />}/>
               </Route>
+
+              <Route path="/MyProfile" element={<MyProfile />}></Route>
 
               {/* Ketika pengguna mengakses routes yang tidak terdaftar */}
               <Route path='*' element={<NotFound />} />

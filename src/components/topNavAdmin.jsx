@@ -91,6 +91,12 @@ function TopNavAdmin(props = {active : 'home'}) {
         })
     }
 
+
+    const onMyProfileClick = () => {
+        navigate("/MyProfile")
+    }
+
+
     let isAdmin = false;
 
     if(cookies.role === 'Admin'){
@@ -176,7 +182,7 @@ function TopNavAdmin(props = {active : 'home'}) {
                 { showOption ? (
                     <div className="user-option fixed bg-white right-2 top-20 p-2 rounded-xl shadow-lg" id="user-option">
                         <div className="option flex gap-3">
-                            <div className="my-account flex flex-col items cursor-pointer hover:bg-[#F5F4F4] p-1 rounded-lg group">
+                            <div className="my-account flex flex-col items cursor-pointer hover:bg-[#F5F4F4] p-1 rounded-lg group" onClick={onMyProfileClick}>
                                 <span className="material-symbols-outlined mx-auto group-hover:opacity-0 transition duration-500">
                                     person
                                 </span>

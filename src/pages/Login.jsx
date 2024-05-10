@@ -71,6 +71,7 @@ function Login() {
                 setCookie('role',success.role)
                 setCookie('username',success.username)
                 setCookie('isLogin', true)
+                setCookie('fullName', success.fullName)
                 navigate('/Home');
                 // console.log(success);
             })
