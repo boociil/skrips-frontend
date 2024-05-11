@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Loading from "../components/Loading"
 import ListActivity from "../components/ListActivity";
 import GantiInfoUser from "../components/GantiInfoUser";
+import ConfirmCard from "../components/confirmCard";
 
 function UsersWithId() {
 
@@ -21,6 +22,8 @@ function UsersWithId() {
     const [ count, setCount ] = useState();
     const [ isMyProfile, setIsMyProfile ] = useState(false);
     const [ showGantiInfo, setShowGantiInfo ] = useState(false);
+    const [ showConfirmCard, setShowConfirmCard ] = useState();
+    const navigate = useNavigate();
 
     const getUsersData = () => {
 
@@ -105,7 +108,11 @@ function UsersWithId() {
         }
     }
 
-    const onDeleteClick = async (username) => {
+    const onNo = () => {
+        setShowConfirmCard(false);
+    }
+
+    const onYes = async (username) => {
         // alert(username)
         await delet_user(username)
         .then(success => {
@@ -119,7 +126,7 @@ function UsersWithId() {
                 transition: Bounce,
                 pauseOnHover: false,
             })
-            // toast success
+            navigate("/Users")
         })
         .catch(error => {
             // toast gagal
@@ -135,6 +142,10 @@ function UsersWithId() {
         })
     }
 
+    const onDelClick = () => {
+        setShowConfirmCard(true);
+    }
+
     const onGantiInfoClick = () => {
         setShowGantiInfo(true);
     }
@@ -147,6 +158,15 @@ function UsersWithId() {
         <>
             <ToastContainer />
             <TopNavAdmin />
+            {
+                showConfirmCard ? (
+                    <>
+                        <ConfirmCard message={`Hapus User ${username} ?`} onCancel={onNo} onConfirm={() => onYes(username)}/>
+                    </>
+                ) : (
+                    <></>
+                )
+            }
             <div className="mb-10 mx-4">
                 <div className="font-poppins md:mt-28 max-w-4xl mx-auto">
                     
@@ -162,7 +182,7 @@ function UsersWithId() {
                             <div className="Role text-xs sm:text-base inline-block w-24">Role</div> 
                             <div className="text-xs sm:text-base inline-block">: {loadingInfoUsers ? (<><Loading/></>) : (<>{infoUsers[0].role}</>)}</div> 
                             <div></div>
-                            <div className={`absolute right-2 top-2 rounded-lg p-1 bg-[#F5F4F4] hover:bg-red-500 text-xs group cursor-pointer ${isMyProfile ? ('hidden') : ('')}`}>
+                            <div className={`absolute right-2 top-2 rounded-lg p-1 bg-[#F5F4F4] hover:bg-red-500 text-xs group cursor-pointer ${isMyProfile ? ('hidden') : ('')}`} onClick={onDelClick}>
                                 <span className="text-center text-red-500 material-symbols-outlined px-1 hidden md:block group-hover:opacity-0 transition duration-500">
                                     delete
                                 </span>
@@ -170,11 +190,13 @@ function UsersWithId() {
                                     Delete
                                 </div>
                             </div>
-                            <button className="bg-emerald-500 py-1 px-2 rounded-lg text-white mb-2 mt-4 ml-2" onClick={onGantiInfoClick}>Ganti Role</button>
+                            {loadingInfoUsers ? (<><Loading/></>) : (<><button className="bg-emerald-500 py-1 px-2 rounded-lg text-white mb-2 mt-4 ml-2" onClick={onGantiInfoClick}>Ganti Role</button></>)}
+                            
                             {
                                 showGantiInfo ? (
                                     <>
-                                        <GantiInfoUser onClose={onClose} isMyProfile={false} username={cookies.username}/>
+                                        
+                                        <GantiInfoUser onClose={onClose} isMyProfile={false} username={infoUsers[0].username} role={infoUsers[0].role}/>
                                     </>
                                 ) : (
                                     <>

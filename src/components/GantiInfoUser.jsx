@@ -1,25 +1,150 @@
 import { useState } from "react";
 import { useCookies } from "react-cookie";
+import { Bounce, ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
+function GantiInfoUser({ username, role, isMyProfile, onClose }) {
 
-function GantiInfoUser({ username, isMyProfile, onClose }) {
+    console.log(username);
 
+    const [ showError, setShowError ] = useState(false);
     const [cookies, setCookie, removeCookie] = useCookies([]);
+    const [ msgError, setMsgError ] = useState();
     const [formData, setFormData] = useState({
         old: '',
-        new: ''
+        new: '',
+        confNew: '',
+        role: role,
     });
+
+    let role_arry = ["Admin", "Pengawas", "Operator"]
+    let index = role_arry.indexOf(role);
+
+    if (index !== -1) {
+        role_arry.splice(index, 1);
+    }
+
+    const fetchChangeRole = () => {
+        return new Promise ((resolve,reject) => {
+            const requestOptions = {
+                method: 'POST', // Metode HTTP
+                headers: {
+                    'Content-Type': 'application/json', 
+                    'token' : cookies["token"],
+                },
+                body: JSON.stringify({ 
+                    "username" : username,
+                    "role" : formData.role
+                 }) 
+            };
+            
+            fetch('http://localhost:3001/update_role_users', requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                if(data.msg === "Success"){
+                    resolve(data)
+                }else{
+                    reject(data.msg);
+                }
+            });
+        })
+    }
+
+    const fetchChangePassword = () => {
+        return new Promise ((resolve,reject) => {
+            const requestOptions = {
+                method: 'POST', // Metode HTTP
+                headers: {
+                    'Content-Type': 'application/json', 
+    
+                },
+                body: JSON.stringify({ 
+                    "username" : cookies.username,
+                    "password" : formData.old,
+                    "newPass" : formData.new
+                 }) 
+            };
+            
+            fetch('http://localhost:3001/update_password_users', requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                if(data.msg === "Success"){
+                    resolve(data)
+                }else{
+                    reject(data.msg);
+                }
+            });
+        })
+    }
+
+    const validatePass = () => {
+        if(formData.new === ""){
+            return false;
+        }
+        if(formData.confNew === ""){
+            return false;
+        }
+        if(formData.new !== formData.confNew){
+            return false;
+        }
+        return true;
+    }
 
     const handleChange = (event) => {
         setFormData({
             ...formData,
             [event.target.name]: event.target.value
         });
+        setShowError(false);
+        setMsgError('')
     };
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        // You can access form data from the state (formData) here
+        if(isMyProfile){
+            if(validatePass()){
+                fetchChangePassword()
+                .then(success => {
+                    toast.success("Update Password Berhasil", {
+                        position: "bottom-right",
+                        hideProgressBar: true,
+                        autoClose: 1000,
+                        closeOnClick: true,
+                        theme: "light",
+                        transition: Bounce,
+                        pauseOnHover: false,
+                    })
+                    onClose();
+                })
+                .catch(reject => {
+                    setMsgError(reject)
+                    setShowError(true);
+                })
+            }else{
+                setShowError(true);
+                setMsgError('Password Tidak Cocok')
+            }
+        }else{
+            // fetch ke backend untuk ganti role
+            if (formData.role !== role){
+                fetchChangeRole()
+                .then(success => {
+                    toast.success("Update Role Berhasil", {
+                        position: "bottom-right",
+                        hideProgressBar: true,
+                        autoClose: 1000,
+                        closeOnClick: true,
+                        theme: "light",
+                        transition: Bounce,
+                        pauseOnHover: false,
+                    })
+                    onClose()
+                })
+            }else{
+                onClose();
+            }
+        }
+        
     };
 
     return(
@@ -28,35 +153,60 @@ function GantiInfoUser({ username, isMyProfile, onClose }) {
                 <div className="box bg-white m-auto px-5 py-2 absolute top-0 rounded-lg">
                     <div className="x-button px-2 absolute right-3 cursor-pointer text-lg rounded-md font-bold bg-[#F5F4F4] hover:bg-red-500 hover:text-white" onClick={onClose}>x</div>
                     <div className="title mt-10">
-                        <h2 className="text-center mb-8 font-medium">
-                                Ganti Password
+                        <h2 className="text-center mb-8 font-medium text-xl">
+                                {
+                                    isMyProfile ? (
+                                        <>Ganti Password</>
+                                    ) : (
+                                        <>Penyesuaian Role</>
+                                    )
+                                }
                         </h2>
                     </div>
                     <form onSubmit={handleSubmit}>
-                        <div className="mb-3">
-                            <label htmlFor="oldPass">Password Lama :
-                                <input type="password" className="old-password bg-[#F5F4F4] rounded-md ml-1" name="old" value={formData.old} onChange={handleChange}/>
-                            </label>
-                            
-                        </div>
-                        <div className="mb-8">
-                            <label htmlFor="newPass">Password Baru : </label>
-                            <input type="password" className="new-password bg-[#F5F4F4] rounded-md ml-1" name="new" value={formData.new} onChange={handleChange} />
-                        </div>
+                        {
+                            isMyProfile ? (
+                                <>
+                                    <div className="mb-3">
+                                        <label htmlFor="old">Password Lama :</label>
+                                        <input type="password" className="old-password bg-[#F5F4F4] rounded-md ml-1 p-1" name="old" value={formData.old} onChange={handleChange}/>
+
+                                    </div>
+                                    <div className="mb-3">
+                                        <label htmlFor="newPass">Password Baru : </label>
+                                        <input type="password" className="new-password bg-[#F5F4F4] rounded-md ml-1 p-1" name="new" value={formData.new} onChange={handleChange} />
+                                    </div>
+                                    <div className={`${showError ? ('mb-3') : ('mb-8')}`}>
+                                        <label htmlFor="confNew">Konfirmasi Password : </label>
+                                        <input type="password" className="conf-password bg-[#F5F4F4] rounded-md ml-1 p-1" name="confNew" value={formData.confNew} onChange={handleChange} />
+                                    </div>
+                                    <div className={`msg-error ${showError ? ('') : ('hidden')}`}>
+                                        <span className="text-red-500 text-xs">*{msgError}</span>
+                                    </div>
+                                </>
+                            ) : (
+                                <>
+                                </>
+                            )
+                        }
+                        
 
                         {
                             !isMyProfile ? (
-                                <>
+                                <div className="min-w-80">
                                     <label htmlFor="role">Role : </label>
-                                    <select name="role" id="role">
-                                        <option value="Admin" key="Admin">Admin</option>
-                                        <option value="Pengawas" key="Pengawas">Pengawas</option>
-                                        <option value="Operator" key="Operator">Pengawas</option>
+                                    <select name="role" id="role" className="bg-[#F5F4F4] rounded-md p-1" onChange={handleChange}>
+                                        <option value={role} key={0}>{role}</option>
+                                        {
+                                            role_arry.map((item,index) => (
+                                                <option value={item} key={index}>{item}</option>
+                                            ))
+                                        }
                                     </select>
-                                </>
+                                </div>
                             ) : (<></>)
                         }
-                        <div className="button-div flex justify-center mb-1">
+                        <div className="button-div flex justify-center mb-1 mt-4">
                             <button type="submit" className="px-2 py-1 bg-emerald-500 text-white rounded-lg">Submit</button>
                         </div>
                     </form>
