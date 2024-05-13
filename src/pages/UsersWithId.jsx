@@ -23,6 +23,7 @@ function UsersWithId() {
     const [ isMyProfile, setIsMyProfile ] = useState(false);
     const [ showGantiInfo, setShowGantiInfo ] = useState(false);
     const [ showConfirmCard, setShowConfirmCard ] = useState();
+    const [ isChange, setIsChange ] = useState(false);
     const navigate = useNavigate();
 
     const getUsersData = () => {
@@ -74,7 +75,7 @@ function UsersWithId() {
         getUsersData()
         getInfoUsers()
         
-    }, [len]);
+    }, [isChange]);
 
     const delet_user = (username) => {
         return new Promise ((resolve,reject) => {
@@ -129,7 +130,6 @@ function UsersWithId() {
             navigate("/Users")
         })
         .catch(error => {
-            // toast gagal
             toast.success("Error : " + error, {
                 position: "bottom-right",
                 hideProgressBar: true,
@@ -152,11 +152,11 @@ function UsersWithId() {
 
     const onClose = () => {
         setShowGantiInfo(null);
+        setIsChange(true);
     }
 
     return (
         <>
-            <ToastContainer />
             <TopNavAdmin />
             {
                 showConfirmCard ? (
@@ -223,7 +223,6 @@ function UsersWithId() {
                                                 <span className="text-sm ml-1"> of {len} total activity</span>
                                             </div>
 
-                                            
                                             <div className="content  text-slate-600 text-sm md:grid-cols-5"></div>
                                             <div className="tile cursor-pointer grid grid-rows-1 text-xs sm:text-sm grid-cols-3 transition duration-500 min-w-full max-w-5xl md:mx-auto">
                                             <div className="title px-3 py-2 w-full" >
@@ -259,7 +258,6 @@ function UsersWithId() {
                             </>  
                         )
                     }
-                    
                 </div>
             </div>
         </>

@@ -12,7 +12,6 @@ function AddKegiatan() {
     const [ loading, setIsLoading ] = useState(false);
 
     const [formData, setFormData] = useState({
-        // inisialisasi state untuk menyimpan data form
         namaKegiatan: '',
         idKegiatan: '',
         jenisKegiatan: "1",
@@ -193,7 +192,7 @@ function AddKegiatan() {
                                         className='bg-[#F6F6F9] mt-1 text-xs px-3 md:mx-0 py-2 mb-3 block rounded-lg w-full focus:ring-1 focus:ring-sky-500 focus:border-sky-500 max-w-72  '
                                         name="namaKegiatan"
                                         type="text" 
-                                        placeholder='nama'
+                                        placeholder='Nama Kegiatan'
                                         value={formData.namaKegiatan}
                                         onChange={handleChange} 
                                 />
@@ -208,7 +207,7 @@ function AddKegiatan() {
                                         name="idKegiatan"
                                         id="id-kegiatan"
                                         type="text" 
-                                        placeholder='ID'
+                                        placeholder='ID Kegiatan'
                                         value={formData.idKegiatan}
                                         onChange={handleChange} 
                                     />

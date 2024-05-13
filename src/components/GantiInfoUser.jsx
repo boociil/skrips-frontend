@@ -5,8 +5,6 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function GantiInfoUser({ username, role, isMyProfile, onClose }) {
 
-    console.log(username);
-
     const [ showError, setShowError ] = useState(false);
     const [cookies, setCookie, removeCookie] = useCookies([]);
     const [ msgError, setMsgError ] = useState();
@@ -138,7 +136,8 @@ function GantiInfoUser({ username, role, isMyProfile, onClose }) {
                         transition: Bounce,
                         pauseOnHover: false,
                     })
-                    onClose()
+                    onClose();
+                    
                 })
             }else{
                 onClose();
@@ -149,8 +148,8 @@ function GantiInfoUser({ username, role, isMyProfile, onClose }) {
 
     return(
         <div className="the-blur fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 font-poppins">
-            <div className="container fixed z-50 flex justify-center items-center mt-40">
-                <div className="box bg-white m-auto px-5 py-2 absolute top-0 rounded-lg">
+            <div className="container fixed z-50 flex justify-center items-center mt-40 ">
+                <div className=" bg-white m-auto px-5 py-2 absolute top-0 rounded-lg min-w-96 mx-auto ">
                     <div className="x-button px-2 absolute right-3 cursor-pointer text-lg rounded-md font-bold bg-[#F5F4F4] hover:bg-red-500 hover:text-white" onClick={onClose}>x</div>
                     <div className="title mt-10">
                         <h2 className="text-center mb-8 font-medium text-xl">
@@ -163,21 +162,21 @@ function GantiInfoUser({ username, role, isMyProfile, onClose }) {
                                 }
                         </h2>
                     </div>
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit} className="">
                         {
                             isMyProfile ? (
                                 <>
                                     <div className="mb-3">
-                                        <label htmlFor="old">Password Lama :</label>
+                                        <label htmlFor="old" className="ml-2">Password Lama :</label><br />
                                         <input type="password" className="old-password bg-[#F5F4F4] rounded-md ml-1 p-1" name="old" value={formData.old} onChange={handleChange}/>
 
                                     </div>
                                     <div className="mb-3">
-                                        <label htmlFor="newPass">Password Baru : </label>
+                                        <label htmlFor="newPass" className="ml-2">Password Baru : </label><br />
                                         <input type="password" className="new-password bg-[#F5F4F4] rounded-md ml-1 p-1" name="new" value={formData.new} onChange={handleChange} />
                                     </div>
                                     <div className={`${showError ? ('mb-3') : ('mb-8')}`}>
-                                        <label htmlFor="confNew">Konfirmasi Password : </label>
+                                        <label htmlFor="confNew" className="ml-2">Konfirmasi Password : </label><br />
                                         <input type="password" className="conf-password bg-[#F5F4F4] rounded-md ml-1 p-1" name="confNew" value={formData.confNew} onChange={handleChange} />
                                     </div>
                                     <div className={`msg-error ${showError ? ('') : ('hidden')}`}>
@@ -194,7 +193,7 @@ function GantiInfoUser({ username, role, isMyProfile, onClose }) {
                         {
                             !isMyProfile ? (
                                 <div className="min-w-80">
-                                    <label htmlFor="role">Role : </label>
+                                    <label htmlFor="role" className="ml-1 w-full">Role : </label><br />
                                     <select name="role" id="role" className="bg-[#F5F4F4] rounded-md p-1" onChange={handleChange}>
                                         <option value={role} key={0}>{role}</option>
                                         {

@@ -40,11 +40,11 @@ const RekapWithID = () => {
         };
             let start_link = "http://localhost:3001/get_progres_"
             isSurvei ? start_link += "survei/" : start_link += "sensus/"
-            console.log(start_link);
+            // console.log(start_link);
             fetch(start_link + id , requestOptions)
             .then(response => response.json())
             .then(data => {
-                console.log(data);
+                // console.log(data);
                 setDataOverallProgres(data);
 
                 // Date Setting
@@ -69,7 +69,7 @@ const RekapWithID = () => {
                 .then(response => response.json())
                 .then(data => {
                     setData(data);
-                    console.log(data);
+                    // console.log(data);
                     setNamaKegiatan(data[0].nama)
                     setIsSurvei(data[0].jenis == 2);
 
@@ -82,7 +82,7 @@ const RekapWithID = () => {
                     let target_edcod = data[0].target_edcod
                     target_edcod = target_edcod.slice(0,10)
                     const date_edcod = new Date(target_edcod)
-                    console.log(date_edcod);
+                    // console.log(date_edcod);
 
                     let target_entri = data[0].target_entri
                     target_entri = target_entri.slice(0,10)

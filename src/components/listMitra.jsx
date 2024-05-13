@@ -7,11 +7,11 @@ function ListMitra(props) {
     let pos = props.position
     let class_name;
     if (pos === 'TOP'){
-        class_name = 'cursor-pointer grid grid-rows-1 text-xs sm:text-sm grid-cols-2 md:grid-cols-4  hover:bg-slate-200 hover:rounded-lg hover:scale-105 transition duration-500 flex bg-white shadow-lg rounded-t-lg border-b-2 hover:border-slate-200 border-b-slate-300 max-w-5xl md:mx-auto'
+        class_name = 'grid grid-rows-1 text-xs sm:text-sm grid-cols-2 md:grid-cols-4  transition duration-500 flex bg-white shadow-lg rounded-t-lg border-b-2 hover:border-slate-200 border-b-slate-300 max-w-5xl md:mx-auto'
     }else if (pos === 'MID'){
-        class_name = 'cursor-pointer grid grid-rows-1 text-xs sm:text-sm grid-cols-2 md:grid-cols-4 hover:bg-slate-200 hover:rounded-lg hover:scale-105 transition duration-500 flex bg-white shadow-lg border-b-2 hover:border-slate-200 border-b-slate-300 max-w-5xl md:mx-auto'
+        class_name = 'grid grid-rows-1 text-xs sm:text-sm grid-cols-2 md:grid-cols-4 transition duration-500 flex bg-white shadow-lg border-b-2 hover:border-slate-200 border-b-slate-300 max-w-5xl md:mx-auto'
     }else{
-        class_name = 'cursor-pointer grid grid-rows-1 text-xs sm:text-sm grid-cols-2 md:grid-cols-4 hover:bg-slate-200 hover:rounded-lg hover:scale-105 transition duration-500 flex bg-white shadow-lg rounded-b-lg max-w-5xl md:mx-auto'
+        class_name = 'grid grid-rows-1 text-xs sm:text-sm grid-cols-2 md:grid-cols-4 transition duration-500 flex bg-white shadow-lg rounded-b-lg max-w-5xl md:mx-auto'
     }
 
     // Parse Tanggl

@@ -55,19 +55,8 @@ function DashboardWithId() {
         setShowTabelPet(null);
     }
 
-    const timeNow = () => {
-        const now = new Date();
-        const year = now.getFullYear();
-        const month = now.getMonth(); // Bulan dimulai dari 0 (Januari) hingga 11 (Desember)
-        const date = now.getDate();
-
-        const time = `${year}-${month+1}-${date}`;
-
-        return time;
-    }
-
     const onMoreClick = (tipe) => {
-        console.log(tipe);
+        // console.log(tipe);
         setShowTabelPet(tipe)
     }
 
@@ -86,8 +75,25 @@ function DashboardWithId() {
             fetch(start_link + id_kegiatan , requestOptions)
             .then(response => response.json())
             .then(data => {
-                // console.log(data);
-                setGraphData(data)
+                console.log(data);
+                const groupedData = data.reduce((acc, curr) => {
+                    if (!acc[curr.jenis_data]) {
+                        acc[curr.jenis_data] = [];
+                    }
+                    acc[curr.jenis_data].push({
+                        bulan : curr["bulan"],
+                        tahun : curr["tahun"],
+                        minggu : curr["minggu"],
+                        title : convert_bulan(curr["bulan"]) + " Minggu-" + curr["minggu"],
+                        f : curr["frekuensi"]
+                    });
+                    return acc;
+                }, {});
+
+                console.log(groupedData.tgl_entri);
+                const labels = Object.values(groupedData).flatMap(item => item.map(data => data.title));
+                console.log(labels);
+                setGraphData(groupedData)
             });
         }
 
@@ -156,7 +162,7 @@ function DashboardWithId() {
                 fetch(start_link + id_kegiatan , requestOptions)
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data)
+                    // console.log(data)
                     setDataProgresKecamatan(data);
                     setIsLoadingProgres(false);
                 });
@@ -379,8 +385,10 @@ function DashboardWithId() {
                                                                 </>
                                                             ) : (
                                                                 <>
+                                                                    
                                                                     <Line
                                                                         data={{ 
+                                                                            
                                                                             labels: ["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Ags","Sep","Okt","Nov","Des"],
                                                                             datasets:[{
                                                                                 label: "Frekuensi RB",
@@ -674,7 +682,16 @@ function DashboardWithId() {
                                                                         )
                                                                     })
                                                                 }
-                                                                <div className="text-xs text-center mt-2 text-slate-400 underline cursor-pointer" onClick={() => {}}>Lihat Selengkapnya</div>
+                                                                {
+                                                                    (showTabelPet === 5) ? (
+                                                                        <>
+                                                                            <TableDash data={dataProgresKecamatan} type={5} onClose={onClose}/>
+                                                                        </>
+                                                                    ) : (
+                                                                        <></>
+                                                                    )
+                                                                }
+                                                                <div className="text-xs text-center mt-2 text-slate-400 underline cursor-pointer" onClick={() => {onMoreClick(5)}}>Lihat Selengkapnya</div>
                                                             </>
                                                         )
                                                             
@@ -862,7 +879,16 @@ function DashboardWithId() {
                                                                         )
                                                                     })
                                                                 }
-                                                                <div className="text-xs text-center mt-2 text-slate-400 underline cursor-pointer" onClick={() => {}}>Lihat Selengkapnya</div>
+                                                                {
+                                                                    (showTabelPet === 6) ? (
+                                                                        <>
+                                                                            <TableDash data={dataProgresKecamatan} type={6} onClose={onClose}/>
+                                                                        </>
+                                                                    ) : (
+                                                                        <></>
+                                                                    )
+                                                                }
+                                                                <div className="text-xs text-center mt-2 text-slate-400 underline cursor-pointer" onClick={() => {onMoreClick(6)}}>Lihat Selengkapnya</div>
                                                             </>
                                                         )
                                                             

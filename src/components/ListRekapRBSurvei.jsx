@@ -31,7 +31,7 @@ function ListRekapRBSurvei(props, { onDataFromChild }) {
             const requestOptions = {
                 method: 'POST', // Metode HTTP
                 headers: {
-                    'Content-Type': 'application/json' // Tentukan tipe konten yang Anda kirimkan
+                    'Content-Type': 'application/json' 
                 },
                     body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
                 };
@@ -40,7 +40,7 @@ function ListRekapRBSurvei(props, { onDataFromChild }) {
                 .then(response => response.json())
                 .then(data => {
                     setData(data);
-                    // console.log("the data : ",data)
+                    console.log("the data : ",data)
                     setDataLen(data.length - 1);
                     setIsLoading(false)
                     // console.log(link);

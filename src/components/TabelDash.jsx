@@ -1,60 +1,69 @@
+import { useState,useEffect } from "react";
+
 
 function ConfirmCard({ data, onClose, type}) {
 
-    console.log(data);
 
     let title = "";
     let title_column1 = "";
     let title_column2 = "";
-    let kec = false;
 
-    if(type > 3){
-        kec = true;
-    }
-    
     if (type == 1 ){
         title = "Petugas Receiving Batching";
         title_column2 = "Dokumen"
         title_column1 = "Petugas"
-    }else if( type = 2 ){
+    }else if( type == 2 ){
         title = "Petugas Editing Coding";
         title_column2 = "Dokumen"
         title_column1 = "Petugas"
-    }else if( type = 3 ){
+    }else if( type == 3 ){
         title = "Petugas Entri";
         title_column2 = "Dokumen"
         title_column1 = "Petugas"
-    }else if( type = 4 ){
-        title = "Progres Kecamatan Receiving Batching";
+    }else if( type == 4 ){
+        title = "Progres Per Kecamatan Receiving Batching";
         title_column2 = "Progres"
         title_column1 = "Kecamatan"
-    }else if( type = 5 ){
-        title = "Progres Kecamatan Editing Coding";
+    }else if( type == 5 ){
+        title = "Progres Per Kecamatan Editing Coding";
         title_column2 = "Progres"
         title_column1 = "Kecamatan"
-    }else if( type = 6 ){
-        title = "Progres Kecamatan Entri Data";
+    }else if( type == 6 ){
+        title = "Progres Per Kecamatan Entri Data";
         title_column2 = "Progres"
         title_column1 = "Kecamatan"
     }
 
-    data.map((item,index) => {
-        return (
-            <div key={index} className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center min-h-6">
-                <div className="text-left ml-1 truncate">{item.firstName + " " + item.lastName}</div>
-                <div className="text-center">{item.TOTAL}</div>
-            </div>
-        )
-    })
 
     const generateContent = () => {
         let ct = []
-        if (kec){
+        if (type > 3){
+
             Object.keys(data).map((item,index) => {
-                <div key={index} className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center min-h-6">
-                    <div className="text-left ml-1 truncate">{data[item]["nama_kec"]}</div>
-                    <div className="text-center">{item.TOTAL}</div>
-                </div>
+
+                let progres = data[item]["progres_rb"];
+
+                if (type === 5){
+                    progres = data[item]["progres_edcod"];
+                }else if (type === 6){
+                    progres = data[item]["progres_entri"];
+                }
+
+                let isLow,isMed,isHigh = null;
+                if (progres <= 35){
+                    isLow = true
+                } else if(progres <= 65){
+                    isMed = true
+                } else{
+                    isHigh = true
+                }
+                
+                ct.push(
+                    <div key={index} className="title pl-1 grid grid-cols-2 text-xs mt-1 border-b border-sky-200 items-center min-h-6 ">
+                        <div className="text-left pl-2">{data[item]["nama_kec"]}</div>
+                        <div className={`text-center font-medium ${isLow ? ('text-[#EC5F4C]') : ('')} ${isMed ? ('text-[#418EC6]') : ('')} ${isHigh ? ('text-[#14CB11]') : ('')}`}>{progres.toFixed(2)} %</div>
+                    </div>
+                )
             })
         }else{
             data.map((item,index) => {
@@ -70,7 +79,6 @@ function ConfirmCard({ data, onClose, type}) {
                 )
             })
         }
-
         return ct;
     }
 
@@ -81,7 +89,7 @@ function ConfirmCard({ data, onClose, type}) {
                 <div className="box bg-white m-auto p-2 absolute top-0 rounded-lg">
                     <div className="x-button px-2 absolute right-3 cursor-pointer text-lg rounded-md font-bold bg-[#F5F4F4] hover:bg-red-500 hover:text-white" onClick={onClose}>x</div>
                     <div className="title mt-10">
-                        <h2 className="text-center mb-4 font-medium">
+                        <h2 className="text-center mb-4 font-medium max-w-64 mx-auto">
                         {
                             title
                         }
@@ -95,7 +103,7 @@ function ConfirmCard({ data, onClose, type}) {
                         </div>
                     </div>
 
-                    <div className="the-data mb-8">
+                    <div className="the-data mb-8 max-h-52 overflow-y-auto">
                         {
                             generateContent()
                         }

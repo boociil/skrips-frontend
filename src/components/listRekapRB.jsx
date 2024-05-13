@@ -33,15 +33,16 @@ function ListRekap(props) {
                 },
                     body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
                 };
-                const link = 'http://localhost:3001/get_pengolahan_data/' + props.id
-                fetch(link,  requestOptions)
-                .then(response => response.json())
-                .then(data => {
-                    setData(data);
-                    // console.log("ini datanya",data)
-                    setDataLen(data.length - 1);
-                    setIsLoading(false)
-                });            
+
+            const link = 'http://localhost:3001/get_pengolahan_data/' + props.id
+            fetch(link,  requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                setData(data);
+                // console.log("ini datanya",data)
+                setDataLen(data.length - 1);
+                setIsLoading(false)
+            });            
         }
         const fetchDataUsers = () => {
 
