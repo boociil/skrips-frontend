@@ -39,7 +39,7 @@ function ListRekap(props) {
             .then(response => response.json())
             .then(data => {
                 setData(data);
-                // console.log("ini datanya",data)
+                console.log("ini datanya",data)
                 setDataLen(data.length - 1);
                 setIsLoading(false)
             });            
@@ -57,6 +57,7 @@ function ListRekap(props) {
                 fetch(link,  requestOptions)
                 .then(response => response.json())
                 .then(data => {
+                    console.log("dataAdmin : ", data);
                     setDataAdmin(data);
                     setIsLoadingPetugas(false)
                 });            
@@ -380,7 +381,16 @@ function ListRekap(props) {
                                                                         }
                                                                         let class_sls = "mr-3 p-1 md:p-3 md:grid md:grid-cols-8 ml-9 my-1 bg-[#F5F4F4] rounded-md text-xs flex md:mx-auto max-w-3xl transition duration-300 scale-95";
                                                                         let class_sls2 = "mr-3 p-1 md:p-3 md:grid md:grid-cols-8 ml-9 my-1 bg-[#F5F4F4] rounded-md text-xs flex md:mx-auto max-w-3xl transition duration-300 scale-95";
+                                                                        
+                                                                        // BUG DISINI!
+                                                                        // BUG DALAM MENENTUKAN INDEX ADMIN, KETIKA USERS SUDAH DIHAPUS DAN DATA USERS TIDAK ADA DI DATABASE, SEDANGKAN USERS MELAKUKAN PENERIMAAN DOKUMEN PADA SAAT TERDAHULU.
                                                                         let index_admin = dataAdmin.findIndex(item => item.username === innerItem.penerima_dok)
+                                                                        if(index_admin === -1){
+                                                                            console.log(item.username)
+                                                                            console.log(innerItem.penerima_dok);;
+                                                                        }
+                                                                        // --------------------------------------
+
                                                                         return(
                                                                             <div key={innerIndex} className="the-inside-row lg:grid lg:justify-items-end w-full">
                                                                                 <div className="p-1 md:p-2 lg:w-[88%] ml-20 lg:ml-16 my-1 bg-[#F5F4F4] rounded-md text-xs flex scale-100">

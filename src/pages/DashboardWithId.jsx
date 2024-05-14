@@ -28,7 +28,13 @@ function DashboardWithId() {
     const [ dataPetugasRB, setDataPetugasRB ] = useState();
     const [ dataPetugasEdcod, setDataPetugasEdcod ] = useState();
     const [ dataPetugasEntri, setDataPetugasEntri ] = useState();
-    const [ graphData, setGraphData ] = useState();
+    const [ titleGraphRb, setTitleGraphRb ] = useState();
+    const [ valGraphRb, setValGraphRb ] = useState();
+    const [ titleGraphEdcod, setTitleGraphEdcod ] = useState();
+    const [ valGraphEdcod, setValGraphEdcod ] = useState();
+    const [ titleGraphEntri, setTitleGraphEntri ] = useState();
+    const [ valGraphEntri, setValGraphEntri ] = useState();
+    const [ loadingGraphData, setLoadingGraphData ] = useState(true);
     const [ showTabelPet, setShowTabelPet ] = useState();
 
     const convert_bulan = (b) => {
@@ -75,25 +81,30 @@ function DashboardWithId() {
             fetch(start_link + id_kegiatan , requestOptions)
             .then(response => response.json())
             .then(data => {
-                console.log(data);
-                const groupedData = data.reduce((acc, curr) => {
-                    if (!acc[curr.jenis_data]) {
-                        acc[curr.jenis_data] = [];
+                
+                const result = {};
+                data.forEach(item => {
+                    const { jenis_data, tahun, bulan, minggu, frekuensi } = item;
+                    const title = `${convert_bulan(bulan)} Minggu-${minggu}`;
+                    
+                    if (!result[jenis_data]) {
+                        result[jenis_data] = { titles: [], frekuensi: [] };
                     }
-                    acc[curr.jenis_data].push({
-                        bulan : curr["bulan"],
-                        tahun : curr["tahun"],
-                        minggu : curr["minggu"],
-                        title : convert_bulan(curr["bulan"]) + " Minggu-" + curr["minggu"],
-                        f : curr["frekuensi"]
-                    });
-                    return acc;
-                }, {});
 
-                console.log(groupedData.tgl_entri);
-                const labels = Object.values(groupedData).flatMap(item => item.map(data => data.title));
-                console.log(labels);
-                setGraphData(groupedData)
+                    result[jenis_data].titles.push(title);
+                    result[jenis_data].frekuensi.push(frekuensi);
+                });
+                console.log(data);
+                console.log(result);
+                // console.log("after proccess",result.tgl_edcod.frekuensi);
+                setTitleGraphRb(result.tgl_pengdok.titles)
+                setValGraphRb(result.tgl_pengdok.frekuensi)
+                setTitleGraphEdcod(result.tgl_edcod.titles)
+                setValGraphEdcod(result.tgl_edcod.frekuensi)
+                setTitleGraphEntri(result.tgl_entri.titles)
+                setValGraphEntri(result.tgl_entri.frekuensi)
+
+                setLoadingGraphData(false);
             });
         }
 
@@ -253,25 +264,48 @@ function DashboardWithId() {
                     setDataOverallProgres(data);
                     
                     // Date Setting
-                    const date_pengdok = new Date(data[0]["start_pengdok"])
-                    const date_edcod = new Date(data[0]["start_edcod"])
-                    const date_entri = new Date(data[0]["start_entri"])
 
-                    const rb_date = date_pengdok.getDate();
-                    const rb_month = convert_bulan(date_pengdok.getMonth() + 1);
-                    const rb_year = date_pengdok.getFullYear();
+                    let rb_date = null;
+                    let rb_month = null;
+                    let rb_year = null;
 
-                    const edcod_date = date_edcod.getDate();
-                    const edcod_month = convert_bulan(date_edcod.getMonth() + 1);
-                    const edcod_year = date_edcod.getFullYear();
+                    let edcod_date = null;
+                    let edcod_month = null; 
+                    let edcod_year = null;
 
-                    const entri_date = date_entri.getDate();
-                    const entri_month = convert_bulan(date_entri.getMonth() + 1);
-                    const entri_year = date_entri.getFullYear();
-                    
-                    setStartRB(rb_month + " " + rb_date + ", " + rb_year);
-                    setStartEdcod(edcod_month + " " + edcod_date + ", " + edcod_year);
-                    setStartEntri(entri_month + " " + entri_date + ", " + entri_year);
+                    let entri_date = null;
+                    let entri_month = null; 
+                    let entri_year = null;
+
+                    if(data[0]["start_pengdok"] !== null) {
+                        const date_pengdok = new Date(data[0]["start_pengdok"])
+                        rb_date = date_pengdok.getDate();
+                        rb_month = convert_bulan(date_pengdok.getMonth() + 1);
+                        rb_year = date_pengdok.getFullYear();
+                        setStartRB(rb_month + " " + rb_date + ", " + rb_year);
+                    }else{
+                        setStartRB("-")
+                    }
+
+                    if(data[0]["start_edcod"] !== null) {
+                        const date_edcod = new Date(data[0]["start_edcod"])
+                        edcod_date = date_edcod.getDate();
+                        edcod_month = convert_bulan(date_edcod.getMonth() + 1);
+                        edcod_year = date_edcod.getFullYear();
+                        setStartEdcod(edcod_month + " " + edcod_date + ", " + edcod_year);
+                    }else{
+                        setStartEdcod("-")
+                    }
+
+                    if(data[0]["start_entri"] !== null) {
+                        const date_entri = new Date(data[0]["start_entri"])
+                        entri_date = date_entri.getDate();
+                        entri_month = convert_bulan(date_entri.getMonth() + 1);
+                        entri_year = date_entri.getFullYear();
+                        setStartEntri(edcod_month + " " + edcod_date + ", " + edcod_year);
+                    }else{
+                        setStartEntri("-")
+                    }
                     ////////////////////////////////////////
                     setLoadingOverallProgres(false);
                 });
@@ -286,7 +320,6 @@ function DashboardWithId() {
         fetchGraphData();
         
     }, [isSurvei])
-
     
 
     return (
@@ -379,7 +412,7 @@ function DashboardWithId() {
                                                 
                                                 <div className="chart flex items-center justify-center mt-2 sm:mt-0 mr-2 w-full ">
                                                         {
-                                                            loadingOverallProgres ? (
+                                                            loadingGraphData ? (
                                                                 <>
                                                                     <Loading/>
                                                                 </>
@@ -389,10 +422,10 @@ function DashboardWithId() {
                                                                     <Line
                                                                         data={{ 
                                                                             
-                                                                            labels: ["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Ags","Sep","Okt","Nov","Des"],
+                                                                            labels: titleGraphRb,
                                                                             datasets:[{
                                                                                 label: "Frekuensi RB",
-                                                                                data : [10,25,25,30,45,47,60,67,80,83,89,100],
+                                                                                data : valGraphRb,
                                                                                 backgroundColor: '#BAE6FD',
                                                                                 borderColor: '#36A2EB',
                                                                                 borderWidth: 1,
@@ -578,7 +611,7 @@ function DashboardWithId() {
                                                 
                                                 <div className="chart flex items-center justify-center mt-2 sm:mt-0 mr-2 w-full ">
                                                         {
-                                                            loadingOverallProgres ? (
+                                                            loadingGraphData ? (
                                                                 <>
                                                                     <Loading/>
                                                                 </>
@@ -586,10 +619,10 @@ function DashboardWithId() {
                                                                 <>
                                                                     <Line
                                                                         data={{ 
-                                                                            labels: ["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Ags","Sep","Okt","Nov","Des"],
+                                                                            labels: titleGraphEdcod,
                                                                             datasets:[{
                                                                                 label: "Frekuensi RB",
-                                                                                data : [10,25,25,30,45,47,60,67,80,83,89,100],
+                                                                                data : valGraphEdcod,
                                                                                 backgroundColor: '#BAE6FD',
                                                                                 borderColor: '#36A2EB',
                                                                                 borderWidth: 1,
@@ -768,7 +801,7 @@ function DashboardWithId() {
                                                 
                                                 <div className="chart flex items-center justify-center mt-2 sm:mt-0 mr-2 w-full ">
                                                         {
-                                                            loadingOverallProgres ? (
+                                                            loadingGraphData ? (
                                                                 <>
                                                                     Loading...
                                                                 </>
@@ -776,10 +809,10 @@ function DashboardWithId() {
                                                                 <>
                                                                     <Line
                                                                         data={{ 
-                                                                            labels: ["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Ags","Sep","Okt","Nov","Des"],
+                                                                            labels: titleGraphEntri,
                                                                             datasets:[{
                                                                                 label: "Frekuensi RB",
-                                                                                data : [10,25,25,30,45,47,60,67,78,,,],
+                                                                                data : valGraphEntri,
                                                                                 backgroundColor: '#BAE6FD',
                                                                                 borderColor: '#36A2EB',
                                                                                 borderWidth: 1,

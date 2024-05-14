@@ -33,8 +33,6 @@ function AdminHomePage() {
                 .then(response => response.json())
                 .then(data => {
                     setData(data);
-                    console.log(data[0].nama.toLowerCase());
-                    console.log(data);
                     setDataLen(data.length - 1);
                 });
 

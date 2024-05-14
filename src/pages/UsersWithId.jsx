@@ -101,7 +101,7 @@ function UsersWithId() {
 
     const onCountChange = (e) => {
         if(e.target.value > len){
-            setCount(256)    
+            setCount(len)    
         }else if(e.target.value <= 0){
             setCount(1)
         }else{
@@ -182,7 +182,8 @@ function UsersWithId() {
                             <div className="Role text-xs sm:text-base inline-block w-24">Role</div> 
                             <div className="text-xs sm:text-base inline-block">: {loadingInfoUsers ? (<><Loading/></>) : (<>{infoUsers[0].role}</>)}</div> 
                             <div></div>
-                            <div className={`absolute right-2 top-2 rounded-lg p-1 bg-[#F5F4F4] hover:bg-red-500 text-xs group cursor-pointer ${isMyProfile ? ('hidden') : ('')}`} onClick={onDelClick}>
+                            {/* Fitur delete users difreeze sementara karena bisa menyebabkan Bug */}
+                            <div className={`absolute right-2 top-2 rounded-lg p-1 bg-[#F5F4F4] hover:bg-red-500 text-xs group cursor-pointer ${isMyProfile ? ('hidden') : ('hidden')}`} onClick={onDelClick}>
                                 <span className="text-center text-red-500 material-symbols-outlined px-1 hidden md:block group-hover:opacity-0 transition duration-500">
                                     delete
                                 </span>

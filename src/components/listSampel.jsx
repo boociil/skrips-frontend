@@ -336,9 +336,11 @@ function ListSampel(props, { onDataFromChild }) {
                                 return (
                                     <div key={index} className="row mt-3 max-w-5xl mx-auto">
                                         
-                                        <div className="kecamatan cursor-pointer mx-3 flex mt-1 mb-1 p-3 bg-[#418EC6] text-white text-xs rounded-md hover:bg-sky-400" onClick={ () => handleCardClick(item.kode_kec)}>    
-                                            <span className="w-fit ml-1">{item.kode_kec}</span>
-                                            <span className="w-full text-center">{item.Kec}</span>
+                                        <div className="kecamatan w-full cursor-pointer flex gap-2 mt-1 mb-1 p-3 bg-[#418EC6] text-white text-xs rounded-md hover:bg-sky-400 " onClick={ () => handleCardClick(item.kode_kec)}>    
+                                            <div className="w-fit md:col-start-1 ml-1 ">{item.kode_kec}</div>
+                                            <div className="w-full md:col-start-2 md:col-span-3 ">{item.Kec}</div>
+                                            <div className="hidden md:block md:col-start-5">-</div>
+                                            <div className="hidden md:block md:col-start-6">-</div>
                                         </div>
 
                                         {data2.filter((subItem) => item.kode_kec === subItem.kode_kec).map((subItem,subIndex) => {
@@ -359,10 +361,10 @@ function ListSampel(props, { onDataFromChild }) {
                                                         return false
                                                     }
                                                     return (
-                                                        <div key={subIndex} className="the-inside-row">
-                                                            <div id="the-desa" className={isClassAdded ? class_desa_2 : class_desa} onClick={() => desaClick(subItem.kode_desa,subItem.kode_kec)}>
+                                                        <div key={subIndex} className="the-inside-row lg:grid lg:justify-items-end">
+                                                            <div id="the-desa" className="Desa transition lg:w-[94%] lg:ml-8 ml-10 gap-2 duration-300 scale-100 cursor-pointer my-1 bg-[#17B715] hover:bg-[#30D32E] text-white md:p-3 p-2 rounded-md text-xs flex" onClick={() => desaClick(subItem.kode_desa,subItem.kode_kec)}>
                                                                 <div className="w-fit">{subItem.kode_desa}</div>
-                                                                <div className="w-full text-center ">{subItem.Desa}</div>
+                                                                <div className="w-full">{subItem.Desa}</div>
                                                             </div>
 
                                                             {/* { on_show_title ? (
@@ -391,8 +393,8 @@ function ListSampel(props, { onDataFromChild }) {
 
                                                                 if(the_open){
                                                                     return(
-                                                                        <div  key={innerIndex}>
-                                                                            <div className={`mr-3 p-1 sm:p-2 sm:grid sm:grid-cols-7  ml-9 my-1 bg-[#F5F4F4] rounded-md text-xs flex md:mx-auto max-w-3xl transition duration-300 scale-95`}>
+                                                                        <div  key={innerIndex} className="the-inside-row lg:grid lg:justify-items-end w-full">
+                                                                            <div className={`p-1 md:p-2 lg:w-[88%] ml-20 lg:ml-16 my-1 bg-[#F5F4F4] rounded-md text-xs flex scale-100`}>
                                                                                 <div className={`w-full md:w-fit ml-2 col-start-1 col-span-2  h-4 ${isSampel[innerIndex] ? ('') : ('overflow-hidden whitespace-nowrap text-overflow-ellipsis')}`}>
                                                                                     <span className="w-fit text-center">{innerItem.kode_sls}</span>
                                                                                     {" " + innerItem.SLS}

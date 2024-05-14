@@ -54,7 +54,7 @@ function MyProfile() {
 
     const onCountChange = (e) => {
         if(e.target.value > len){
-            setCount(256)    
+            setCount(len)    
         }else if(e.target.value <= 0){
             setCount(1)
         }else{
