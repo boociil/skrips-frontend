@@ -28,6 +28,11 @@ function DashboardWithId() {
     const [ dataPetugasRB, setDataPetugasRB ] = useState();
     const [ dataPetugasEdcod, setDataPetugasEdcod ] = useState();
     const [ dataPetugasEntri, setDataPetugasEntri ] = useState();
+    const [ graphDefRB, setGraphDefRB ] = useState(false);
+    const [ graphDefEdcod, setGraphDefEdcod ] = useState(false);
+    const [ graphDefEntri, setGraphDefEntri ] = useState(false);
+    const [ defaultTitles, setDefaultTitles ] = useState(['Kegiatan Belum Dimulai']);
+    const [ defaultVal, setDefaultVal ] = useState([0]);
     const [ titleGraphRb, setTitleGraphRb ] = useState();
     const [ valGraphRb, setValGraphRb ] = useState();
     const [ titleGraphEdcod, setTitleGraphEdcod ] = useState();
@@ -94,15 +99,31 @@ function DashboardWithId() {
                     result[jenis_data].titles.push(title);
                     result[jenis_data].frekuensi.push(frekuensi);
                 });
+
                 console.log(data);
                 console.log(result);
+
                 // console.log("after proccess",result.tgl_edcod.frekuensi);
-                setTitleGraphRb(result.tgl_pengdok.titles)
-                setValGraphRb(result.tgl_pengdok.frekuensi)
-                setTitleGraphEdcod(result.tgl_edcod.titles)
-                setValGraphEdcod(result.tgl_edcod.frekuensi)
-                setTitleGraphEntri(result.tgl_entri.titles)
-                setValGraphEntri(result.tgl_entri.frekuensi)
+                if (!result.tgl_pengdok || !result.tgl_pengdok.titles || result.tgl_pengdok.titles.length === 0) {
+                    setGraphDefRB(true);
+                } else {
+                    setTitleGraphRb(result.tgl_pengdok.titles);
+                    setValGraphRb(result.tgl_pengdok.frekuensi);
+                }
+                
+                if (!result.tgl_edcod || !result.tgl_edcod.titles || result.tgl_edcod.titles.length === 0) {
+                    setGraphDefEdcod(true);
+                } else {
+                    setTitleGraphEdcod(result.tgl_edcod.titles);
+                    setValGraphEdcod(result.tgl_edcod.frekuensi);
+                }
+
+                if (!result.tgl_ntri || !result.tgl_entri.titles || result.tgl_entri.titles.length === 0) {
+                    setGraphDefEntri(true);
+                } else {
+                    setTitleGraphEntri(result.tgl_entri.titles);
+                    setValGraphEntri(result.tgl_entri.frekuensi);
+                }
 
                 setLoadingGraphData(false);
             });
@@ -422,10 +443,10 @@ function DashboardWithId() {
                                                                     <Line
                                                                         data={{ 
                                                                             
-                                                                            labels: titleGraphRb,
+                                                                            labels: graphDefRB ? defaultTitles : titleGraphRb,
                                                                             datasets:[{
                                                                                 label: "Frekuensi RB",
-                                                                                data : valGraphRb,
+                                                                                data : graphDefRB ? defaultVal : valGraphRb,
                                                                                 backgroundColor: '#BAE6FD',
                                                                                 borderColor: '#36A2EB',
                                                                                 borderWidth: 1,
@@ -463,7 +484,7 @@ function DashboardWithId() {
                                                                             return (
                                                                                 <div key={index} className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center min-h-6">
                                                                                     <div className="text-left ml-1 truncate">{item.firstName + " " + item.lastName}</div>
-                                                                                    <div className="text-center">{item.TOTAL}</div>
+                                                                                    <div className="text-center">{item.TOTAL} {!isSurvei ? ('SLS') : ('')}</div>
                                                                                 </div>
                                                                             )
                                                                         })
@@ -619,10 +640,10 @@ function DashboardWithId() {
                                                                 <>
                                                                     <Line
                                                                         data={{ 
-                                                                            labels: titleGraphEdcod,
+                                                                            labels: graphDefEdcod ? defaultTitles : titleGraphEdcod,
                                                                             datasets:[{
                                                                                 label: "Frekuensi RB",
-                                                                                data : valGraphEdcod,
+                                                                                data : graphDefEdcod ? defaultVal : valGraphEdcod,
                                                                                 backgroundColor: '#BAE6FD',
                                                                                 borderColor: '#36A2EB',
                                                                                 borderWidth: 1,
@@ -660,7 +681,7 @@ function DashboardWithId() {
                                                                             return (
                                                                                 <div key={index} className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center min-h-6">
                                                                                     <div className="text-left ml-1 truncate">{item.nama}</div>
-                                                                                    <div className="text-center">{item.TOTAL}</div>
+                                                                                    <div className="text-center">{item.TOTAL} {!isSurvei ? ('SLS') : ('')}</div>
                                                                                 </div>
                                                                             )
                                                                         })
@@ -809,10 +830,10 @@ function DashboardWithId() {
                                                                 <>
                                                                     <Line
                                                                         data={{ 
-                                                                            labels: titleGraphEntri,
+                                                                            labels: graphDefEntri ? defaultTitles : titleGraphEntri,
                                                                             datasets:[{
                                                                                 label: "Frekuensi RB",
-                                                                                data : valGraphEntri,
+                                                                                data : graphDefEntri ? defaultVal : valGraphEntri,
                                                                                 backgroundColor: '#BAE6FD',
                                                                                 borderColor: '#36A2EB',
                                                                                 borderWidth: 1,
@@ -858,7 +879,7 @@ function DashboardWithId() {
                                                                             return (
                                                                                 <div key={index} className="title grid grid-cols-2 text-xs mt-1 px-1 border-b border-sky-200 items-center min-h-6">
                                                                                     <div className="text-left ml-1 truncate">{item.nama}</div>
-                                                                                    <div className="text-center">{item.TOTAL}</div>
+                                                                                    <div className="text-center">{item.TOTAL} {!isSurvei ? ('SLS') : ('')}</div>
                                                                                 </div>
                                                                             )
                                                                         })

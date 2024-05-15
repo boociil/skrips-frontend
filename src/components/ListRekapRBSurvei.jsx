@@ -290,9 +290,9 @@ function ListRekapRBSurvei(props, { onDataFromChild }) {
 
     const desaClick = (kode_desa,kode_kec_1) => {
 
-        // console.log(kode_desa, kode_kec_1);
+        console.log(kode_desa, kode_kec_1);
 
-        let the_code = ''
+        let the_code = null;
 
         if(kodeDesaActive && kodeDesaActive[kode_kec_1] && kodeDesaActive[kode_kec_1][kode_desa]){
             the_code = kodeDesaActive[kode_kec_1][kode_desa]
@@ -392,8 +392,8 @@ function ListRekapRBSurvei(props, { onDataFromChild }) {
                                                                 }
 
                                                                 if(the_open){
-                                                                    if(innerItem.id_x !== prevKorong ){
-                                                                        prevKorong = innerItem.id_x
+                                                                    if(innerItem.nama_x !== prevKorong ){
+                                                                        prevKorong = innerItem.nama_x
                                                                         return(
                                                                             <div  key={innerIndex} className="the-inside-row lg:grid lg:justify-items-end w-full">
                                                                                 <div className={`p-1 md:p-2 lg:w-[88%] ml-20 lg:ml-16 my-1 bg-[#F5F4F4] rounded-md text-xs flex sm:grid sm:grid-cols-6 scale-100`}>
@@ -406,7 +406,7 @@ function ListRekapRBSurvei(props, { onDataFromChild }) {
 
                                                                                 <div className="the-ruta grid grid-cols-2 md:mx-auto max-w-3xl ml-10">
                                                                                     {
-                                                                                        data.filter((insideItem) => (insideItem.id_x === innerItem.id_x) && (insideItem.kode_kec === innerItem.kode_kec) && (insideItem.kode_desa === innerItem.kode_desa) ).map((insideItem,insideIndex) => {
+                                                                                        data.filter((insideItem) => (insideItem.nama_x === innerItem.nama_x) && (insideItem.kode_kec === innerItem.kode_kec) && (insideItem.kode_desa === innerItem.kode_desa) ).map((insideItem,insideIndex) => {
                                                                                             let isRB = false
                                                                                             if ((insideItem.status_pengdok !== null) && (innerItem.status_pengdok !== 0)){
                                                                                                 isRB = true
@@ -421,6 +421,9 @@ function ListRekapRBSurvei(props, { onDataFromChild }) {
                                                                                             const ref_num = insideItem.no_ruta + "" + insideItem.id_x
                                                                                             const index_admin = dataAdmin.findIndex(item => item.username === insideItem.penerima_dok)
                                                                                             // console.log("index admin : ", index_admin, insideItem.no_ruta);
+                                                                                            
+                                                                                            
+                                                                                            // SHOW RUTA
                                                                                             return (
                                                                                                 <div key={insideIndex} className="bg-[#F5F4F4] mx-1 my-1 p-2 grid grid-cols-5 text-xs rounded-lg">
                                                                                                     

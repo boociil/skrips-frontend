@@ -53,7 +53,7 @@ const UploadSampel = () => {
             });
 
             if (!response.ok) {
-                toast.error('Failed to Upload File', {
+                toast.error('Upload Gagal, pastikan file telah sesuai dengan template dan tidak ada missing data', {
                     position: "bottom-right",
                     hideProgressBar: true,
                     autoClose: 1000,

@@ -49,8 +49,7 @@ function ListSampel(props, { onDataFromChild }) {
                 .then(data => {
                     setData(data);
                     
-                    setDataLen(data.length - 1);
-                    setIsLoading(false)
+                    
                 });            
         }
 
@@ -69,14 +68,13 @@ function ListSampel(props, { onDataFromChild }) {
                 .then(data => {
                     setData2(data);
                     
-                    // setDataLen(data.length - 1);
-                    // setIsLoading(false)
+                    setDataLen(data.length - 1);
+                    setIsLoading(false)
                 });            
         }
 
-        fetchData();
+        // fetchData();
         fetchData2();
-        // fetchDataUsers();
 
     },[props.id]);
 
