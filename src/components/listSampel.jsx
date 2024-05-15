@@ -392,9 +392,9 @@ function ListSampel(props, { onDataFromChild }) {
                                                                 if(the_open){
                                                                     return(
                                                                         <div  key={innerIndex} className="the-inside-row lg:grid lg:justify-items-end w-full">
-                                                                            <div className={`p-1 md:p-2 lg:w-[88%] ml-20 lg:ml-16 my-1 bg-[#F5F4F4] rounded-md text-xs flex scale-100`}>
-                                                                                <div className={`w-full md:w-fit ml-2 col-start-1 col-span-2  h-4 ${isSampel[innerIndex] ? ('') : ('overflow-hidden whitespace-nowrap text-overflow-ellipsis')}`}>
-                                                                                    <span className="w-fit text-center">{innerItem.kode_sls}</span>
+                                                                            <div className={`p-1 md:p-2 lg:w-[88%] ml-20 my-1 bg-[#F5F4F4] rounded-md text-xs flex`}>
+                                                                                <div className={`md:w-fit ml-2 col-start-1 col-span-2 min-w-80 h-4 ${isSampel[innerIndex] ? ('') : ('overflow-hidden whitespace-nowrap text-overflow-ellipsis')}`}>
+                                                                                    <span className="w-fit text-center ">{innerItem.kode_sls}</span>
                                                                                     {" " + innerItem.SLS}
                                                                                 </div>
                                                                                 <div className={`flex items-center mx-auto ${isSampel[innerIndex] ? ('') : ('hidden')}`}>

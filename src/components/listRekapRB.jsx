@@ -385,10 +385,6 @@ function ListRekap(props) {
                                                                         // BUG DISINI!
                                                                         // BUG DALAM MENENTUKAN INDEX ADMIN, KETIKA USERS SUDAH DIHAPUS DAN DATA USERS TIDAK ADA DI DATABASE, SEDANGKAN USERS MELAKUKAN PENERIMAAN DOKUMEN PADA SAAT TERDAHULU.
                                                                         let index_admin = dataAdmin.findIndex(item => item.username === innerItem.penerima_dok)
-                                                                        if(index_admin === -1){
-                                                                            console.log(item.username)
-                                                                            console.log(innerItem.penerima_dok);;
-                                                                        }
                                                                         // --------------------------------------
 
                                                                         return(

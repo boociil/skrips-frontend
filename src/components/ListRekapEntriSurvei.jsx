@@ -383,7 +383,7 @@ function ListRekapEntriSurvei(props, { onDataFromChild }) {
                                                         <div key={subIndex} className="the-inside-row lg:grid lg:justify-items-end">
                                                             <div id="the-desa" className="Desa transition lg:w-[94%] lg:ml-8 ml-10 gap-2 duration-300 scale-100 cursor-pointer my-1 bg-[#17B715] hover:bg-[#30D32E] text-white md:p-3 p-2 rounded-md text-xs flex" onClick={() => desaClick(subItem.kode_desa,subItem.kode_kec)}>
                                                                 <div className="w-fit">{subItem.kode_desa}</div>
-                                                                <div className="w-full text-center ">{subItem.Desa}</div>
+                                                                <div className="w-full">{subItem.Desa}</div>
                                                                 
                                                             </div>
                                                             {data.filter((innerItem) => (innerItem.kode_desa === subItem.kode_desa) && (innerItem.kode_kec === subItem.kode_kec) ).map((innerItem,innerIndex) => {
@@ -399,12 +399,12 @@ function ListRekapEntriSurvei(props, { onDataFromChild }) {
                                                                     
                                                                         return(
                                                                             <div  key={innerIndex} className="the-inside-row lg:grid lg:justify-items-end w-full">
-                                                                                <div className={`p-1 md:p-2 lg:w-[88%] ml-20 lg:ml-16 my-1 bg-[#F5F4F4] rounded-md text-xs flex sm:grid sm:grid-cols-6 scale-100`}>
+                                                                                <div className={`p-1 md:p-2 lg:w-[88%] ml-20 lg:ml-16 my-1 bg-[#F5F4F4] rounded-md text-xs grid-cols-4 grid sm:grid-cols-6 scale-100`}>
                                                                                     <div className="w-full md:w-fit ml-2 col-start-1 col-span-2">{" " + innerItem.nama_x}</div>    
                                                                                     <div className="no-bs">{innerItem.no_blok_sensus}</div>
                                                                                     <div className="no-bs">{innerItem.no_kerangka_sampel}</div>
-                                                                                    <div className="ppl">PPL</div>
-                                                                                    <div className="ppl">PML</div>
+                                                                                    <div className="ppl hidden sm:block">PPL</div>
+                                                                                    <div className="ppl hidden sm:block mr-3 sm:mr-0">PML</div>
                                                                                 </div>
 
                                                                                 <div className="the-ruta grid grid-cols-2 md:mx-auto max-w-3xl ml-10">
@@ -423,7 +423,7 @@ function ListRekapEntriSurvei(props, { onDataFromChild }) {
                                                                                             }
                                                                                             const ref_num = insideItem.no_ruta + "" + insideItem.id_x
                                                                                             const index_admin = dataAdmin.findIndex(item => item.id === insideItem.petugas_entri)
-                                                                                            console.log("index admin : ", index_admin, insideItem.no_ruta);
+                                                                                            
                                                                                             return (
                                                                                                 <div key={insideIndex} className="bg-[#F5F4F4] mx-1 my-1 p-2 grid grid-cols-5 text-xs rounded-lg">
                                                                                                     

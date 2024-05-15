@@ -193,7 +193,7 @@ function GantiInfoUser({ username, role, isMyProfile, onClose }) {
                         {
                             !isMyProfile ? (
                                 <div className="min-w-80">
-                                    <label htmlFor="role" className="ml-1 w-full">Role : </label><br />
+                                    <label htmlFor="role" className="ml-1 w-full">Role : </label>
                                     <select name="role" id="role" className="bg-[#F5F4F4] rounded-md p-1" onChange={handleChange}>
                                         <option value={role} key={0}>{role}</option>
                                         {
