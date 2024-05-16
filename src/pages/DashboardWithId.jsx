@@ -118,7 +118,7 @@ function DashboardWithId() {
                     setValGraphEdcod(result.tgl_edcod.frekuensi);
                 }
 
-                if (!result.tgl_ntri || !result.tgl_entri.titles || result.tgl_entri.titles.length === 0) {
+                if (!result.tgl_entri || !result.tgl_entri.titles || result.tgl_entri.titles.length === 0) {
                     setGraphDefEntri(true);
                 } else {
                     setTitleGraphEntri(result.tgl_entri.titles);

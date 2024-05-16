@@ -150,7 +150,7 @@ function GantiInfoUser({ username, role, isMyProfile, onClose }) {
         <div className="the-blur fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 font-poppins">
             <div className="container fixed z-50 flex justify-center items-center mt-40 ">
                 <div className=" bg-white m-auto px-5 py-2 absolute top-0 rounded-lg min-w-96 mx-auto ">
-                    <div className="x-button px-2 absolute right-3 cursor-pointer text-lg rounded-md font-bold bg-[#F5F4F4] hover:bg-red-500 hover:text-white" onClick={onClose}>x</div>
+                    <div className="x-button px-2 transition duration-500 absolute right-3 cursor-pointer text-lg rounded-md font-bold bg-[#F5F4F4] hover:bg-red-500 hover:text-white" onClick={onClose}>x</div>
                     <div className="title mt-10">
                         <h2 className="text-center mb-8 font-medium text-xl">
                                 {

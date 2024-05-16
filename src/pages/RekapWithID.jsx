@@ -18,12 +18,14 @@ const RekapWithID = () => {
     const [ namaKegiatan, setNamaKegiatan ] = useState();
     const [ miniPageIndex, setMiniPageIndex ] = useState(1);
     const [ isSurvei , setIsSurvei ] = useState(false);
-    const [cookies, setCookie, removeCookie] = useCookies(['token']);
+    const [ cookies, setCookie, removeCookie] = useCookies(['token']);
     const [ dataOverallProgres, setDataOverallProgres ] = useState();
     const [ loadingOverallProgres, setLoadingOverallProgres ] = useState(true)
     const [ deadlineRb, setDeadlineRb ] = useState();
     const [ deadlineEdcod, setDeadlineEdcod ] = useState();
     const [ deadlineEntri, setDeadlineEntri ] = useState();
+    const [ isLoadingProgresKecamatan ,setIsLoadingProgresKecamatan] = useState(true);
+    const [ dataProgresKecamatan, setDataProgresKecamatan ] = useState();
 
 
     const miniPageClick = (index) => {
@@ -105,7 +107,28 @@ const RekapWithID = () => {
                 });
         }
 
+        const fetchDataProgresKecmatan = () => {
+            const requestOptions = {
+                method: 'POST', // Metode HTTP
+                headers: {
+                    'Content-Type': 'application/json' // Tentukan tipe konten yang Anda kirimkan
+                },
+                body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
+            };
+                let start_link = "http://localhost:3001/get_progres_kecamatan_"
+                // console.log("issurvei", dataKegiatan);
+                isSurvei ? start_link += "survei/" : start_link += "sensus/"
+                // console.log(start_link + id_kegiatan);
+                fetch(start_link + id , requestOptions)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    setDataProgresKecamatan(data);
+                    setIsLoadingProgresKecamatan(false);
+                });
+        }
 
+        fetchDataProgresKecmatan();
         fetchData();
         
         // Jika sudah masuk fase production, hapus log ini
@@ -154,15 +177,26 @@ const RekapWithID = () => {
 
                                     <div className="content p-1">
                                             {
-                                                isSurvei ? (
+                                                isLoadingProgresKecamatan ? (
                                                     <>
-                                                        <ListRekapRBSurvei id={id}/>
+                                                        <Loading />
                                                     </>
                                                 ) : (
                                                     <>
-                                                        <ListRekap id={id}/>
+                                                        {
+                                                            isSurvei ? (
+                                                                <>
+                                                                    <ListRekapRBSurvei id={id} data={dataProgresKecamatan} isLoading={isLoadingProgresKecamatan}/>
+                                                                </>
+                                                            ) : (
+                                                                <>
+                                                                    <ListRekap id={id} data={dataProgresKecamatan} isLoading={isLoadingProgresKecamatan}/>
+                                                                </>
+                                                            )
+                                                        }
                                                     </>
                                                 )
+                                                
                                             }
                                         
                                         
@@ -187,17 +221,26 @@ const RekapWithID = () => {
 
                                         <div className="content p-1">
                                             {
-                                                isSurvei ? (
+                                                isLoadingProgresKecamatan ? (
                                                     <>
-                                                        <ListRekapEdcodSurvei id={id} />
+                                                        <Loading />
                                                     </>
                                                 ) : (
                                                     <>
-                                                        <ListRekapEdcod id={id} />
+                                                        {
+                                                            isSurvei ? (
+                                                                <>
+                                                                    <ListRekapEdcodSurvei id={id} data={dataProgresKecamatan} isLoading={isLoadingProgresKecamatan}/>
+                                                                </>
+                                                            ) : (
+                                                                <>
+                                                                    <ListRekapEdcod id={id} data={dataProgresKecamatan} isLoading={isLoadingProgresKecamatan}/>
+                                                                </>
+                                                            )
+                                                        }
                                                     </>
                                                 )
                                             }
-                                            
                                         </div>
                                     </>
                                 ) : (
@@ -219,13 +262,23 @@ const RekapWithID = () => {
 
                                         <div className="content p-1">
                                             {
-                                                isSurvei ? (
+                                                isLoadingProgresKecamatan ? (
                                                     <>
-                                                        <ListRekapEntriSurvei id={id} />
+                                                        <Loading />
                                                     </>
                                                 ) : (
                                                     <>
-                                                        <ListRekapEntri id={id} />
+                                                        {
+                                                            isSurvei ? (
+                                                                <>
+                                                                    <ListRekapEntriSurvei id={id} data={dataProgresKecamatan} isLoading={isLoadingProgresKecamatan}/>
+                                                                </>
+                                                            ) : (
+                                                                <>
+                                                                    <ListRekapEntri id={id} data={dataProgresKecamatan} isLoading={isLoadingProgresKecamatan}/>
+                                                                </>
+                                                            )
+                                                        }
                                                     </>
                                                 )
                                             }

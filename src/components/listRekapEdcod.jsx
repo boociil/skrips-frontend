@@ -338,9 +338,7 @@ function ListRekap(props) {
                                         <div className="kecamatan w-full cursor-pointer flex gap-2 mt-1 mb-1 p-3 bg-[#418EC6] text-white text-xs rounded-md hover:bg-sky-400 " onClick={ () => handleCardClick(item.kode_kec)}>    
                                             <div className="w-fit md:col-start-1 ml-1 ">{item.kode_kec}</div>
                                             <div className="w-full md:col-start-2 md:col-span-3 ">{item.Kec}</div>
-                                            <div className="hidden md:block md:col-start-5">-</div>
-                                            <div className="hidden md:block md:col-start-6">-</div>
-                                            <div className="">xx%</div>
+                                            <div className="font-semibold">{props.data[item.kode_kec].progres_edcod.toFixed(2)}%</div>
                                         </div>
 
                                         {data.filter((subItem) => item.kode_kec === subItem.kode_kec).map((subItem,subIndex) => {
