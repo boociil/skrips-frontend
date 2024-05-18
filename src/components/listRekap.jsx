@@ -174,8 +174,8 @@ function ListRekap(props) {
                 </div>
                 
                         <div className="action hidden md:grid md:grid-cols-3 items-center justify-center ">
-                            <div className="edit hover:bg-slate-200 p-1 transition duration-500 cursor-pointer bg-white shadow-lg rounded-l-lg group">
-                                <div className="w-fit mx-auto" onClick={editClick}>
+                            <div className="edit hover:bg-slate-200 p-1 transition duration-500 cursor-pointer bg-white shadow-lg rounded-l-lg group" onClick={editClick}>
+                                <div className="w-fit mx-auto" >
                                     <span className="material-symbols-outlined px-1 hidden md:block group-hover:opacity-0 transition duration-500">
                                         edit
                                     </span>

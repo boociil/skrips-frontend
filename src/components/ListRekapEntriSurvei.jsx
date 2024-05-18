@@ -76,6 +76,7 @@ function ListRekapEntriSurvei(props, { onDataFromChild }) {
 
     let prevKec = null;
     let prevDesa = null;
+    let prevKorong = null;
 
     function delay(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
@@ -401,7 +402,8 @@ function ListRekapEntriSurvei(props, { onDataFromChild }) {
                                                                 }
 
                                                                 if(the_open){
-                                                                    
+                                                                    if(innerItem.nama_x !== prevKorong ){
+                                                                        prevKorong = innerItem.nama_x
                                                                         return(
                                                                             <div  key={innerIndex} className="the-inside-row lg:grid lg:justify-items-end w-full">
                                                                                 <div className={`p-1 md:p-2 lg:w-[88%] ml-20 lg:ml-16 my-1 bg-[#F5F4F4] rounded-md text-xs grid-cols-4 grid sm:grid-cols-6 scale-100`}>
@@ -501,7 +503,7 @@ function ListRekapEntriSurvei(props, { onDataFromChild }) {
                                                                                 
                                                                             </div>
                                                                         )
-
+                                                                    }
                                                                 }
                                                             })}
                                                         </div>

@@ -29,6 +29,14 @@ function UpdateKegiatan() {
         koseka:'',
       });
 
+      const formatDate = (date) => {
+        const d = new Date(date);
+        const month = (`0${d.getMonth() + 1}`).slice(-2);
+        const day = (`0${d.getDate()}`).slice(-2);
+        const year = d.getFullYear();
+        return `${year}-${month}-${day}`;
+      };
+
       useEffect(() => {
 
         const fetchData = () => {
@@ -44,47 +52,33 @@ function UpdateKegiatan() {
             .then(response => response.json())
             .then(data => {
                 setDataKegiatan(data);
+                const tanggalMulai = formatDate(data[0].tanggal_mulai)
+                const targetSelesai = formatDate(data[0].target_selesai)
+                const targetRB = formatDate(data[0].target_pengdok)
+                const targetEdcod = formatDate(data[0].target_edcod)
+                const targetEntri = formatDate(data[0].target_entri)
                 setFormData(prevState => ({
-                    ...prevState, // Menyalin state formData yang ada
-                    [formData.namaKegiatan]: data.nama // Mengatur nilai idKegiatan ke newValue
-                }));
-                setFormData(prevState => ({
-                    ...prevState, // Menyalin state formData yang ada
-                    [formData.idKegiatan]: data.id // Mengatur nilai idKegiatan ke newValue
-                }));
-                setFormData(prevState => ({
-                    ...prevState, // Menyalin state formData yang ada
-                    [formData.jenisKegiatan]: data.jenis // Mengatur nilai idKegiatan ke newValue
-                }));
-                setFormData(prevState => ({
-                    ...prevState, // Menyalin state formData yang ada
-                    [formData.koseka]: data.koseka // Mengatur nilai idKegiatan ke newValue
-                }));
-                setFormData(prevState => ({
-                    ...prevState, // Menyalin state formData yang ada
-                    [formData.tanggalMulai]: data.tanggal_mulai // Mengatur nilai idKegiatan ke newValue
-                }));
-                setFormData(prevState => ({
-                    ...prevState, // Menyalin state formData yang ada
-                    [formData.targetSelesai]: data.target_selesai // Mengatur nilai idKegiatan ke newValue
-                }));
-                setFormData(prevState => ({
-                    ...prevState, // Menyalin state formData yang ada
-                    [formData.targetEdcod]: data.target_edcod // Mengatur nilai idKegiatan ke newValue
-                }));
-                setFormData(prevState => ({
-                    ...prevState, // Menyalin state formData yang ada
-                    [formData.targetRB]: data.target_pengdok // Mengatur nilai idKegiatan ke newValue
-                }));
-                setFormData(prevState => ({
-                    ...prevState, // Menyalin state formData yang ada
-                    [formData.targetEntri]: data.target_entri // Mengatur nilai idKegiatan ke newValue
-                }));
-                console.log('  ',data);
+                    ...prevState,
+                    namaKegiatan: data[0].nama,
+                    idKegiatan: data[0].id,
+                    jenisKegiatan: data[0].jenis,
+                    tanggalMulai: tanggalMulai,
+                    targetSelesai: targetSelesai,
+                    targetRB: targetRB,
+                    targetEdcod: targetEdcod,
+                    targetEntri: targetEntri,
+                    targetPemutakhiran: data[0].targetPemutakhiran,
+                    targetPencacahan: data[0].targetPencacahan,
+                    koseka: data[0].koseka,
+                  }));
+
+                console.log('  ',data[0].id);
             });
         }
         
         fetchData();
+
+        console.log(JSON.stringify(formData));
       }, [])
 
     const sendData = () => {
@@ -100,7 +94,7 @@ function UpdateKegiatan() {
                     "id" : formData.idKegiatan,
                     "nama" : formData.namaKegiatan,
                     "jenis" : formData.jenisKegiatan,
-                    "tgl_mulai" : formData.tanggalMulai,
+                    "tanggal_mulai" : formData.tanggalMulai,
                     "target_selesai": formData.targetSelesai,
                     "koseka" : formData.koseka,
                     "target_pengdok" : formData.targetRB,
@@ -109,11 +103,11 @@ function UpdateKegiatan() {
                     }) 
             };
             
-            fetch('http://localhost:3001/add_kegiatan', requestOptions)
+            fetch('http://localhost:3001/update_kegiatan', requestOptions)
             .then(response => response.json())
             .then(data => {
                 console.log(data);
-                if (data.msg === "Berhasil") {
+                if (data.msg === "Success") {
                     resolve(true);
                 } else {
                     reject(data.msg);
@@ -162,51 +156,18 @@ function UpdateKegiatan() {
             ...prevState, // Menyalin state formData yang ada
             [e.target.name]: e.target.value // Mengatur nilai idKegiatan ke newValue
           }));
-
-
-        // AutoFill IDKegiatan
-        // if (e.target.name === "namaKegiatan"){
-        //     console.log("target name berubah");
-        //     const arr_split = formData["namaKegiatan"].split(" ")
-        //     console.log("arr split : ", arr_split);
-        //     let the_id = ""
-        //     arr_split.forEach(element => {
-        //         if(isAllDigits(element)){
-        //             the_id += element;
-        //         }else{
-        //             the_id += element[0];
-        //         }
-        //     });
-        //     console.log(the_id);
-        //     setFormData(prevState => ({
-        //         ...prevState, // Menyalin state formData yang ada
-        //         idKegiatan: the_id // Mengatur nilai idKegiatan ke newValue
-        //       }));
-        // }
       };
 
       const handleSubmit = async (event) =>{
         if (check_empty()){
             event.preventDefault();
-            // alert(JSON.stringify(formData));
-            // await sendData()
-            // .then(success => {
-            //     if (formData.jenisKegiatan === "1"){
+            await sendData()
+            .then(success => {
+                navigate("/Rekap" );
+            })
+            .catch(error => {
 
-            //         fill_sensus(formData.idKegiatan);
-            //         navigate("/AssignPetugas/" + formData.idKegiatan);
-            //     }else{
-            //         navigate("/Sampel/" + formData.idKegiatan);
-            //     }
-            // })
-            // .catch(error => {
-            //     const id_input = document.getElementById('id-kegiatan');
-            //     const ket_id = document.getElementById('ket-id')
-            //     ket_id.innerHTML = "*" + error
-            //     id_input.classList.add("border-2");
-            //     id_input.classList.add("border-red-500");
-            //     ket_id.classList.remove("hidden");
-            // })
+            })
             setIsLoading(false);
         }else{
             alert("Masih ada isian kosong")
@@ -217,18 +178,19 @@ function UpdateKegiatan() {
         <>
             <TopNavAdmin/>
             <div className="font-poppins parent-form my-4 md:mt-24 mx-4 p-3 shadow-xl bg-white rounded-3xl lg:mt-32 lg:max-w-4xl md:container md:mx-auto max-w-5xl">
-                <h1 className="text-2xl font-semibold mb-4 sm:mb-8 text-center">Update Kegiatan</h1>
+                <h1 className="text-2xl font-semibold mb-4 sm:mb-8 text-center">Edit Kegiatan</h1>
                 
                     <div className="nama-id md:grid md:grid-cols-2 ">
                         <div className="sm:ml-6 md:ml-3 ml-3 ">
                             <label className="lg:col-start-2 text-sm"> Nama kegiatan
                                 <input 
-                                        className='bg-[#F6F6F9] mt-1 text-xs px-3 md:mx-0 py-2 mb-3 block rounded-lg w-full focus:ring-1 focus:ring-sky-500 focus:border-sky-500 max-w-72  '
+                                        className='bg-[#F6F6F9] opacity-50 mt-1 text-xs px-3 md:mx-0 py-2 mb-3 block rounded-lg w-full focus:ring-1 focus:ring-sky-500 focus:border-sky-500 max-w-72  '
                                         name="namaKegiatan"
                                         type="text" 
                                         placeholder='nama'
                                         value={formData.namaKegiatan}
                                         onChange={handleChange} 
+                                        disabled
                                 />
                             </label>
                         </div>
@@ -237,9 +199,9 @@ function UpdateKegiatan() {
                             <div className="sm:ml md:ml-3-6 ml-3">
                                 <label className="text-sm w-full"> ID kegiatan
                                     <input 
-                                        className='bg-[#F6F6F9] mt-1 text-xs px-3 md:mx-0 py-2 mb-3 block rounded-lg w-full focus:ring-1 focus:ring-sky-500 focus:border-sky-500 max-w-72'
+                                        className='bg-[#F6F6F9] opacity-50 mt-1 text-xs px-3 md:mx-0 py-2 mb-3 block rounded-lg w-full focus:ring-1 focus:ring-sky-500 focus:border-sky-500 max-w-72'
                                         name="idKegiatan"
-                                        id="id-kegiatan"
+                                        id="idKegiatan"
                                         type="text" 
                                         placeholder='ID'
                                         value={formData.idKegiatan}
@@ -254,18 +216,18 @@ function UpdateKegiatan() {
                     
                     <div className="jenis-koseka grid grid-cols-2">
                         <div className="sm:ml-6 md:ml-3 ml-3">
-                        <label className="text-sm"> Jenis kegiatan
-                            <select value={formData.jenisKegiatan} className='bg-[#F6F6F9] mt-1 text-xs px-3 sm:ml-0 md:mx-0 py-2 mb-3 block rounded-lg w-full focus:ring-1 focus:ring-sky-500 focus:border-sky-500 max-w-72  ' name="jenisKegiatan" onChange={handleChange}>
-                                <option value="1" key="Sensus">Sensus</option>
-                                <option value="2" key="Survei">Survei</option>
-                            </select>
-                        </label>
+                            <label className="text-sm"> Jenis kegiatan
+                                <select value={formData.jenisKegiatan} className='bg-[#F6F6F9] opacity-50 mt-1 text-xs px-3 sm:ml-0 md:mx-0 py-2 mb-3 block rounded-lg w-full focus:ring-1 focus:ring-sky-500 focus:border-sky-500 max-w-72  ' name="jenisKegiatan" onChange={handleChange} disabled>
+                                    <option value="1" key="Sensus">Sensus</option>
+                                    <option value="2" key="Survei">Survei</option>
+                                </select>
+                            </label>
                         </div>
                         
 
                         <div className="sm:ml-6 md:ml-3 ml-3">
                             <label className="text-sm"> Koseka
-                                <select value={formData.koseka} className='bg-[#F6F6F9] mt-1 text-xs px-3 md:mx-0 py-2 mb-3 block rounded-lg w-full focus:ring-1 focus:ring-sky-500 focus:border-sky-500 max-w-72  ' name="koseka" onChange={handleChange}>
+                                <select value={formData.koseka} className='bg-[#F6F6F9] opacity-50 mt-1 text-xs px-3 md:mx-0 py-2 mb-3 block rounded-lg w-full focus:ring-1 focus:ring-sky-500 focus:border-sky-500 max-w-72  ' name="koseka" onChange={handleChange} disabled>
                                     <option value="Ada" key="Ada">Ada</option>
                                     <option value="Tidak Ada" key="Tidak Ada">Tidak Ada</option>
                                 </select>
