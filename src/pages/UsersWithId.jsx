@@ -39,6 +39,7 @@ function UsersWithId() {
         fetch('http://localhost:3001/get_user_activity/' + username, requestOptions)
         .then(response => response.json())
         .then(data => {
+            console.log("getUsersData", data.length);
             setLen(data.length)
             setDataUsers(data);
             setLoadingData(false);
@@ -72,10 +73,11 @@ function UsersWithId() {
     }
 
     useEffect(() => {
-        getUsersData()
-        getInfoUsers()
+        getUsersData();
+        getInfoUsers();
+        console.log("useEffect");
         
-    }, [isChange]);
+    }, [isChange,username]);
 
     const delet_user = (username) => {
         return new Promise ((resolve,reject) => {

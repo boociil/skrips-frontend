@@ -183,17 +183,26 @@ const RekapWithID = () => {
                                                     </>
                                                 ) : (
                                                     <>
-                                                        {
-                                                            isSurvei ? (
-                                                                <>
-                                                                    <ListRekapRBSurvei id={id} data={dataProgresKecamatan} isLoading={isLoadingProgresKecamatan}/>
-                                                                </>
-                                                            ) : (
-                                                                <>
-                                                                    <ListRekap id={id} data={dataProgresKecamatan} isLoading={isLoadingProgresKecamatan}/>
-                                                                </>
-                                                            )
-                                                        }
+                                                    {
+                                                        isLoading ? (
+                                                            <>
+                                                            </>
+                                                        ) : (
+                                                            <>
+                                                                {
+                                                                    isSurvei ? (
+                                                                        <>
+                                                                            <ListRekapRBSurvei id={id} data={dataProgresKecamatan} isLoading={isLoadingProgresKecamatan}/>
+                                                                        </>
+                                                                    ) : (
+                                                                        <>
+                                                                            <ListRekap id={id} data={dataProgresKecamatan} isLoading={isLoadingProgresKecamatan}/>
+                                                                        </>
+                                                                    )
+                                                                }
+                                                            </>
+                                                        )
+                                                    }
                                                     </>
                                                 )
                                                 
@@ -228,13 +237,21 @@ const RekapWithID = () => {
                                                 ) : (
                                                     <>
                                                         {
-                                                            isSurvei ? (
-                                                                <>
-                                                                    <ListRekapEdcodSurvei id={id} data={dataProgresKecamatan} isLoading={isLoadingProgresKecamatan}/>
-                                                                </>
+                                                            isLoading ? (
+                                                                <></>
                                                             ) : (
                                                                 <>
-                                                                    <ListRekapEdcod id={id} data={dataProgresKecamatan} isLoading={isLoadingProgresKecamatan}/>
+                                                                    {
+                                                                    isSurvei ? (
+                                                                        <>
+                                                                            <ListRekapEdcodSurvei id={id} data={dataProgresKecamatan} isLoading={isLoadingProgresKecamatan}/>
+                                                                        </>
+                                                                    ) : (
+                                                                        <>
+                                                                            <ListRekapEdcod id={id} data={dataProgresKecamatan} isLoading={isLoadingProgresKecamatan}/>
+                                                                        </>
+                                                                    )
+                                                                }
                                                                 </>
                                                             )
                                                         }
@@ -269,13 +286,21 @@ const RekapWithID = () => {
                                                 ) : (
                                                     <>
                                                         {
-                                                            isSurvei ? (
-                                                                <>
-                                                                    <ListRekapEntriSurvei id={id} data={dataProgresKecamatan} isLoading={isLoadingProgresKecamatan}/>
-                                                                </>
+                                                            isLoading ? (
+                                                                <></>
                                                             ) : (
                                                                 <>
-                                                                    <ListRekapEntri id={id} data={dataProgresKecamatan} isLoading={isLoadingProgresKecamatan}/>
+                                                                    {
+                                                                        isSurvei ? (
+                                                                            <>
+                                                                                <ListRekapEntriSurvei id={id} data={dataProgresKecamatan} isLoading={isLoadingProgresKecamatan}/>
+                                                                            </>
+                                                                        ) : (
+                                                                            <>
+                                                                                <ListRekapEntri id={id} data={dataProgresKecamatan} isLoading={isLoadingProgresKecamatan}/>
+                                                                            </>
+                                                                        )
+                                                                    }
                                                                 </>
                                                             )
                                                         }

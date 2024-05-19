@@ -4,7 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
-function ListRekapRBSurvei(props, { onDataFromChild }) {
+function ListRekapRBSurvei(props) {
+
+    console.log(props.data);
 
     const [ data, setData ] = useState([]);
     const [ isLoading, setIsLoading ] = useState(true);

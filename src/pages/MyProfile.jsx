@@ -12,7 +12,6 @@ function MyProfile() {
 
     
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
-    const { username } = cookies.username
     const [ dataUsers ,setDataUsers ] = useState();
     const [ loadingData, setLoadingData ] = useState(true);
     const [ len, setLen ] = useState();
@@ -74,10 +73,10 @@ function MyProfile() {
     return (
         <>
             <TopNavAdmin />
-            <div className="mb-10 mx-4">
-                <div className="font-poppins md:mt-28 max-w-4xl mx-auto">
+            <div className="mb-10 mx-4 ">
+                <div className="font-poppins  md:mt-28 max-w-4xl mx-auto">
                     
-                    <div className="bagian-info-user bg-white p-2 rounded-lg shadow-lg mb-8 relative">
+                    <div className="bagian-info-user z-10 bg-white p-2 rounded-lg shadow-lg mb-8 relative">
                         <h3 className="title font-semibold text-lg mb-4">Information</h3>
                         <div className=" ">
                             <div className="username text-xs w-24 sm:text-base inline-block">Username</div> 

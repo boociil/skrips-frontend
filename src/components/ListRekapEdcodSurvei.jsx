@@ -337,7 +337,7 @@ function ListRekapEdcodSurvei(props, { onDataFromChild }) {
                     {showConfirmCard ? (
                             <>
                                 <ConfirmCard 
-                                    message={`Batalkan progres RB?`}
+                                    message={`Batalkan progres Edcod?`}
                                     subMessage={`Anda masih bisa mensubmit, tapi waktu akan terupdate`}
                                     onConfirm={handleConfirm}
                                     onCancel={handleCancel}
