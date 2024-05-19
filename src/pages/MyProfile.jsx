@@ -33,12 +33,14 @@ function MyProfile() {
         fetch('http://localhost:3001/get_user_activity/' + cookies.username, requestOptions)
         .then(response => response.json())
         .then(data => {
+            const l = data.length
             setLen(data.length)
             setDataUsers(data);
             setLoadingData(false);
-            if(len != 0){
-                if (len < 15){
-                    setCount(len)
+            if(l != 0){
+                if (l < 15){
+                    console.log("len <15");
+                    setCount(l)
                 }else{
                     setCount(15)
                 }

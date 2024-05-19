@@ -39,13 +39,13 @@ function UsersWithId() {
         fetch('http://localhost:3001/get_user_activity/' + username, requestOptions)
         .then(response => response.json())
         .then(data => {
-            console.log("getUsersData", data.length);
-            setLen(data.length)
+            const l = data.length
+            setLen(l)
             setDataUsers(data);
             setLoadingData(false);
-            if(len != 0){
-                if (len < 15){
-                    setCount(len)
+            if(l != 0){
+                if (l < 15){
+                    setCount(l)
                 }else{
                     setCount(15)
                 }

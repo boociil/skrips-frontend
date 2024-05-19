@@ -2,12 +2,14 @@ import loginImg from '../img/login.png'
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
+import Alert from "../components/Alert"
 
 function Login() {
     
     const navigate = useNavigate();
     const [ loginLoading, setLoginLoading ] = useState(false);
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
+    const [ openAlert, setOpenAlert ] = useState(false);
 
     const [formData, setFormData] = useState({
         // inisialisasi state untuk menyimpan data form
@@ -41,7 +43,7 @@ function Login() {
                 headers: {
                     'Content-Type': 'application/json' // Tentukan tipe konten yang Anda kirimkan
                 },
-                body: JSON.stringify({ 
+                body: JSON.stringify ({ 
                     "username" : loginData.username,
                     "password" : loginData.pass,
                  }) 
@@ -80,13 +82,16 @@ function Login() {
                 msg_div.classList.remove("hidden");
             })
         }else{
-            alert("Form tidak boleh kosong");
+            console.log("harusnya alert muncul");
+            setOpenAlert(true);
+            
         } 
         setLoginLoading(false);
     }
 
     return (
         <div className="mx-4 mt-32 font-poppins bg-white shadow-2xl rounded-xl overflow-hidden md:flex md:container md:mx-auto sm:max-w-3xl lg:max-w-4xl">
+            <Alert open={openAlert} setOpen={setOpenAlert} msg={`Form Masih Kosong!`} subMsg={`Pastikan semua form telah diisi dengan benar.`}/>
             <div className="bagian-kiri px-3 box-border container">
                 <form className='form' onSubmit={handleSubmit}>
                     <div className='title-content container mx-auto pb-2.5 md:pb-16 lg:pb-24 ml-2'>
