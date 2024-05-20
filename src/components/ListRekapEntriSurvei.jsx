@@ -414,21 +414,21 @@ function ListRekapEntriSurvei(props, { onDataFromChild }) {
                                                                                     <div className="ppl hidden sm:block mr-3 sm:mr-0">PML</div>
                                                                                 </div>
 
-                                                                                <div className="the-ruta grid grid-cols-2 md:mx-auto max-w-3xl ml-10">
+                                                                                <div className="the-ruta grid grid-cols-2 max-w-4xl lg:w-[82%]">
                                                                                     {
-                                                                                        data.filter((insideItem) => (insideItem.id_x === innerItem.id_x) && (insideItem.kode_kec === innerItem.kode_kec) && (insideItem.kode_desa === innerItem.kode_desa) ).map((insideItem,insideIndex) => {
+                                                                                        data.filter((insideItem) => (insideItem.nama_x === innerItem.nama_x) && (insideItem.kode_kec === innerItem.kode_kec) && (insideItem.kode_desa === innerItem.kode_desa) ).map((insideItem,insideIndex) => {
                                                                                             let isRB = false
                                                                                             if ((insideItem.status_entri !== null) && (innerItem.status_entri !== 0)){
                                                                                                 isRB = true
                                                                                             }
                                                                                             
                                                                                             let the_value = ''
-                                                                                            if (penerimaDok && penerimaDok[insideItem.id_x] && penerimaDok[insideItem.id_x][insideItem.no_ruta]){
-                                                                                                the_value = penerimaDok[insideItem.id_x][insideItem.no_ruta]
+                                                                                            if (penerimaDok && penerimaDok[insideItem.nama_x] && penerimaDok[insideItem.nama_x][insideItem.no_ruta]){
+                                                                                                the_value = penerimaDok[insideItem.nama_x][insideItem.no_ruta]
                                                                                             }else{
                                                                                                 // console.log('the value : ',penerimaDok);
                                                                                             }
-                                                                                            const ref_num = insideItem.no_ruta + "" + insideItem.id_x
+                                                                                            const ref_num = insideItem.no_ruta + "" + insideItem.nama_x
                                                                                             const index_admin = dataAdmin.findIndex(item => item.id === insideItem.petugas_entri)
                                                                                             
                                                                                             return (
@@ -451,7 +451,7 @@ function ListRekapEntriSurvei(props, { onDataFromChild }) {
                                                                                                         ref ={(ref) => setSelectRef(ref_num,ref)}
                                                                                                         value={the_value || ''}
                                                                                                         className={`mr-1 w-14 rounded-md min-h-8 ${isRB ? ("pointer-events-none opacity-75") : ("")}`}
-                                                                                                        onChange={(event) => handleRutaChange(event,insideItem.no_ruta,insideItem.id_x)}
+                                                                                                        onChange={(event) => handleRutaChange(event,insideItem.no_ruta,insideItem.nama_x)}
                                                                                                         >
 
                                                                                                             {
@@ -490,8 +490,8 @@ function ListRekapEntriSurvei(props, { onDataFromChild }) {
                                                                                                     
                                                                                                     <button 
                                                                                                         className={`status-edcod hover:bg-slate-100 col-start-8 w-fit text-center mr-2 md:mr-1 bg-white rounded-full md:px-3 px-1 md:py-1 py-1 border-2 border-slate-200 ${isRB ? ("text-[#14CB11]") : ("text-[#EF0D0D]")}`}
-                                                                                                        id={`button-${insideItem.no_ruta}-${insideItem.id_x}`}
-                                                                                                        onClick={() => clickButtonSampel(insideItem.no_ruta, insideItem.id_x,insideItem.no_blok_sensus, insideItem.no_kerangka_sampel)}
+                                                                                                        id={`button-${insideItem.no_ruta}-${insideItem.nama_x}`}
+                                                                                                        onClick={() => clickButtonSampel(insideItem.no_ruta, insideItem.nama_x,insideItem.no_blok_sensus, insideItem.no_kerangka_sampel)}
                                                                                                         >
                                                                                                         {isRB ? ("Sudah") : ("Belum")}
                                                                                                     </button>

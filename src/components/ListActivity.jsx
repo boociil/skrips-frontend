@@ -7,6 +7,8 @@ function ListActivity(props) {
     // time
     // activity
 
+    console.log(props.ket);
+
     const convert_bulan = (b) => {
         const the_b = (
             {
@@ -32,11 +34,11 @@ function ListActivity(props) {
     let pos = props.position
     let class_name;
     if (pos === 'TOP'){
-        class_name = 'grid grid-rows-1 text-xs sm:text-sm grid-cols-3  flex bg-white shadow-lg rounded-t-lg border-b- border-b-slate-300 min-w-full max-w-5xl md:mx-auto border-b-2'
+        class_name = 'grid grid-rows-1 text-xs sm:text-sm grid-cols-3 md:grid-cols-4 flex bg-white shadow-lg rounded-t-lg border-b- border-b-slate-300 min-w-full max-w-5xl md:mx-auto border-b-2'
     }else if (pos === 'MID'){
-        class_name = 'grid grid-rows-1 text-xs sm:text-sm grid-cols-3 flex bg-white shadow-lg border-b- border-b-slate-300 min-w-full max-w-5xl md:mx-auto border-b-2'
+        class_name = 'grid grid-rows-1 text-xs sm:text-sm grid-cols-3 md:grid-cols-4 flex bg-white shadow-lg border-b- border-b-slate-300 min-w-full max-w-5xl md:mx-auto border-b-2'
     }else{
-        class_name = 'grid grid-rows-1 text-xs sm:text-sm grid-cols-3 flex bg-white shadow-lg rounded-b-lg min-w-full max-w-5xl md:mx-auto border-b-2'
+        class_name = 'grid grid-rows-1 text-xs sm:text-sm grid-cols-3 md:grid-cols-4 flex bg-white shadow-lg rounded-b-lg min-w-full max-w-5xl md:mx-auto border-b-2'
     }
 
     // Parse Tanggl
@@ -62,6 +64,7 @@ function ListActivity(props) {
             <div className="title px-3 py-2 w-full" >
                 <div className="">{props.activity}</div>
             </div>
+            
             <div className="tanggal px-3 py-2">
                 <div className="text-center">{tgl}</div>
             </div>
@@ -74,6 +77,9 @@ function ListActivity(props) {
                         edit
                     </span> */}
                 </div>
+            </div>
+            <div className="keterangan hidden md:block px-3 py-2">
+                <div className="text-center">{props.ket}</div>
             </div>
         </div>
     )

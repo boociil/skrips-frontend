@@ -4,6 +4,7 @@ import ListAssignPetugas from "../components/listAssignPetugas";
 import ListAssignPetugasSurvei from "../components/listAssignPetugasSurvei";
 import { useCookies } from "react-cookie";
 import TopNavAdmin from "../components/topNavAdmin";
+import Loading from "../components/Loading";
 
 const AssignPetugas = () => {
     const { id } = useParams();
@@ -47,7 +48,7 @@ const AssignPetugas = () => {
             <div>
                 { isLoading ? (
                     <div>
-                        Lagi Loading
+                        <Loading/>
                     </div>
                 ): (
                     

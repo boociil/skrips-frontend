@@ -418,10 +418,10 @@ function ListRekapRBSurvei(props) {
                                                                                             }
                                                                                             
                                                                                             let the_value = ''
-                                                                                            if (penerimaDok && penerimaDok[insideItem.id_x] && penerimaDok[insideItem.id_x][insideItem.no_ruta]){
-                                                                                                the_value = penerimaDok[insideItem.id_x][insideItem.no_ruta]
+                                                                                            if (penerimaDok && penerimaDok[insideItem.nama_x] && penerimaDok[insideItem.nama_x][insideItem.no_ruta]){
+                                                                                                the_value = penerimaDok[insideItem.nama_x][insideItem.no_ruta]
                                                                                             }
-                                                                                            const ref_num = insideItem.no_ruta + "" + insideItem.id_x
+                                                                                            const ref_num = insideItem.no_ruta + "" + insideItem.nama_x
                                                                                             const index_admin = dataAdmin.findIndex(item => item.username === insideItem.penerima_dok)
                                                                                             
                                                                                             
@@ -446,7 +446,7 @@ function ListRekapRBSurvei(props) {
                                                                                                         ref ={(ref) => setSelectRef(ref_num,ref)}
                                                                                                         value={the_value || ''}
                                                                                                         className={`mr-1 w-14 rounded-md min-h-8 ${isRB ? ("pointer-events-none opacity-75") : ("")}`}
-                                                                                                        onChange={(event) => handleRutaChange(event,insideItem.no_ruta,insideItem.id_x)}
+                                                                                                        onChange={(event) => handleRutaChange(event,insideItem.no_ruta,insideItem.nama_x)}
                                                                                                         >
 
                                                                                                             {
@@ -485,8 +485,8 @@ function ListRekapRBSurvei(props) {
                                                                                                     
                                                                                                     <button 
                                                                                                         className={`status-edcod hover:bg-slate-100 col-start-8 w-fit text-center mr-2 md:mr-1 bg-white rounded-full md:px-3 px-1 md:py-1 py-1 border-2 border-slate-200 ${isRB ? ("text-[#14CB11]") : ("text-[#EF0D0D]")}`}
-                                                                                                        id={`button-${insideItem.no_ruta}-${insideItem.id_x}`}
-                                                                                                        onClick={() => clickButtonSampel(insideItem.no_ruta, insideItem.id_x,insideItem.no_blok_sensus, insideItem.no_kerangka_sampel)}
+                                                                                                        id={`button-${insideItem.no_ruta}-${insideItem.nama_x}`}
+                                                                                                        onClick={() => clickButtonSampel(insideItem.no_ruta, insideItem.nama_x,insideItem.no_blok_sensus, insideItem.no_kerangka_sampel)}
                                                                                                         >
                                                                                                         {isRB ? ("Sudah") : ("Belum")}
                                                                                                     </button>

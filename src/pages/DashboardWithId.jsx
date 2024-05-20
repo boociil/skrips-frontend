@@ -142,7 +142,7 @@ function DashboardWithId() {
                 .then(response => response.json())
                 .then(data => {
                     setDataKegiatan(data);
-                    // console.log('deadline ',data);
+                    
                     setNamaKegiatan(data[0].nama)
                     setIsSurvei(data[0].jenis === "2");
 
@@ -156,7 +156,6 @@ function DashboardWithId() {
                     let target_edcod = data[0].target_edcod
                     target_edcod = target_edcod.slice(0,10)
                     const date_edcod = new Date(target_edcod)
-                    // console.log(date_edcod);
 
                     let target_entri = data[0].target_entri
                     target_entri = target_entri.slice(0,10)
@@ -173,7 +172,6 @@ function DashboardWithId() {
                     var selisihMilidetikEntri = date_entri.getTime() - date_now.getTime();
                     var selisihHariEntri = (selisihMilidetikEntri / (1000 * 60 * 60 * 24)).toFixed(0);
                     setDeadlineEntri(selisihHariEntri);
-                    ///
 
                     setIsLoading(false);
                 });
@@ -194,7 +192,6 @@ function DashboardWithId() {
                 fetch(start_link + id_kegiatan , requestOptions)
                 .then(response => response.json())
                 .then(data => {
-                    // console.log(data)
                     setDataProgresKecamatan(data);
                     setIsLoadingProgres(false);
                 });
@@ -215,7 +212,6 @@ function DashboardWithId() {
                 fetch(start_link + id_kegiatan , requestOptions)
                 .then(response => response.json())
                 .then(data => {
-                    // console.log(data)
                     setDataPetugasRB(data);
                     setLoadingProgresPengdok(false);
                     
@@ -237,7 +233,6 @@ function DashboardWithId() {
                 fetch(start_link + id_kegiatan , requestOptions)
                 .then(response => response.json())
                 .then(data => {
-                    // console.log(data)
                     setDataPetugasEdcod(data);
                     setLoadingProgresEdcod(false);
                     
@@ -259,7 +254,6 @@ function DashboardWithId() {
                 fetch(start_link + id_kegiatan , requestOptions)
                 .then(response => response.json())
                 .then(data => {
-                    // console.log(data);
                     setDataPetugasEntri(data);
                     setLoadingProgresEntri(false);
                     
@@ -281,7 +275,6 @@ function DashboardWithId() {
                 fetch(start_link + id_kegiatan , requestOptions)
                 .then(response => response.json())
                 .then(data => {
-                    // console.log(data)
                     setDataOverallProgres(data);
                     
                     // Date Setting
@@ -323,7 +316,7 @@ function DashboardWithId() {
                         entri_date = date_entri.getDate();
                         entri_month = convert_bulan(date_entri.getMonth() + 1);
                         entri_year = date_entri.getFullYear();
-                        setStartEntri(edcod_month + " " + edcod_date + ", " + edcod_year);
+                        setStartEntri(entri_month + " " + entri_date + ", " + entri_year);
                     }else{
                         setStartEntri("-")
                     }
@@ -551,16 +544,12 @@ function DashboardWithId() {
                                                                 }
                                                                 <div className="text-xs text-center mt-2 text-slate-400 underline cursor-pointer" onClick={() => {onMoreClick(4)}}>Lihat Selengkapnya</div>
                                                             </>
-                                                        )
-                                                            
-                                                        }
-                                                        
+                                                        )   
+                                                        }      
                                                     </div>
                                                 </div>
                                             </div>
-
                                         </div>
-
                                     </div>
                                 </div>
 
@@ -573,7 +562,6 @@ function DashboardWithId() {
                                             <div className="sm:flex md:flex-grow md:max-w-1/2 ">
                                                 <div className="NUMBER grid grid-cols-3 sm:block">
                                                     <div className="persentase-RB mt-5 border-2 mx-2 mb-2 border-[#23AFF9] w-fit rounded-2xl py-2 pl-2 pr-6 min-w-24 sm:min-w-32 max-h-14">
-                                                        
                                                             {
                                                                 loadingOverallProgres ? (
                                                                     <>
@@ -588,11 +576,9 @@ function DashboardWithId() {
                                                                     </>
                                                                 )
                                                             }
-                                                        
                                                     </div>
 
                                                     <div className="persentase-RB mt-5 border-2 mx-2 mb-2 border-sky-200 w-fit rounded-2xl py-2 pl-2 pr-6 min-w-24 sm:min-w-32 max-h-14">
-                                                        
                                                             {
                                                                 loadingOverallProgres ? (
                                                                     <>
@@ -607,11 +593,9 @@ function DashboardWithId() {
                                                                     </>
                                                                 )
                                                             }
-                                                        
                                                     </div>
 
                                                     <div className="persentase-RB mt-5 border-2 mx-2 mb-2 border-sky-200 w-fit rounded-2xl py-2 pl-2  min-w-24 sm:min-w-32 max-h-14">
-                                                        
                                                         {
                                                             loadingOverallProgres ? (
                                                                 <>
@@ -625,8 +609,7 @@ function DashboardWithId() {
                                                                     </div>
                                                                 </>
                                                             )
-                                                        }
-                                                        
+                                                        }     
                                                     </div>
                                                 </div>
                                                 
@@ -713,7 +696,7 @@ function DashboardWithId() {
                                                         
                                                         { isLoadingProgres ? (
                                                             <div className="p-3">
-                                                                Loading...
+                                                                <Loading/>
                                                             </div>
                                                         ) : (
                                                             <>
@@ -774,7 +757,7 @@ function DashboardWithId() {
                                                             {
                                                                 loadingOverallProgres ? (
                                                                     <>
-                                                                        Loading...
+                                                                        <Loading/>
                                                                     </>
                                                                 ) : (
                                                                     <>
@@ -791,7 +774,7 @@ function DashboardWithId() {
                                                             {
                                                                 loadingOverallProgres ? (
                                                                     <>
-                                                                        Loading...
+                                                                        <Loading/>
                                                                     </>
                                                                 ) : (
                                                                     <>
@@ -808,7 +791,7 @@ function DashboardWithId() {
                                                         {
                                                             loadingOverallProgres ? (
                                                                 <>
-                                                                    Loading...
+                                                                    <Loading />
                                                                 </>
                                                             ) : (
                                                                 <>
@@ -824,7 +807,7 @@ function DashboardWithId() {
                                                         {
                                                             loadingGraphData ? (
                                                                 <>
-                                                                    Loading...
+                                                                    <Loading/>
                                                                 </>
                                                             ) : (
                                                                 <>
@@ -870,7 +853,7 @@ function DashboardWithId() {
                                                         {
                                                             loadingProgresEntri ? (
                                                                 <>
-                                                                    Loading...
+                                                                    <Loading/>
                                                                 </>
                                                             ) : (
                                                                 <>
@@ -910,7 +893,7 @@ function DashboardWithId() {
                                                         
                                                         { isLoadingProgres ? (
                                                             <div className="p-3">
-                                                                Loading...
+                                                                <Loading />
                                                             </div>
                                                         ) : (
                                                             <>
@@ -962,11 +945,9 @@ function DashboardWithId() {
                             </div>
 
                             <div className="kotak-bawah mb-20"></div>
-
                         </>
                     )
                 }
-                    {/*  */}
             </div>
         </>
         

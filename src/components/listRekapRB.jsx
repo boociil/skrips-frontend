@@ -2,7 +2,8 @@ import { useState,useEffect, useRef } from "react";
 import ConfirmCard from './confirmCard';
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import Loading from "../components/Loading"
+import Loading from "../components/Loading";
+import Alert from "../components/Alert";
 
 function ListRekap(props) {
 
@@ -21,6 +22,7 @@ function ListRekap(props) {
     const [ adaRB, setAdaRB ] = useState({});
     const [ idDokActive, setIdDokActive ] = useState(null);
     const [ idxActive, setIdxActive ] = useState(null);
+    const [ isInvalid, setIsInvalid ] = useState(false);
 
     useEffect(() =>{
 
@@ -238,7 +240,7 @@ function ListRekap(props) {
                 });        
 
             }else{
-                alert("Pilih penerima");
+                setIsInvalid(true);
             }
             
         }
@@ -307,20 +309,10 @@ function ListRekap(props) {
                 </div>
             ) : (
                 <div className="here">
-                    {showConfirmCard ? (
-                            <>
-                                <ConfirmCard 
-                                    message={`Batalkan progres RB?`}
-                                    subMessage={`Anda masih bisa mensubmit, tapi waktu akan terupdate`}
-                                    onConfirm={handleConfirm}
-                                    onCancel={handleCancel}
-                                />
-                            </>
-                            
-                        ) : (
-                            <>
-                            </>
-                        )}
+                    {/* Alert untuk proses Cancel */}
+                    <Alert open={showConfirmCard} setOpen={setShowConfirmCard} isConfirm={true} onConfirm={handleConfirm} msg={'Batalkan progres RB?'} subMsg={`Anda masih bisa mensubmit, tapi waktu akan terupdate`}/>
+
+                    <Alert open={isInvalid} setOpen={setIsInvalid} msg={"Error!"} subMsg={"Invalid input, silahkan pilih penerima."} />
                     {
                         
                         data.map((item,index) => {
@@ -328,9 +320,9 @@ function ListRekap(props) {
                             if (item.kode_kec !== prevKec){
                                 prevKec = item.kode_kec;
                                 return (
-                                    <div key={index} className="row mt-3 max-w-5xl mx-auto ">
+                                    <div key={index} className="row mt-2 max-w-5xl mx-auto ">
                                         
-                                        <div className="kecamatan w-full cursor-pointer flex gap-2 mt-1 mb-1 p-3 bg-[#418EC6] text-white text-xs rounded-md hover:bg-sky-400 " onClick={ () => handleCardClick(item.kode_kec)}>    
+                                        <div className="kecamatan w-full cursor-pointer flex gap-2 mt-1 mb-1 px-3 py-2 bg-[#418EC6] text-white text-xs rounded-md hover:bg-sky-400 " onClick={ () => handleCardClick(item.kode_kec)}>    
                                             <div className="w-fit md:col-start-1 ml-1 ">{item.kode_kec}</div>
                                             <div className="w-full md:col-start-2 md:col-span-3 ">{item.Kec}</div>
                                             

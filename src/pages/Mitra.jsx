@@ -4,6 +4,7 @@ import ButtonAdd from "../components/buttonAdd";
 import { useCookies } from "react-cookie";
 import TopNavAdmin from "../components/topNavAdmin";
 import ListMitra from "../components/listMitra";
+import Loading from "../components/Loading"
 
 
 function Users() {
@@ -67,6 +68,7 @@ function Users() {
             
                 {isLoading ? (
                     <>
+                        <Loading />
                     </>
                 ) : (
                     <>

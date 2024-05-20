@@ -2,7 +2,8 @@ import { useState,useEffect, useRef } from "react";
 import ConfirmCard from './confirmCard';
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import Loading from "../components/Loading"
+import Loading from "../components/Loading";
+import Alert from "../components/Alert";
 
 function ListRekap(props) {
 
@@ -21,6 +22,7 @@ function ListRekap(props) {
     const [ confirmResult, setConfirmResult ] = useState(null);
     const [ idDokActive, setIdDokActive ] = useState(null);
     const [ idxActive, setIdxActive ] = useState(null);
+    const [ isInvalid, setIsInvalid ] = useState(false);
 
     useEffect(() =>{
 
@@ -238,7 +240,7 @@ function ListRekap(props) {
                 });  
                    
             }else{
-                alert("Pilih Petugas!");
+                setIsInvalid(true);
             }
             
         }
@@ -312,21 +314,9 @@ function ListRekap(props) {
                 </div>
             ) : (
                 <div className="here">
-                    {showConfirmCard ? (
-                                            <>
-                                                <ConfirmCard 
-                                                    message={`Batalkan progres Edcod?`}
-                                                    subMessage={`Anda masih bisa mensubmit, tapi waktu akan terupdate`}
-                                                    onConfirm={handleConfirm}
-                                                    onCancel={handleCancel}
-                                                />
-                                            </>
-                                            
-                                        ) : (
-                                            <>  
+                    <Alert open={showConfirmCard} setOpen={setShowConfirmCard} isConfirm={true} onConfirm={handleConfirm} msg={'Batalkan progres Edcod?'} subMsg={`Anda masih bisa mensubmit, tapi waktu akan terupdate`}/>
 
-                                            </>
-                                        )}
+                    <Alert open={isInvalid} setOpen={setIsInvalid} msg={"Error!"} subMsg={"Invalid input, silahkan pilih petugas."} />
                     {
                         data.map((item,index) => {
                             // show Kec

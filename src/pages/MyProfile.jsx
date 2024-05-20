@@ -124,26 +124,29 @@ function MyProfile() {
 
                                             
                                             <div className="content  text-slate-600 text-sm md:grid-cols-5"></div>
-                                            <div className="tile cursor-pointer grid grid-rows-1 text-xs sm:text-sm grid-cols-3 transition duration-500 min-w-full max-w-5xl md:mx-auto">
-                                            <div className="title px-3 py-2 w-full" >
-                                                <div className="">Activity</div>
-                                            </div>
-                                            <div className="tanggal px-3 py-2">
-                                                <div className="text-center">Tanggal</div>
-                                            </div>
-                                            <div className="status sm:block px-3 py-2">
-                                                <div className="flex">
-                                                    <div className="flex-grow text-center">
-                                                        <div>Jam</div>
-                                                    </div>
+                                            <div className="tile cursor-pointer grid grid-rows-1 text-xs sm:text-sm grid-cols-3 md:grid-cols-4 transition duration-500 min-w-full max-w-5xl md:mx-auto">
+                                                <div className="title px-3 py-2 w-full" >
+                                                    <div className="">Activity</div>
                                                 </div>
-                                            </div>   
+                                                <div className="tanggal px-3 py-2">
+                                                    <div className="text-center">Tanggal</div>
+                                                </div>
+                                                <div className="status sm:block px-3 py-2">
+                                                    <div className="flex">
+                                                        <div className="flex-grow text-center">
+                                                            <div>Jam</div>
+                                                        </div>
+                                                    </div>
+                                                </div>   
+                                                <div className="keterangan hidden md:block px-3 py-2">
+                                                    <div className="text-center">Keterangan</div>
+                                                </div>
                                             </div>
                                             {
                                                 dataUsers.slice(0,count).map((item,index) => (
                                                     <div className="flex gap-10" key={index}> 
                                                         <>
-                                                            <ListActivity activity={item.last_activity} position={index !== 0 ? (index === count-1 ? 'BOT' : 'MID' ) : 'TOP'} time={item.time} />
+                                                            <ListActivity activity={item.last_activity} position={index !== 0 ? (index === count-1 ? 'BOT' : 'MID' ) : 'TOP'} time={item.time} ket={item.Keterangan}/>
                                                         </>
                                                     </div>
                                                 ))

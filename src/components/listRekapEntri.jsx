@@ -3,6 +3,7 @@ import ConfirmCard from './confirmCard';
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Loading from "../components/Loading"
+import Alert from "../components/Alert";
 
 function ListRekap(props) {
 
@@ -23,6 +24,7 @@ function ListRekap(props) {
     const [ confirmResult, setConfirmResult ] = useState(null);
     const [ idDokActive, setIdDokActive ] = useState(null);
     const [ idxActive, setIdxActive ] = useState(null);
+    const [ isInvalid, setIsInvalid ] = useState(false);
 
     useEffect(() =>{
 
@@ -245,11 +247,11 @@ function ListRekap(props) {
                             })
                         })
                 }else{
-                    alert("Pilih Moda!")
+                    setIsInvalid(true);
                 }
                    
             }else{
-                alert("Pilih Penerima !");
+                setIsInvalid(true);
             }
             
         }
@@ -333,21 +335,9 @@ function ListRekap(props) {
                 </div>
             ) : (
                 <div className="here">
-                    {showConfirmCard ? (
-                                            <>
-                                                <ConfirmCard 
-                                                    message={`Batalkan progres entri ini?`}
-                                                    subMessage={`Anda akan masih bisa menekan ulang tombol, tapi waktu akan diupdate`}
-                                                    onConfirm={handleConfirm}
-                                                    onCancel={handleCancel}
-                                                />
-                                            </>
-                                            
-                                        ) : (
-                                            <>  
+                    <Alert open={showConfirmCard} setOpen={setShowConfirmCard} isConfirm={true} onConfirm={handleConfirm} msg={'Batalkan progres Entri?'} subMsg={`Anda masih bisa mensubmit, tapi waktu akan terupdate`}/>
 
-                                            </>
-                                        )}
+                    <Alert open={isInvalid} setOpen={setIsInvalid} msg={"Error!"} subMsg={"Invalid input, pilih moda dan petugas entri."} />
                     {
                         data.map((item,index) => {
                             // show Kec
