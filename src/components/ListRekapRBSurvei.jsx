@@ -8,7 +8,6 @@ import Alert from "../components/Alert";
 
 function ListRekapRBSurvei(props) {
 
-    console.log(props.data);
 
     const [ data, setData ] = useState([]);
     const [ isLoading, setIsLoading ] = useState(true);

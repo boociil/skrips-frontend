@@ -34,7 +34,6 @@ function AdminHomePage() {
                 fetch(backendUrl + 'get_all_kegiatan', requestOptions)
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data);
                     setData(data);
                     setDataLen(data.length - 1);
                 });
@@ -89,7 +88,7 @@ function AdminHomePage() {
                             return false;
                         })
                         .map((item, index)=>(
-                            <ListRekap key={item.id} position={index !== 0 ? (index === dataLen ? 'BOT' : 'MID' ) : 'TOP'} name={item.nama} id={item.id} metode={item.initiator_id} status={item.status} tgl={item.tanggal_mulai} index={item.length}/>
+                            <ListRekap key={item.id} position={index !== 0 ? (index === dataLen ? 'BOT' : 'MID' ) : 'TOP'} name={item.nama} id={item.id} metode={item.initiator_id} status={item.status} tgl={item.tanggal_mulai} index={item.length} jenis={item.jenis}/>
                         ))
                     }
                 </div>

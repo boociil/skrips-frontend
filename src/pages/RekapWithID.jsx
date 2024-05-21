@@ -40,8 +40,7 @@ const RekapWithID = () => {
             },
             body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
         };
-            let start_link = backendUrl + "get_progres_"
-            isSurvei ? start_link += "survei/" : start_link += "sensus/"
+            let start_link = backendUrl + "get_overall_progres/"
             // console.log(start_link);
             fetch(start_link + id , requestOptions)
             .then(response => response.json())
@@ -103,7 +102,7 @@ const RekapWithID = () => {
                     setDeadlineEntri(selisihHariEntri);
 
                     setIsLoading(false);
-                    fetchDataOveralProgres();
+                    
                 });
         }
 
@@ -115,14 +114,13 @@ const RekapWithID = () => {
                 },
                 body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
             };
-                let start_link = backendUrl + "get_progres_kecamatan_"
-                // console.log("issurvei", dataKegiatan);
-                isSurvei ? start_link += "survei/" : start_link += "sensus/"
+                let start_link = backendUrl + "get_progres_kecamatan/"
+
                 // console.log(start_link + id_kegiatan);
                 fetch(start_link + id , requestOptions)
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data);
+                    console.log(JSON.stringify(data));
                     setDataProgresKecamatan(data);
                     setIsLoadingProgresKecamatan(false);
                 });
@@ -130,6 +128,7 @@ const RekapWithID = () => {
 
         fetchDataProgresKecmatan();
         fetchData();
+        fetchDataOveralProgres();
         
         // Jika sudah masuk fase production, hapus log ini
 
