@@ -61,24 +61,19 @@ function ListActivity(props) {
 
     return (
         <div className={class_name} onClick={divHandleClick.bind(this,props.id)} >
-            <div className="title px-3 py-2 w-full" >
+            <div className="title px-3 py-2 w-full flex items-center justify-center " >
                 <div className="">{props.activity}</div>
             </div>
             
-            <div className="tanggal px-3 py-2">
+            <div className="tanggal px-3 py-2 flex items-center justify-center ">
                 <div className="text-center">{tgl}</div>
             </div>
-            <div className="status sm:block px-3 py-2">
-                <div className="flex">
-                    <div className="flex-grow text-center">
-                        <div>{time}</div>
+            <div className="status sm:flex items-center justify-center px-3 py-2 ">
+                    <div className="flex items-center justify-centerr ">
+                        {time}
                     </div>
-                    {/* <span className="w-4 h-4 material-symbols-outlined md:hidden mr-5">
-                        edit
-                    </span> */}
-                </div>
             </div>
-            <div className="keterangan hidden md:block px-3 py-2">
+            <div className="keterangan hidden md:flex items-center justify-center px-3 py-2 ">
                 <div className="text-center">{props.ket}</div>
             </div>
         </div>

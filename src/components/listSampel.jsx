@@ -26,7 +26,7 @@ function ListSampel(props, { onDataFromChild }) {
     const [ desa, setDesa ] = useState({});
     const [ kec, setKec ] = useState({});
     const [ cookies, setCookie, removeCookie ] = useCookies(['token']);
-
+    const backendUrl = process.env.REACT_APP_BACKEND_URL
 
     const setGeneratedSampelRef = (id, ref) => {
         generatedSampelRef.current[id] = ref;
@@ -43,7 +43,7 @@ function ListSampel(props, { onDataFromChild }) {
                 },
                     body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
                 };
-                const link = 'http://localhost:3001/get_sls'
+                const link = backendUrl + 'get_sls'
                 fetch(link,  requestOptions)
                 .then(response => response.json())
                 .then(data => {
@@ -62,7 +62,7 @@ function ListSampel(props, { onDataFromChild }) {
                 },
                     body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
                 };
-                const link = 'http://localhost:3001/get_sls2'
+                const link = backendUrl + 'get_sls2'
                 fetch(link,  requestOptions)
                 .then(response => response.json())
                 .then(data => {

@@ -14,7 +14,7 @@ const AssignPetugas = () => {
     const [ namaKegiatan, setNamaKegiatan ] = useState();
     const [ isSurvei, setIsSurvei ] = useState();
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
-
+    const backendUrl = process.env.REACT_APP_BACKEND_URL
 
     useEffect(() =>{
 
@@ -28,7 +28,7 @@ const AssignPetugas = () => {
                 body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
             };
             
-                fetch('http://localhost:3001/get_info/' + id , requestOptions)
+                fetch(backendUrl + 'get_info/' + id , requestOptions)
                 .then(response => response.json())
                 .then(data => {
                     setData(data);

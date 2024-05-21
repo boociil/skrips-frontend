@@ -6,6 +6,8 @@ import TopNavAdmin from "../components/topNavAdmin";
 
 function AddKegiatan() {
 
+    const backendUrl = process.env.REACT_APP_BACKEND_URL
+
     const navigate = useNavigate();
     const [ cookies, setCookie, removeCookie ] = useCookies(['token']);
     const [ chekedId, setChekedId ] = useState();
@@ -47,7 +49,7 @@ function AddKegiatan() {
                     }) 
             };
             
-            fetch('http://localhost:3001/add_kegiatan', requestOptions)
+            fetch(backendUrl + 'add_kegiatan', requestOptions)
             .then(response => response.json())
             .then(data => {
                 console.log(data);
@@ -100,7 +102,7 @@ function AddKegiatan() {
                 }) 
         };
 
-        fetch('http://localhost:3001/fill_sensus/' + id, requestOptions)
+        fetch( backendUrl + 'fill_sensus/' + id, requestOptions)
         .then(response => response.json())
         .then(data => {
             console.log("dari fill sensus : ", data);

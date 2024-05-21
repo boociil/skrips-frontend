@@ -25,6 +25,7 @@ function UsersWithId() {
     const [ showConfirmCard, setShowConfirmCard ] = useState();
     const [ isChange, setIsChange ] = useState(false);
     const navigate = useNavigate();
+    const backendUrl = process.env.REACT_APP_BACKEND_URL
 
     const getUsersData = () => {
 
@@ -36,7 +37,7 @@ function UsersWithId() {
             }
         };
         
-        fetch('http://localhost:3001/get_user_activity/' + username, requestOptions)
+        fetch(backendUrl + 'get_user_activity/' + username, requestOptions)
         .then(response => response.json())
         .then(data => {
             const l = data.length
@@ -64,7 +65,7 @@ function UsersWithId() {
             }
         };
         
-        fetch('http://localhost:3001/get_users_info/' + username, requestOptions)
+        fetch(backendUrl + 'get_users_info/' + username, requestOptions)
         .then(response => response.json())
         .then(data => {
             // console.log(data);
@@ -89,7 +90,7 @@ function UsersWithId() {
                 }
             };
             
-            fetch('http://localhost:3001/delete_user/' + username, requestOptions)
+            fetch(backendUrl + 'delete_user/' + username, requestOptions)
             .then(response => response.json())
             .then(data => {
                 if(data.msg === "Success"){

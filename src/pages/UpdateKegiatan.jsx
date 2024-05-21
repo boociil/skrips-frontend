@@ -13,6 +13,7 @@ function UpdateKegiatan() {
     const [ chekedId, setChekedId ] = useState();
     const [ loading, setIsLoading ] = useState(false);
     const [ dataKegiatan, setDataKegiatan ] = useState()
+    const backendUrl = process.env.REACT_APP_BACKEND_URL
 
     const [formData, setFormData] = useState({
         // inisialisasi state untuk menyimpan data form
@@ -48,7 +49,7 @@ function UpdateKegiatan() {
                 body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
             };
             
-            fetch('http://localhost:3001/get_info/' + id.id , requestOptions)
+            fetch(backendUrl + 'get_info/' + id.id , requestOptions)
             .then(response => response.json())
             .then(data => {
                 setDataKegiatan(data);
@@ -103,7 +104,7 @@ function UpdateKegiatan() {
                     }) 
             };
             
-            fetch('http://localhost:3001/update_kegiatan', requestOptions)
+            fetch( backendUrl + 'update_kegiatan', requestOptions)
             .then(response => response.json())
             .then(data => {
                 console.log(data);

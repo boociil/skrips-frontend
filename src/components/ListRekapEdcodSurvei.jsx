@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import ConfirmCard from './confirmCard';
+import { useCookies } from "react-cookie";
+import Alert from "../components/Alert";
 
 function ListRekapEdcodSurvei(props, { onDataFromChild }) {
 
@@ -22,7 +24,10 @@ function ListRekapEdcodSurvei(props, { onDataFromChild }) {
     const [ nksActive, setNksActive ] = useState();
     const [ rutaActive, setRutaActive ] = useState();
     const [ xActive, setXActive ] = useState();
+    const [ isInvalid, setIsInvalid ] = useState(false);
     const penerimaRef = useRef({});
+    const [cookies, setCookie, removeCookie] = useCookies(['token']);
+    const backendUrl = process.env.REACT_APP_BACKEND_URL
 
     useEffect(() =>{
 
@@ -35,7 +40,7 @@ function ListRekapEdcodSurvei(props, { onDataFromChild }) {
                 },
                     body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
                 };
-                const link = 'http://localhost:3001/get_pengolahan_data_survei/' + props.id
+                const link = backendUrl + 'get_pengolahan_data_survei/' + props.id
                 fetch(link,  requestOptions)
                 .then(response => response.json())
                 .then(data => {
@@ -56,7 +61,7 @@ function ListRekapEdcodSurvei(props, { onDataFromChild }) {
                 },
                     body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
                 };
-                const link = 'http://localhost:3001/get_all_mitra_edcod'
+                const link = backendUrl + 'get_all_mitra_edcod'
                 fetch(link,  requestOptions)
                 .then(response => response.json())
                 .then(data => {
@@ -110,7 +115,8 @@ function ListRekapEdcodSurvei(props, { onDataFromChild }) {
             const requestOptions = {
                 method: 'POST', // Metode HTTP
                 headers: {
-                    'Content-Type': 'application/json' // Tentukan tipe konten yang Anda kirimkan
+                    'Content-Type': 'application/json', // Tentukan tipe konten yang Anda kirimkan
+                    'token' : cookies['token']
                 },
                 body: JSON.stringify({ 
                     "id_kegiatan" : props.id,
@@ -123,7 +129,7 @@ function ListRekapEdcodSurvei(props, { onDataFromChild }) {
                  }) 
             };
             
-            fetch('http://localhost:3001/update_Edcod_survei' , requestOptions)
+            fetch( backendUrl +'update_Edcod_survei' , requestOptions)
             .then(response => response.json())
             .then(data => {
                 // console.log(data)
@@ -287,7 +293,7 @@ function ListRekapEdcodSurvei(props, { onDataFromChild }) {
                     })
                 })
             }else{
-                alert("Pilih penerima");
+                setIsInvalid(true);
             }
             
         }
@@ -334,20 +340,9 @@ function ListRekapEdcodSurvei(props, { onDataFromChild }) {
                 </div>
             ) : (
                 <div className="here">
-                    {showConfirmCard ? (
-                            <>
-                                <ConfirmCard 
-                                    message={`Batalkan progres Edcod?`}
-                                    subMessage={`Anda masih bisa mensubmit, tapi waktu akan terupdate`}
-                                    onConfirm={handleConfirm}
-                                    onCancel={handleCancel}
-                                />
-                            </>
-                            
-                        ) : (
-                            <>
-                            </>
-                    )}
+                    <Alert open={showConfirmCard} setOpen={setShowConfirmCard} isConfirm={true} onConfirm={handleConfirm} msg={'Batalkan progres Edcod?'} subMsg={`Anda masih bisa mensubmit, tapi waktu akan terupdate.`}/>
+
+                    <Alert open={isInvalid} setOpen={setIsInvalid} msg={"Error!"} subMsg={"Invalid input, silahkan pilih petugas."} />
                     {
                         data.map((item,index) => {
                             // show Kec

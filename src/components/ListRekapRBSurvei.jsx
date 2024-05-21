@@ -3,6 +3,8 @@ import ConfirmCard from './confirmCard';
 import { useNavigate } from "react-router-dom";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { useCookies } from "react-cookie";
+import Alert from "../components/Alert";
 
 function ListRekapRBSurvei(props) {
 
@@ -24,7 +26,10 @@ function ListRekapRBSurvei(props) {
     const [ nksActive, setNksActive ] = useState();
     const [ rutaActive, setRutaActive ] = useState();
     const [ xActive, setXActive ] = useState();
+    const [ isInvalid, setIsInvalid ] = useState(false);
+    const [cookies, setCookie, removeCookie] = useCookies(['token']);
     const penerimaRef = useRef({});
+    const backendUrl = process.env.REACT_APP_BACKEND_URL
 
     useEffect(() =>{
 
@@ -37,7 +42,7 @@ function ListRekapRBSurvei(props) {
                 },
                     body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
                 };
-                const link = 'http://localhost:3001/get_pengolahan_data_survei/' + props.id
+                const link = backendUrl + 'get_pengolahan_data_survei/' + props.id
                 fetch(link,  requestOptions)
                 .then(response => response.json())
                 .then(data => {
@@ -58,7 +63,7 @@ function ListRekapRBSurvei(props) {
                 },
                     body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
                 };
-                const link = 'http://localhost:3001/get_all_admin'
+                const link = backendUrl + 'get_all_admin'
                 fetch(link,  requestOptions)
                 .then(response => response.json())
                 .then(data => {
@@ -110,7 +115,8 @@ function ListRekapRBSurvei(props) {
             const requestOptions = {
                 method: 'POST', // Metode HTTP
                 headers: {
-                    'Content-Type': 'application/json' // Tentukan tipe konten yang Anda kirimkan
+                    'Content-Type': 'application/json', // Tentukan tipe konten yang Anda kirimkan
+                    'token' : cookies["token"]
                 },
                 body: JSON.stringify({ 
                     "id_kegiatan" : props.id,
@@ -123,7 +129,7 @@ function ListRekapRBSurvei(props) {
                  }) 
             };
             
-                fetch('http://localhost:3001/update_RB_survei' , requestOptions)
+                fetch(backendUrl + 'update_RB_survei' , requestOptions)
                 .then(response => response.json())
                 .then(data => {
                     // console.log(data)
@@ -283,7 +289,7 @@ function ListRekapRBSurvei(props) {
                     })
                 })
             }else{
-                alert("Pilih penerima");
+                setIsInvalid(true);
             }
             
         }
@@ -328,20 +334,9 @@ function ListRekapRBSurvei(props) {
                 </div>
             ) : (
                 <div className="here">
-                    {showConfirmCard ? (
-                            <>
-                                <ConfirmCard 
-                                    message={`Batalkan progres RB?`}
-                                    subMessage={`Anda masih bisa mensubmit, tapi waktu akan terupdate`}
-                                    onConfirm={handleConfirm}
-                                    onCancel={handleCancel}
-                                />
-                            </>
-                            
-                        ) : (
-                            <>
-                            </>
-                    )}
+                    <Alert open={showConfirmCard} setOpen={setShowConfirmCard} isConfirm={true} onConfirm={handleConfirm} msg={'Batalkan progres RB?'} subMsg={`Anda masih bisa mensubmit, tapi waktu akan terupdate.`}/>
+
+                    <Alert open={isInvalid} setOpen={setIsInvalid} msg={"Error!"} subMsg={"Invalid input, silahkan pilih penerima."} />
                     {
                         data.map((item,index) => {
                             // show Kec

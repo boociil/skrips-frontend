@@ -14,6 +14,7 @@ function GantiInfoUser({ username, role, isMyProfile, onClose }) {
         confNew: '',
         role: role,
     });
+    const backendUrl = process.env.REACT_APP_BACKEND_URL
 
     let role_arry = ["Admin", "Pengawas", "Operator"]
     let index = role_arry.indexOf(role);
@@ -36,7 +37,7 @@ function GantiInfoUser({ username, role, isMyProfile, onClose }) {
                  }) 
             };
             
-            fetch('http://localhost:3001/update_role_users', requestOptions)
+            fetch(backendUrl + 'update_role_users', requestOptions)
             .then(response => response.json())
             .then(data => {
                 if(data.msg === "Success"){
@@ -63,7 +64,7 @@ function GantiInfoUser({ username, role, isMyProfile, onClose }) {
                  }) 
             };
             
-            fetch('http://localhost:3001/update_password_users', requestOptions)
+            fetch(backendUrl + 'update_password_users', requestOptions)
             .then(response => response.json())
             .then(data => {
                 if(data.msg === "Success"){

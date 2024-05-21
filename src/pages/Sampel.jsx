@@ -15,6 +15,7 @@ const SampelPage = () => {
     const [ cookies, setCookie, removeCookie] = useCookies(['token']);
     const [ isSurvei, setIsSurvei ] = useState(true);
     const navigate = useNavigate();
+    const backendUrl = process.env.REACT_APP_BACKEND_URL
 
     useEffect(() =>{
 
@@ -28,7 +29,7 @@ const SampelPage = () => {
                 body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
             };
             
-                fetch('http://localhost:3001/get_info/' + id , requestOptions)
+                fetch(backendUrl + 'get_info/' + id , requestOptions)
                 .then(response => response.json())
                 .then(data => {
                     setData(data);
@@ -49,9 +50,9 @@ const SampelPage = () => {
 
 
     if (!isSurvei){
-        console.log(isSurvei);
         navigate("/Home")
     }
+    
     return (
         <>
             <TopNavAdmin/>

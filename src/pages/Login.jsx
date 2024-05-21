@@ -10,6 +10,7 @@ function Login() {
     const [ loginLoading, setLoginLoading ] = useState(false);
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
     const [ openAlert, setOpenAlert ] = useState(false);
+    const backendUrl = process.env.REACT_APP_BACKEND_URL
 
     const [formData, setFormData] = useState({
         // inisialisasi state untuk menyimpan data form
@@ -49,7 +50,7 @@ function Login() {
                  }) 
             };
             
-            fetch('http://localhost:3001/Login', requestOptions)
+            fetch(backendUrl + 'Login', requestOptions)
             .then(response => response.json())
             .then(data => {
                 if(data.msg === "Success"){

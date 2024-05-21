@@ -18,6 +18,7 @@ function ListAssignPetugas(props) {
     const [ ppl, setPPL ] = useState({})
     const [ pml, setPML ] = useState({})
     const [ koseka, setKoseka ] = useState({})
+    const backendUrl = process.env.REACT_APP_BACKEND_URL
 
     useEffect(() =>{
 
@@ -25,9 +26,9 @@ function ListAssignPetugas(props) {
             let firstLink = ''
 
             if(!props.isSurvei){
-                firstLink = 'http://localhost:3001/get_pengolahan_data/';
+                firstLink = backendUrl +  'get_pengolahan_data/';
             }else{
-                firstLink = 'http://localhost:3001/get_pengolahan_data_survei/';
+                firstLink = backendUrl +  'get_pengolahan_data_survei/';
             }
             
             const link = firstLink + props.id
@@ -52,7 +53,7 @@ function ListAssignPetugas(props) {
 
         const fetchDataUsers = () => {   
             
-            const link = "http://localhost:3001/get_all_users"
+            const link = backendUrl + "get_all_users"
             const requestOptions = {
                 method: 'POST', // Metode HTTP
                 headers: {

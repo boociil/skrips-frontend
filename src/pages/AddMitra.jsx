@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function AddMitra() {
 
+    const backendUrl = process.env.REACT_APP_BACKEND_URL
     const navigate = useNavigate();
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
     const [ loadingForm, setIsLoadingForm ] = useState(false);
@@ -39,7 +40,7 @@ function AddMitra() {
                 }) 
             };
     
-            fetch('http://localhost:3001/register_mitra' , requestOptions)
+            fetch(backendUrl + 'register_mitra' , requestOptions)
             .then(response => response.json())
             .then(data => {
                 console.log(data);
@@ -146,8 +147,8 @@ function AddMitra() {
                             <label className="text-sm"> Tugas
                                 <select value={formData.tugas} className='bg-[#F6F6F9] mt-1 text-xs px-3 sm:ml-0 md:mx-0 py-2 mb-3 block rounded-lg w-full focus:ring-1 focus:ring-sky-500 focus:border-sky-500 max-w-72' name="tugas" 
                                     onChange={handleChange}>
-                                    <option value="Editing" key="E">Editing</option>
-                                    <option value="Coding" key="C">Coding</option>
+                                    <option value="Edcod" key="E">Editing Coding</option>
+                                    <option value="Entri" key="C">Entri</option>
                                 </select>
                             </label>
                         </div>

@@ -12,6 +12,7 @@ function AdminHomePage() {
     const [data,setData] = useState([]);
     const [dataLen,setDataLen] = useState();
     const [ searchItem, setSearchItem ] = useState('');
+    const backendUrl = process.env.REACT_APP_BACKEND_URL
 
     const handleClick = () => {
         navigate('AddKegiatan');
@@ -30,7 +31,7 @@ function AdminHomePage() {
                     body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
                 };
             
-                fetch('http://localhost:3001/get_all_kegiatan', requestOptions)
+                fetch(backendUrl + 'get_all_kegiatan', requestOptions)
                 .then(response => response.json())
                 .then(data => {
                     console.log(data);

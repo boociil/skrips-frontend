@@ -12,6 +12,7 @@ const UploadSampel = () => {
 
     const [selectedFile, setSelectedFile] = useState(null);
     const navigate = useNavigate();
+    const backendUrl = process.env.REACT_APP_BACKEND_URL
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
@@ -19,7 +20,7 @@ const UploadSampel = () => {
     };
 
     const downloadFile = async () => {
-        const fileUrl = 'http://localhost:3001/files/template_sampel.xlsx';
+        const fileUrl = backendUrl + 'files/template_sampel.xlsx';
     
         try {
           const response = await fetch(fileUrl);
@@ -47,7 +48,7 @@ const UploadSampel = () => {
         formData.append('id_kegiatan', id);
 
         try {
-            const response = await fetch('http://localhost:3001/upload', {
+            const response = await fetch(backendUrl + 'upload', {
                 method: 'POST',
                 body: formData
             });

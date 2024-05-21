@@ -16,6 +16,7 @@ function Users() {
     const [ loadingData, setLoadingData ] = useState(true);
     const [ len, setLen ] = useState();
     const [ searchItem, setSearchItem ] = useState('');
+    const backendUrl = process.env.REACT_APP_BACKEND_URL
 
     // let l = dataUsers.length;
     const getUsersData = () => {
@@ -28,7 +29,7 @@ function Users() {
             }
         };
         
-        fetch('http://localhost:3001/get_all_users', requestOptions)
+        fetch(backendUrl + 'get_all_users', requestOptions)
         .then(response => response.json())
         .then(data => {
             
@@ -57,7 +58,7 @@ function Users() {
                 }
             };
             
-            fetch('http://localhost:3001/delete_user/' + username, requestOptions)
+            fetch(backendUrl + 'delete_user/' + username, requestOptions)
             .then(response => response.json())
             .then(data => {
                 if(data.msg === "Success"){

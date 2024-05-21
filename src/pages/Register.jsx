@@ -25,6 +25,7 @@ function AddKegiatan() {
         status:''
       });
 
+      const backendUrl = process.env.REACT_APP_BACKEND_URL
     
       const sendData = () => {
         setIsLoadingForm(true)
@@ -46,7 +47,7 @@ function AddKegiatan() {
                 }) 
             };
     
-            fetch('http://localhost:3001/register' , requestOptions)
+            fetch(backendUrl + 'register' , requestOptions)
             .then(response => response.json())
             .then(data => {
                 console.log(data);

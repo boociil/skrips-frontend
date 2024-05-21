@@ -41,6 +41,7 @@ function DashboardWithId() {
     const [ valGraphEntri, setValGraphEntri ] = useState();
     const [ loadingGraphData, setLoadingGraphData ] = useState(true);
     const [ showTabelPet, setShowTabelPet ] = useState();
+    const backendUrl = process.env.REACT_APP_BACKEND_URL
 
     const convert_bulan = (b) => {
         const the_b = (
@@ -82,7 +83,7 @@ function DashboardWithId() {
                 body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
             };
             
-            let start_link = "http://localhost:3001/progres_bar/"
+            let start_link = backendUrl + "progres_bar/"
             fetch(start_link + id_kegiatan , requestOptions)
             .then(response => response.json())
             .then(data => {
@@ -138,7 +139,7 @@ function DashboardWithId() {
                 body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
             };
             
-                await fetch('http://localhost:3001/get_info/' + id_kegiatan , requestOptions)
+                await fetch(backendUrl + 'get_info/' + id_kegiatan , requestOptions)
                 .then(response => response.json())
                 .then(data => {
                     setDataKegiatan(data);
@@ -185,7 +186,7 @@ function DashboardWithId() {
                 },
                 body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
             };
-                let start_link = "http://localhost:3001/get_progres_kecamatan_"
+                let start_link = backendUrl + "get_progres_kecamatan_"
                 // console.log("issurvei", dataKegiatan);
                 isSurvei ? start_link += "survei/" : start_link += "sensus/"
                 // console.log(start_link + id_kegiatan);
@@ -205,7 +206,7 @@ function DashboardWithId() {
                 },
                 body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
             };
-                let start_link = "http://localhost:3001/get_progres_pengdok_"
+                let start_link = backendUrl + "get_progres_pengdok_"
                 // console.log("issurvei", dataKegiatan);
                 isSurvei ? start_link += "survei/" : start_link += "sensus/"
                 // console.log(start_link + id_kegiatan);
@@ -226,7 +227,7 @@ function DashboardWithId() {
                 },
                 body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
             };
-                let start_link = "http://localhost:3001/get_progres_edcod_"
+                let start_link = backendUrl + "get_progres_edcod_"
                 // console.log("issurvei", dataKegiatan);
                 isSurvei ? start_link += "survei/" : start_link += "sensus/"
                 // console.log(start_link + id_kegiatan);
@@ -247,7 +248,7 @@ function DashboardWithId() {
                 },
                 body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
             };
-                let start_link = "http://localhost:3001/get_progres_entri_"
+                let start_link = backendUrl + "get_progres_entri_"
                 // console.log("issurvei", dataKegiatan);
                 isSurvei ? start_link += "survei/" : start_link += "sensus/"
                 // console.log(start_link + id_kegiatan);
@@ -269,7 +270,7 @@ function DashboardWithId() {
                 },
                 body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
             };
-                let start_link = "http://localhost:3001/get_progres_"
+                let start_link = backendUrl + "get_progres_"
                 isSurvei ? start_link += "survei/" : start_link += "sensus/"
                 // console.log(start_link);
                 fetch(start_link + id_kegiatan , requestOptions)

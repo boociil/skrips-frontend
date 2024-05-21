@@ -16,6 +16,8 @@ function Users() {
     const [ len, setLen ] = useState();
     const [ searchItem, setSearchItem ] = useState('');
 
+    const backendUrl = process.env.REACT_APP_BACKEND_URL
+
     useEffect(() =>{
 
         const fetchData = () => {
@@ -28,7 +30,7 @@ function Users() {
                     body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
                 };
             
-                fetch('http://localhost:3001/get_all_mitra', requestOptions)
+                fetch(backendUrl + 'get_all_mitra', requestOptions)
                 .then(response => response.json())
                 .then(data => {
                     // console.log(data);

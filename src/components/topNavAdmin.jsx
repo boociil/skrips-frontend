@@ -11,6 +11,7 @@ function TopNavAdmin(props = {active : 'home'}) {
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
     const navigate = useNavigate();
     const [ showOption, setShowOption ] = useState(false);
+    const backendUrl = process.env.REACT_APP_BACKEND_URL
     
     const logout = () => {
         
@@ -23,7 +24,7 @@ function TopNavAdmin(props = {active : 'home'}) {
                 }
             };
             
-            fetch('http://localhost:3001/logout', requestOptions)
+            fetch(backendUrl + 'logout', requestOptions)
             .then(response => response.json())
             .then(data => {
                 console.log(data);

@@ -26,7 +26,7 @@ const RekapWithID = () => {
     const [ deadlineEntri, setDeadlineEntri ] = useState();
     const [ isLoadingProgresKecamatan ,setIsLoadingProgresKecamatan] = useState(true);
     const [ dataProgresKecamatan, setDataProgresKecamatan ] = useState();
-
+    const backendUrl = process.env.REACT_APP_BACKEND_URL
 
     const miniPageClick = (index) => {
         setMiniPageIndex(index)
@@ -40,7 +40,7 @@ const RekapWithID = () => {
             },
             body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
         };
-            let start_link = "http://localhost:3001/get_progres_"
+            let start_link = backendUrl + "get_progres_"
             isSurvei ? start_link += "survei/" : start_link += "sensus/"
             // console.log(start_link);
             fetch(start_link + id , requestOptions)
@@ -67,7 +67,7 @@ const RekapWithID = () => {
                 body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
             };
             
-                fetch('http://localhost:3001/get_info/' + id , requestOptions)
+                fetch( backendUrl + 'get_info/' + id , requestOptions)
                 .then(response => response.json())
                 .then(data => {
                     setData(data);
@@ -115,7 +115,7 @@ const RekapWithID = () => {
                 },
                 body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
             };
-                let start_link = "http://localhost:3001/get_progres_kecamatan_"
+                let start_link = backendUrl + "get_progres_kecamatan_"
                 // console.log("issurvei", dataKegiatan);
                 isSurvei ? start_link += "survei/" : start_link += "sensus/"
                 // console.log(start_link + id_kegiatan);

@@ -11,6 +11,7 @@ function ListRekap(props) {
     const [ showConfirmCard, setShowConfirmCard ] = useState();
     const [ choosenId, setChoosenId ] = useState();
     let isAdmin = false
+    const backendUrl = process.env.REACT_APP_BACKEND_URL
 
     if(cookie.role === "Admin"){
         isAdmin = true
@@ -70,7 +71,7 @@ function ListRekap(props) {
              }) 
         };
         
-            fetch('http://localhost:3001/delete_kegiatan/' + id , requestOptions)
+            fetch(backendUrl + 'delete_kegiatan/' + id , requestOptions)
             .then(response => response.json())
             .then(data => {
                 console.log(data);

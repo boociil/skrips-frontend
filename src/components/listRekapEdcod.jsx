@@ -4,6 +4,8 @@ import { Bounce, ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Loading from "../components/Loading";
 import Alert from "../components/Alert";
+import { useCookies } from "react-cookie";
+
 
 function ListRekap(props) {
 
@@ -23,6 +25,8 @@ function ListRekap(props) {
     const [ idDokActive, setIdDokActive ] = useState(null);
     const [ idxActive, setIdxActive ] = useState(null);
     const [ isInvalid, setIsInvalid ] = useState(false);
+    const [cookies, setCookie, removeCookie] = useCookies(['token']);
+    const backendUrl = process.env.REACT_APP_BACKEND_URL
 
     useEffect(() =>{
 
@@ -35,7 +39,7 @@ function ListRekap(props) {
                 },
                     body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
                 };
-                const link = 'http://localhost:3001/get_pengolahan_data/' + props.id
+                const link = backendUrl + 'get_pengolahan_data/' + props.id
                 fetch(link,  requestOptions)
                 .then(response => response.json())
                 .then(data => {
@@ -55,7 +59,7 @@ function ListRekap(props) {
                 },
                     body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
                 };
-                const link = 'http://localhost:3001/get_all_mitra_edcod'
+                const link = backendUrl + 'get_all_mitra_edcod'
                 fetch(link,  requestOptions)
                 .then(response => response.json())
                 .then(data => {
@@ -94,7 +98,8 @@ function ListRekap(props) {
             const requestOptions = {
                 method: 'POST', // Metode HTTP
                 headers: {
-                    'Content-Type': 'application/json' // Tentukan tipe konten yang Anda kirimkan
+                    'Content-Type': 'application/json', // Tentukan tipe konten yang Anda kirimkan
+                    'token' : cookies["token"],
                 },
                 body: JSON.stringify({ 
                     "id_kegiatan" : props.id,
@@ -105,7 +110,7 @@ function ListRekap(props) {
                  }) 
             };
 
-            fetch('http://localhost:3001/update_Edcod' , requestOptions)
+            fetch(backendUrl + 'update_Edcod' , requestOptions)
             .then(response => response.json())
             .then(data => {
                 console.log(data)

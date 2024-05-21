@@ -18,7 +18,7 @@ function MyProfile() {
     const [ count, setCount ] = useState();
     const [ showGantiInfo, setShowGantiInfo ] = useState(false);
 
-
+    const backendUrl = process.env.REACT_APP_BACKEND_URL
 
     const getUsersData = () => {
 
@@ -30,7 +30,7 @@ function MyProfile() {
             }
         };
         
-        fetch('http://localhost:3001/get_user_activity/' + cookies.username, requestOptions)
+        fetch(backendUrl + 'get_user_activity/' + cookies.username, requestOptions)
         .then(response => response.json())
         .then(data => {
             const l = data.length
