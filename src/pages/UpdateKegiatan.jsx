@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import TopNavAdmin from "../components/topNavAdmin";
-
+import Loading from "../components/Loading";
 
 function UpdateKegiatan() {
     
@@ -72,14 +72,10 @@ function UpdateKegiatan() {
                     targetPencacahan: data[0].targetPencacahan,
                     koseka: data[0].koseka,
                   }));
-
-                console.log('  ',data[0].id);
             });
         }
         
         fetchData();
-
-        console.log(JSON.stringify(formData));
       }, [])
 
     const sendData = () => {
@@ -107,7 +103,6 @@ function UpdateKegiatan() {
             fetch( backendUrl + 'update_kegiatan', requestOptions)
             .then(response => response.json())
             .then(data => {
-                console.log(data);
                 if (data.msg === "Success") {
                     resolve(true);
                 } else {
@@ -288,7 +283,7 @@ function UpdateKegiatan() {
                             </label>
                         </div>
                         
-
+                        
                         <div className="sm:ml-6 md:ml-3 ml-3">
                             <label className="text-sm"> Target Entri
                                 <input 
@@ -315,7 +310,6 @@ function UpdateKegiatan() {
                         )
                     }
                     </button>
-                
             </div>
         </>
     )

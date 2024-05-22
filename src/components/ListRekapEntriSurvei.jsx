@@ -425,7 +425,7 @@ function ListRekapEntriSurvei(props, { onDataFromChild }) {
                                                                                             }
                                                                                             const ref_num = insideItem.no_ruta + "" + insideItem.nama_x
                                                                                             const index_admin = dataAdmin.findIndex(item => item.id === insideItem.petugas_entri)
-                                                                                            
+
                                                                                             return (
                                                                                                 <div key={insideIndex} className="bg-[#F5F4F4] mx-1 my-1 p-2 grid grid-cols-5 text-xs rounded-lg">
                                                                                                     

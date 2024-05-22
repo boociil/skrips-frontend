@@ -2,13 +2,13 @@ import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useEffect, useState } from "react";
 import ConfirmCard from "./confirmCard";
-
+import Alert from "./Alert"
 
 function ListRekap(props) {
 
     const navigate = useNavigate();
     const [ cookie, setCookie, removeCookie ] = useCookies();
-    const [ showConfirmCard, setShowConfirmCard ] = useState();
+    const [ showConfirmCard, setShowConfirmCard ] = useState(false);
     const [ choosenId, setChoosenId ] = useState();
     let isAdmin = false
     const backendUrl = process.env.REACT_APP_BACKEND_URL
@@ -85,7 +85,7 @@ function ListRekap(props) {
     }
 
     const onCancels = () => {
-        setShowConfirmCard(false)   ;
+        setShowConfirmCard(false);
     }
 
     const deleteClick = (id) => {
@@ -136,13 +136,7 @@ function ListRekap(props) {
 
     return (
         <>
-            { showConfirmCard ? (
-                <>
-                    <ConfirmCard message={`Delete kegiatan ${choosenId}?`} onConfirm={onConfirms} onCancel={onCancels} />
-                </>
-            ) : (
-                <></>
-            )}
+            <Alert open={showConfirmCard} setOpen={setShowConfirmCard} isConfirm={true} onConfirm={onConfirms} msg={'Hapus kegiatan ' + choosenId + " ?"} subMsg={`Semua data terkait kegiatan akan terhapus.`} />
             <div className="sm:flex max-w-5xl md:mx-auto ">
                 <div className={class_name} onClick={divHandleClick.bind(this,props.id)} >
                     <div className="title px-3 py-2 col-span-2 w-full" >
