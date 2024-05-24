@@ -1,14 +1,15 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ButtonAdd from "../components/buttonAdd";
 import { useCookies } from "react-cookie";
 import TopNavAdmin from "../components/topNavAdmin";
 import ListMitra from "../components/listMitra";
 import Loading from "../components/Loading"
-
-
+import { AuthContext } from "../components/AuthContext";
+    
 function Users() {
 
+    const { isOpen, setIsOpen } = useContext(AuthContext);
     const navigate = useNavigate();
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
     const [data2, setData2 ] = useState();
@@ -65,7 +66,7 @@ function Users() {
     return (
         <>
             <TopNavAdmin />
-            <div className="mb-10 mx-4">
+            <div className="mb-10 mx-4" onClick={() => setIsOpen(false)}>
 
             
                 {isLoading ? (

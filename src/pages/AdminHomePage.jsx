@@ -1,13 +1,13 @@
 import ListKegiatan from "../components/listKegiatan";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import TopNavbarAdmin from '../components/topNavAdmin';
 import { useCookies } from "react-cookie";
-
+import { AuthContext } from "../components/AuthContext";
 
 function AdminHomePage() {
 
     // const navigate = useNavigate();
-
+    const { isOpen, setIsOpen } = useContext(AuthContext);
     const [data,setData] = useState([]);
     const [dataLen,setDataLen] = useState();
     const [ cookie ] = useCookies([]);
@@ -54,7 +54,7 @@ function AdminHomePage() {
         <>
         <TopNavbarAdmin />
 
-        <div className="mt-10 md:mt-32 mx-4 font-poppins">
+        <div className="mt-10 md:pt-28 h-full font-poppins" onClick={() => setIsOpen(false)}>
 
             <div className="max-w-5xl md:mx-auto">
                 <h1 className="text-xl mb-4 md:mb-8">Mau Monitoring Apa Hari ini?</h1>

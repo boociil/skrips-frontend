@@ -5,7 +5,7 @@ import { useCookies } from "react-cookie";
 import TopNavAdmin from "../components/topNavAdmin";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-
+import Alert from "../components/Alert"
 
 
 function AddMitra() {
@@ -14,6 +14,7 @@ function AddMitra() {
     const navigate = useNavigate();
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
     const [ loadingForm, setIsLoadingForm ] = useState(false);
+    const [ showAlert, setShowAlert ] = useState(false);
     const [formData, setFormData] = useState({
         // inisialisasi state untuk menyimpan data form
         nama: '',
@@ -79,7 +80,6 @@ function AddMitra() {
 
       const handleSubmit = async (event) =>{
         console.log(check_empty());
-        alert(JSON.stringify(formData))
         if(check_empty()){
             event.preventDefault();
             await sendData()
@@ -114,15 +114,15 @@ function AddMitra() {
             });
             setIsLoadingForm(false)
         }else{
-            alert("Masih ada inputan kosong")
+            setShowAlert(true);
         }
 
     }
 
     return (
         <>
-            {/* <ToastContainer /> */}
             <TopNavAdmin />
+            <Alert open={showAlert} setOpen={setShowAlert} isConfirm={false} msg={"Masih ada isian kosong!"} subMsg={"Silahkan lengkapi form tambah mitra dengan benar."}/>
             <div className="font-poppins parent-form my-4 md:mt-24 mx-4 p-3 shadow-xl bg-white rounded-3xl lg:mt-32 lg:max-w-4xl md:container md:mx-auto max-w-5xl">
                 <h1 className="text-2xl font-semibold mb-4 sm:mb-8 text-center">Tambah Mitra</h1>
                 <div className="the-form ">

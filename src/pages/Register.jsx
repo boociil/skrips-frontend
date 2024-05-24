@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import Button from "../components/button";
 import { useCookies } from "react-cookie";
 import TopNavAdmin from "../components/topNavAdmin";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-
+import { AuthContext } from "../components/AuthContext";
 
 
 function AddKegiatan() {
@@ -13,6 +13,7 @@ function AddKegiatan() {
     const navigate = useNavigate();
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
     const [ loadingForm, setIsLoadingForm ] = useState(false);
+    const { isOpen, setIsOpen } = useContext(AuthContext);
     const [formData, setFormData] = useState({
         // inisialisasi state untuk menyimpan data form
         username: '',
@@ -153,7 +154,7 @@ function AddKegiatan() {
         <>
             <ToastContainer />
             <TopNavAdmin />
-            <div className="font-poppins parent-form my-4 md:mt-24 mx-4 p-3 shadow-xl bg-white rounded-3xl lg:mt-32 lg:max-w-4xl md:container md:mx-auto max-w-5xl">
+            <div className="font-poppins parent-form my-4 md:mt-24 mx-4 p-3 shadow-xl bg-white rounded-3xl lg:mt-32 lg:max-w-4xl md:container md:mx-auto max-w-5xl" onClick={() => setIsOpen(false)}>
                 <h1 className="text-2xl font-semibold mb-4 sm:mb-8 text-center">Tambah User</h1>
                 <div className="the-form ">
                     <div className="nama-id md:grid md:grid-cols-2 place-content-center items-center">

@@ -1,4 +1,4 @@
-import { useEffect,useState } from "react";
+import { useContext, useEffect,useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import TopNavAdmin from "../components/topNavAdmin";
@@ -8,11 +8,12 @@ import Loading from "../components/Loading"
 import ListActivity from "../components/ListActivity";
 import GantiInfoUser from "../components/GantiInfoUser";
 import ConfirmCard from "../components/confirmCard";
+import { AuthContext } from "../components/AuthContext";
 
 function UsersWithId() {
 
     const { username } = useParams();
-
+    const { isOpen, setIsOpen } = useContext(AuthContext);
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
     const [ dataUsers ,setDataUsers ] = useState();
     const [ infoUsers, setInfoUsers ] = useState({});
@@ -170,7 +171,7 @@ function UsersWithId() {
                     <></>
                 )
             }
-            <div className="mb-10 mx-4">
+            <div className="mb-10 mx-4" onClick={() => setIsOpen(false)}>
                 <div className="font-poppins md:mt-28 max-w-4xl mx-auto">
                     
                     <div className="bagian-info-user bg-white p-2 rounded-lg shadow-lg mb-8 relative">

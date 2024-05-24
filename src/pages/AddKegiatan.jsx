@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import TopNavAdmin from "../components/topNavAdmin";
+import Alert from "../components/Alert";
 
 
 function AddKegiatan() {
@@ -12,6 +13,7 @@ function AddKegiatan() {
     const [ cookies, setCookie, removeCookie ] = useCookies(['token']);
     const [ chekedId, setChekedId ] = useState();
     const [ loading, setIsLoading ] = useState(false);
+    const [ showAlert, setShowAlert ] = useState(false);
 
     const [formData, setFormData] = useState({
         namaKegiatan: '',
@@ -177,12 +179,13 @@ function AddKegiatan() {
             })
             setIsLoading(false);
         }else{
-            alert("Masih ada isian kosong")
+            setShowAlert(true);
         }
     }
 
     return (
         <>
+            <Alert open={showAlert} setOpen={setShowAlert} isConfirm={false} msg={"Masih ada isian kosong!"} subMsg={"Silahkan lengkapi form tambah kegiatan dengan benar."}/>
             <TopNavAdmin/>
             <div className="font-poppins parent-form my-4 md:mt-24 mx-4 p-3 shadow-xl bg-white rounded-3xl lg:mt-32 lg:max-w-4xl md:container md:mx-auto max-w-5xl">
                 <h1 className="text-2xl font-semibold mb-4 sm:mb-8 text-center">Tambah Kegiatan</h1>

@@ -23,51 +23,53 @@ import PengawasRoutes from './components/PengawasRoutes';
 import UpdateKegiatan from './pages/UpdateKegiatan';
 import UsersWithId from './pages/UsersWithId';
 import MyProfile from './pages/MyProfile';
-
+import { AuthProvider } from './components/AuthContext';
 
 function App() {
 
-  const [cookie, setCookie, removeCookie] = useCookies(['user']);
 
   return (
     <>
-      <BrowserRouter>
-          <Routes>
-            {/* Routes untuk login page */}
-            <Route index element={<Login />}></Route>
+      <AuthProvider>
+        <BrowserRouter>
+            <Routes>
+              {/* Routes untuk login page */}
+              <Route index element={<Login />}></Route>
 
 
-            {/* Routes selain login page, yang harus login terlebih dahulu */}
-            <Route element={<PrivateRoutes />}>
-              <Route path="/Home" element={<AdminHomePage />}></Route>
-              <Route path="/Home/:id_kegiatan" element={<DashboardWithId />}></Route>
+              {/* Routes selain login page, yang harus login terlebih dahulu */}
+              <Route element={<PrivateRoutes />}>
+                <Route path="/Home" element={<AdminHomePage />}></Route>
+                <Route path="/Home/:id_kegiatan" element={<DashboardWithId />}></Route>
+                <Route path="/Train" element={<Train />}></Route>
 
-              {/* Routes Pengaaws */}
-              <Route element={<PengawasRoutes />}>
-                <Route path="/Rekap/AddKegiatan" element={<AddKegiatan />}></Route>
-                <Route path="/Mitra" element={<Mitra />} />
-                <Route path="/Mitra/Register" element={<AddMitra />} />
-                <Route path="/Rekap" element={<Rekap />} />
-                <Route path="/Rekap/:id" element={<RekapWithID />} />
-                <Route path="/Rekap/Update/:id" element={<UpdateKegiatan />} />
-                <Route path="/AssignPetugas/:id" element={<AssignPetugasSensus />} />
-                <Route path="/Rekap/Sampel/:id" element={<SampelPage />} />
+                {/* Routes Pengaaws */}
+                <Route element={<PengawasRoutes />}>
+                  <Route path="/Rekap/AddKegiatan" element={<AddKegiatan />}></Route>
+                  <Route path="/Mitra" element={<Mitra />} />
+                  <Route path="/Mitra/Register" element={<AddMitra />} />
+                  <Route path="/Rekap" element={<Rekap />} />
+                  <Route path="/Rekap/:id" element={<RekapWithID />} />
+                  <Route path="/Rekap/Update/:id" element={<UpdateKegiatan />} />
+                  <Route path="/AssignPetugas/:id" element={<AssignPetugasSensus />} />
+                  <Route path="/Rekap/Sampel/:id" element={<SampelPage />} />
+                </Route>
+
+                {/* Routes Admin */}
+                <Route element={<AdminRoutes />}>
+                  <Route path='/Users' element={<Users />} />
+                  <Route path="/Users/Register" element={<Register />}/>
+                  <Route path="/Users/:username" element={<UsersWithId />}/>
+                </Route>
+
+                <Route path="/MyProfile" element={<MyProfile />}></Route>
+
+                {/* Ketika pengguna mengakses routes yang tidak terdaftar */}
+                <Route path='*' element={<NotFound />} />
               </Route>
-
-              {/* Routes Admin */}
-              <Route element={<AdminRoutes />}>
-                <Route path='/Users' element={<Users />} />
-                <Route path="/Users/Register" element={<Register />}/>
-                <Route path="/Users/:username" element={<UsersWithId />}/>
-              </Route>
-
-              <Route path="/MyProfile" element={<MyProfile />}></Route>
-
-              {/* Ketika pengguna mengakses routes yang tidak terdaftar */}
-              <Route path='*' element={<NotFound />} />
-            </Route>
-          </Routes>
-      </BrowserRouter>
+            </Routes>
+        </BrowserRouter>
+      </AuthProvider>
     </>
   );
 }

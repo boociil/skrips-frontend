@@ -1,12 +1,13 @@
 import { Outlet,  NavLink, useNavigate } from "react-router-dom";
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useCookies } from "react-cookie";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { AuthContext } from "./AuthContext";
 
-function TopNavAdmin(props = {active : 'home'}) {
+function TopNavAdmin() {
 
-
+    const { isOpen, setIsOpen } = useContext(AuthContext);
     const [openStatus, setOpenStatus] = useState(false);
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
     const navigate = useNavigate();
@@ -42,12 +43,11 @@ function TopNavAdmin(props = {active : 'home'}) {
     }
 
     const onShowClick = () => {
-        if (showOption){
-            setShowOption(false);
+        if (isOpen){
+            setIsOpen(false);
         }else{
-            setShowOption(true);
+            setIsOpen(true);
         }
-        
     }
 
     const closeSideMenu = () => {
@@ -177,13 +177,13 @@ function TopNavAdmin(props = {active : 'home'}) {
                         <div className="Role text-xs text-slate-500 text-right group-hover:opacity-0 transition duration-500">{cookies['role']}</div>
                     </div>
                     <div className="arrow mt-2 ml-1">
-                        <span className={`material-symbols-outlined group-hover:scale-125 transition duration-500 ${showOption ? ('rotate-180') : ('')}`}>
+                        <span className={`material-symbols-outlined group-hover:scale-125 transition duration-500 ${isOpen ? ('rotate-180') : ('')}`}>
                             keyboard_arrow_down
                         </span>
                     </div>
                 </div>
 
-                { showOption ? (
+                { isOpen ? (
                     <div className="user-option fixed bg-white right-2 top-20 p-2 rounded-xl shadow-lg" id="user-option">
                         <div className="option flex gap-3">
                             <div className="my-account flex flex-col items cursor-pointer hover:bg-[#F5F4F4] p-1 rounded-lg group" onClick={onMyProfileClick}>

@@ -1,12 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import ListRekap from "../components/listRekap";
 import ButtonAdd from "../components/buttonAdd";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import TopNavAdmin from "../components/topNavAdmin";
 import { useCookies } from "react-cookie";
+import { AuthContext } from "../components/AuthContext";
 
 function AdminHomePage() {
 
+    const { isOpen, setIsOpen } = useContext(AuthContext);
     const navigate = useNavigate();
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
     const [data,setData] = useState([]);
@@ -62,7 +64,7 @@ function AdminHomePage() {
     return (
         <>
             <TopNavAdmin />
-            <div className="mt-10 md:mt-32 mx-4 font-poppins">
+            <div className="mt-10 md:pt-32 h-full font-poppins" onClick={() => setIsOpen(false)}>
 
                 <div className="max-w-5xl md:mx-auto">
                     <h1 className="text-xl mb-4 md:mb-8 lg:ml-10">Ayo Lanjutkan Kegiatan!</h1>

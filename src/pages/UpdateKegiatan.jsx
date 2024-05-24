@@ -1,13 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import TopNavAdmin from "../components/topNavAdmin";
 import Loading from "../components/Loading";
+import { AuthContext } from "../components/AuthContext";
 
 function UpdateKegiatan() {
     
     const id = useParams()
-
+    const { isOpen, setIsOpen } = useContext(AuthContext);
     const navigate = useNavigate();
     const [ cookies, setCookie, removeCookie ] = useCookies(['token']);
     const [ chekedId, setChekedId ] = useState();
@@ -173,7 +174,7 @@ function UpdateKegiatan() {
     return (
         <>
             <TopNavAdmin/>
-            <div className="font-poppins parent-form my-4 md:mt-24 mx-4 p-3 shadow-xl bg-white rounded-3xl lg:mt-32 lg:max-w-4xl md:container md:mx-auto max-w-5xl">
+            <div className="font-poppins parent-form my-4 md:mt-24 mx-4 p-3 shadow-xl bg-white rounded-3xl lg:mt-32 lg:max-w-4xl md:container md:mx-auto max-w-5xl" onClick={() => setIsOpen(false)}>
                 <h1 className="text-2xl font-semibold mb-4 sm:mb-8 text-center">Edit Kegiatan</h1>
                 
                     <div className="nama-id md:grid md:grid-cols-2 ">

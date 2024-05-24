@@ -1,4 +1,4 @@
-import { useEffect,useState } from "react";
+import { useContext, useEffect,useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import TopNavAdmin from "../components/topNavAdmin";
@@ -6,11 +6,11 @@ import GantiInfoUser from "../components/GantiInfoUser";
 import 'react-toastify/dist/ReactToastify.css';
 import Loading from "../components/Loading"
 import ListActivity from "../components/ListActivity";
-
+import { AuthContext } from "../components/AuthContext";
 
 function MyProfile() {
 
-    
+    const { isOpen, setIsOpen } = useContext(AuthContext);
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
     const [ dataUsers ,setDataUsers ] = useState();
     const [ loadingData, setLoadingData ] = useState(true);
@@ -75,7 +75,7 @@ function MyProfile() {
     return (
         <>
             <TopNavAdmin />
-            <div className="mb-10 mx-4 ">
+            <div className="mb-10 mx-4" onClick={() => setIsOpen(false)}>
                 <div className="font-poppins  md:mt-28 max-w-4xl mx-auto">
                     
                     <div className="bagian-info-user z-10 bg-white p-2 rounded-lg shadow-lg mb-8 relative">

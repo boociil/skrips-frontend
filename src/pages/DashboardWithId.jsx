@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom"
 import { Bar,Line,Doughnut } from "react-chartjs-2";
 import 'chart.js/auto';
 import TopNavAdmin from "../components/topNavAdmin";
 import Loading from "../components/Loading";
 import TableDash from "../components/TabelDash"
+import { AuthContext } from "../components/AuthContext";
+
 
 function DashboardWithId() {
     const { id_kegiatan } = useParams();    
@@ -41,6 +43,7 @@ function DashboardWithId() {
     const [ valGraphEntri, setValGraphEntri ] = useState();
     const [ loadingGraphData, setLoadingGraphData ] = useState(true);
     const [ showTabelPet, setShowTabelPet ] = useState();
+    const { isOpen, setIsOpen } = useContext(AuthContext);
     const backendUrl = process.env.REACT_APP_BACKEND_URL
 
     const convert_bulan = (b) => {
@@ -340,7 +343,7 @@ function DashboardWithId() {
     return (
         <>
             <TopNavAdmin/>
-            <div className="Dashboard md:mt-20 mt-5 font-poppins">
+            <div className="Dashboard md:mt-20 mt-5 font-poppins" onClick={() => setIsOpen(false)}>
                 {
                     isLoading ? (
                         <>

@@ -1,4 +1,4 @@
-import { useEffect,useState } from "react";
+import { useContext, useEffect,useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ButtonAdd from "../components/buttonAdd";
 import { useCookies } from "react-cookie";
@@ -7,9 +7,11 @@ import { Bounce, ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import ListBuble from "../components/listBuble";
 import ListUsers from "../components/listUsers"
+import { AuthContext } from "../components/AuthContext";
 
 function Users() {
 
+    const { isOpen, setIsOpen } = useContext(AuthContext);
     const navigate = useNavigate();
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
     const [ dataUsers ,setDataUsers ] = useState();
@@ -110,7 +112,7 @@ function Users() {
         <>
             <ToastContainer />
             <TopNavAdmin />
-        <div className="mb-10 mx-4">
+        <div className="mb-10 mx-4" onClick={() => setIsOpen(false)}>
             
             { loadingData ? (
                 <div>

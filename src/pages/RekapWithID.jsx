@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom"
-import { useEffect,useState } from "react";
+import { useContext, useEffect,useState } from "react";
 import ListRekap from "../components/listRekapRB";
 import ListRekapEdcod from "../components/listRekapEdcod";
 import ListRekapEntri from "../components/listRekapEntri";
@@ -9,9 +9,10 @@ import ListRekapEntriSurvei from "../components/ListRekapEntriSurvei";
 import { useCookies } from "react-cookie";
 import TopNavAdmin from "../components/topNavAdmin";
 import Loading from "../components/Loading";
-
+import { AuthContext } from "../components/AuthContext";
 
 const RekapWithID = () => {
+    const { isOpen, setIsOpen } = useContext(AuthContext);
     const { id } = useParams();
     const [ data, setData ] = useState([]);
     const [ isLoading, setIsLoading ] = useState(true);
@@ -137,7 +138,7 @@ const RekapWithID = () => {
     return (
         <>
             <TopNavAdmin />
-            <div>
+            <div onClick={() => setIsOpen(false)}>
                 { isLoading ? (
                     <div>
                         Lagi Loading

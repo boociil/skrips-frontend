@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom"
 import { useEffect,useState } from "react";
 import ListSampel from "../components/listSampel";
+import ListSampel2 from "../components/listSampel2";
 import { useCookies } from "react-cookie";
 import TopNavAdmin from "../components/topNavAdmin";
 import UploadSampel from "../components/UploadSampel";
@@ -84,7 +85,7 @@ const SampelPage = () => {
                             <div className="Title flex items-center justify-center my-6">
                                 <span className="text-xl">Pilih Sampel</span>
                             </div>
-                            <ListSampel id={id} />
+                            <ListSampel2 id={id} />
                         </div>
 
                     </div>

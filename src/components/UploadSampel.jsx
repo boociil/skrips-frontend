@@ -2,8 +2,6 @@ import { useState } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom"
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import excel_png from '../img/excel.png'
-import * as XLSX from 'xlsx';
 
 
 const UploadSampel = () => {

@@ -1,14 +1,15 @@
 import { useParams } from "react-router-dom"
-import { useEffect,useState } from "react";
+import { useContext, useEffect,useState } from "react";
 import ListAssignPetugas from "../components/listAssignPetugas";
 import ListAssignPetugasSurvei from "../components/listAssignPetugasSurvei";
 import { useCookies } from "react-cookie";
 import TopNavAdmin from "../components/topNavAdmin";
 import Loading from "../components/Loading";
+import { AuthContext } from "../components/AuthContext";
 
 const AssignPetugas = () => {
     const { id } = useParams();
-
+    const { isOpen, setIsOpen } = useContext(AuthContext);
     const [ data, setData ] = useState([]);
     const [ isLoading, setIsLoading ] = useState(true);
     const [ namaKegiatan, setNamaKegiatan ] = useState();
@@ -45,7 +46,7 @@ const AssignPetugas = () => {
     return (
         <>
             <TopNavAdmin />
-            <div>
+            <div onClick={() => setIsOpen(false)}>
                 { isLoading ? (
                     <div>
                         <Loading/>
