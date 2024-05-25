@@ -54,7 +54,7 @@ function AddKegiatan() {
             fetch(backendUrl + 'add_kegiatan', requestOptions)
             .then(response => response.json())
             .then(data => {
-                console.log(data);
+                
                 if (data.msg === "Berhasil") {
                     resolve(true);
                 } else {
@@ -108,6 +108,11 @@ function AddKegiatan() {
         .then(response => response.json())
         .then(data => {
             console.log("dari fill sensus : ", data);
+            if (data[0].msg = "Berhasil"){
+                
+            }else{
+                // Pesan Error
+            }
         });
     }
        
@@ -133,38 +138,17 @@ function AddKegiatan() {
             ket_id.classList.add("hidden");
         }
 
-        // AutoFill IDKegiatan
-        // if (e.target.name === "namaKegiatan"){
-        //     console.log("target name berubah");
-        //     const arr_split = formData["namaKegiatan"].split(" ")
-        //     console.log("arr split : ", arr_split);
-        //     let the_id = ""
-        //     arr_split.forEach(element => {
-        //         if(isAllDigits(element)){
-        //             the_id += element;
-        //         }else{
-        //             the_id += element[0];
-        //         }
-        //     });
-        //     console.log(the_id);
-        //     setFormData(prevState => ({
-        //         ...prevState, // Menyalin state formData yang ada
-        //         idKegiatan: the_id // Mengatur nilai idKegiatan ke newValue
-        //       }));
-        // }
       };
 
       const handleSubmit = async (event) =>{
         if (check_empty()){
             event.preventDefault();
-            // alert(JSON.stringify(formData));
-            console.log(cookies["token"]);
             await sendData()
             .then(success => {
                 if (formData.jenisKegiatan === "1"){
 
                     fill_sensus(formData.idKegiatan);
-                    navigate("/AssignPetugas/" + formData.idKegiatan);
+                    navigate("/Rekap/" + formData.idKegiatan);
                 }else{
                     navigate("/Rekap/Sampel/" + formData.idKegiatan);
                 }

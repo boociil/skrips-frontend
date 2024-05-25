@@ -345,7 +345,7 @@ function ListRekap(props) {
                                                     prevDesa = subItem.kode_desa
                                                     return (
                                                         <div key={subIndex} className="the-inside-row lg:grid lg:justify-items-end">
-                                                            <div id="the-desa" className="Desa transition lg:w-[94%] lg:ml-8 ml-10 gap-2 duration-300 scale-100 cursor-pointer my-1 bg-[#17B715] hover:bg-[#30D32E] text-white md:p-3 p-2 rounded-md text-xs flex" onClick={() => desaClick(subItem.kode_desa,subItem.kode_kec)}>
+                                                            <div id="the-desa" className="Desa transition lg:w-[94%] lg:ml-8 ml-10 gap-2 duration-300 scale-100 cursor-pointer my-1 bg-[#17B715] hover:bg-[#30D32E] text-white px-3 py-2 rounded-md text-xs flex" onClick={() => desaClick(subItem.kode_desa,subItem.kode_kec)}>
                                                                 <div className="w-fit">{subItem.kode_desa}</div>
                                                                 <div className="w-full">{subItem.Desa}</div>
                                                             </div>
@@ -382,10 +382,13 @@ function ListRekap(props) {
                                                                         // BUG DALAM MENENTUKAN INDEX ADMIN, KETIKA USERS SUDAH DIHAPUS DAN DATA USERS TIDAK ADA DI DATABASE, SEDANGKAN USERS MELAKUKAN PENERIMAAN DOKUMEN PADA SAAT TERDAHULU.
                                                                         let index_admin = dataAdmin.findIndex(item => item.username === innerItem.penerima_dok)
                                                                         // --------------------------------------
+                                                                        if (index_admin === -1){
+                                                                            console.log(innerItem.penerima_dok);
+                                                                        }
 
                                                                         return(
                                                                             <div key={innerIndex} className="the-inside-row lg:grid lg:justify-items-end w-full">
-                                                                                <div className="p-1 md:p-2 lg:w-[88%] ml-20 lg:ml-16 my-1 bg-[#F5F4F4] rounded-md text-xs flex scale-100">
+                                                                                <div className="px-3 py-1 lg:w-[88%] ml-20 lg:ml-16 my-1 bg-[#F5F4F4] rounded-md text-xs flex scale-100">
                                                                                     <div className="w-fit flex items-center">{innerItem.kode_sls}</div>
                                                                                     <div className="w-full ml-2 col-start-2 col-span-2 flex items-center">{" " + innerItem.SLS}</div>
                                                                                     <label htmlFor={`select-${innerIndex}`}></label>

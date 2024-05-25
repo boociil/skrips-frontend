@@ -63,20 +63,20 @@ function AdminHomePage() {
 
     return (
         <>
-            <TopNavAdmin />
+        <TopNavAdmin />
+        <div className="mx-4">
             <div className="mt-10 md:pt-32 h-full font-poppins" onClick={() => setIsOpen(false)}>
 
                 <div className="max-w-5xl md:mx-auto">
-                    <h1 className="text-xl mb-4 md:mb-8 lg:ml-10">Ayo Lanjutkan Kegiatan!</h1>
+                    <h1 className="text-xl mb-4 md:mb-8">Ayo Lanjutkan Kegiatan!</h1>
                 </div>
-
     
                 
                 <div className="quick-search">
                     
                 </div>
 
-                <div className="max-w-5xl lg:pl-9 md:mx-auto">
+                <div className="max-w-5xl lg: md:mx-auto">
                     <input type="text" className="mb-4 rounded-md sm:w-96 w-60 h-6 p-4 lg:mx-auto" placeholder="Search..." onChange={onSearchChange}/>
                 </div>
                 
@@ -107,6 +107,7 @@ function AdminHomePage() {
                 
             </div>
 
+        </div>
         </>
     )
 }

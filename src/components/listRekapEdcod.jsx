@@ -209,18 +209,20 @@ function ListRekap(props) {
         }else{
             if (penerima){
 
-                button.classList.remove('text-[#EF0D0D]');
-                button.classList.add('text-[#14CB11]');
-                button.innerHTML = "Sudah";
-                select.classList.add('pointer-events-none')
-                select.classList.add('opacity-75')
                 const time_now = timeNow()
-                div_time.innerHTML = time_now
-                select.classList.add('disabled-element')
 
                 // fetch data ke backend
                 updateEdcod(id_dok,penerima,1,time_now)
                 .then(success => {
+                    button.classList.remove('text-[#EF0D0D]');
+                    button.classList.add('text-[#14CB11]');
+                    button.innerHTML = "Sudah";
+                    select.classList.add('pointer-events-none')
+                    select.classList.add('opacity-75')
+                    
+                    div_time.innerHTML = time_now
+                    select.classList.add('disabled-element')
+                    
                     toast.success("Data berhasil diiput", {
                         position: "bottom-right",
                         hideProgressBar: true,
@@ -328,9 +330,9 @@ function ListRekap(props) {
                             if (item.kode_kec !== prevKec){
                                 prevKec = item.kode_kec;
                                 return (
-                                    <div key={index} className="row mt-3 max-w-5xl mx-auto">
+                                    <div key={index} className="row mt-2 max-w-5xl mx-auto">
                                         
-                                        <div className="kecamatan w-full cursor-pointer flex gap-2 mt-1 mb-1 p-3 bg-[#418EC6] text-white text-xs rounded-md hover:bg-sky-400 " onClick={ () => handleCardClick(item.kode_kec)}>    
+                                        <div className="kecamatan w-full cursor-pointer flex gap-2 mt-1 mb-1 px-3 py-2 bg-[#418EC6] text-white text-xs rounded-md hover:bg-sky-400 " onClick={ () => handleCardClick(item.kode_kec)}>    
                                             <div className="w-fit md:col-start-1 ml-1 ">{item.kode_kec}</div>
                                             <div className="w-full md:col-start-2 md:col-span-3 ">{item.Kec}</div>
                                             <div className="font-semibold">{props.data[item.kode_kec].progres_edcod.toFixed(2)}%</div>
@@ -347,7 +349,7 @@ function ListRekap(props) {
                                                     prevDesa = subItem.kode_desa
                                                     return (
                                                         <div key={subIndex} className="the-inside-row lg:grid lg:justify-items-end">
-                                                            <div id="the-desa" className="Desa transition lg:w-[94%] lg:ml-8 ml-10 gap-2 duration-300 scale-100 cursor-pointer my-1 bg-[#17B715] hover:bg-[#30D32E] text-white md:p-3 p-2 rounded-md text-xs flex" onClick={() => desaClick(subItem.kode_desa,subItem.kode_kec)}>
+                                                            <div id="the-desa" className="Desa transition lg:w-[94%] lg:ml-8 ml-10 gap-2 duration-300 scale-100 cursor-pointer my-1 bg-[#17B715] hover:bg-[#30D32E] text-white px-3 py-2 rounded-md text-xs flex" onClick={() => desaClick(subItem.kode_desa,subItem.kode_kec)}>
                                                                 <div className="w-fit">{subItem.kode_desa}</div>
                                                                 <div className="w-full">{subItem.Desa}</div>
                                                             </div>
@@ -385,7 +387,7 @@ function ListRekap(props) {
                                                                         
                                                                         return(
                                                                             <div key={innerIndex} className="the-inside-row lg:grid lg:justify-items-end w-full">
-                                                                                <div className="p-1 md:p-2 lg:w-[88%] ml-20 lg:ml-16 my-1 bg-[#F5F4F4] rounded-md text-xs flex scale-100">
+                                                                                <div className="px-3 py-1 lg:w-[88%] ml-20 lg:ml-16 my-1 bg-[#F5F4F4] rounded-md text-xs flex scale-100">
                                                                                     <div className="w-fit flex items-center">{innerItem.kode_sls}</div>
                                                                                     <div className="w-full md:w-fit ml-2 col-start-2 col-span-2 flex items-center">{" " + innerItem.SLS}</div>
                                                                                     <label htmlFor={`select-${innerIndex}`}></label>

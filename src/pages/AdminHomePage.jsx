@@ -51,8 +51,10 @@ function AdminHomePage() {
     }
 
     return (
-        <>
+<>
         <TopNavbarAdmin />
+        <div className="mx-4">
+        
 
         <div className="mt-10 md:pt-28 h-full font-poppins" onClick={() => setIsOpen(false)}>
 
@@ -80,6 +82,7 @@ function AdminHomePage() {
                     ))
                 }
             </div>
+        </div>
         </div>
         </>
     )

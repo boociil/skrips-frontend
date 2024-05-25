@@ -6,13 +6,15 @@ import TopNavAdmin from "../components/topNavAdmin";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { AuthContext } from "../components/AuthContext";
-
+import Alert from "../components/Alert"
 
 function AddKegiatan() {
 
     const navigate = useNavigate();
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
     const [ loadingForm, setIsLoadingForm ] = useState(false);
+    const [ showAlert, setShowAlert ] = useState(false);
+    const [ showAlert2, setShowAlert2 ] = useState(false);
     const { isOpen, setIsOpen } = useContext(AuthContext);
     const [formData, setFormData] = useState({
         // inisialisasi state untuk menyimpan data form
@@ -91,7 +93,6 @@ function AddKegiatan() {
         if (formData.pass !== formData.confpass){
             return false;
         }
-
         return true;
     }
 
@@ -110,7 +111,6 @@ function AddKegiatan() {
       };
 
       const handleSubmit = async (event) =>{
-        console.log(check_empty());
         if(check_empty()){
             event.preventDefault();
             await sendData()
@@ -143,9 +143,13 @@ function AddKegiatan() {
                     pauseOnHover: false,
                 })
             });
-            setIsLoadingForm(false)
+            setIsLoadingForm(false);
         }else{
-            alert("Masih ada inputan kosong")
+            if (formData.pass !== formData.confpass){
+                setShowAlert2(true);
+            }else{
+                setShowAlert(true);
+            }
         }
 
     }
@@ -153,7 +157,9 @@ function AddKegiatan() {
     return (
         <>
             <ToastContainer />
-            <TopNavAdmin />
+            <Alert open={showAlert} setOpen={setShowAlert} isConfirm={false} msg={"Masih ada isian kosong!"} subMsg={"Silahkan lengkapi form User dengan benar."}/>
+            <Alert open={showAlert2} setOpen={setShowAlert2} isConfirm={false} msg={"Password tidak konsisten!"} subMsg={"Silahkan perbaiki password anda."}/>
+            <TopNavAdmin/>
             <div className="font-poppins parent-form my-4 md:mt-24 mx-4 p-3 shadow-xl bg-white rounded-3xl lg:mt-32 lg:max-w-4xl md:container md:mx-auto max-w-5xl" onClick={() => setIsOpen(false)}>
                 <h1 className="text-2xl font-semibold mb-4 sm:mb-8 text-center">Tambah User</h1>
                 <div className="the-form ">

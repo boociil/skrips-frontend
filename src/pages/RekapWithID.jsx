@@ -121,7 +121,7 @@ const RekapWithID = () => {
                 fetch(start_link + id , requestOptions)
                 .then(response => response.json())
                 .then(data => {
-                    console.log(JSON.stringify(data));
+                    
                     setDataProgresKecamatan(data);
                     setIsLoadingProgresKecamatan(false);
                 });

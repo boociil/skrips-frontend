@@ -351,7 +351,7 @@ function ListRekapEdcodSurvei(props, { onDataFromChild }) {
                                 return (
                                     <div key={index} className="row mt-3 max-w-5xl mx-auto">
                                         
-                                        <div className="kecamatan w-full cursor-pointer flex gap-2 mt-1 mb-1 p-3 bg-[#418EC6] text-white text-xs rounded-md hover:bg-sky-400 " onClick={ () => handleCardClick(item.kode_kec)}>    
+                                        <div className="kecamatan w-full cursor-pointer flex gap-2 mt-1 mb-1 px-3 py-2 bg-[#418EC6] text-white text-xs rounded-md hover:bg-sky-400 " onClick={ () => handleCardClick(item.kode_kec)}>    
                                             <div className="w-fit md:col-start-1 ml-1 ">{item.kode_kec}</div>
                                             <div className="w-full md:col-start-2 md:col-span-3 ">{item.Kec}</div>
                                             <div className="font-semibold">{
@@ -383,7 +383,7 @@ function ListRekapEdcodSurvei(props, { onDataFromChild }) {
                                                     }
                                                     return (
                                                         <div key={subIndex} className="the-inside-row lg:grid lg:justify-items-end">
-                                                            <div id="the-desa" className="Desa transition lg:w-[94%] lg:ml-8 ml-10 gap-2 duration-300 scale-100 cursor-pointer my-1 bg-[#17B715] hover:bg-[#30D32E] text-white md:p-3 p-2 rounded-md text-xs flex" onClick={() => desaClick(subItem.kode_desa,subItem.kode_kec)}>
+                                                            <div id="the-desa" className="Desa transition lg:w-[94%] lg:ml-8 ml-10 gap-2 duration-300 scale-100 cursor-pointer my-1 bg-[#17B715] hover:bg-[#30D32E] text-white px-3 py-2 rounded-md text-xs flex" onClick={() => desaClick(subItem.kode_desa,subItem.kode_kec)}>
                                                                 <div className="w-fit">{subItem.kode_desa}</div>
                                                                 <div className="w-full">{subItem.Desa}</div>
                                                                 
@@ -402,12 +402,10 @@ function ListRekapEdcodSurvei(props, { onDataFromChild }) {
                                                                         prevKorong = innerItem.nama_x
                                                                         return(
                                                                             <div  key={innerIndex} className="the-inside-row lg:grid lg:justify-items-end w-full">
-                                                                                <div className={`p-1 md:p-2 lg:w-[88%] ml-20 lg:ml-16 my-1 bg-[#F5F4F4] rounded-md text-xs grid-cols-4 grid sm:grid-cols-6 scale-100`}>
+                                                                                <div className={`px-3 py-2 lg:w-[88%] ml-20 lg:ml-16 my-1 bg-[#F5F4F4] rounded-md text-xs grid-cols-4 grid sm:grid-cols-4 scale-100`}>
                                                                                     <div className="w-full md:w-fit ml-2 col-start-1 col-span-2">{" " + innerItem.nama_x}</div>    
-                                                                                    <div className="no-bs">{innerItem.no_blok_sensus}</div>
-                                                                                    <div className="no-bs ml-3 sm:ml-0">{innerItem.no_kerangka_sampel}</div>
-                                                                                    <div className="ppl hidden sm:block">PPL</div>
-                                                                                    <div className="ppl hidden sm:block mr-3 sm:mr-0">PML</div>
+                                                                                    <div className="no-bs">NBS : {innerItem.no_blok_sensus}</div>
+                                                                                    <div className="no-bs ml-3 sm:ml-0">NKS : {innerItem.no_kerangka_sampel}</div>
                                                                                 </div>
 
                                                                                 <div className="the-ruta grid grid-cols-2 max-w-3xl ml-10">
@@ -428,7 +426,7 @@ function ListRekapEdcodSurvei(props, { onDataFromChild }) {
                                                                                             const index_admin = dataAdmin.findIndex(item => item.id === insideItem.petugas_edcod)
                                                                                             
                                                                                             return (
-                                                                                                <div key={insideIndex} className="bg-[#F5F4F4] ml-1 my-1 p-2 grid grid-cols-5 text-xs rounded-lg">
+                                                                                                <div key={insideIndex} className="bg-[#F5F4F4] ml-1 my-1 px-2 py-1 grid grid-cols-5 text-xs rounded-lg">
                                                                                                     
                                                                                                     <div className="the-ruta hidden md:block">
                                                                                                         <div className="mx-3">{insideItem.no_ruta}</div>
