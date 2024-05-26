@@ -82,10 +82,11 @@ const SampelPage = () => {
                                 <span className="text-xl">Upload Sampel</span>
                             </div>
                                 <UploadSampel />
-                            <div className="Title flex items-center justify-center my-6">
+                                {/* ON WORK */}
+                            {/* <div className="Title flex items-center justify-center my-6">
                                 <span className="text-xl">Pilih Sampel</span>
                             </div>
-                            <ListSampel2 id={id} />
+                            <ListSampel2 id={id} /> */}
                         </div>
 
                     </div>
