@@ -7,7 +7,6 @@ function ListActivity(props) {
     // time
     // activity
 
-    console.log(props.ket);
 
     const convert_bulan = (b) => {
         const the_b = (
@@ -49,8 +48,6 @@ function ListActivity(props) {
 
     const [tanggal, bulan, tahun_before_slice] = time_id.split('/');
     const tahun = tahun_before_slice.slice(0,4)
-
-    // console.log(tanggal,bulan,tahun);
     
     const tgl = tanggal + " " + convert_bulan(bulan) + " " + tahun
     const time = time_id.slice(10,19).replace(".",":").replace(".",":")

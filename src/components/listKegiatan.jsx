@@ -72,9 +72,9 @@ function ListKegiatan(props) {
     if(date[0] === "0"){
         date = date.slice(1,2);
     }
-    // console.log(date[0]);
+
     const the_tgl = convert_bulan(month) + " " + date + ", " + year
-    // console.log("month",convert_bulan("10"));
+
 
 
     return (

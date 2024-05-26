@@ -46,10 +46,10 @@ function ListRekapRBSurvei(props) {
                 .then(response => response.json())
                 .then(data => {
                     setData(data);
-                    // console.log("the data : ",data)
+
                     setDataLen(data.length - 1);
                     setIsLoading(false)
-                    // console.log(link);
+
                 });       
         }
 
@@ -67,10 +67,7 @@ function ListRekapRBSurvei(props) {
                 .then(response => response.json())
                 .then(data => {
                     setDataAdmin(data);
-                    // console.log("admin", data);
-                    dataAdmin.map((admin,admin_index) => {
-                        // console.log(admin.username);
-                    })
+
                     setIsLoadingPetugas(false);
                 });            
         }     
@@ -131,9 +128,9 @@ function ListRekapRBSurvei(props) {
                 fetch(backendUrl + 'update_RB_survei' , requestOptions)
                 .then(response => response.json())
                 .then(data => {
-                    // console.log(data)
+
                     if (data.msg === "Update Berhasil") {
-                        // console.log("Sukses");
+
                         resolve(true);
                     } else {
                         reject("Gagal memperbarui data");
@@ -159,7 +156,6 @@ function ListRekapRBSurvei(props) {
     const handleRutaChange = (even,ruta,x) => {
         const value = even.target.value
 
-        // console.log("ruta dan x : ",ruta,x);
         setPenerimaDok(prevSelectValues => ({
             ...prevSelectValues,
             [x]: {

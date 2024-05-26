@@ -45,7 +45,7 @@ function ListRekap(props) {
                 .then(response => response.json())
                 .then(data => {
                     setData(data);
-                    // console.log(data)
+                    
                     setDataLen(data.length - 1);
                     setIsLoading(false)
                 });            
@@ -64,9 +64,9 @@ function ListRekap(props) {
                 fetch(link,  requestOptions)
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data);
+                    
                     setDataAdmin(data);
-                    console.log(data[0].nama);
+                    
                     setIsLoadingPetugas(false)
                 });            
         }
@@ -115,9 +115,9 @@ function ListRekap(props) {
             fetch(backendUrl + 'update_Entri' , requestOptions)
             .then(response => response.json())
             .then(data => {
-                // console.log(data)
+                
                 if (data.msg === "Update Berhasil") {
-                    console.log("Sukses");
+                    
                     resolve(true);
                 } else {
                     reject("Gagal memperbarui data");
@@ -322,8 +322,6 @@ function ListRekap(props) {
             setKodeDesaActive(kode_desa);
         }
         
-        console.log("kode desa yang dikirim :",kode_desa);
-        console.log("set", kode_desa === kodeDesaActive ? null : kode_desa);
     }
     
 
@@ -399,7 +397,7 @@ function ListRekap(props) {
                                                                             const options = { timeZone: 'Asia/Jakarta' };
                                                                             waktu_entri =  date.toLocaleString('id-ID', options)
                                                                         }
-                                                                        // console.log("waktu : ", waktu_entri);
+                                                                        
                                                                         let class_sls = "mr-3 p-1 md:p-2 md:grid md:grid-cols-8 ml-9 my-1 bg-[#F5F4F4] rounded-md text-xs flex md:mx-auto max-w-3xl transition duration-300 scale-95";
                                                                         let class_sls2 = "mr-3 p-1 md:p-2 md:grid md:grid-cols-8 ml-9 my-1 bg-[#F5F4F4] rounded-md text-xs flex md:mx-auto max-w-3xl transition duration-300 scale-95";
                                                                         let index_admin = dataAdmin.findIndex(item => item.id === innerItem.petugas_entri)

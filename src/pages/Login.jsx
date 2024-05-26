@@ -67,7 +67,7 @@ function Login() {
         event.preventDefault();
         const checkFill = check_empty();
         if (checkFill){
-            // console.log(formData);
+
             await sendData(formData)
             .then(success => {
                 setCookie('token',success.accessToken)
@@ -76,14 +76,14 @@ function Login() {
                 setCookie('isLogin', true)
                 setCookie('fullName', success.fullName)
                 navigate('/Home');
-                // console.log(success);
+
             })
             .catch(error => {
                 const msg_div = document.getElementById("message-div")
                 msg_div.classList.remove("hidden");
             })
         }else{
-            console.log("harusnya alert muncul");
+
             setOpenAlert(true);
             
         } 

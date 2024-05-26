@@ -28,7 +28,7 @@ function TopNavAdmin() {
             fetch(backendUrl + 'logout', requestOptions)
             .then(response => response.json())
             .then(data => {
-                console.log(data);
+
                 if (data.msg === "Success"){
                     resolve(true);
                 }else{
@@ -73,7 +73,7 @@ function TopNavAdmin() {
     }
 
     const removeAllCookie = async () => {
-        // console.log(cookies["token"]);
+   
         await logout()
         .then(success => {
             removeCookie('user');

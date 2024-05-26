@@ -19,11 +19,9 @@ function GeneratedSampel(props) {
         if (isi && isi[id] && isi[id][index]){
             the_value = isi[id][index]
         }else{
-            console.log(isi);
+            
         }
-        // console.log('id : ', id)
-        // console.log('index : ', index);
-        // console.log("isi krt", isi[id][index]);
+
         elements.push(
             <div key={index} className={`col-start-${col} bg-[#F5F4F4] mx-1 my-1 p-2 rounded-lg`}>
                 Ruta {index}

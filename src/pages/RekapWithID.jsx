@@ -42,11 +42,11 @@ const RekapWithID = () => {
             body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
         };
             let start_link = backendUrl + "get_overall_progres/"
-            // console.log(start_link);
+
             fetch(start_link + id , requestOptions)
             .then(response => response.json())
             .then(data => {
-                // console.log(data);
+
                 setDataOverallProgres(data);
 
                 // Date Setting
@@ -71,7 +71,7 @@ const RekapWithID = () => {
                 .then(response => response.json())
                 .then(data => {
                     setData(data);
-                    // console.log(data);
+
                     setNamaKegiatan(data[0].nama)
                     setIsSurvei(data[0].jenis == 2);
 
@@ -84,7 +84,7 @@ const RekapWithID = () => {
                     let target_edcod = data[0].target_edcod
                     target_edcod = target_edcod.slice(0,10)
                     const date_edcod = new Date(target_edcod)
-                    // console.log(date_edcod);
+
 
                     let target_entri = data[0].target_entri
                     target_entri = target_entri.slice(0,10)
@@ -117,7 +117,7 @@ const RekapWithID = () => {
             };
                 let start_link = backendUrl + "get_progres_kecamatan/"
 
-                // console.log(start_link + id_kegiatan);
+
                 fetch(start_link + id , requestOptions)
                 .then(response => response.json())
                 .then(data => {

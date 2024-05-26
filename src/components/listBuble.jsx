@@ -11,13 +11,11 @@ function ListBuble(props) {
     // - column -> jika suatu itel/item menggunakan 2 kolom atau lebih
     // - click -> yang akan dilakukan jika di klick
 
-    console.log(props.item);
-    console.log(props.title);
+ 
     
     const pos = props.pos
     const total = props.item.length
-    console.log(total);
-    console.log(pos);
+
     let col = 0
 
 

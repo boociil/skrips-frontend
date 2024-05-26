@@ -53,13 +53,11 @@ function AddKegiatan() {
             fetch(backendUrl + 'register' , requestOptions)
             .then(response => response.json())
             .then(data => {
-                console.log(data);
                 if (data.msg === "Berhasil") {
-                    console.log("Sukses");
+
                     resolve(true);
                 } else {
                     reject(data.msg);
-                    console.log(data.msg);
                 }
             })
             .catch(error => {

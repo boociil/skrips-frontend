@@ -32,7 +32,7 @@ function ListAssignPetugas(props) {
             }
             
             const link = firstLink + props.id
-            // console.log(link);
+            
             const requestOptions = {
                 method: 'POST', // Metode HTTP
                 headers: {
@@ -45,7 +45,7 @@ function ListAssignPetugas(props) {
                 .then(response => response.json())
                 .then(data => {
                     setData(data);
-                    console.log(data)
+                    
                     setDataLen(data.length - 1);
                     setIsLoading(false)
                 });            
@@ -66,7 +66,7 @@ function ListAssignPetugas(props) {
                 .then(response => response.json())
                 .then(data => {
                     setDataPetugas(data);
-                    // console.log(data)
+                    
                     setIsLoadingPetugas(false)
                 });            
         }
@@ -181,7 +181,7 @@ function ListAssignPetugas(props) {
         const arrpml = Object.assign(pml)
         const arrKoseka = Object.assign(koseka)
         let arr_to_send = ([arrppl,arrpml,arrKoseka])
-        console.log(arr_to_send);
+        
 
         // sending data
         const requestOptions = {
@@ -195,7 +195,7 @@ function ListAssignPetugas(props) {
             fetch(link,  requestOptions)
             .then(response => response.json())
             .then(data => {
-                console.log(data);
+                
             });
             navigate("/Rekap");
     }

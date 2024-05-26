@@ -71,7 +71,6 @@ function DashboardWithId() {
     }
 
     const onMoreClick = (tipe) => {
-        // console.log(tipe);
         setShowTabelPet(tipe)
     }
 
@@ -104,10 +103,8 @@ function DashboardWithId() {
                     result[jenis_data].frekuensi.push(frekuensi);
                 });
 
-                console.log(data);
-                console.log(result);
 
-                // console.log("after proccess",result.tgl_edcod.frekuensi);
+
                 if (!result.tgl_pengdok || !result.tgl_pengdok.titles || result.tgl_pengdok.titles.length === 0) {
                     setGraphDefRB(true);
                 } else {
@@ -190,9 +187,9 @@ function DashboardWithId() {
                 body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
             };
                 let start_link = backendUrl + "get_progres_kecamatan_"
-                // console.log("issurvei", dataKegiatan);
+
                 isSurvei ? start_link += "survei/" : start_link += "sensus/"
-                // console.log(start_link + id_kegiatan);
+
                 fetch(start_link + id_kegiatan , requestOptions)
                 .then(response => response.json())
                 .then(data => {
@@ -210,9 +207,9 @@ function DashboardWithId() {
                 body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
             };
                 let start_link = backendUrl + "get_progres_pengdok_"
-                // console.log("issurvei", dataKegiatan);
+
                 isSurvei ? start_link += "survei/" : start_link += "sensus/"
-                // console.log(start_link + id_kegiatan);
+
                 fetch(start_link + id_kegiatan , requestOptions)
                 .then(response => response.json())
                 .then(data => {
@@ -231,9 +228,9 @@ function DashboardWithId() {
                 body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
             };
                 let start_link = backendUrl + "get_progres_edcod_"
-                // console.log("issurvei", dataKegiatan);
+
                 isSurvei ? start_link += "survei/" : start_link += "sensus/"
-                // console.log(start_link + id_kegiatan);
+
                 fetch(start_link + id_kegiatan , requestOptions)
                 .then(response => response.json())
                 .then(data => {
@@ -252,9 +249,9 @@ function DashboardWithId() {
                 body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
             };
                 let start_link = backendUrl + "get_progres_entri_"
-                // console.log("issurvei", dataKegiatan);
+
                 isSurvei ? start_link += "survei/" : start_link += "sensus/"
-                // console.log(start_link + id_kegiatan);
+
                 fetch(start_link + id_kegiatan , requestOptions)
                 .then(response => response.json())
                 .then(data => {
@@ -275,7 +272,7 @@ function DashboardWithId() {
             };
                 let start_link = backendUrl + "get_progres_"
                 isSurvei ? start_link += "survei/" : start_link += "sensus/"
-                // console.log(start_link);
+   
                 fetch(start_link + id_kegiatan , requestOptions)
                 .then(response => response.json())
                 .then(data => {

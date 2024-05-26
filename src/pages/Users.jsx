@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import ListBuble from "../components/listBuble";
 import ListUsers from "../components/listUsers"
 import { AuthContext } from "../components/AuthContext";
+import Loading from "../components/Loading"
 
 function Users() {
 
@@ -117,7 +118,7 @@ function Users() {
             { loadingData ? (
                 <div>
                     {/* Ketika komponen sedang loading, tambahkan animasi disini */}
-                    Lagi Loading
+                    <Loading />
                 </div>
             ) : (
                 <div className="font-poppins md:mt-28 max-w-4xl mx-auto">

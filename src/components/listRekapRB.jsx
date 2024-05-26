@@ -113,9 +113,9 @@ function ListRekap(props) {
             fetch(backendUrl + 'update_RB' , requestOptions)
             .then(response => response.json())
             .then(data => {
-                // console.log(data);
+
                 if (data.msg === "Update Berhasil") {
-                    // console.log("Sukses");
+                    
                     resolve(true);
                 } else {
                     reject("Gagal memperbarui data");
@@ -299,8 +299,7 @@ function ListRekap(props) {
             setKodeDesaActive(kode_desa);
         }
         
-        // console.log("kode desa yang dikirim :",kode_desa);
-        // console.log("set", kode_desa === kodeDesaActive ? null : kode_desa);
+
     }
 
 
@@ -382,9 +381,7 @@ function ListRekap(props) {
                                                                         // BUG DALAM MENENTUKAN INDEX ADMIN, KETIKA USERS SUDAH DIHAPUS DAN DATA USERS TIDAK ADA DI DATABASE, SEDANGKAN USERS MELAKUKAN PENERIMAAN DOKUMEN PADA SAAT TERDAHULU.
                                                                         let index_admin = dataAdmin.findIndex(item => item.username === innerItem.penerima_dok)
                                                                         // --------------------------------------
-                                                                        if (index_admin === -1){
-                                                                            console.log(innerItem.penerima_dok);
-                                                                        }
+                                                                        
 
                                                                         return(
                                                                             <div key={innerIndex} className="the-inside-row lg:grid lg:justify-items-end w-full">

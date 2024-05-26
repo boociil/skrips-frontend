@@ -107,7 +107,7 @@ function AddKegiatan() {
         fetch( backendUrl + 'fill_sensus/' + id, requestOptions)
         .then(response => response.json())
         .then(data => {
-            console.log("dari fill sensus : ", data);
+
             if (data[0].msg = "Berhasil"){
                 
             }else{

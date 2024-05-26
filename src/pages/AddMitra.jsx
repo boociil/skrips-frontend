@@ -18,7 +18,7 @@ function AddMitra() {
     const [formData, setFormData] = useState({
         // inisialisasi state untuk menyimpan data form
         nama: '',
-        tugas: 'Editing',
+        tugas: 'Edcod',
         start: '',
         end: ''
       });
@@ -44,13 +44,12 @@ function AddMitra() {
             fetch(backendUrl + 'register_mitra' , requestOptions)
             .then(response => response.json())
             .then(data => {
-                console.log(data);
                 if (data.msg === "Berhasil") {
-                    console.log("Sukses");
+
                     resolve(true);
                 } else {
                     reject(data.msg);
-                    console.log(data.msg);
+
                 }
             })
             .catch(error => {
@@ -79,7 +78,7 @@ function AddMitra() {
       };
 
       const handleSubmit = async (event) =>{
-        console.log(check_empty());
+
         if(check_empty()){
             event.preventDefault();
             await sendData()

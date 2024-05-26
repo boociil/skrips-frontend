@@ -88,7 +88,7 @@ function ListSampel(props, { onDataFromChild }) {
 
     const onKRTChange = (event,id,noRuta) => {
         const value = event.target.value;
-        console.log(value);
+
         setKRT(prevSelectValues => ({
             ...prevSelectValues,
             [id]: {
@@ -96,7 +96,7 @@ function ListSampel(props, { onDataFromChild }) {
                 [noRuta]: value
             }
         }));
-        console.log(krt);
+
     }
 
     const onNoBsChange = (event,id) => {
@@ -191,13 +191,8 @@ function ListSampel(props, { onDataFromChild }) {
     }
 
     const generateButtonClick = (index) => {
-        if(isSampel[index]){
-            console.log("checked");
-        }
-        console.log("noks",noKS[index]);
-        console.log("nobs",noBS[index]);
-        console.log("noruta",ruta[index]);
-        
+
+
         if (ruta[index] !== undefined){
             if(generateSampel[index]){
                 setGenerateSampel(prevSelectValues => ({
@@ -241,11 +236,8 @@ function ListSampel(props, { onDataFromChild }) {
 
         let o = ({})
 
-        console.log("str",krt)
-
-        // console.log("the data : ",the_data);
         for (let key in isSampel) {
-            // console.log(`Key: ${key}, Value: ${isSampel[key]}`);
+
             o[key] = ({})
             o[key]["noKS"] = noKS[key]
             o[key]["noBS"] = noBS[key]
@@ -255,7 +247,6 @@ function ListSampel(props, { onDataFromChild }) {
             o[key]["kode_kec"] = kec[key]
         }
         // sendData(o);
-        console.log("o",JSON.stringify(o));
         // navigate("/AssignPetugas/" + props.id)
     }
 

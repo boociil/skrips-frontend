@@ -45,10 +45,10 @@ function ListRekapEntriSurvei(props, { onDataFromChild }) {
                 .then(response => response.json())
                 .then(data => {
                     setData(data);
-                    console.log("the data : ",data)
+
                     setDataLen(data.length - 1);
                     setIsLoading(false)
-                    console.log(link);
+
                 });       
         }
 
@@ -66,10 +66,7 @@ function ListRekapEntriSurvei(props, { onDataFromChild }) {
                 .then(response => response.json())
                 .then(data => {
                     setDataAdmin(data);
-                    console.log("admin", data);
-                    // dataAdmin.map((admin,admin_index) => {
-                    //     console.log(admin.username);
-                    // })
+
                     setIsLoadingPetugas(false);
                 });            
         }     
@@ -132,9 +129,9 @@ function ListRekapEntriSurvei(props, { onDataFromChild }) {
             fetch(backendUrl + 'update_Entri_survei' , requestOptions)
             .then(response => response.json())
             .then(data => {
-                // console.log(data)
+
                 if (data.msg === "Update Berhasil") {
-                    console.log("Sukses");
+
                     resolve(true);
                 } else {
                     reject("Gagal memperbarui data");
@@ -161,7 +158,6 @@ function ListRekapEntriSurvei(props, { onDataFromChild }) {
     const handleRutaChange = (even,ruta,x) => {
         const value = even.target.value
 
-        console.log("ruta dan x : ",ruta,x);
         setPenerimaDok(prevSelectValues => ({
             ...prevSelectValues,
             [x]: {
@@ -246,7 +242,7 @@ function ListRekapEntriSurvei(props, { onDataFromChild }) {
         const button = document.getElementById('button-' + ruta + '-' + x  );
         const select = penerimaRef.current[num]
 
-        console.log("select : ", select);
+
 
         let the_value = null
         if (penerimaDok && penerimaDok[x] && penerimaDok[x][ruta]){
@@ -301,7 +297,7 @@ function ListRekapEntriSurvei(props, { onDataFromChild }) {
 
     const desaClick = (kode_desa,kode_kec_1) => {
 
-        console.log(kode_desa, kode_kec_1);
+
 
         let the_code = ''
 
@@ -418,8 +414,6 @@ function ListRekapEntriSurvei(props, { onDataFromChild }) {
                                                                                             let the_value = ''
                                                                                             if (penerimaDok && penerimaDok[insideItem.nama_x] && penerimaDok[insideItem.nama_x][insideItem.no_ruta]){
                                                                                                 the_value = penerimaDok[insideItem.nama_x][insideItem.no_ruta]
-                                                                                            }else{
-                                                                                                // console.log('the value : ',penerimaDok);
                                                                                             }
                                                                                             const ref_num = insideItem.no_ruta + "" + insideItem.nama_x
                                                                                             const index_admin = dataAdmin.findIndex(item => item.id === insideItem.petugas_entri)

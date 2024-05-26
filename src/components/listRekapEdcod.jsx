@@ -44,7 +44,7 @@ function ListRekap(props) {
                 .then(response => response.json())
                 .then(data => {
                     setData(data);
-                    // console.log(data)
+                    
                     setDataLen(data.length - 1);
                     setIsLoading(false)
                 });            
@@ -63,9 +63,9 @@ function ListRekap(props) {
                 fetch(link,  requestOptions)
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data);
+                    
                     setDataAdmin(data);
-                    console.log(data[0].nama);
+                    
                     setIsLoadingPetugas(false)
                 });            
         }
@@ -113,7 +113,7 @@ function ListRekap(props) {
             fetch(backendUrl + 'update_Edcod' , requestOptions)
             .then(response => response.json())
             .then(data => {
-                console.log(data)
+                
                 if (data.msg === "Update Berhasil"){
                     resolve(true);
                 }else{
@@ -304,8 +304,7 @@ function ListRekap(props) {
             setKodeDesaActive(kode_desa);
         }
         
-        console.log("kode desa yang dikirim :",kode_desa);
-        console.log("set", kode_desa === kodeDesaActive ? null : kode_desa);
+        
     }
     
 

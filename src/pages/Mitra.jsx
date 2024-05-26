@@ -34,7 +34,7 @@ function Users() {
                 fetch(backendUrl + 'get_all_mitra', requestOptions)
                 .then(response => response.json())
                 .then(data => {
-                    // console.log(data);
+
                     setLen(data.length)
                     setData2(data);
                     setIsLoading(false)
@@ -46,7 +46,7 @@ function Users() {
         
         // Jika sudah masuk fase production, hapus log ini
 
-    },[]);
+    },[len]);
 
     const handleClick = () => {
         navigate('Register');
@@ -67,63 +67,74 @@ function Users() {
         <>
             <TopNavAdmin />
             <div className="mb-10 mx-4" onClick={() => setIsOpen(false)}>
-
-            
-                {isLoading ? (
-                    <>
-                        <Loading />
-                    </>
-                ) : (
-                    <>
-                        <div className="font-poppins md:mt-28 mx-auto max-w-4xl">
-                            <h2 className="ml-4 mt-6 text-xl">Mitra Management</h2>
-
-                            <div className="the-table mx-auto mt-4 md:mt-8 ml-6">
-                                
-                            </div>
-
-                            <div className="max-w-5xl md:mx-auto">
-                                <input type="text" className="mb-4 rounded-md sm:w-96 w-60 h-6 p-4 lg:mx-auto" placeholder="Search..." onChange={onSearchChange}/>
-                            </div>
-
-                            <div className="the-table mx-auto">
-                                
-
-
-                                {data2
-                                
-                                .filter(item => {
-                                    if(typeof item.nama === 'string'){
-                                        return item.nama.toLowerCase().includes(searchItem.toLowerCase());
-                                    }
-                                    return false;
-                                })
-
-                                .map((item, index) => {
-                                    return (
-
-                                        <div key={index}>
-                                            {/* <ListBuble pos={index !== 0 ? (index === len-1 ? 'BOT' : 'MID' ) : 'TOP'} item={[item.nama,item.status,item.start_contract,item.end_contract]} title={['Nama','Status','Start','End']} small={[1,1,0,0]} /> */}
-                                            <ListMitra position={index !== 0 ? (index === len-1 ? 'BOT' : 'MID' ) : 'TOP'} nama={item.nama} status={item.status} start={item.start_contract}  end={item.end_contract}/>
-                                        </div>
-                                    )
-                                })}
-                                
-                            </div>
-                                
-                            {
-                                isAdmin ? (
+                {
+                    len !== 0 ? (
+                        <>
+                             {
+                                isLoading ? (
                                     <>
-                                        <ButtonAdd click = {handleClick} />
+                                        <Loading />
                                     </>
                                 ) : (
                                     <>
+                                        <div className="font-poppins md:mt-28 mx-auto max-w-4xl">
+                                            <h2 className="ml-4 mt-6 text-xl">Mitra Management</h2>
+
+                                            <div className="the-table mx-auto mt-4 md:mt-8 ml-6">
+                                                
+                                            </div>
+
+                                            <div className="max-w-5xl md:mx-auto">
+                                                <input type="text" className="mb-4 rounded-md sm:w-96 w-60 h-6 p-4 lg:mx-auto" placeholder="Search..." onChange={onSearchChange}/>
+                                            </div>
+
+                                            <div className="the-table mx-auto">
+                                                
+
+
+                                                {data2
+                                                
+                                                .filter(item => {
+                                                    if(typeof item.nama === 'string'){
+                                                        return item.nama.toLowerCase().includes(searchItem.toLowerCase());
+                                                    }
+                                                    return false;
+                                                })
+
+                                                .map((item, index) => {
+                                                    return (
+
+                                                        <div key={index}>
+                                                            {/* <ListBuble pos={index !== 0 ? (index === len-1 ? 'BOT' : 'MID' ) : 'TOP'} item={[item.nama,item.status,item.start_contract,item.end_contract]} title={['Nama','Status','Start','End']} small={[1,1,0,0]} /> */}
+                                                            <ListMitra position={index !== 0 ? (index === len-1 ? 'BOT' : 'MID' ) : 'TOP'} nama={item.nama} status={item.status} start={item.start_contract}  end={item.end_contract}/>
+                                                        </div>
+                                                    )
+                                                })}
+                                                
+                                            </div>
+                                                
+                                            
+                                        </div>
                                     </>
-                                )
+                                ) 
                             }
-                        </div>
-                    </>
-                ) }
+                        </>
+                    ) : (
+                        <>
+                            <div className="mx-auto md:pt-48 text-center text-xl text-slate-500 mt-10">
+                                Belum ada Mitra.
+                            </div>
+                        </>
+                    )
+                }
+
+                {
+                    isAdmin && (
+                        <>
+                            <ButtonAdd click = {handleClick} />
+                        </>
+                    ) 
+                }
             </div>
         </>
         

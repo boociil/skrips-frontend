@@ -39,7 +39,6 @@ function MyProfile() {
             setLoadingData(false);
             if(l != 0){
                 if (l < 15){
-                    console.log("len <15");
                     setCount(l)
                 }else{
                     setCount(15)

@@ -42,7 +42,6 @@ function UsersWithId() {
         .then(response => response.json())
         .then(data => {
             const l = data.length
-            console.log(data);
             setLen(l)
             setDataUsers(data);
             setLoadingData(false);
@@ -69,7 +68,6 @@ function UsersWithId() {
         fetch(backendUrl + 'get_users_info/' + username, requestOptions)
         .then(response => response.json())
         .then(data => {
-            // console.log(data);
             setInfoUsers(data);
             setLoadingInfoUsers(false);
         });
@@ -198,13 +196,10 @@ function UsersWithId() {
                             {loadingInfoUsers ? (<><Loading/></>) : (<><button className="bg-emerald-500 py-1 px-2 rounded-lg text-white mb-2 mt-4 ml-2" onClick={onGantiInfoClick}>Ganti Role</button></>)}
                             
                             {
-                                showGantiInfo ? (
+                                showGantiInfo && (
                                     <>
                                         
                                         <GantiInfoUser onClose={onClose} isMyProfile={false} username={infoUsers[0].username} role={infoUsers[0].role}/>
-                                    </>
-                                ) : (
-                                    <>
                                     </>
                                 )
                             }

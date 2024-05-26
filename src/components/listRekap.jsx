@@ -74,7 +74,7 @@ function ListRekap(props) {
             fetch(backendUrl + 'delete_kegiatan/' + id , requestOptions)
             .then(response => response.json())
             .then(data => {
-                console.log(data);
+                
                 navigate("/rekap")
             });
     }
@@ -129,9 +129,9 @@ function ListRekap(props) {
     if(date[0] === "0"){
         date = date.slice(1,2);
     }
-    // console.log(date[0]);
+ 
     const the_tgl = convert_bulan(month) + " " + date + ", " + year
-    // console.log("month",convert_bulan("10"));
+
 
 
     return (
