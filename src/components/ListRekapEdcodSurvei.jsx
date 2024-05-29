@@ -257,7 +257,7 @@ function ListRekapEdcodSurvei(props, { onDataFromChild }) {
             setShowConfirmCard(true);
             
         }else{
-            if (the_value){
+            if (the_value && (the_value !== "-")){
 
                 // fetch data ke backend
                 updateEdcod(nbs,nks,ruta,time_now,1,the_value)

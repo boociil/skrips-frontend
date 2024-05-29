@@ -178,7 +178,7 @@ function AddKegiatan() {
                         <div className="sm:ml-6 md:ml-3 ml-3 ">
                             <label className="lg:col-start-2 text-sm"> Nama kegiatan
                                 <input 
-                                        className='bg-[#F6F6F9] mt-1 text-xs px-3 md:mx-0 py-2 mb-3 block rounded-lg w-full focus:ring-1 focus:ring-sky-500 focus:border-sky-500 max-w-72  '
+                                        className='bg-[#F6F6F9] mt-1 text-xs px-3 md:mx-0 py-2 mb-1 block rounded-lg w-full focus:ring-1 focus:ring-sky-500 focus:border-sky-500 max-w-72  '
                                         name="namaKegiatan"
                                         type="text" 
                                         placeholder='Nama Kegiatan'
@@ -189,10 +189,10 @@ function AddKegiatan() {
                         </div>
 
                         <div className="id-kegiatan mb-3">
-                            <div className="sm:ml md:ml-3-6 ml-3">
+                            <div className="sm:ml md:ml-3 ml-3">
                                 <label className="text-sm w-full"> ID kegiatan
                                     <input 
-                                        className='bg-[#F6F6F9] mt-1 text-xs px-3 md:mx-0 py-2 mb-3 block rounded-lg w-full focus:ring-1 focus:ring-sky-500 focus:border-sky-500 max-w-72'
+                                        className='bg-[#F6F6F9] mt-1 text-xs px-3 md:mx-0 py-2 mb-1 block rounded-lg w-full focus:ring-1 focus:ring-sky-500 focus:border-sky-500 max-w-72'
                                         name="idKegiatan"
                                         id="id-kegiatan"
                                         type="text" 
@@ -217,14 +217,14 @@ function AddKegiatan() {
                         </div>
                         
 
-                        <div className="sm:ml-6 md:ml-3 ml-3">
+                        {/* <div className="sm:ml-6 md:ml-3 ml-3">
                             <label className="text-sm"> Koseka
                                 <select value={formData.koseka} className='bg-[#F6F6F9] mt-1 text-xs px-3 md:mx-0 py-2 mb-3 block rounded-lg w-full focus:ring-1 focus:ring-sky-500 focus:border-sky-500 max-w-72  ' name="koseka" onChange={handleChange}>
                                     <option value="Ada" key="Ada">Ada</option>
                                     <option value="Tidak Ada" key="Tidak Ada">Tidak Ada</option>
                                 </select>
                             </label>
-                        </div>
+                        </div> */}
                     </div>
 
                     <div className="mulai-selesai grid grid-cols-2">

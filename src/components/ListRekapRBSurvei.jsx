@@ -251,7 +251,8 @@ function ListRekapRBSurvei(props) {
             setShowConfirmCard(true);
             
         }else{
-            if (the_value){
+            if (the_value && (the_value !== "-")){
+                
                 // fetch data ke backend
                 updateRB(nbs,nks,ruta,time_now,1,the_value)
                 .then(success => {
@@ -411,7 +412,6 @@ function ListRekapRBSurvei(props) {
                                                                                             }
                                                                                             const ref_num = insideItem.no_ruta + "" + insideItem.nama_x
                                                                                             const index_admin = dataAdmin.findIndex(item => item.username === insideItem.penerima_dok)
-                                                                                            
                                                                                             
                                                                                             // SHOW RUTA
                                                                                             return (

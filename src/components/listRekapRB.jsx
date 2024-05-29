@@ -207,7 +207,7 @@ function ListRekap(props) {
             setShowConfirmCard(true);
             
         }else{
-            if (penerima){
+            if (penerima && (penerima !== "-")){
 
                 const time_now = timeNow()
 

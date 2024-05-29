@@ -543,11 +543,7 @@ function DashboardWithId() {
                                                                         <></>
                                                                     )
                                                                 }
-                                                                {
-                                                                    dataProgresKecamatan.length > 6 && (
-                                                                        <div className="text-xs text-center mt-2 text-slate-400 underline cursor-pointer" onClick={() => {onMoreClick(4)}}>Lihat Selengkapnya</div>
-                                                                    )
-                                                                }
+                                                                <div className="text-xs text-center mt-2 text-slate-400 underline cursor-pointer" onClick={() => {onMoreClick(4)}}>Lihat Selengkapnya</div>
                                                             </>
                                                         )   
                                                         }      

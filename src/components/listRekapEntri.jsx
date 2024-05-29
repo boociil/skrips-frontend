@@ -223,7 +223,7 @@ function ListRekap(props) {
         if(button.innerHTML === "Sudah"){
             setShowConfirmCard(true);
         }else{
-            if (penerima){
+            if (penerima && (penerima !== "-")){
                 if(moda){
 
                     // fetch data ke backend

@@ -254,7 +254,7 @@ function ListRekapEntriSurvei(props, { onDataFromChild }) {
         if(button.innerHTML === "Sudah"){
             setShowConfirmCard(true);
         }else{
-            if (the_value){
+            if (the_value && (the_value !== "-")){
                 
 
                 // fetch data ke backend
