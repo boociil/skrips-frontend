@@ -225,7 +225,7 @@ function TopNavAdmin() {
                     <ul className=" mt-10 relative">
                         <li className="title-menu mx-4 my-1 text-3xl font-semibold border-b-2 border-b-black w-fit">Menu</li>
                         <li className="home ml-4 my-1 flex p-3 group cursor-pointer">
-                            <NavLink to="/Home" onClick={closeSideMenu} className={({ isActive }) => isActive ? "border-b-[#418EC6] border-b-4 group flex translate-x-4 pb-1": 'group-hover:translate-x-4 transition flex'}>
+                            <NavLink to="/Home" onClick={closeSideMenu} className={({ isActive }) => isActive ? "border-b-[#418EC6] border-b-4 group flex pb-1": 'group-hover:translate-x-4 transition flex'}>
                                 <span className="material-symbols-outlined mx-1">
                                     dashboard
                                 </span>
@@ -235,7 +235,7 @@ function TopNavAdmin() {
                             isPeng ? (
                                 <>
                                     <li className="home ml-4 my-1 flex p-3 group cursor-pointer">
-                                        <NavLink to="/Rekap" onClick={closeSideMenu} className={({ isActive }) => isActive? "border-b-[#418EC6] p-1 rounded-t-md border-b-4 group flex translate-x-4 pb-1": 'group-hover:translate-x-4 transition flex'}>
+                                        <NavLink to="/Rekap" onClick={closeSideMenu} className={({ isActive }) => isActive? "border-b-[#418EC6] p-1 rounded-t-md border-b-4 group flex pb-1": 'group-hover transition flex'}>
                                             <span className="material-symbols-outlined mx-1">
                                                 article_shortcut
                                             </span>
@@ -251,7 +251,7 @@ function TopNavAdmin() {
                             isPeng ? (
                                 <>
                                     <li className="home ml-4 my-1 flex p-3 group cursor-pointer">
-                                        <NavLink to="/Mitra" onClick={closeSideMenu} className={({ isActive }) => isActive? "border-b-[#418EC6] border-b-4 group flex translate-x-4 pb-1": 'group-hover:translate-x-4 transition flex'}>
+                                        <NavLink to="/Mitra" onClick={closeSideMenu} className={({ isActive }) => isActive? "border-b-[#418EC6] border-b-4 group flex pb-1": 'group-hover:translate-x-4 transition flex'}>
                                             <span className="material-symbols-outlined mx-1">
                                                 handshake
                                             </span>
@@ -268,7 +268,7 @@ function TopNavAdmin() {
                             isAdmin && (
                                 <>
                                     <li className="home ml-4 my-1 flex p-3 group cursor-pointer">
-                                        <NavLink to="/Users" onClick={closeSideMenu} className={({ isActive }) => isActive? "border-b-[#418EC6] border-b-4 group flex translate-x-4 pb-1": 'group-hover:translate-x-4 transition flex'}>
+                                        <NavLink to="/Users" onClick={closeSideMenu} className={({ isActive }) => isActive? "border-b-[#418EC6] border-b-4 group flex  pb-1": 'group-hover:translate-x-4 transition flex'}>
                                             <span className="material-symbols-outlined mx-1">
                                                 group
                                             </span>

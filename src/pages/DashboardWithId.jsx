@@ -543,7 +543,11 @@ function DashboardWithId() {
                                                                         <></>
                                                                     )
                                                                 }
-                                                                <div className="text-xs text-center mt-2 text-slate-400 underline cursor-pointer" onClick={() => {onMoreClick(4)}}>Lihat Selengkapnya</div>
+                                                                {
+                                                                    dataProgresKecamatan.length > 6 && (
+                                                                        <div className="text-xs text-center mt-2 text-slate-400 underline cursor-pointer" onClick={() => {onMoreClick(4)}}>Lihat Selengkapnya</div>
+                                                                    )
+                                                                }
                                                             </>
                                                         )   
                                                         }      
@@ -626,7 +630,7 @@ function DashboardWithId() {
                                                                         data={{ 
                                                                             labels: graphDefEdcod ? defaultTitles : titleGraphEdcod,
                                                                             datasets:[{
-                                                                                label: "Frekuensi RB",
+                                                                                label: "Frekuensi Edcod",
                                                                                 data : graphDefEdcod ? defaultVal : valGraphEdcod,
                                                                                 backgroundColor: '#BAE6FD',
                                                                                 borderColor: '#36A2EB',
@@ -816,7 +820,7 @@ function DashboardWithId() {
                                                                         data={{ 
                                                                             labels: graphDefEntri ? defaultTitles : titleGraphEntri,
                                                                             datasets:[{
-                                                                                label: "Frekuensi RB",
+                                                                                label: "Frekuensi Entri",
                                                                                 data : graphDefEntri ? defaultVal : valGraphEntri,
                                                                                 backgroundColor: '#BAE6FD',
                                                                                 borderColor: '#36A2EB',
