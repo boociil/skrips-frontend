@@ -1,9 +1,8 @@
 import { useContext, useEffect,useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+
 import { useCookies } from "react-cookie";
 import TopNavAdmin from "../components/topNavAdmin";
 import GantiInfoUser from "../components/GantiInfoUser";
-import 'react-toastify/dist/ReactToastify.css';
 import Loading from "../components/Loading"
 import ListActivity from "../components/ListActivity";
 import { AuthContext } from "../components/AuthContext";

@@ -34,9 +34,7 @@ const AutoLogout = ({ timeout }) => { // default timeout 5 menit
   }
 
   const handleLogout = async () => {
-    console.log("logout dipanggil");
     localStorage.setItem('lastActivity', null);
-    console.log(localStorage.getItem('lastActivity'));
     await logout()
       .then(success => {
         removeCookie('user');
@@ -84,7 +82,6 @@ const AutoLogout = ({ timeout }) => { // default timeout 5 menit
       const timeSinceLastActivity = Date.now() - storedLastActivity;
       if (timeSinceLastActivity > timeout) {
         handleLogout();
-        console.log("60");
       } else {
         setLastActivity(parseInt(storedLastActivity));
         lastActivityRef.current = parseInt(storedLastActivity); // Update useRef
@@ -93,10 +90,8 @@ const AutoLogout = ({ timeout }) => { // default timeout 5 menit
 
     const interval = setInterval(() => {
       if (Date.now() - lastActivityRef.current > timeout) {
-        console.log(cookies['isLogin']);
         if(cookies['isLogin']){
           handleLogout();
-          console.log("70");
         }
       }
     }, 1000);

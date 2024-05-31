@@ -5,6 +5,7 @@ import { Bounce, ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useCookies } from "react-cookie";
 import Alert from "../components/Alert";
+import Loading from "./Loading";
 
 function ListRekapRBSurvei(props) {
 
@@ -326,7 +327,7 @@ function ListRekapRBSurvei(props) {
             {isLoading ? (
                 <div>
                     {/* Ketika komponen sedang loading, tambahkan animasi disini */}
-                    Lagi Loading
+                    <Loading />
                 </div>
             ) : (
                 <div className="here">

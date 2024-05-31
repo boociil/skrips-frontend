@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import ConfirmCard from './confirmCard';
 import { useCookies } from "react-cookie";
 import Alert from "../components/Alert";
+import Loading from "./Loading";
 
 function ListRekapEntriSurvei(props, { onDataFromChild }) {
 
@@ -331,7 +332,7 @@ function ListRekapEntriSurvei(props, { onDataFromChild }) {
             {isLoading ? (
                 <div>
                     {/* Ketika komponen sedang loading, tambahkan animasi disini */}
-                    Lagi Loading
+                    <Loading />
                 </div>
             ) : (
                 <div className="here">
