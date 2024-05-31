@@ -92,7 +92,7 @@ const UploadSampel = () => {
 
     return (
         <>
-            <div className="rounded-md p-2 mx-auto border-2 max-w-md">
+            <div className="rounded-md p-2 mx-auto max-w-md">
                 
                 <div className="mx-auto w-fit mb-4 mt-2">
                     
