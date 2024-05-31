@@ -24,6 +24,7 @@ import UpdateKegiatan from './pages/UpdateKegiatan';
 import UsersWithId from './pages/UsersWithId';
 import MyProfile from './pages/MyProfile';
 import { AuthProvider } from './components/AuthContext';
+import AutoLogout from './components/AutoLogout';
 
 function App() {
 
@@ -32,7 +33,10 @@ function App() {
     <>
       <AuthProvider>
         <BrowserRouter>
+            <AutoLogout timeout={600000} />
+
             <Routes>
+
               {/* Routes untuk login page */}
               <Route index element={<Login />}></Route>
 
