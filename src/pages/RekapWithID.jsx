@@ -1,13 +1,13 @@
 import { useNavigate, useParams } from "react-router-dom"
 import { useContext, useEffect,useState } from "react";
-import ListRekap from "../components/listRekapRB";
-import ListRekapEdcod from "../components/listRekapEdcod";
-import ListRekapEntri from "../components/listRekapEntri";
+import ListRekap from "../components/ListRekapRB";
+import ListRekapEdcod from "../components/ListRekapEdcod";
+import ListRekapEntri from "../components/ListRekapEntri";
 import ListRekapRBSurvei from "../components/ListRekapRBSurvei";
 import ListRekapEdcodSurvei from "../components/ListRekapEdcodSurvei";
 import ListRekapEntriSurvei from "../components/ListRekapEntriSurvei";
 import { useCookies } from "react-cookie";
-import TopNavAdmin from "../components/topNavAdmin";
+import TopNavAdmin from "../components/Navbar";
 import Loading from "../components/Loading";
 import { AuthContext } from "../components/AuthContext";
 

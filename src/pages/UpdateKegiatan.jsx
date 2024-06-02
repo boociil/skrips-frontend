@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import TopNavAdmin from "../components/topNavAdmin";
+import TopNavAdmin from "../components/Navbar";
 import Loading from "../components/Loading";
 import { AuthContext } from "../components/AuthContext";
 

@@ -1,9 +1,9 @@
 import { useState,useEffect, useRef } from "react";
-import ConfirmCard from './confirmCard';
+import ConfirmCard from './ConfirmCard';
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import Loading from "../components/Loading"
-import Alert from "../components/Alert";
+import Loading from "./Loading"
+import Alert from "./Alert";
 import { useCookies } from "react-cookie";
 
 function ListRekap(props) {

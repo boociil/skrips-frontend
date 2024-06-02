@@ -1,5 +1,5 @@
 import { useState,useEffect, useRef } from "react";
-import ConfirmCard from './confirmCard';
+import ConfirmCard from './ConfirmCard';
 import { useNavigate } from "react-router-dom";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';

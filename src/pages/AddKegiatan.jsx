@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import TopNavAdmin from "../components/topNavAdmin";
+import TopNavAdmin from "../components/Navbar";
 import Alert from "../components/Alert";
 
 

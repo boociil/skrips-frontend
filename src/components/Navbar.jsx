@@ -4,7 +4,7 @@ import { useCookies } from "react-cookie";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { AuthContext } from "./AuthContext";
-import AutoLogout from '../components/AutoLogout';
+import AutoLogout from './AutoLogout';
 
 function TopNavAdmin() {
 

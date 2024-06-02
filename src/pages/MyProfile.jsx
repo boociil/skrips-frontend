@@ -1,7 +1,7 @@
 import { useContext, useEffect,useState } from "react";
 
 import { useCookies } from "react-cookie";
-import TopNavAdmin from "../components/topNavAdmin";
+import TopNavAdmin from "../components/Navbar";
 import GantiInfoUser from "../components/GantiInfoUser";
 import Loading from "../components/Loading"
 import ListActivity from "../components/ListActivity";

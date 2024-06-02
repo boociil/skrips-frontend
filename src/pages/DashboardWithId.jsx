@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom"
 import { Bar,Line,Doughnut } from "react-chartjs-2";
 import 'chart.js/auto';
-import TopNavAdmin from "../components/topNavAdmin";
+import TopNavAdmin from "../components/Navbar";
 import Loading from "../components/Loading";
 import TableDash from "../components/TabelDash"
 import { AuthContext } from "../components/AuthContext";

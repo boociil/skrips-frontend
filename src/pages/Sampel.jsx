@@ -3,7 +3,7 @@ import { useEffect,useState } from "react";
 import ListSampel from "../components/listSampel";
 import ListSampel2 from "../components/listSampel2";
 import { useCookies } from "react-cookie";
-import TopNavAdmin from "../components/topNavAdmin";
+import TopNavAdmin from "../components/Navbar";
 import UploadSampel from "../components/UploadSampel";
 
 

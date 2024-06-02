@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useEffect, useState } from "react";
-import ConfirmCard from "./confirmCard";
+import ConfirmCard from "./ConfirmCard";
 import Alert from "./Alert"
 
 function ListRekap(props) {

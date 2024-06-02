@@ -1,9 +1,9 @@
 import { useParams } from "react-router-dom"
 import { useContext, useEffect,useState } from "react";
-import ListAssignPetugas from "../components/listAssignPetugas";
-import ListAssignPetugasSurvei from "../components/listAssignPetugasSurvei";
+import ListAssignPetugas from "../components/ListAssignPetugas";
+import ListAssignPetugasSurvei from "../components/ListAssignPetugasSurvei";
 import { useCookies } from "react-cookie";
-import TopNavAdmin from "../components/topNavAdmin";
+import TopNavAdmin from "../components/Navbar";
 import Loading from "../components/Loading";
 import { AuthContext } from "../components/AuthContext";
 

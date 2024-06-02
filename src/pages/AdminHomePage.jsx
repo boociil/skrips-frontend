@@ -1,6 +1,6 @@
-import ListKegiatan from "../components/listKegiatan";
+import ListKegiatan from "../components/ListKegiatan";
 import { useEffect, useState, useContext } from "react";
-import TopNavbarAdmin from '../components/topNavAdmin';
+import TopNavbarAdmin from '../components/Navbar';
 import { useCookies } from "react-cookie";
 import { AuthContext } from "../components/AuthContext";
 

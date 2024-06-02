@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ButtonAdd from "../components/buttonAdd";
+import ButtonAdd from "../components/ButtonAdd";
 import { useCookies } from "react-cookie";
-import TopNavAdmin from "../components/topNavAdmin";
-import ListMitra from "../components/listMitra";
+import TopNavAdmin from "../components/Navbar";
+import ListMitra from "../components/ListMitra";
 import Loading from "../components/Loading"
 import { AuthContext } from "../components/AuthContext";
     

@@ -1,13 +1,13 @@
 import { useContext, useEffect,useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import TopNavAdmin from "../components/topNavAdmin";
+import TopNavAdmin from "../components/Navbar";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Loading from "../components/Loading"
 import ListActivity from "../components/ListActivity";
 import GantiInfoUser from "../components/GantiInfoUser";
-import ConfirmCard from "../components/confirmCard";
+import ConfirmCard from "../components/ConfirmCard";
 import { AuthContext } from "../components/AuthContext";
 
 function UsersWithId() {
