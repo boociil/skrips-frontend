@@ -14,6 +14,7 @@ function AddMitra() {
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
     const [ loadingForm, setIsLoadingForm ] = useState(false);
     const [ showAlert, setShowAlert ] = useState(false);
+    const [ isValidated, setIsValidated ] = useState(false);
     const [formData, setFormData] = useState({
         // inisialisasi state untuk menyimpan data form
         nama: '',
@@ -76,40 +77,55 @@ function AddMitra() {
         setFormData({ ...formData, [e.target.name]: e.target.value });
       };
 
+      const validate = () => {
+        const dateStart = new Date(formData.start);
+        const dateEnd = new Date(formData.end);
+
+        if (dateEnd.getTime() < dateStart.getTime()){
+            return false;
+        }
+
+        return true;
+    }
+
       const handleSubmit = async (event) =>{
 
         if(check_empty()){
-            event.preventDefault();
-            await sendData()
-            .then(success => {
-                toast.success("Register Mitra Berhasil", {
-                    position: "bottom-right",
-                    hideProgressBar: true,
-                    autoClose: 1000,
-                    closeOnClick: true,
-                    theme: "light",
-                    transition: Bounce,
-                    pauseOnHover: false,
+            if(validate()){
+                event.preventDefault();
+                await sendData()
+                .then(success => {
+                    toast.success("Register Mitra Berhasil", {
+                        position: "bottom-right",
+                        hideProgressBar: true,
+                        autoClose: 1000,
+                        closeOnClick: true,
+                        theme: "light",
+                        transition: Bounce,
+                        pauseOnHover: false,
+                    })
+                    navigate("/Mitra")
                 })
-                navigate("/Mitra")
-            })
-            .catch(error => {
-                // Jika error
-                const username_input = document.getElementById('username');
-                const ket_username = document.getElementById('ket-username');
-                ket_username.classList.remove("hidden")
-                username_input.classList.add("border-2")
-                username_input.classList.add("border-red-500")
-                toast.error(error, {
-                    position: "bottom-right",
-                    hideProgressBar: true,
-                    autoClose: 1000,
-                    closeOnClick: true,
-                    theme: "light",
-                    transition: Bounce,
-                    pauseOnHover: false,
-                })
-            });
+                .catch(error => {
+                    // Jika error
+                    const username_input = document.getElementById('username');
+                    const ket_username = document.getElementById('ket-username');
+                    ket_username.classList.remove("hidden")
+                    username_input.classList.add("border-2")
+                    username_input.classList.add("border-red-500")
+                    toast.error(error, {
+                        position: "bottom-right",
+                        hideProgressBar: true,
+                        autoClose: 1000,
+                        closeOnClick: true,
+                        theme: "light",
+                        transition: Bounce,
+                        pauseOnHover: false,
+                    })
+                });
+            }else{
+                setIsValidated(true);
+            }
             setIsLoadingForm(false)
         }else{
             setShowAlert(true);
@@ -121,6 +137,7 @@ function AddMitra() {
         <>
             <TopNavAdmin />
             <Alert open={showAlert} setOpen={setShowAlert} isConfirm={false} msg={"Masih ada isian kosong!"} subMsg={"Silahkan lengkapi form tambah mitra dengan benar."}/>
+            <Alert open={isValidated} setOpen={setIsValidated} isConfirm={false} msg={"Form Error!"} subMsg={"Silahkan isi form tambah mitra dengan benar."}/>
             <div className="font-poppins parent-form my-4 md:mt-24 mx-4 p-3 shadow-xl bg-white rounded-3xl lg:mt-32 lg:max-w-4xl md:container md:mx-auto max-w-5xl">
                 <h1 className="text-2xl font-semibold mb-4 sm:mb-8 text-center">Tambah Mitra</h1>
                 <div className="the-form ">

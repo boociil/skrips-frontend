@@ -116,7 +116,7 @@ function TopNavAdmin() {
     
     return (
         <div className="font-poppins">
-            <AutoLogout timeout={300000} />
+            {/* <AutoLogout timeout={600000} /> */}
             <ToastContainer />
             <div className="navbar-medium-top z-50 hidden top-0 navbar-top-admin fixed md:flex mx-auto bg-white shadow-lg w-full">
                 <div className="mx-auto items-center font-semibold">

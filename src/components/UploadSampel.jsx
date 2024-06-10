@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom"
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-
+import Alert from "../components/Alert"
 
 const UploadSampel = () => {
 
@@ -10,12 +10,29 @@ const UploadSampel = () => {
 
     const [selectedFile, setSelectedFile] = useState(null);
     const navigate = useNavigate();
+    const [ isValidated, setIsValidated ] = useState(false);
+    const [msg, setMsg] = useState();
+    const [submsg, setSubMsg] = useState();
     const backendUrl = process.env.REACT_APP_BACKEND_URL
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
         setSelectedFile(file);
+
     };
+
+    const validate = () => {
+        const fileName = selectedFile.name;
+        const fileExtension = fileName.split('.').pop();
+
+        if(fileExtension !== "xlsx"){
+            setMsg('Ekstensi File Tidak Sesuai!');
+            setSubMsg('Ekstensi file yang diperbolehkan hanyalah .xlsx');
+            return false;
+        }
+
+        return true;
+    }
 
     const downloadFile = async () => {
         const fileUrl = backendUrl + 'files/template_sampel.xlsx';
@@ -42,17 +59,24 @@ const UploadSampel = () => {
     const sendFile = async () => {
         const formData = new FormData();
         formData.append('file', selectedFile);
-
         formData.append('id_kegiatan', id);
 
-        try {
-            const response = await fetch(backendUrl + 'upload', {
-                method: 'POST',
-                body: formData
-            });
+        
+        if(validate()){
+            try {
+                const response = await fetch(backendUrl + 'upload', {
+                    method: 'POST',
+                    body: formData
+                });
 
-            if (!response.ok) {
-                toast.error('Upload Gagal, pastikan file telah sesuai dengan template dan tidak ada missing data', {
+                if (!response.ok) {
+                    setMsg('Upload Gagal!');
+                    setSubMsg('Pastikan file telah sesuai dengan template dan tidak ada missing data');
+                    setIsValidated(true);
+                }
+                
+                // Toast Success
+                toast.success("Upload Berhasil", {
                     position: "bottom-right",
                     hideProgressBar: true,
                     autoClose: 1000,
@@ -61,39 +85,29 @@ const UploadSampel = () => {
                     transition: Bounce,
                     pauseOnHover: false,
                 })
-                throw new Error('Failed to upload file');
+
+                navigate("/Rekap")
+
+            } catch (error) {
+                toast.error(error, {
+                    position: "bottom-right",
+                    hideProgressBar: true,
+                    autoClose: 1000,
+                    closeOnClick: true,
+                    theme: "light",
+                    transition: Bounce,
+                    pauseOnHover: false,
+                });
             }
-            
-            // Toast Success
-            toast.success("Upload Berhasil", {
-                position: "bottom-right",
-                hideProgressBar: true,
-                autoClose: 1000,
-                closeOnClick: true,
-                theme: "light",
-                transition: Bounce,
-                pauseOnHover: false,
-            })
-
-            navigate("/Rekap")
-
-        } catch (error) {
-            toast.error(error, {
-                position: "bottom-right",
-                hideProgressBar: true,
-                autoClose: 1000,
-                closeOnClick: true,
-                theme: "light",
-                transition: Bounce,
-                pauseOnHover: false,
-            });
+        }else{
+            setIsValidated(true);
         }
     }
 
     return (
         <>
             <div className="rounded-md p-2 mx-auto max-w-md">
-                
+            <Alert open={isValidated} setOpen={setIsValidated} isConfirm={false} msg={msg} subMsg={submsg}/>
                 <div className="mx-auto w-fit mb-4 mt-2">
                     
                     <label

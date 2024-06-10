@@ -14,6 +14,7 @@ function AddKegiatan() {
     const [ chekedId, setChekedId ] = useState();
     const [ loading, setIsLoading ] = useState(false);
     const [ showAlert, setShowAlert ] = useState(false);
+    const [ isValidated, setIsValidated ] = useState(false);
 
     const [formData, setFormData] = useState({
         namaKegiatan: '',
@@ -89,6 +90,35 @@ function AddKegiatan() {
         if (formData.targetEntri === ""){
             return false;
         }
+        
+        
+        return true;
+    }
+
+    const validate = () => {
+        const dateStart = new Date(formData.tanggalMulai);
+        const dateEnd = new Date(formData.targetSelesai);
+        
+        const dateRB = new Date(formData.targetRB)
+        const dateEdcod = new Date(formData.targetEdcod)
+        const dateEntri = new Date(formData.targetEntri)
+
+        if (dateEnd.getTime() < dateStart.getTime()){
+            return false;
+        }
+
+        if (dateEdcod.getTime() < dateRB.getTime()){
+            return false;
+        }
+
+        if (dateEntri.getTime() < dateRB.getTime() || dateEntri.getTime() < dateEdcod.getTime()){
+            return false;
+        }
+
+        if (dateEnd.getTime() < dateRB.getTime() || dateEnd.getTime() < dateEdcod.getTime() || dateEnd.getTime() < dateEntri.getTime()){
+            return false;
+        }
+
         return true;
     }
 
@@ -142,25 +172,29 @@ function AddKegiatan() {
 
       const handleSubmit = async (event) =>{
         if (check_empty()){
-            event.preventDefault();
-            await sendData()
-            .then(success => {
-                if (formData.jenisKegiatan === "1"){
+            if (validate()){
+                event.preventDefault();
+                await sendData()
+                .then(success => {
+                    if (formData.jenisKegiatan === "1"){
 
-                    fill_sensus(formData.idKegiatan);
-                    navigate("/Rekap/" + formData.idKegiatan);
-                }else{
-                    navigate("/Rekap/Sampel/" + formData.idKegiatan);
-                }
-            })
-            .catch(error => {
-                const id_input = document.getElementById('id-kegiatan');
-                const ket_id = document.getElementById('ket-id')
-                ket_id.innerHTML = "*" + error
-                id_input.classList.add("border-2");
-                id_input.classList.add("border-red-500");
-                ket_id.classList.remove("hidden");
-            })
+                        fill_sensus(formData.idKegiatan);
+                        navigate("/Rekap/" + formData.idKegiatan);
+                    }else{
+                        navigate("/Rekap/Sampel/" + formData.idKegiatan);
+                    }
+                })
+                .catch(error => {
+                    const id_input = document.getElementById('id-kegiatan');
+                    const ket_id = document.getElementById('ket-id')
+                    ket_id.innerHTML = "*" + error
+                    id_input.classList.add("border-2");
+                    id_input.classList.add("border-red-500");
+                    ket_id.classList.remove("hidden");
+                })
+            }else{
+                setIsValidated(true);
+            }
             setIsLoading(false);
         }else{
             setShowAlert(true);
@@ -170,6 +204,7 @@ function AddKegiatan() {
     return (
         <>
             <Alert open={showAlert} setOpen={setShowAlert} isConfirm={false} msg={"Masih ada isian kosong!"} subMsg={"Silahkan lengkapi form tambah kegiatan dengan benar."}/>
+            <Alert open={isValidated} setOpen={setIsValidated} isConfirm={false} msg={"Form Error!"} subMsg={"Silahkan isi form tambah kegiatan dengan benar."}/>
             <TopNavAdmin/>
             <div className="font-poppins parent-form my-4 md:mt-24 mx-4 p-3 shadow-xl bg-white rounded-3xl lg:mt-32 lg:max-w-4xl md:container md:mx-auto max-w-5xl">
                 <h1 className="text-2xl font-semibold mb-4 sm:mb-8 text-center">Tambah Kegiatan</h1>
