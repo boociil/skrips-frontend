@@ -1,23 +1,17 @@
 import ListKegiatan from "../components/ListKegiatan";
 import { useEffect, useState, useContext } from "react";
 import TopNavbarAdmin from '../components/Navbar';
-import { useCookies } from "react-cookie";
 import { AuthContext } from "../components/AuthContext";
 
-function AdminHomePage() {
+function HomePage() {
 
-    // const navigate = useNavigate();
     const { isOpen, setIsOpen } = useContext(AuthContext);
     const [data,setData] = useState([]);
     const [dataLen,setDataLen] = useState(-1);
-    const [ cookie ] = useCookies([]);
     const [ searchItem, setSearchItem ] = useState('');
 
     const backendUrl = process.env.REACT_APP_BACKEND_URL
 
-    // const handleClick = () => {
-    //     navigate('AddKegiatan');
-    // }
 
     useEffect(() =>{
 
@@ -40,9 +34,8 @@ function AdminHomePage() {
 
             
         }
-        fetchData();
         
-        // Jika sudah masuk fase production, hapus log ini
+        fetchData();
 
     },[dataLen]);
 
@@ -96,4 +89,4 @@ function AdminHomePage() {
     )
 }
 
-export default AdminHomePage;
+export default HomePage;
