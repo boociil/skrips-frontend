@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useEffect, useState } from "react";
-import ConfirmCard from "./ConfirmCard";
 import Alert from "./Alert"
 
 function ListRekap(props) {
@@ -126,13 +125,12 @@ function ListRekap(props) {
     const year = tgl_mulai_kegiatan.slice(0,4)
     const month = tgl_mulai_kegiatan.slice(5,7)
     let date = tgl_mulai_kegiatan.slice(8,10)
+
     if(date[0] === "0"){
         date = date.slice(1,2);
     }
  
     const the_tgl = convert_bulan(month) + " " + date + ", " + year
-
-
 
     return (
         <>
