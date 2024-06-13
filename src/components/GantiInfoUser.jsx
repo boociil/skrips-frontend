@@ -104,7 +104,7 @@ function GantiInfoUser({ username, role, isMyProfile, onClose }) {
             if(validatePass()){
                 fetchChangePassword()
                 .then(success => {
-                    toast.success("Update Password Berhasil", {
+                    toast.success("Ganti Password Berhasil", {
                         position: "bottom-right",
                         hideProgressBar: true,
                         autoClose: 1000,
@@ -128,7 +128,7 @@ function GantiInfoUser({ username, role, isMyProfile, onClose }) {
             if (formData.role !== role){
                 fetchChangeRole()
                 .then(success => {
-                    toast.success("Update Role Berhasil", {
+                    toast.success("Ganti Role Berhasil", {
                         position: "bottom-right",
                         hideProgressBar: true,
                         autoClose: 1000,
