@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import TopNavAdmin from "../components/Navbar";
-import Loading from "../components/Loading";
+import Alert from "../components/Alert";
 import { AuthContext } from "../components/AuthContext";
 
 function UpdateKegiatan() {
@@ -13,7 +13,8 @@ function UpdateKegiatan() {
     const [ cookies, setCookie, removeCookie ] = useCookies(['token']);
     const [ chekedId, setChekedId ] = useState();
     const [ loading, setIsLoading ] = useState(false);
-    const [ dataKegiatan, setDataKegiatan ] = useState()
+    const [ dataKegiatan, setDataKegiatan ] = useState();
+    const [ isValidated, setIsValidated ] = useState(false);
     const backendUrl = process.env.REACT_APP_BACKEND_URL
 
     const [formData, setFormData] = useState({
@@ -77,7 +78,35 @@ function UpdateKegiatan() {
         }
         
         fetchData();
-      }, [])
+      }, []);
+
+
+      const validate = () => {
+        const dateStart = new Date(formData.tanggalMulai);
+        const dateEnd = new Date(formData.targetSelesai);
+        
+        const dateRB = new Date(formData.targetRB)
+        const dateEdcod = new Date(formData.targetEdcod)
+        const dateEntri = new Date(formData.targetEntri)
+
+        if (dateEnd.getTime() < dateStart.getTime()){
+            return false;
+        }
+
+        if (dateEdcod.getTime() < dateRB.getTime()){
+            return false;
+        }
+
+        if (dateEntri.getTime() < dateRB.getTime() || dateEntri.getTime() < dateEdcod.getTime()){
+            return false;
+        }
+
+        if (dateEnd.getTime() < dateRB.getTime() || dateEnd.getTime() < dateEdcod.getTime() || dateEnd.getTime() < dateEntri.getTime()){
+            return false;
+        }
+
+        return true;
+    }
 
     const sendData = () => {
         setIsLoading(true);
@@ -157,15 +186,19 @@ function UpdateKegiatan() {
 
       const handleSubmit = async (event) =>{
         if (check_empty()){
-            event.preventDefault();
-            await sendData()
-            .then(success => {
-                navigate("/Rekap" );
-            })
-            .catch(error => {
-
-            })
-            setIsLoading(false);
+            if (validate()){
+                event.preventDefault();
+                await sendData()
+                .then(success => {
+                    navigate("/Rekap" );
+                })
+                .catch(error => {
+    
+                })
+                setIsLoading(false);
+            }else{
+                setIsValidated(true);
+            }
         }else{
             alert("Masih ada isian kosong")
         }
@@ -174,6 +207,7 @@ function UpdateKegiatan() {
     return (
         <>
             <TopNavAdmin/>
+            <Alert open={isValidated} setOpen={setIsValidated} isConfirm={false} msg={"Form Error!"} subMsg={"Silahkan isi form update kegiatan dengan benar."}/>
             <div className="font-poppins parent-form my-4 md:mt-24 mx-4 p-3 shadow-xl bg-white rounded-3xl lg:mt-32 lg:max-w-4xl md:container md:mx-auto max-w-5xl" onClick={() => setIsOpen(false)}>
                 <h1 className="text-2xl font-semibold mb-4 sm:mb-8 text-center">Edit Kegiatan</h1>
                 
