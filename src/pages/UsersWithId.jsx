@@ -161,13 +161,11 @@ function UsersWithId() {
         <>
             <TopNavAdmin />
             {
-                showConfirmCard ? (
+                showConfirmCard && (
                     <>
                         <ConfirmCard message={`Hapus User ${username} ?`} onCancel={onNo} onConfirm={() => onYes(username)}/>
                     </>
-                ) : (
-                    <></>
-                )
+                ) 
             }
             <div className="mb-10 mx-4" onClick={() => setIsOpen(false)}>
                 <div className="font-poppins md:mt-28 max-w-4xl mx-auto">
