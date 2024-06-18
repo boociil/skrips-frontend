@@ -388,7 +388,7 @@ function ListRekap(props) {
                                                                             <div key={innerIndex} className="the-inside-row lg:grid lg:justify-items-end w-full">
                                                                                 <div className="px-3 py-1 lg:w-[88%] ml-20 lg:ml-16 my-1 bg-[#F5F4F4] rounded-md text-xs flex scale-100">
                                                                                     <div className="w-fit flex items-center">{innerItem.kode_sls}</div>
-                                                                                    <div className="w-full md:w-fit ml-2 col-start-2 col-span-2 flex items-center">{" " + innerItem.SLS}</div>
+                                                                                    <div className="w-full md:max-w-56 truncate ml-2 col-start-2 col-span-2 flex items-center ">{" " + innerItem.SLS}</div>
                                                                                     <label htmlFor={`select-${innerIndex}`}></label>
                                                                                     {/* <button className="col-start-5">button petugas</button> */}
                                                                                     <div id={`time-${innerIndex}`} className="hidden mx-auto col-start-6 md:flex md:items-center">{waktu_entri}</div>

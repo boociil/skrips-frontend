@@ -212,7 +212,7 @@ function ListRekap(props) {
         setIdxActive(idx);
         
         const moda = modaEntri[id_dok];
-        let penerima = selectPenerima[id_dok]
+        const penerima = selectPenerima[id_dok]
         
         const button = document.getElementById('button' + idx);
         const select = penerimaRef.current[id_dok]
@@ -224,7 +224,7 @@ function ListRekap(props) {
             setShowConfirmCard(true);
         }else{
             if (penerima && (penerima !== "-")){
-                if(moda){
+                if(moda && (moda !== "-")){
 
                     // fetch data ke backend
                     updateEntri(id_dok,penerima,1,time_now,moda)
@@ -405,7 +405,7 @@ function ListRekap(props) {
                                                                             <div key={innerIndex} className="the-inside-row lg:grid lg:justify-items-end w-full">
                                                                                 <div className="px-3 py-1 lg:w-[88%] ml-20 lg:ml-16 my-1 bg-[#F5F4F4] rounded-md text-xs flex scale-100">
                                                                                     <div className="w-fit flex items-center">{innerItem.kode_sls}</div>
-                                                                                    <div className="w-full flex items-center md:w-fit ml-2 col-start-2 col-span-2">{" " + innerItem.SLS}</div>
+                                                                                    <div className="w-full flex items-center md:max-w-56 truncate ml-2 col-start-2 col-span-2">{" " + innerItem.SLS}</div>
                                                                                     <label htmlFor={`select-${innerIndex}`}></label>
                                                                                     <div id={`time-${innerIndex}`} className="hidden md:flex md:items-center mx-auto col-start-5">{waktu_entri}</div>
                                                                                     <select 

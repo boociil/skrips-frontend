@@ -115,9 +115,8 @@ function Users() {
         <div className="mb-10 mx-4" onClick={() => setIsOpen(false)}>
             
             { loadingData ? (
-                <div>
-                    {/* Ketika komponen sedang loading, tambahkan animasi disini */}
-                    <Loading />
+                <div className="mt-10 md:pt-28 h-full font-poppins flex items-center justify-center" onClick={() => setIsOpen(false)}>
+                    <Loading/>
                 </div>
             ) : (
                 <div className="font-poppins md:mt-28 max-w-4xl mx-auto">

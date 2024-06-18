@@ -72,9 +72,9 @@ function Users() {
                         <>
                              {
                                 isLoading ? (
-                                    <>
-                                        <Loading />
-                                    </>
+                                    <div className="mt-10 md:pt-28 h-full font-poppins flex items-center justify-center" onClick={() => setIsOpen(false)}>
+                                        <Loading/>
+                                    </div>
                                 ) : (
                                     <>
                                         <div className="font-poppins md:mt-28 mx-auto max-w-4xl">
