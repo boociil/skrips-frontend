@@ -314,9 +314,8 @@ function ListRekap(props) {
         <>
             <ToastContainer />
             {isLoading ? (
-                <div>
-                    {/* Ketika komponen sedang loading, tambahkan animasi disini */}
-                    <Loading/>
+                <div className="w-full flex justify-center items-center">
+                    <Loading />
                 </div>
             ) : (
                 <div className="here">

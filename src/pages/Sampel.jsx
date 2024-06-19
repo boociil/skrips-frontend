@@ -5,7 +5,7 @@ import ListSampel2 from "../components/listSampel2";
 import { useCookies } from "react-cookie";
 import TopNavAdmin from "../components/Navbar";
 import UploadSampel from "../components/UploadSampel";
-
+import Loading from "../components/Loading"
 
 const SampelPage = () => {
     const { id } = useParams();
@@ -23,11 +23,11 @@ const SampelPage = () => {
         const fetchData = () => {
 
             const requestOptions = {
-                method: 'POST', // Metode HTTP
+                method: 'POST', 
                 headers: {
-                    'Content-Type': 'application/json' // Tentukan tipe konten yang Anda kirimkan
+                    'Content-Type': 'application/json' 
                 },
-                body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
+                body: JSON.stringify({  }) 
             };
             
                 fetch(backendUrl + 'get_info/' + id , requestOptions)
@@ -60,7 +60,7 @@ const SampelPage = () => {
             <div>
                 { isLoading ? (
                     <div>
-                        Lagi Loading
+                        <Loading/>
                     </div>
                 ): (
                     

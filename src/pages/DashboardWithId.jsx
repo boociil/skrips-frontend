@@ -347,9 +347,9 @@ function DashboardWithId() {
                     ) : (
                         <>
                             <div className="cont-atas md:max-w-7xl bg-white rounded-lg shadow-lg mx-3 mt-4 p-3 md:mt-24 sm:h-40 sm:relative overflow-hidden z-[-1] max-w-6xl md:mx-auto">
-                                    <div className="hidden sm:block sm:rounded-full sm:absolute w-60 h-60 bg-[#BAE6FD] sm:-top-36 sm:-left-36"></div>
-                                    <div className="hidden sm:block sm:rounded-full sm:absolute w-96 h-96 bg-[#85D5FF] sm:-right-12 sm:-top-40"></div>
-                                    <div className="hidden sm:block sm:rounded-full sm:absolute w-80 h-80 bg-[#23AFF9] sm:-right-52 sm:-top-40"></div>
+                                <div className="hidden sm:block sm:rounded-full sm:absolute w-60 h-60 bg-[#7FFF7C] sm:-top-36 sm:-left-36"></div>
+                                <div className="hidden sm:block sm:rounded-full sm:absolute w-96 h-96 bg-[#6278EB] sm:-right-12 sm:-top-40"></div>
+                                <div className="hidden sm:block sm:rounded-full sm:absolute w-80 h-80 bg-[#FFA1A1] sm:-right-52 sm:-top-40"></div>
                                     <div className="sm:bottom-4 sm:absolute">
                                         <h2 className="ml-2 font-semibold sm:bottom-0 md:text-xl text-sm">{namaKegiatan}</h2>
                                         <p className="ml-2 text-slate-600 md:text-xl text-sm">{id_kegiatan}</p>
@@ -488,7 +488,9 @@ function DashboardWithId() {
                                                         {
                                                             loadingProgresPengdok ? (
                                                                 <>
-                                                                    <Loading/>
+                                                                    <div className="flex w-full items-center justify-center mt-4">
+                                                                        <Loading/>
+                                                                    </div>
                                                                 </>
                                                             ) : (
                                                                 <>
@@ -528,7 +530,7 @@ function DashboardWithId() {
                                                         </div>
                                                         
                                                         { isLoadingProgres ? (
-                                                            <div className="p-3">
+                                                            <div className="flex w-full items-center justify-center mt-4">
                                                                 <Loading/>
                                                             </div>
                                                         ) : (
@@ -696,9 +698,9 @@ function DashboardWithId() {
                                                         </div>
                                                         {
                                                             loadingProgresEdcod ? (
-                                                                <>
+                                                                <div className="flex w-full items-center justify-center mt-4">
                                                                     <Loading/>
-                                                                </>
+                                                                </div>
                                                             ) : (
                                                                 <>
                                                                     {
@@ -737,7 +739,7 @@ function DashboardWithId() {
                                                         </div>
                                                         
                                                         { isLoadingProgres ? (
-                                                            <div className="p-3">
+                                                            <div className="flex w-full items-center justify-center mt-4">
                                                                 <Loading/>
                                                             </div>
                                                         ) : (
@@ -917,9 +919,9 @@ function DashboardWithId() {
                                                         </div>
                                                         {
                                                             loadingProgresEntri ? (
-                                                                <>
+                                                                <div className="flex w-full items-center justify-center mt-4">
                                                                     <Loading/>
-                                                                </>
+                                                                </div>
                                                             ) : (
                                                                 <>
                                                                     {
@@ -957,8 +959,8 @@ function DashboardWithId() {
                                                         </div>
                                                         
                                                         { isLoadingProgres ? (
-                                                            <div className="p-3">
-                                                                <Loading />
+                                                            <div className="flex w-full items-center justify-center mt-4">
+                                                                <Loading/>
                                                             </div>
                                                         ) : (
                                                             <>

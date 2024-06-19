@@ -80,7 +80,7 @@ function AdminHomePage() {
                     <>
                         {
                             dataLen !== -1 ? (
-                                <div className="mt-10 md:pt-32 h-full font-poppins" onClick={() => setIsOpen(false)}>
+                                <div className="mt-10 md:pt-28 h-full font-poppins" onClick={() => setIsOpen(false)}>
             
                                     <div className="max-w-5xl md:mx-auto">
                                         <h1 className="text-xl mb-4 md:mb-8">Ayo Lanjutkan Kegiatan!</h1>

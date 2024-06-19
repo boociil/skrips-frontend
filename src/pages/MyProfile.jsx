@@ -107,7 +107,9 @@ function MyProfile() {
                     
                     {  
                         loadingData ? (
-                            <Loading/>
+                            <div className="w-full flex justify-center items-center">
+                                <Loading />
+                            </div>
                         ) : (
                             <>
                                 {

@@ -207,7 +207,8 @@ function GantiInfoUser({ username, role, isMyProfile, onClose }) {
                             ) : (<></>)
                         }
                         <div className="button-div flex justify-center mb-1 mt-4">
-                            <button type="submit" className="px-2 py-1 bg-emerald-500 text-white rounded-lg">Submit</button>
+                            <button type="submit" className="px-2 py-1 bg-emerald-500 text-white rounded-lg hover:bg-emerald-400 hover:text-white transition-all duration-300">Submit</button>
+                            <button className="px-2 py-1  text-white rounded-lg ml-2 hover:bg-red-400 bg-red-500 hover:text-white transition-all duration-300" onClick={onClose}>Close</button>
                         </div>
                     </form>
 

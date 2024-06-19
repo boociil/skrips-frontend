@@ -178,9 +178,9 @@ const RekapWithID = () => {
                                     <div className="content p-1">
                                             {
                                                 isLoadingProgresKecamatan ? (
-                                                    <>
+                                                    <div className="w-full flex justify-center items-center">
                                                         <Loading />
-                                                    </>
+                                                    </div>
                                                 ) : (
                                                     <>
                                                     {
@@ -231,9 +231,9 @@ const RekapWithID = () => {
                                         <div className="content p-1">
                                             {
                                                 isLoadingProgresKecamatan ? (
-                                                    <>
+                                                    <div className="w-full flex justify-center items-center">
                                                         <Loading />
-                                                    </>
+                                                    </div>
                                                 ) : (
                                                     <>
                                                         {
@@ -273,16 +273,16 @@ const RekapWithID = () => {
                                                 <span className="ml-2">Progres : { loadingOverallProgres ? (<Loading/>) : (dataOverallProgres[0].entri*100/dataOverallProgres[0].total).toFixed(2)}%</span>
                                             </div>
                                             <div className="deadline ml-auto mr-4">
-                                                <span className="">Waktu Tersisa : { isLoading ? (<Loading/>) : (deadlineEntri)} Hari</span>
+                                                <span className="">Waktu Tersisa : { isLoading ? (<Loading/>) : (<>{deadlineEntri > 0 ? (<>{deadlineEntri}</>) : (<>{deadlineEntri}</>)}</>)} Hari</span>
                                             </div>
                                         </div>
 
                                         <div className="content p-1">
                                             {
                                                 isLoadingProgresKecamatan ? (
-                                                    <>
+                                                    <div className="w-full flex justify-center items-center">
                                                         <Loading />
-                                                    </>
+                                                    </div>
                                                 ) : (
                                                     <>
                                                         {

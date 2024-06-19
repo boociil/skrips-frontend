@@ -6,8 +6,8 @@ function ButtonAdd(props) {
     return (
     <button
         onClick={props.click}
-        className="group cursor-pointer outline-none hover:rotate-180 hover:scale-105 duration-1000 fixed right-3 bottom-3 md:right-6 md:bottom-6"
-        title="Add New"
+        className="group cursor-pointer outline-none  hover:scale-105 duration-1000 fixed right-3 bottom-3 md:right-6 md:bottom-6"
+        title="Tambah"
         >
         <svg
             className="stroke-white fill-[#418EC6] group-hover:fill-white group-hover:stroke-[#418EC6] group-active:stroke-teal-200 group-active:fill-teal-600 group-active:duration-0 duration-300"

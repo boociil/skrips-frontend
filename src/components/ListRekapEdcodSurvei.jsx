@@ -332,8 +332,7 @@ function ListRekapEdcodSurvei(props, { onDataFromChild }) {
         <>
         <ToastContainer />
             {isLoading ? (
-                <div>
-                    {/* Ketika komponen sedang loading, tambahkan animasi disini */}
+                <div className="w-full flex justify-center items-center">
                     <Loading />
                 </div>
             ) : (

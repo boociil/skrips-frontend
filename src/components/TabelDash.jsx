@@ -1,8 +1,6 @@
 import { useState,useEffect } from "react";
 
-
 function ConfirmCard({ data, onClose, type}) {
-
 
     let title = "";
     let title_column1 = "";
@@ -32,6 +30,10 @@ function ConfirmCard({ data, onClose, type}) {
         title = "Progres Per Kecamatan Entri Data";
         title_column2 = "Progres"
         title_column1 = "Kecamatan"
+    }
+
+    const clicked = () => {
+        console.log("Clicked");
     }
 
 
@@ -87,7 +89,7 @@ function ConfirmCard({ data, onClose, type}) {
         <div className="the-blur fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 font-poppins">
             <div className="container fixed z-50 flex justify-center items-center mt-40">
                 <div className="box bg-white m-auto p-2 absolute top-0 rounded-lg">
-                    <div className="x-button px-2 absolute right-3 cursor-pointer text-lg rounded-md font-bold bg-[#F5F4F4] hover:bg-red-500 hover:text-white" onClick={onClose}>x</div>
+                    <div className="x-button px-2 absolute right-3 cursor-pointer text-lg rounded-md font-bold bg-[#F5F4F4] hover:bg-red-500 hover:text-white transition-all duration-300" onClick={onClose}>x</div>
                     <div className="title mt-10">
                         <h2 className="text-center mb-4 font-medium max-w-64 mx-auto">
                         {
@@ -107,6 +109,11 @@ function ConfirmCard({ data, onClose, type}) {
                         {
                             generateContent()
                         }
+                    </div>
+                    <div className=" text-center flex items-center justify-center">
+                        <div className="w-fit bg-red-500 text-white px-2 py-1 rounded-lg cursor-pointer hover:bg-red-400 hover:text-white transition-all duration-300" onClick={onClose}>
+                            Close
+                        </div>
                     </div>
                 </div>
             </div>
