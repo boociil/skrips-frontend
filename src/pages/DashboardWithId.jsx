@@ -10,7 +10,6 @@ import { AuthContext } from "../components/AuthContext";
 
 function DashboardWithId() {
     const { id_kegiatan } = useParams();    
-    const [ dataKegiatan, setDataKegiatan ] = useState();
     const [ dataProgresKecamatan, setDataProgresKecamatan ] = useState();
     const [ isSurvei, setIsSurvei ] = useState();
     const [ isLoading, setIsLoading ] = useState();
@@ -142,7 +141,6 @@ function DashboardWithId() {
                 await fetch(backendUrl + 'get_info/' + id_kegiatan , requestOptions)
                 .then(response => response.json())
                 .then(data => {
-                    setDataKegiatan(data);
                     
                     setNamaKegiatan(data[0].nama)
                     setIsSurvei(data[0].jenis === "2");
@@ -377,7 +375,7 @@ function DashboardWithId() {
                                                                 ) : (
                                                                     <>
                                                                         <div className="text-xs">Progres <span className="hidden sm:inline-block">RB</span></div>
-                                                                        <div className="text-xs font-semibold">
+                                                                        <div className="text-xs font-semibold ">
                                                                             {((dataOverallProgres[0]["rb"]/dataOverallProgres[0]["total"])*100).toFixed(2)}%
                                                                         </div>
                                                                     </>
@@ -386,7 +384,7 @@ function DashboardWithId() {
                                                         
                                                     </div>
 
-                                                    <div className="Deadline-RB mt-5 border-2 mx-2 mb-2 border-sky-200 w-fit rounded-2xl py-2 pl-2 pr-6 min-w-24 sm:min-w-32 max-h-14">
+                                                    <div className="Deadline-RB mt-5 border-2 mx-2 mb-2 border-[#23AFF9]  w-fit rounded-2xl py-2 pl-2 pr-6 min-w-24 sm:min-w-32 max-h-14">
                                                         
                                                             {
                                                                 loadingOverallProgres ? (
@@ -396,16 +394,26 @@ function DashboardWithId() {
                                                                 ) : (
                                                                     <>
                                                                         <div className="text-xs">Deadline</div>
-                                                                        <div className="text-xs font-semibold">
-                                                                            {deadlineRb} Hari
-                                                                        </div>
+                                                                        
+                                                                        {
+                                                                            deadlineRb > 0 ? (
+                                                                                <div className="text-xs font-semibold">
+                                                                                    {deadlineRb} Hari
+                                                                                </div>
+                                                                            ) : (
+                                                                                <div className="text-xs font-semibold text-red-500">
+                                                                                    Lewat {deadlineRb*-1} Hari
+                                                                                </div>
+                                                                            )
+                                                                        }
+                                                                        
                                                                     </>
                                                                 )
                                                             }
                                                         
                                                     </div>
 
-                                                    <div className="Start-RB mt-5 border-2 mx-2 mb-2 border-sky-200 w-fit rounded-2xl py-2 pl-2  min-w-24 sm:min-w-32 max-h-14">
+                                                    <div className="Start-RB mt-5 border-2 mx-2 mb-2 border-[#23AFF9] w-fit rounded-2xl py-2 pl-2  min-w-24 sm:min-w-32 max-h-14">
                                                         
                                                         {
                                                             loadingOverallProgres ? (
@@ -579,7 +587,7 @@ function DashboardWithId() {
                                                             }
                                                     </div>
 
-                                                    <div className="persentase-RB mt-5 border-2 mx-2 mb-2 border-sky-200 w-fit rounded-2xl py-2 pl-2 pr-6 min-w-24 sm:min-w-32 max-h-14">
+                                                    <div className="persentase-RB mt-5 border-2 mx-2 mb-2 border-[#23AFF9] w-fit rounded-2xl py-2 pl-2 pr-6 min-w-24 sm:min-w-32 max-h-14">
                                                             {
                                                                 loadingOverallProgres ? (
                                                                     <>
@@ -588,15 +596,24 @@ function DashboardWithId() {
                                                                 ) : (
                                                                     <>
                                                                         <div className="text-xs">Deadline</div>
-                                                                        <div className="text-xs font-semibold">
-                                                                            {deadlineEdcod} Hari
-                                                                        </div>
+                                                                        {
+                                                                            deadlineEdcod > 0 ? (
+                                                                                <div className="text-xs font-semibold">
+                                                                                    {deadlineEdcod} Hari
+                                                                                </div>
+                                                                            ) : (
+                                                                                <div className="text-xs font-semibold text-red-500">
+                                                                                    Lewat {deadlineEdcod*-1} Hari
+                                                                                </div>
+                                                                            )
+                                                                        }
+                                                                        
                                                                     </>
                                                                 )
                                                             }
                                                     </div>
 
-                                                    <div className="persentase-RB mt-5 border-2 mx-2 mb-2 border-sky-200 w-fit rounded-2xl py-2 pl-2  min-w-24 sm:min-w-32 max-h-14">
+                                                    <div className="persentase-RB mt-5 border-2 mx-2 mb-2 border-[#23AFF9] w-fit rounded-2xl py-2 pl-2  min-w-24 sm:min-w-32 max-h-14">
                                                         {
                                                             loadingOverallProgres ? (
                                                                 <>
@@ -769,7 +786,7 @@ function DashboardWithId() {
                                                         </div>
                                                     </div>
 
-                                                    <div className="persentase-RB mt-5 border-2 mx-2 mb-2 border-sky-200 w-fit rounded-2xl py-2 pl-2 pr-6 min-w-24 sm:min-w-32 max-h-14">
+                                                    <div className="persentase-RB mt-5 border-2 mx-2 mb-2 border-[#23AFF9] w-fit rounded-2xl py-2 pl-2 pr-6 min-w-24 sm:min-w-32 max-h-14">
                                                         <div className="text-xs">Deadline</div>
                                                         <div className="text-xs font-semibold">
                                                             {
@@ -779,14 +796,24 @@ function DashboardWithId() {
                                                                     </>
                                                                 ) : (
                                                                     <>
-                                                                        {deadlineEntri} Hari
+                                                                        {
+                                                                            deadlineEntri > 0 ? (
+                                                                                <div className="text-xs font-semibold">
+                                                                                    {deadlineEntri} Hari
+                                                                                </div>
+                                                                            ) : (
+                                                                                <div className="text-xs font-semibold text-red-500">
+                                                                                    Lewat {deadlineEntri*-1} Hari
+                                                                                </div>
+                                                                            )
+                                                                        }
                                                                     </>
                                                                 )
                                                             }
                                                         </div>
                                                     </div>
 
-                                                    <div className="persentase-RB mt-5 border-2 mx-2 mb-2 border-sky-200 w-fit rounded-2xl py-2 pl-2  min-w-24 sm:min-w-32 max-h-14">
+                                                    <div className="persentase-RB mt-5 border-2 mx-2 mb-2 border-[#23AFF9] w-fit rounded-2xl py-2 pl-2  min-w-24 sm:min-w-32 max-h-14">
                                                         <div className="text-xs"><span className="hidden sm:inline-block">Tanggal</span> Mulai</div>
                                                         <div className="text-xs font-semibold">
                                                         {
