@@ -394,16 +394,27 @@ function DashboardWithId() {
                                                                 ) : (
                                                                     <>
                                                                         <div className="text-xs">Deadline</div>
-                                                                        
                                                                         {
-                                                                            deadlineRb > 0 ? (
-                                                                                <div className="text-xs font-semibold">
-                                                                                    {deadlineRb} Hari
-                                                                                </div>
+                                                                            ((dataOverallProgres[0]["rb"]/dataOverallProgres[0]["total"])*100) == 100 ? (
+                                                                                <>
+                                                                                    <div className="text-xs font-semibold text-[#418EC6]">
+                                                                                        Selesai
+                                                                                    </div>
+                                                                                </>
                                                                             ) : (
-                                                                                <div className="text-xs font-semibold text-red-500">
-                                                                                    Lewat {deadlineRb*-1} Hari
-                                                                                </div>
+                                                                                <>
+                                                                                    {
+                                                                                        deadlineRb > 0 ? (
+                                                                                            <div className="text-xs font-semibold">
+                                                                                                {deadlineRb} Hari
+                                                                                            </div>
+                                                                                        ) : (
+                                                                                            <div className="text-xs font-semibold text-red-500">
+                                                                                                Lewat {deadlineRb*-1} Hari
+                                                                                            </div>
+                                                                                        )
+                                                                                    }
+                                                                                </>
                                                                             )
                                                                         }
                                                                         
@@ -597,16 +608,29 @@ function DashboardWithId() {
                                                                     <>
                                                                         <div className="text-xs">Deadline</div>
                                                                         {
-                                                                            deadlineEdcod > 0 ? (
-                                                                                <div className="text-xs font-semibold">
-                                                                                    {deadlineEdcod} Hari
-                                                                                </div>
+                                                                            ((dataOverallProgres[0]["edcod"]/dataOverallProgres[0]["total"])*100) == 100 ? (
+                                                                                <>
+                                                                                    <div className="text-xs font-semibold text-[#418EC6]">
+                                                                                        Selesai
+                                                                                    </div>
+                                                                                </>
                                                                             ) : (
-                                                                                <div className="text-xs font-semibold text-red-500">
-                                                                                    Lewat {deadlineEdcod*-1} Hari
-                                                                                </div>
+                                                                                <>
+                                                                                    {
+                                                                                        deadlineEdcod > 0 ? (
+                                                                                            <div className="text-xs font-semibold">
+                                                                                                {deadlineEdcod} Hari
+                                                                                            </div>
+                                                                                        ) : (
+                                                                                            <div className="text-xs font-semibold text-red-500">
+                                                                                                Lewat {deadlineEdcod*-1} Hari
+                                                                                            </div>
+                                                                                        )
+                                                                                    }
+                                                                                </>
                                                                             )
                                                                         }
+                                                                        
                                                                         
                                                                     </>
                                                                 )
@@ -797,16 +821,29 @@ function DashboardWithId() {
                                                                 ) : (
                                                                     <>
                                                                         {
-                                                                            deadlineEntri > 0 ? (
-                                                                                <div className="text-xs font-semibold">
-                                                                                    {deadlineEntri} Hari
-                                                                                </div>
+                                                                            ((dataOverallProgres[0]["entri"]/dataOverallProgres[0]["total"])*100) == 100 ? (
+                                                                                <>
+                                                                                    <div className="text-xs font-semibold text-[#418EC6]">
+                                                                                        Selesai
+                                                                                    </div>
+                                                                                </>
                                                                             ) : (
-                                                                                <div className="text-xs font-semibold text-red-500">
-                                                                                    Lewat {deadlineEntri*-1} Hari
-                                                                                </div>
+                                                                                <>
+                                                                                    {
+                                                                                        deadlineEntri > 0 ? (
+                                                                                            <div className="text-xs font-semibold">
+                                                                                                {deadlineEntri} Hari
+                                                                                            </div>
+                                                                                        ) : (
+                                                                                            <div className="text-xs font-semibold text-red-500">
+                                                                                                Lewat {deadlineEntri*-1} Hari
+                                                                                            </div>
+                                                                                        )
+                                                                                    }
+                                                                                </>
                                                                             )
                                                                         }
+                                                                        
                                                                     </>
                                                                 )
                                                             }
