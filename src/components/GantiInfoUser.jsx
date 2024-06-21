@@ -2,12 +2,14 @@ import { useState } from "react";
 import { useCookies } from "react-cookie";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import Loading from "./Loading";
 
 function GantiInfoUser({ username, role, isMyProfile, onClose }) {
 
     const [ showError, setShowError ] = useState(false);
     const [cookies, setCookie, removeCookie] = useCookies([]);
     const [ msgError, setMsgError ] = useState();
+    const [ loading, setLoading ] = useState(false);
     const [formData, setFormData] = useState({
         old: '',
         new: '',
@@ -24,6 +26,7 @@ function GantiInfoUser({ username, role, isMyProfile, onClose }) {
     }
 
     const fetchChangeRole = () => {
+        setLoading(true);
         return new Promise ((resolve,reject) => {
             const requestOptions = {
                 method: 'POST', // Metode HTTP
@@ -45,6 +48,7 @@ function GantiInfoUser({ username, role, isMyProfile, onClose }) {
                 }else{
                     reject(data.msg);
                 }
+                setLoading(false);
             });
         })
     }
@@ -207,7 +211,15 @@ function GantiInfoUser({ username, role, isMyProfile, onClose }) {
                             ) : (<></>)
                         }
                         <div className="button-div flex justify-center mb-1 mt-4">
-                            <button type="submit" className="px-2 py-1 bg-emerald-500 text-white rounded-lg hover:bg-emerald-400 hover:text-white transition-all duration-300">Submit</button>
+                            <button type="submit" className="px-2 py-1 bg-emerald-500 text-white rounded-lg hover:bg-emerald-400 hover:text-white transition-all duration-300">
+                                {
+                                    loading ? (
+                                        <><Loading/></>
+                                    ) : (
+                                        <>Submit</>
+                                    )
+                                }
+                            </button>
                             <button className="px-2 py-1  text-white rounded-lg ml-2 hover:bg-red-400 bg-red-500 hover:text-white transition-all duration-300" onClick={onClose}>Close</button>
                         </div>
                     </form>
