@@ -7,10 +7,12 @@ import FileUploadIcon from '@mui/icons-material/DriveFolderUpload';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import excelIcon from "../img/excel.png"
 import CloseIcon from '@mui/icons-material/Close';
+import Loading from "../components/Loading";
 
 const UploadSampel = () => {
 
     const { id } = useParams();
+    const [ loading,setLoading ] = useState(false);
     const uploadedFileRef = useRef(null);
     const [selectedFile, setSelectedFile] = useState(null);
     const navigate = useNavigate();
@@ -38,10 +40,18 @@ const UploadSampel = () => {
     const validate = () => {
         const fileName = selectedFile.name;
         const fileExtension = fileName.split('.').pop();
+        const bytes = selectedFile.size
+        const megabytes = bytes / (1024 * 1024);
 
         if(fileExtension !== "xlsx"){
             setMsg('Ekstensi File Tidak Sesuai!');
             setSubMsg('Ekstensi file yang diperbolehkan hanyalah .xlsx');
+            return false;
+        } 
+
+        if (megabytes > 25){
+            setMsg('Ukuran File Tidak Sesuai!');
+            setSubMsg('Ukuran file yang diperbolehkan hanyalah tidak boleh lebih dari 25MB');
             return false;
         }
 
@@ -71,11 +81,11 @@ const UploadSampel = () => {
     };
 
     const sendFile = async () => {
+        setLoading(true);
         const formData = new FormData();
         formData.append('file', selectedFile);
         formData.append('id_kegiatan', id);
 
-        
         if(validate()){
             try {
                 const response = await fetch(backendUrl + 'upload', {
@@ -116,6 +126,7 @@ const UploadSampel = () => {
         }else{
             setIsValidated(true);
         }
+        setLoading(false);
     }
 
     
@@ -165,7 +176,7 @@ const UploadSampel = () => {
                 <label 
                     htmlFor='file-upload'
                     className={`border-2 flex flex-col justify-center items-center group border-slate-300 ${
-                        dragging ? 'border-sky-400 bg-sky-100' : ( !selectedFile ? ' h-24 sm:h-48  cursor-pointer' : 'h-12 sm:h-24')
+                        dragging ? 'border-sky-400 bg-sky-100' : ( !selectedFile ? ' h-24 sm:h-48  cursor-pointer' : 'h-20 sm:h-24')
                       } w-full  rounded-lg border-dashed hover:bg-sky-100 hover:border-sky-400`}
                     onDragOver={handleDragOver}
                     onDragEnter={handleDragEnter}
@@ -217,13 +228,14 @@ const UploadSampel = () => {
 
 
                 {selectedFile && (
-                    <>
+                    <div className="mb-8">
                         <div className="block text-center font-semibold mb-3">
-                            File Berhasil Diupload!
+                            File yang diupload :
                         </div>
-                        <div className="flex items-center justify-center mb-8" id="the-uploaded-file" ref={uploadedFileRef}>
+                        
+                        <div className="flex items-center justify-center " id="the-uploaded-file" ref={uploadedFileRef}>
                             
-                            <div className="bg-slate-200 py-1 px-2 rounded-md ">
+                            <div className="bg-slate-200  w-fit py-1 px-2 rounded-md flex items-center">
                                 
                                 <div className="inline-block">
                                     <InsertDriveFileIcon className="text-slate-500 mr-2 text-sm"/>
@@ -233,14 +245,19 @@ const UploadSampel = () => {
                                     <div>
                                         {selectedFile.name} 
                                     </div>
-                                    <div>
+                                    <div className="text-slate-500">
                                         {byteToMB(selectedFile.size)} MB 
                                     </div>
                                 </div>
                                 <div className="inline-block ml-4 rounded-full px-1 cursor-pointer hover:text-red-500" onClick={clearSelectedFile}> <CloseIcon/> </div>
                             </div>
+                            <div className="button-submit w-fit ml-4 bg-sky-500 p-2 rounded-md text-white font-semibold cursor-pointer hover:bg-sky-400" onClick={sendFile}>
+                                { loading ? (<Loading/>) : ('Submit')}
+                            </div>
                         </div>
-                    </>
+
+                        
+                    </div>
                 )}
 
                 <div className="w-full flex justify-center items-center">
