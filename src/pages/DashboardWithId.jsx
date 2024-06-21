@@ -469,7 +469,25 @@ function DashboardWithId() {
                                                                         }}
                                                                         options={{
                                                                             responsive: true, // Mengatur grafik agar responsif
-                                                                            maintainAspectRatio: false // Untuk mengabaikan rasio aspek default
+                                                                            maintainAspectRatio: false,
+                                                                            scales: {
+                                                                                x : {
+                                                                                    beginAtZero : true,
+                                                                                    offset: true,
+                                                                                    
+                                                                                    ticks : {
+                                                                                        padding : 0
+                                                                                    }
+                                                                                },
+                                                                                y: {
+                                                                                    ticks: {
+                                                                                        callback: function(value, index, values) {
+                                                                                            return Math.floor(value); // Menghilangkan desimal
+                                                                                        }
+                                                                                    },
+                                                                                    beginAtZero : true
+                                                                                }
+                                                                            } 
                                                                         }}
                                                                     />
                                                                 </>
@@ -679,8 +697,21 @@ function DashboardWithId() {
                                                                             ],
                                                                         }}
                                                                         options={{
-                                                                            responsive: true, // Mengatur grafik agar responsif
-                                                                            maintainAspectRatio: false // Untuk mengabaikan rasio aspek default
+                                                                            responsive: true, 
+                                                                            maintainAspectRatio: false,
+                                                                            scales: {
+                                                                                x : {
+                                                                                    offset: true
+                                                                                },
+                                                                                y: {
+                                                                                    ticks: {
+                                                                                        callback: function(value, index, values) {
+                                                                                            return Math.floor(value); // Menghilangkan desimal
+                                                                                        }
+                                                                                    },
+                                                                                    beginAtZero : true
+                                                                                }
+                                                                            } 
                                                                         }}
                                                                     />
                                                                 </>
@@ -893,13 +924,18 @@ function DashboardWithId() {
                                                                         }}
                                                                         options={{
                                                                             responsive: true, // Mengatur grafik agar responsif
-                                                                            maintainAspectRatio: false, // Untuk mengabaikan rasio aspek default,
+                                                                            maintainAspectRatio: false, 
                                                                             scales: {
-                                                                                x: {
+                                                                                x : {
+                                                                                    offset: true
+                                                                                },
+                                                                                y: {
                                                                                     ticks: {
-                                                                                        // Atur nilai maksimal sumbu y di sini
-                                                                                        min: 100,
-                                                                                    }
+                                                                                        callback: function(value, index, values) {
+                                                                                            return Math.floor(value); // Menghilangkan desimal
+                                                                                        }
+                                                                                    },
+                                                                                    beginAtZero : true
                                                                                 }
                                                                             }
                                                                         }}
