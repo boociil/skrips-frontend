@@ -66,9 +66,9 @@ function ListActivity(props) {
                 <div className="text-center">{tgl}</div>
             </div>
             <div className="status sm:flex items-center justify-center px-3 py-2 ">
-                    <div className="flex items-center justify-centerr ">
-                        {time}
-                    </div>
+                <div className="flex items-center justify-center ">
+                    {time}
+                </div>
             </div>
             <div className="keterangan hidden md:flex items-center justify-center px-3 py-2 ">
                 <div className="text-center">{props.ket}</div>
