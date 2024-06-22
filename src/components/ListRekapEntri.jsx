@@ -26,6 +26,7 @@ function ListRekap(props) {
     const [ idDokActive, setIdDokActive ] = useState(null);
     const [ idxActive, setIdxActive ] = useState(null);
     const [ isInvalid, setIsInvalid ] = useState(false);
+    const [ isInvalid2, setIsInvalid2 ] = useState(false);
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
     const backendUrl = process.env.REACT_APP_BACKEND_URL
 
@@ -205,12 +206,17 @@ function ListRekap(props) {
         setIdxActive(null);
     }
 
-
+    const getDocumentById = (id) => {
+        return data.find(doc => doc.id_dok === id);
+      };
 
     const clickButtonSLS = (id_dok,idx) => {
         setIdDokActive(id_dok);
         setIdxActive(idx);
         
+        const data_by_id_dok = getDocumentById(id_dok);
+        const edcod_stats = data_by_id_dok.status_edcod
+
         const moda = modaEntri[id_dok];
         const penerima = selectPenerima[id_dok]
         
@@ -223,41 +229,43 @@ function ListRekap(props) {
         if(button.innerHTML === "Sudah"){
             setShowConfirmCard(true);
         }else{
-            if (penerima && (penerima !== "-")){
-                if(moda && (moda !== "-")){
-
-                    // fetch data ke backend
-                    updateEntri(id_dok,penerima,1,time_now,moda)
-                        .then(success => {
-                            button.classList.remove('text-[#EF0D0D]');
-                            button.classList.add('text-[#14CB11]');
-                            button.innerHTML = "Sudah";
-                            select.classList.add('pointer-events-none')
-                            select.classList.add('opacity-75')
-                            select_moda.classList.add('pointer-events-none')
-                            select_moda.classList.add('opacity-75')
-                            const time_now = timeNow()
-                            div_time.innerHTML = time_now
-                            select.classList.add('disabled-element')
-
-                            toast.success("Data berhasil diiput", {
-                                position: "bottom-right",
-                                hideProgressBar: true,
-                                autoClose: 1000,
-                                closeOnClick: true,
-                                theme: "light",
-                                transition: Bounce,
-                                pauseOnHover: false,
+            if (edcod_stats){
+                if (penerima && (penerima !== "-")){
+                    if(moda && (moda !== "-")){
+    
+                        // fetch data ke backend
+                        updateEntri(id_dok,penerima,1,time_now,moda)
+                            .then(success => {
+                                button.classList.remove('text-[#EF0D0D]');
+                                button.classList.add('text-[#14CB11]');
+                                button.innerHTML = "Sudah";
+                                select.classList.add('pointer-events-none')
+                                select.classList.add('opacity-75')
+                                select_moda.classList.add('pointer-events-none')
+                                select_moda.classList.add('opacity-75')
+                                const time_now = timeNow()
+                                div_time.innerHTML = time_now
+                                select.classList.add('disabled-element')
+    
+                                toast.success("Data berhasil diiput", {
+                                    position: "bottom-right",
+                                    hideProgressBar: true,
+                                    autoClose: 1000,
+                                    closeOnClick: true,
+                                    theme: "light",
+                                    transition: Bounce,
+                                    pauseOnHover: false,
+                                })
                             })
-                        })
+                    }else{
+                        setIsInvalid(true);
+                    }
                 }else{
                     setIsInvalid(true);
                 }
-                   
             }else{
-                setIsInvalid(true);
+                setIsInvalid2(true);
             }
-            
         }
     }
 
@@ -337,7 +345,7 @@ function ListRekap(props) {
             ) : (
                 <div className="here">
                     <Alert open={showConfirmCard} setOpen={setShowConfirmCard} isConfirm={true} onConfirm={handleConfirm} msg={'Batalkan progres Entri?'} subMsg={`Anda masih bisa mensubmit, tapi waktu akan terupdate`}/>
-
+                    <Alert open={isInvalid2} setOpen={setIsInvalid2} msg={"Error!"} subMsg={"Dokumen Belum Melewati Proses Edcod."} />
                     <Alert open={isInvalid} setOpen={setIsInvalid} msg={"Error!"} subMsg={"Invalid input, pilih moda dan petugas entri."} />
                     {
                         data.map((item,index) => {

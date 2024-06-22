@@ -26,6 +26,7 @@ function ListRekapEntriSurvei(props, { onDataFromChild }) {
     const [ rutaActive, setRutaActive ] = useState();
     const [ xActive, setXActive ] = useState();
     const [ isInvalid, setIsInvalid ] = useState(false);
+    const [ isInvalid2, setIsInvalid2 ] = useState(false);
     const penerimaRef = useRef({});
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
     const backendUrl = process.env.REACT_APP_BACKEND_URL
@@ -232,6 +233,11 @@ function ListRekapEntriSurvei(props, { onDataFromChild }) {
         setNksActive(null);
     }
 
+    const getData = (x, noRuta) => {
+        const result = data.find(item => item.nama_x === x && item.no_ruta === noRuta);
+        return result;
+    };
+
     const clickButtonSampel = (ruta,x,nbs,nks) => {
         
         setRutaActive(ruta);
@@ -239,11 +245,11 @@ function ListRekapEntriSurvei(props, { onDataFromChild }) {
         setNbsActive(nbs);
         setNksActive(nks);
 
+        const edcod_stats = getData(x,ruta).status_edcod
+
         const num = ruta + "" + x
         const button = document.getElementById('button-' + ruta + '-' + x  );
         const select = penerimaRef.current[num]
-
-
 
         let the_value = null
         if (penerimaDok && penerimaDok[x] && penerimaDok[x][ruta]){
@@ -255,43 +261,44 @@ function ListRekapEntriSurvei(props, { onDataFromChild }) {
         if(button.innerHTML === "Sudah"){
             setShowConfirmCard(true);
         }else{
-            if (the_value && (the_value !== "-")){
-                
-
-                // fetch data ke backend
-                updateEntri(nbs,nks,ruta,time_now,1,the_value)
-                .then(success => {
-                    button.classList.remove('text-[#EF0D0D]');
-                    button.classList.add('text-[#14CB11]');
-                    button.innerHTML = "Sudah";
-                    select.classList.add('pointer-events-none')
-                    select.classList.add('opacity-75')
-
-                    toast.success("Data berhasil diiput", {
-                        position: "bottom-right",
-                        hideProgressBar: true,
-                        autoClose: 1000,
-                        closeOnClick: true,
-                        theme: "light",
-                        transition: Bounce,
-                        pauseOnHover: false,
+            if (edcod_stats){
+                if (the_value && (the_value !== "-")){
+                    // fetch data ke backend
+                    updateEntri(nbs,nks,ruta,time_now,1,the_value)
+                    .then(success => {
+                        button.classList.remove('text-[#EF0D0D]');
+                        button.classList.add('text-[#14CB11]');
+                        button.innerHTML = "Sudah";
+                        select.classList.add('pointer-events-none')
+                        select.classList.add('opacity-75')
+    
+                        toast.success("Data berhasil diiput", {
+                            position: "bottom-right",
+                            hideProgressBar: true,
+                            autoClose: 1000,
+                            closeOnClick: true,
+                            theme: "light",
+                            transition: Bounce,
+                            pauseOnHover: false,
+                        })
                     })
-                })
-                .catch(error => {
-                    toast.error("Terjadi Kesalahan", {
-                        position: "bottom-right",
-                        hideProgressBar: true,
-                        autoClose: 1000,
-                        closeOnClick: true,
-                        theme: "light",
-                        transition: Bounce,
-                        pauseOnHover: false,
+                    .catch(error => {
+                        toast.error("Terjadi Kesalahan", {
+                            position: "bottom-right",
+                            hideProgressBar: true,
+                            autoClose: 1000,
+                            closeOnClick: true,
+                            theme: "light",
+                            transition: Bounce,
+                            pauseOnHover: false,
+                        })
                     })
-                })
+                }else{
+                    setIsInvalid(true);
+                }    
             }else{
-                setIsInvalid(true);
+                setIsInvalid2(true);
             }
-            
         }
     }
 
@@ -336,7 +343,7 @@ function ListRekapEntriSurvei(props, { onDataFromChild }) {
             ) : (
                 <div className="here">
                     <Alert open={showConfirmCard} setOpen={setShowConfirmCard} isConfirm={true} onConfirm={handleConfirm} msg={'Batalkan progres Entri?'} subMsg={`Anda masih bisa mensubmit, tapi waktu akan terupdate.`}/>
-
+                    <Alert open={isInvalid2} setOpen={setIsInvalid2} msg={"Error!"} subMsg={"Dokumen Belum Melewati Proses Edcod."} />
                     <Alert open={isInvalid} setOpen={setIsInvalid} msg={"Error!"} subMsg={"Invalid input, silahkan pilih moda entri dan petugas."} />
                     {
                         data.map((item,index) => {

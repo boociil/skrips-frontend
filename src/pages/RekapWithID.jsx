@@ -27,10 +27,31 @@ const RekapWithID = () => {
     const [ deadlineEntri, setDeadlineEntri ] = useState();
     const [ isLoadingProgresKecamatan ,setIsLoadingProgresKecamatan] = useState(true);
     const [ dataProgresKecamatan, setDataProgresKecamatan ] = useState();
+    const [ rb, setRb ] = useState();
+    const [ edcod, setEdcod ] = useState();
+    const [ entri, setEntri ] = useState();
     const backendUrl = process.env.REACT_APP_BACKEND_URL
 
     const miniPageClick = (index) => {
         setMiniPageIndex(index)
+    }
+
+    // mengembalikan kelas berupa warna dari text
+    const setColour = (num) => {
+        const low = '[#EC5F4C]';
+        const med = '[#418EC6]';
+        const high = '[#14CB11]';
+
+        if (num < 35){
+            return 'text-' + low;
+            console.log(num, low);
+        }else if(num < 65){
+            return 'text-' + med;
+            console.log(num, med);
+        }else{
+            return 'text-' + high;
+            console.log(num, high);
+        }
     }
 
     const fetchDataOveralProgres = () => {
@@ -49,7 +70,14 @@ const RekapWithID = () => {
 
                 setDataOverallProgres(data);
 
-                // Date Setting
+                const the_rb = data[0].rb * 100 / data[0].total
+                const the_edcod = data[0].edcod * 100 / data[0].total
+                const the_entri = data[0].entri * 100 / data[0].total
+
+
+                setRb(the_rb)
+                setEdcod(the_edcod)
+                setEntri(the_entri)
 
                 setLoadingOverallProgres(false);
             });
@@ -162,17 +190,15 @@ const RekapWithID = () => {
                             { miniPageIndex === 1 ? ( 
                                 <>
                                     <div className="nav grid grid-cols-3 rounded-t-md">
-                                        <div className="md:text-base transition-all text-sm text-center border-r-4 p-1 border-b-4 border-[#F5F4F4]" onClick={() => miniPageClick(1)}>Receving Batching</div>
+                                    <div className="md:text-base transition-all text-sm text-center border-r-4 p-1 border-b-4 border-[#F5F4F4] font-semibold" onClick={() => miniPageClick(1)}>
+                                        Receving Batching { loadingOverallProgres ? (<Loading/>) : <>(<span className={`${setColour(rb)}`}>{(rb).toFixed(2)}%</span>)</> }
+                                    </div>
+
                                         <div className="md:text-base transition-all text-sm text-center border-r-4 p-1 border-b-4 border-[#F5F4F4] bg-[#F5F4F4] hover:bg-white cursor-pointer" onClick={() => miniPageClick(2)}>Editing Coding</div>
                                         <div className="md:text-base transition-all text-sm text-center p-1 border-b-4 border-[#F5F4F4] bg-[#F5F4F4] hover:bg-white cursor-pointer" onClick={() => miniPageClick(3)}>Entri</div>
                                     </div>
-                                    <div className="flex mt-2">
-                                        <div className="progres flex-grow ml-4">
-                                            <span className="ml-2">Progres : { loadingOverallProgres ? (<Loading/>) : (dataOverallProgres[0].rb*100/dataOverallProgres[0].total).toFixed(2)}%</span>
-                                        </div>
-                                        <div className="deadline ml-auto mr-4">
-                                            <span className="">Waktu Tersisa : { isLoading ? (<Loading/>) : (deadlineRb)} Hari</span>
-                                        </div>
+                                    <div className="flex mt-4">
+                                        
                                     </div>
 
                                     <div className="content p-1">
@@ -185,7 +211,7 @@ const RekapWithID = () => {
                                                     <>
                                                     {
                                                         isLoading ? (
-                                                            <>
+                                                            <> 
                                                             </>
                                                         ) : (
                                                             <>
@@ -216,16 +242,13 @@ const RekapWithID = () => {
                                     <>
                                     <div className="nav grid grid-cols-3 rounded-t-md">
                                         <div className="md:text-base transition-all text-sm text-center border-r-4 p-1 border-b-4 border-[#F5F4F4] cursor-pointer bg-[#F5F4F4] hover:bg-white" onClick={() => miniPageClick(1)}>Receving Batching</div>
-                                        <div className="md:text-base transition-all text-sm text-center border-r-4 p-1 border-b-4 border-[#F5F4F4]" onClick={() => miniPageClick(2)}>Editing Coding</div>
+                                        <div className="md:text-base transition-all text-sm text-center border-r-4 p-1 border-b-4 border-[#F5F4F4] font-semibold" onClick={() => miniPageClick(2)}>
+                                            Editing Coding { loadingOverallProgres ? (<Loading/>) : <>(<span className={`${setColour(edcod)}`}>{(edcod).toFixed(2)}%</span>)</> }
+                                        </div>
                                         <div className="md:text-base transition-all text-sm text-center p-1 border-b-4 border-[#F5F4F4] bg-[#F5F4F4] cursor-pointer hover:bg-white" onClick={() => miniPageClick(3)}>Entri</div>
                                     </div>
-                                        <div className="flex mt-2">
-                                            <div className="progres flex-grow ml-4">
-                                                <span className="ml-2">Progres : { loadingOverallProgres ? (<Loading/>) : (dataOverallProgres[0].edcod*100/dataOverallProgres[0].total).toFixed(2)}%</span>
-                                            </div>
-                                            <div className="deadline ml-auto mr-4">
-                                                <span className="">Waktu Tersisa : { isLoading ? (<Loading/>) : (deadlineEdcod)} Hari</span>
-                                            </div>
+                                        <div className="flex mt-4">
+                                            
                                         </div>
 
                                         <div className="content p-1">
@@ -266,15 +289,12 @@ const RekapWithID = () => {
                                         <div className="nav grid grid-cols-3 rounded-t-md">
                                             <div className="md:text-base transition-all text-sm text-center border-r-4 p-1 border-b-4 border-[#F5F4F4] bg-[#F5F4F4] cursor-pointer hover:bg-white" onClick={() => miniPageClick(1)}>Receving Batching</div>
                                             <div className="md:text-base transition-all text-sm text-center border-r-4 p-1 border-b-4 border-[#F5F4F4] bg-[#F5F4F4] cursor-pointer hover:bg-white" onClick={() => miniPageClick(2)}>Editing Coding</div>
-                                            <div className="md:text-base transition-all text-sm text-center p-1 border-b-4 border-[#F5F4F4]" onClick={() => miniPageClick(3)}>Entri</div>
+                                            <div className="md:text-base transition-all text-sm text-center p-1 border-b-4 border-[#F5F4F4] font-semibold" onClick={() => miniPageClick(3)}>
+                                                Entri { loadingOverallProgres ? (<Loading/>) : <>(<span className={`${setColour(entri)}`}>{(entri).toFixed(2)}%</span>)</> }
+                                            </div>
                                         </div>
-                                        <div className="flex mt-2">
-                                            <div className="progres flex-grow ml-4">
-                                                <span className="ml-2">Progres : { loadingOverallProgres ? (<Loading/>) : (dataOverallProgres[0].entri*100/dataOverallProgres[0].total).toFixed(2)}%</span>
-                                            </div>
-                                            <div className="deadline ml-auto mr-4">
-                                                <span className="">Waktu Tersisa : { isLoading ? (<Loading/>) : (<>{deadlineEntri > 0 ? (<>{deadlineEntri}</>) : (<>{deadlineEntri}</>)}</>)} Hari</span>
-                                            </div>
+                                        <div className="flex mt-4">
+                                            
                                         </div>
 
                                         <div className="content p-1">

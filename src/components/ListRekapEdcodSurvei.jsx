@@ -26,6 +26,7 @@ function ListRekapEdcodSurvei(props, { onDataFromChild }) {
     const [ rutaActive, setRutaActive ] = useState();
     const [ xActive, setXActive ] = useState();
     const [ isInvalid, setIsInvalid ] = useState(false);
+    const [ isInvalid2, setIsInvalid2 ] = useState(false);
     const penerimaRef = useRef({});
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
     const backendUrl = process.env.REACT_APP_BACKEND_URL
@@ -46,10 +47,8 @@ function ListRekapEdcodSurvei(props, { onDataFromChild }) {
                 .then(response => response.json())
                 .then(data => {
                     setData(data);
-                    
                     setDataLen(data.length - 1);
                     setIsLoading(false)
-                    
                 });       
         }
 
@@ -235,6 +234,11 @@ function ListRekapEdcodSurvei(props, { onDataFromChild }) {
         setNksActive(null);
     }
 
+    const getData = (x, noRuta) => {
+        const result = data.find(item => item.nama_x === x && item.no_ruta === noRuta);
+        return result;
+    };
+
     const clickButtonSampel = (ruta,x,nbs,nks) => {
         
         setRutaActive(ruta);
@@ -246,6 +250,7 @@ function ListRekapEdcodSurvei(props, { onDataFromChild }) {
         const button = document.getElementById('button-' + ruta + '-' + x  );
         const select = penerimaRef.current[num]
 
+        const pengdok_stats = getData(x,ruta).status_pengdok
 
         let the_value = null
         if (penerimaDok && penerimaDok[x] && penerimaDok[x][ruta]){
@@ -258,42 +263,44 @@ function ListRekapEdcodSurvei(props, { onDataFromChild }) {
             setShowConfirmCard(true);
             
         }else{
-            if (the_value && (the_value !== "-")){
-
-                // fetch data ke backend
-                updateEdcod(nbs,nks,ruta,time_now,1,the_value)
-                .then(success => {
-                    button.classList.remove('text-[#EF0D0D]');
-                    button.classList.add('text-[#14CB11]');
-                    button.innerHTML = "Sudah";
-                    select.classList.add('pointer-events-none')
-                    select.classList.add('opacity-75')
-
-                    toast.success("Data berhasil diiput", {
-                        position: "bottom-right",
-                        hideProgressBar: true,
-                        autoClose: 1000,
-                        closeOnClick: true,
-                        theme: "light",
-                        transition: Bounce,
-                        pauseOnHover: false,
+            if (pengdok_stats){
+                if (the_value && (the_value !== "-")){
+                    // fetch data ke backend
+                    updateEdcod(nbs,nks,ruta,time_now,1,the_value)
+                    .then(success => {
+                        button.classList.remove('text-[#EF0D0D]');
+                        button.classList.add('text-[#14CB11]');
+                        button.innerHTML = "Sudah";
+                        select.classList.add('pointer-events-none')
+                        select.classList.add('opacity-75')
+    
+                        toast.success("Data berhasil diiput", {
+                            position: "bottom-right",
+                            hideProgressBar: true,
+                            autoClose: 1000,
+                            closeOnClick: true,
+                            theme: "light",
+                            transition: Bounce,
+                            pauseOnHover: false,
+                        })
                     })
-                })
-                .catch(success => {
-                    toast.error("Terjadi Kesalahan", {
-                        position: "bottom-right",
-                        hideProgressBar: true,
-                        autoClose: 1000,
-                        closeOnClick: true,
-                        theme: "light",
-                        transition: Bounce,
-                        pauseOnHover: false,
+                    .catch(success => {
+                        toast.error("Terjadi Kesalahan", {
+                            position: "bottom-right",
+                            hideProgressBar: true,
+                            autoClose: 1000,
+                            closeOnClick: true,
+                            theme: "light",
+                            transition: Bounce,
+                            pauseOnHover: false,
+                        })
                     })
-                })
+                }else{
+                    setIsInvalid(true);
+                }    
             }else{
-                setIsInvalid(true);
+                setIsInvalid2(true);
             }
-            
         }
     }
 
@@ -338,7 +345,7 @@ function ListRekapEdcodSurvei(props, { onDataFromChild }) {
             ) : (
                 <div className="here">
                     <Alert open={showConfirmCard} setOpen={setShowConfirmCard} isConfirm={true} onConfirm={handleConfirm} msg={'Batalkan progres Edcod?'} subMsg={`Anda masih bisa mensubmit, tapi waktu akan terupdate.`}/>
-
+                    <Alert open={isInvalid2} setOpen={setIsInvalid2} msg={"Error!"} subMsg={"Dokumen Belum Dikumpulkan."} />
                     <Alert open={isInvalid} setOpen={setIsInvalid} msg={"Error!"} subMsg={"Invalid input, silahkan pilih petugas."} />
                     {
                         data.map((item,index) => {

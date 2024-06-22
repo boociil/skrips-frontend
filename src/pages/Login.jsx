@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import Alert from "../components/Alert"
+import Loading from '../components/Loading';
 
 function Login() {
     
@@ -126,7 +127,7 @@ function Login() {
 
                     { loginLoading ? (
                             <>
-                                <button className="block mb-8 bg-[#418EC6] hover:bg-sky-500 transition duration-300 px-3 py-2 rounded-lg mx-auto my-2 text-white text-xs md:text-sm md:w-24">Loading...</button>
+                                <button className="mb-8 bg-[#418EC6] hover:bg-sky-500 transition duration-300 px-3 py-2 rounded-lg mx-auto my-2 text-white text-xs md:text-sm md:w-24 flex items-center justify-center"><Loading/></button>
                             </>
                         ) : (
                             <>

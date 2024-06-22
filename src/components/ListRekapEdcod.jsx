@@ -25,6 +25,7 @@ function ListRekap(props) {
     const [ idDokActive, setIdDokActive ] = useState(null);
     const [ idxActive, setIdxActive ] = useState(null);
     const [ isInvalid, setIsInvalid ] = useState(false);
+    const [ isInvalid2, setIsInvalid2 ] = useState(false);
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
     const backendUrl = process.env.REACT_APP_BACKEND_URL
 
@@ -192,10 +193,17 @@ function ListRekap(props) {
         setIdxActive(null);
     }
 
+    const getDocumentById = (id) => {
+        return data.find(doc => doc.id_dok === id);
+      };
+
     const clickButtonSLS = (id_dok,idx) => {
         setIdDokActive(id_dok);
         setIdxActive(idx);
         
+        const data_by_id_dok = getDocumentById(id_dok);
+        const pengdok_stats = data_by_id_dok.status_pengdok
+
         let penerima = selectPenerima[id_dok]
         
         const button = document.getElementById('button' + idx);
@@ -207,48 +215,53 @@ function ListRekap(props) {
             setShowConfirmCard(true);
 
         }else{
-            if (penerima && (penerima !== "-")){
+            if(pengdok_stats){
+                if (penerima && (penerima !== "-")){
 
-                const time_now = timeNow()
-
-                // fetch data ke backend
-                updateEdcod(id_dok,penerima,1,time_now)
-                .then(success => {
-                    button.classList.remove('text-[#EF0D0D]');
-                    button.classList.add('text-[#14CB11]');
-                    button.innerHTML = "Sudah";
-                    select.classList.add('pointer-events-none')
-                    select.classList.add('opacity-75')
-                    
-                    div_time.innerHTML = time_now
-                    select.classList.add('disabled-element')
-                    
-                    toast.success("Data berhasil diiput", {
-                        position: "bottom-right",
-                        hideProgressBar: true,
-                        autoClose: 1000,
-                        closeOnClick: true,
-                        theme: "light",
-                        transition: Bounce,
-                        pauseOnHover: false,
+                    const time_now = timeNow()
+    
+                    // fetch data ke backend
+                    updateEdcod(id_dok,penerima,1,time_now)
+                    .then(success => {
+                        button.classList.remove('text-[#EF0D0D]');
+                        button.classList.add('text-[#14CB11]');
+                        button.innerHTML = "Sudah";
+                        select.classList.add('pointer-events-none')
+                        select.classList.add('opacity-75')
+                        
+                        div_time.innerHTML = time_now
+                        select.classList.add('disabled-element')
+                        
+                        toast.success("Data berhasil diiput", {
+                            position: "bottom-right",
+                            hideProgressBar: true,
+                            autoClose: 1000,
+                            closeOnClick: true,
+                            theme: "light",
+                            transition: Bounce,
+                            pauseOnHover: false,
+                        })
                     })
-                })
-                .catch(error => {
-
-                    toast.error("Terjadi Kesalahan", {
-                        position: "bottom-right",
-                        hideProgressBar: true,
-                        autoClose: 1000,
-                        closeOnClick: true,
-                        theme: "light",
-                        transition: Bounce,
-                        pauseOnHover: false,
-                    })
-                });  
-                   
+                    .catch(error => {
+    
+                        toast.error("Terjadi Kesalahan", {
+                            position: "bottom-right",
+                            hideProgressBar: true,
+                            autoClose: 1000,
+                            closeOnClick: true,
+                            theme: "light",
+                            transition: Bounce,
+                            pauseOnHover: false,
+                        })
+                    });  
+                       
+                }else{
+                    setIsInvalid(true);
+                }
             }else{
-                setIsInvalid(true);
+                setIsInvalid2(true);
             }
+            
             
         }
     }
@@ -320,8 +333,8 @@ function ListRekap(props) {
             ) : (
                 <div className="here">
                     <Alert open={showConfirmCard} setOpen={setShowConfirmCard} isConfirm={true} onConfirm={handleConfirm} msg={'Batalkan progres Edcod?'} subMsg={`Anda masih bisa mensubmit, tapi waktu akan terupdate`}/>
-
                     <Alert open={isInvalid} setOpen={setIsInvalid} msg={"Error!"} subMsg={"Invalid input, silahkan pilih petugas."} />
+                    <Alert open={isInvalid2} setOpen={setIsInvalid2} msg={"Error!"} subMsg={"Dokumen Belum Dikumpulkan."} />
                     {
                         data.map((item,index) => {
                             // show Kec
@@ -399,14 +412,14 @@ function ListRekap(props) {
                                                                                         ) : (
 
                                                                                         
-                                                                                        <select 
-                                                                                            className={`sm:mr-5 mr-1 rounded-lg col-start-7 min-w-16 max-w-16 overflow-hidden ${ada ? ('pointer-events-none opacity-75') : ('')}`}
-                                                                                            name="selectPenerima" 
-                                                                                            id={`select-${innerItem.id_dok}`}
-                                                                                            ref={ref => setSelectRef(innerItem.id_dok, ref)}
-                                                                                            value={selectPenerima[innerItem.id_dok]} 
-                                                                                            onChange={(event) => handleSelectPenerimaChange(event, innerItem.id_dok)}
-                                                                                        >
+                                                                                            <select 
+                                                                                                className={`sm:mr-5 mr-1 rounded-lg col-start-7 min-w-16 max-w-16 overflow-hidden ${ada ? ('pointer-events-none opacity-75') : ('')}`}
+                                                                                                name="selectPenerima" 
+                                                                                                id={`select-${innerItem.id_dok}`}
+                                                                                                ref={ref => setSelectRef(innerItem.id_dok, ref)}
+                                                                                                value={selectPenerima[innerItem.id_dok]} 
+                                                                                                onChange={(event) => handleSelectPenerimaChange(event, innerItem.id_dok)}
+                                                                                            >
                                                                                         { 
                                                                                             ada ? (
                                                                                                 <>

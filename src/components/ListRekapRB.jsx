@@ -338,8 +338,7 @@ function ListRekap(props) {
                                             if(kodeKecActive[subItem.kode_kec]){
                                                 if(subItem.kode_desa !== prevDesa){
                                                     prevDesa = subItem.kode_desa
-                                                    let class_desa = ""
-                                                    let class_desa_2 = ""
+                                                    
                                                     prevDesa = subItem.kode_desa
                                                     return (
                                                         <div key={subIndex} className="the-inside-row lg:grid lg:justify-items-end">
