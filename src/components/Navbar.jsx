@@ -222,7 +222,7 @@ function TopNavAdmin() {
                         </label>
                     </div>
                 </div>
-                <nav className="the-menu translate-x-full fixed rounded-tr-xl bg-white -left-1/2 w-1/2 h-full border-2 -translate-x-1/2 transition duration-700 flex">
+                <nav className="the-menu fixed rounded-tr-xl bg-white -left-1/2 w-1/2 h-full border-2 -translate-x-1/2 transition duration-700 flex">
                     <ul className="mt-5 relative">
                         <li className="home ml-4 my-2 flex  group cursor-pointer">
                             <NavLink to="/Home" onClick={closeSideMenu} className={({ isActive }) => isActive ? ('flex bg-slate-200 pl-2 pr-3 py-2 rounded-md w-full') : ('flex group-hover:translate-x-4 transition pl-2 pr-3 py-2 rounded-md')}>
