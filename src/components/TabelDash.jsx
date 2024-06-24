@@ -88,7 +88,7 @@ function ConfirmCard({ data, onClose, type}) {
     return(
         <div className="the-blur fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 font-poppins">
             <div className="container fixed z-50 flex justify-center items-center mt-40">
-                <div className="box bg-white m-auto p-2 absolute top-0 rounded-lg">
+                <div className="box bg-white min-w-72 m-auto p-2 absolute top-0 rounded-lg">
                     <div className="x-button px-2 absolute right-3 cursor-pointer text-lg rounded-md font-bold bg-[#F5F4F4] hover:bg-red-500 hover:text-white transition-all duration-300" onClick={onClose}>x</div>
                     <div className="title mt-10">
                         <h2 className="text-center mb-4 font-medium max-w-64 mx-auto">

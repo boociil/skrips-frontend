@@ -359,7 +359,7 @@ function DashboardWithId() {
                                 
                                 <div className="Receiving-Batching">
                                     <div className="mt-4">
-                                        <div className="p-3 text-md font-semibold">Receiving Batching</div>
+                                        <div className="p-3 text-md font-semibold text-center md:text-left">Receiving Batching</div>
                                     </div>
                                     <div className="content-RB">
                                         <div className="main-board  p-2 md:flex">
@@ -595,7 +595,7 @@ function DashboardWithId() {
 
                                 <div className="Editing-Coding">
                                     <div className="mt-4">
-                                        <div className="p-3 text-md font-semibold">Editing Coding</div>
+                                        <div className="p-3 text-md font-semibold text-center md:text-left">Editing Coding</div>
                                     </div>
                                     <div className="content-RB">
                                         <div className="main-board  p-2 md:flex">
@@ -820,7 +820,7 @@ function DashboardWithId() {
 
                                 <div className="Entri">
                                     <div className="mt-4">
-                                        <div className="p-3 text-md font-semibold">Entry data</div>
+                                        <div className="p-3 text-md font-semibold text-center md:text-left">Entry data</div>
                                     </div>
                                     <div className="content-RB">
                                         <div className="main-board  p-2 md:flex">

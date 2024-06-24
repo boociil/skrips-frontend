@@ -98,8 +98,8 @@ function UsersWithId() {
                     reject(data.msg);
                 }
             });
-        })
-    }
+        });
+    };
 
     const onCountChange = (e) => {
         if(e.target.value > len){
