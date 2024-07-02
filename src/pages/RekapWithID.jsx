@@ -44,13 +44,10 @@ const RekapWithID = () => {
 
         if (num < 35){
             return 'text-' + low;
-            console.log(num, low);
         }else if(num < 65){
             return 'text-' + med;
-            console.log(num, med);
         }else{
             return 'text-' + high;
-            console.log(num, high);
         }
     }
 

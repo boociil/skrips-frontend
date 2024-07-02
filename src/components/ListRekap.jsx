@@ -16,6 +16,20 @@ function ListRekap(props) {
         isAdmin = true
     }
 
+    const setColour = (num) => {
+        const low = '[#EC5F4C]';
+        const med = '[#418EC6]';
+        const high = '[#14CB11]';
+
+        if (num < 35){
+            return 'text-' + low;
+        }else if(num < 65){
+            return 'text-' + med;
+        }else{
+            return 'text-' + high;
+        }
+    }
+
     let pos = props.position
     let class_name;
     if (pos === 'TOP'){
@@ -159,8 +173,14 @@ function ListRekap(props) {
                     <div className="metode hidden col-start-5 md:block px-3 py-2">
                         <div className="md:flex">
                             <div className="flex-grow">
-                                <div className="">{props.metode}</div>
-                                <div className=" text-slate-400 text-xs">Metode</div>
+                                <div className={`text-center ${setColour(props.metode)}`}>{
+                                    props.metode !== "-" ? (
+                                        <>{props.metode}%</>
+                                    ) : (
+                                        <>{props.metode}</>
+                                    )
+                                }</div>
+                                <div className=" text-slate-400 text-xs text-center">Progres</div>
                             </div>
                         </div>
                     </div>

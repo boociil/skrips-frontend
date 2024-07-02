@@ -1,17 +1,32 @@
+
 import { useNavigate } from "react-router-dom";
 
 function ListKegiatan(props) {
 
     const navigate = useNavigate();
 
+    const setColour = (num) => {
+        const low = '[#EC5F4C]';
+        const high = '[#418EC6]';
+        const med = '[#14CB11]';
+
+        if (num < 35){
+            return 'text-' + low;
+        }else if(num < 65){
+            return 'text-' + med;
+        }else{
+            return 'text-' + high;
+        }
+    }
+
     let pos = props.position
     let class_name;
     if (pos === 'TOP'){
-        class_name = 'cursor-pointer grid grid-rows-1 text-xs sm:text-sm grid-cols-2 md:grid-cols-4  hover:bg-slate-200 hover:rounded-lg hover:scale-105 transition duration-500 flex bg-white shadow-lg rounded-t-lg border-b-2 hover:border-slate-200 border-b-slate-300 max-w-5xl md:mx-auto'
+        class_name = 'cursor-pointer grid grid-rows-1 text-xs sm:text-sm grid-cols-4 md:grid-cols-6  hover:bg-slate-200 hover:rounded-lg hover:scale-105 transition duration-500 flex bg-white shadow-lg rounded-t-lg border-b-2 hover:border-slate-200 border-b-slate-300 max-w-5xl md:mx-auto'
     }else if (pos === 'MID'){
-        class_name = 'cursor-pointer grid grid-rows-1 text-xs sm:text-sm grid-cols-2 md:grid-cols-4 hover:bg-slate-200 hover:rounded-lg hover:scale-105 transition duration-500 flex bg-white shadow-lg border-b-2 hover:border-slate-200 border-b-slate-300 max-w-5xl md:mx-auto'
+        class_name = 'cursor-pointer grid grid-rows-1 text-xs sm:text-sm grid-cols-4 md:grid-cols-6 hover:bg-slate-200 hover:rounded-lg hover:scale-105 transition duration-500 flex bg-white shadow-lg border-b-2 hover:border-slate-200 border-b-slate-300 max-w-5xl md:mx-auto'
     }else{
-        class_name = 'cursor-pointer grid grid-rows-1 text-xs sm:text-sm grid-cols-2 md:grid-cols-4 hover:bg-slate-200 hover:rounded-lg hover:scale-105 transition duration-500 flex bg-white shadow-lg rounded-b-lg max-w-5xl md:mx-auto'
+        class_name = 'cursor-pointer grid grid-rows-1 text-xs sm:text-sm grid-cols-4 md:grid-cols-6 hover:bg-slate-200 hover:rounded-lg hover:scale-105 transition duration-500 flex bg-white shadow-lg rounded-b-lg max-w-5xl md:mx-auto'
     }
 
     // Parse Tanggl
@@ -79,17 +94,22 @@ function ListKegiatan(props) {
 
     return (
         <div className={class_name} onClick={divHandleClick.bind(this,props.id)} >
-            <div className="title px-3 py-2 w-full" >
-                <div className="">{props.name}</div>
+            {/* COL 1 */}
+            <div className="title px-3 py-2 w-full col-span-2" >
+                <div className="truncate">{props.name}</div>
                 <div className="block text-slate-400 text-xs">{props.id}</div>
             </div>
+
+            {/* COL 2 */}
             <div className="tanggal hidden md:block px-3 py-2">
                 <div className=" ">{the_tgl}</div>
                 <div className=" text-slate-400 text-xs">Mulai Kegiatan</div>
             </div>
-            <div className="status col-start-2 md:col-start-3 sm:block px-3 py-2">
+
+            {/* COL 3 */}
+            <div className="status col-start-3 md:col-start-4 sm:block px-3 py-2">
                 <div className="flex">
-                    <div className="flex-grow">
+                    <div className="sm:ml-5 ml-0">
                         <div className={status_class}>{status}</div>
                         <div className=" text-slate-400 text-xs">Status</div>
                     </div>
@@ -98,9 +118,11 @@ function ListKegiatan(props) {
                     </span> */}
                 </div>
             </div>
-            <div className="metode hidden col-start-4 md:block px-3 py-2">
-                <div className="md:flex">
-                    <div className="flex-grow">
+
+            {/* COL 5 */}
+            <div className="metode hidden col-start-5 md:block px-3 py-2">
+                <div className="md:flex items-center justify-center">
+                    <div className="">
                         <div className="">{props.metode}</div>
                         <div className=" text-slate-400 text-xs">Initiator</div>
                     </div>
@@ -108,7 +130,20 @@ function ListKegiatan(props) {
                         edit
                     </span> */}
                 </div>
-                
+            </div>
+
+            {/* COL 6 */}
+            <div className="px-3 py-2 flex items-center justify-center">
+                <div className="insider">
+                    <div className={`text-center ${setColour(props.progres)}`}>{
+                        props.progres !== "-" ? (
+                            <>{props.progres}%</>
+                        ) : (
+                            <>{props.progres}</>
+                        )
+                    }</div>
+                    <div className=" text-slate-400 text-xs">Progres</div>
+                </div>
             </div>
         </div>
     )

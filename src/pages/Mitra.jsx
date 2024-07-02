@@ -43,10 +43,8 @@ function Users() {
             
         }
         fetchData();
-        
-        // Jika sudah masuk fase production, hapus log ini
 
-    },[len]);
+    },[]);
 
     const handleClick = () => {
         navigate('Register');

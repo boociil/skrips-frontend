@@ -30,22 +30,26 @@ function HomePage() {
                 fetch(backendUrl + 'get_all_kegiatan', requestOptions)
                 .then(response => response.json())
                 .then(data => {
+                    console.log(data);
                     setData(data);
                     setDataLen(data.length - 1);
                     setLoadingData(false);
                 });
         }
         
-        fetchData();
 
-    },[dataLen]);
+        
+        fetchData();
+        
+
+    },[]);
 
     const onSearchChange = (event) => {
         setSearchItem(event.target.value);
     }
 
     return (
-<>
+    <>
         <TopNavbarAdmin />
         <div className="mx-4">
         {
@@ -60,7 +64,7 @@ function HomePage() {
                 <>
                     {
                         dataLen !== -1 ? (
-                            <div className="mt-10 md:pt-28 h-full font-poppins" onClick={() => setIsOpen(false)}>
+                            <div className="mt-10 mb-10 md:mt-28 h-full font-poppins" onClick={() => setIsOpen(false)}>
 
                                 <div className="max-w-5xl md:mx-auto">
                                     <h1 className="text-xl mb-4 md:mb-8">Mau Monitoring Apa Hari ini?</h1>
@@ -82,7 +86,7 @@ function HomePage() {
                                         })
                                             
                                         .map((item, index)=>(
-                                            <ListKegiatan key={item.id} position={index !== 0 ? (index === dataLen ? 'BOT' : 'MID' ) : 'TOP'} name={item.nama} id={item.id} metode={item.initiator_id} status={item.status} tgl={item.tanggal_mulai} index={item.length}/>
+                                            <ListKegiatan key={item.id} position={index !== 0 ? (index === dataLen ? 'BOT' : 'MID' ) : 'TOP'} name={item.nama} id={item.id} metode={item.initiator_id} status={item.status} tgl={item.tanggal_mulai} index={item.length} progres={item.progres}/>
                                         ))
                                     }
                                 </div>

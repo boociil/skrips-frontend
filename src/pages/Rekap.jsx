@@ -48,8 +48,6 @@ function AdminHomePage() {
         }
 
         fetchData();
-        
-        // Jika sudah masuk fase production, hapus log ini
 
     },[dataLen]);
 
@@ -72,7 +70,7 @@ function AdminHomePage() {
                 loadingData ? (
                 
                     <>
-                        <div className="mt-10 md:pt-28 h-full font-poppins flex items-center justify-center" onClick={() => setIsOpen(false)}>
+                        <div className="mt-10 md:mt-28 h-full font-poppins flex items-center justify-center" onClick={() => setIsOpen(false)}>
                             <Loading/>
                         </div>
                     </>
@@ -80,7 +78,7 @@ function AdminHomePage() {
                     <>
                         {
                             dataLen !== -1 ? (
-                                <div className="mt-10 md:pt-28 h-full font-poppins" onClick={() => setIsOpen(false)}>
+                                <div className="mt-10 mb-10 md:mt-28 h-full font-poppins" onClick={() => setIsOpen(false)}>
             
                                     <div className="max-w-5xl md:mx-auto">
                                         <h1 className="text-xl mb-4 md:mb-8">Ayo Lanjutkan Kegiatan!</h1>
@@ -105,7 +103,7 @@ function AdminHomePage() {
                                                 return false;
                                             })
                                             .map((item, index)=>(
-                                                <ListRekap key={item.id} position={index !== 0 ? (index === dataLen ? 'BOT' : 'MID' ) : 'TOP'} name={item.nama} id={item.id} metode={item.initiator_id} status={item.status} tgl={item.tanggal_mulai} index={item.length} jenis={item.jenis}/>
+                                                <ListRekap key={item.id} position={index !== 0 ? (index === dataLen ? 'BOT' : 'MID' ) : 'TOP'} name={item.nama} id={item.id} metode={item.progres} status={item.status} tgl={item.tanggal_mulai} index={item.length} jenis={item.jenis}/>
                                             ))
                                         }
                                     </div>

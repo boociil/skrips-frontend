@@ -268,8 +268,8 @@ function DashboardWithId() {
                 },
                 body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
             };
-                let start_link = backendUrl + "get_progres_"
-                isSurvei ? start_link += "survei/" : start_link += "sensus/"
+                let start_link = backendUrl + "get_overall_progres/"
+                // isSurvei ? start_link += "survei/" : start_link += "sensus/"
    
                 fetch(start_link + id_kegiatan , requestOptions)
                 .then(response => response.json())

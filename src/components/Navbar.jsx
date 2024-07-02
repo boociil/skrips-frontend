@@ -12,7 +12,6 @@ function TopNavAdmin() {
     const [openStatus, setOpenStatus] = useState(false);
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
     const navigate = useNavigate();
-    const [ showOption, setShowOption ] = useState(false);
     const backendUrl = process.env.REACT_APP_BACKEND_URL
     
     const logout = () => {
@@ -74,7 +73,6 @@ function TopNavAdmin() {
     }
 
     const removeAllCookie = async () => {
-   
         await logout()
         .then(success => {
             removeCookie('user');
