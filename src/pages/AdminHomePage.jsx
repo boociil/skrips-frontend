@@ -30,7 +30,7 @@ function HomePage() {
                 fetch(backendUrl + 'get_all_kegiatan', requestOptions)
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data);
+
                     setData(data);
                     setDataLen(data.length - 1);
                     setLoadingData(false);

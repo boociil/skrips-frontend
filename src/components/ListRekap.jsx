@@ -186,29 +186,39 @@ function ListRekap(props) {
                     </div>
                 </div>
                 
-                <div className="action ml-3 hidden md:grid md:grid-cols-2 items-center justify-center ">
-                    <div className="edit hover:bg-slate-200 p-1 transition duration-500 cursor-pointer bg-white shadow-lg rounded-l-lg group" onClick={editClick}>
-                        <div className="w-fit mx-auto" >
-                            <span className="material-symbols-outlined px-1 hidden md:block group-hover:opacity-0 transition duration-500">
-                                edit
-                            </span>
-                            <div className="text-slate-400 text-xs group-hover:-translate-y-3 group-hover:text-black transition duration-500">
-                                Edit
+
+                {
+                    isAdmin ? (
+                        <>
+                            <div className="action ml-3 hidden md:grid md:grid-cols-2 items-center justify-center ">
+                                <div className="edit hover:bg-slate-200 p-1 transition duration-500 cursor-pointer bg-white shadow-lg rounded-l-lg group" onClick={editClick}>
+                                    <div className="w-fit mx-auto" >
+                                        <span className="material-symbols-outlined px-1 hidden md:block group-hover:opacity-0 transition duration-500">
+                                            edit
+                                        </span>
+                                        <div className="text-slate-400 text-xs group-hover:-translate-y-3 group-hover:text-black transition duration-500">
+                                            Edit
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div className="edit hover:bg-red-500 border-l-2 p-1 transition duration-500 cursor-pointer bg-white shadow-lg rounded-r-lg group pl-1" onClick={() => deleteClick(props.id)}>
+                                    <div className="w-fit mx-auto">
+                                        <span className="material-symbols-outlined px-1 hidden md:block group-hover:opacity-0 transition duration-500">
+                                            delete
+                                        </span>
+                                        <div className="text-slate-400 text-xs group-hover:-translate-y-3 group-hover:text-white transition duration-500 pr-1">
+                                            Hapus
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    
-                    <div className="edit hover:bg-red-500 border-l-2 p-1 transition duration-500 cursor-pointer bg-white shadow-lg rounded-r-lg group pl-1" onClick={() => deleteClick(props.id)}>
-                        <div className="w-fit mx-auto">
-                            <span className="material-symbols-outlined px-1 hidden md:block group-hover:opacity-0 transition duration-500">
-                                delete
-                            </span>
-                            <div className="text-slate-400 text-xs group-hover:-translate-y-3 group-hover:text-white transition duration-500 pr-1">
-                                Hapus
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                        </>
+                    ) : (
+                        <></>
+                    )
+                }
+                
                     
             </div>
         </>

@@ -23,6 +23,7 @@ import PengawasRoutes from './components/PengawasRoutes';
 import UpdateKegiatan from './pages/UpdateKegiatan';
 import UsersWithId from './pages/UsersWithId';
 import MyProfile from './pages/MyProfile';
+import EditMitra from './pages/EditMitra'
 import { AuthProvider } from './components/AuthContext';
 
 
@@ -54,7 +55,7 @@ function App() {
                   <Route path="/Rekap" element={<Rekap />} />
                   <Route path="/Rekap/:id" element={<RekapWithID />} />
                   <Route path="/Rekap/Update/:id" element={<UpdateKegiatan />} />
-                  <Route path="/AssignPetugas/:id" element={<AssignPetugasSensus />} />
+                  {/* <Route path="/AssignPetugas/:id" element={<AssignPetugasSensus />} /> */}
                   <Route path="/Rekap/Sampel/:id" element={<SampelPage />} />
                 </Route>
 
@@ -63,6 +64,7 @@ function App() {
                   <Route path='/Users' element={<Users />} />
                   <Route path="/Users/Register" element={<Register />}/>
                   <Route path="/Users/:username" element={<UsersWithId />}/>
+                  <Route path="/Mitra/Edit/:id/:nama/:status/:start/:end" element={<EditMitra />}/>
                 </Route>
 
                 <Route path="/MyProfile" element={<MyProfile />}></Route>

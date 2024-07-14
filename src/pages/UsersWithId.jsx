@@ -28,6 +28,10 @@ function UsersWithId() {
     const navigate = useNavigate();
     const backendUrl = process.env.REACT_APP_BACKEND_URL
 
+    if (username === cookies['username']){
+        navigate('/MyProfile');
+    }
+
     const getUsersData = () => {
 
         const requestOptions = {

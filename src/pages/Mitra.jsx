@@ -104,7 +104,7 @@ function Users() {
 
                                                         <div key={index}>
                                                             {/* <ListBuble pos={index !== 0 ? (index === len-1 ? 'BOT' : 'MID' ) : 'TOP'} item={[item.nama,item.status,item.start_contract,item.end_contract]} title={['Nama','Status','Start','End']} small={[1,1,0,0]} /> */}
-                                                            <ListMitra position={index !== 0 ? (index === len-1 ? 'BOT' : 'MID' ) : 'TOP'} nama={item.nama} status={item.status} start={item.start_contract}  end={item.end_contract}/>
+                                                            <ListMitra position={index !== 0 ? (index === len-1 ? 'BOT' : 'MID' ) : 'TOP'} nama={item.nama} id={item.id} status={item.status} start={item.start_contract}  end={item.end_contract}/>
                                                         </div>
                                                     )
                                                 })}
