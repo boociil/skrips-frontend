@@ -12,6 +12,7 @@ function ListRekapEdcodSurvei(props, { onDataFromChild }) {
     const [ data, setData ] = useState([]);
     const [ isLoading, setIsLoading ] = useState(true);
     const [ dataAdmin, setDataAdmin ] = useState([]);
+    const [ dataAdmin2, setDataAdmin2 ] = useState([]);
     const [ dataLen, setDataLen ] = useState();
     const [ kodeKecActive, setKodeKecActive ] = useState({});
     const [ kodeDesaActive, setKodeDesaActive ] = useState({});
@@ -72,7 +73,26 @@ function ListRekapEdcodSurvei(props, { onDataFromChild }) {
                 });            
         }     
 
+        const fetchDataAdmin2 = () => {
+
+            const requestOptions = {
+                method: 'POST', // Metode HTTP
+                headers: {
+                    'Content-Type': 'application/json' // Tentukan tipe konten yang Anda kirimkan
+                },
+                    body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
+                };
+                const link = backendUrl + 'get_all_mitra'
+                fetch(link,  requestOptions)
+                .then(response => response.json())
+                .then(data => {
+                    
+                    setDataAdmin2(data);
+                });            
+        }
+
         fetchData();
+        fetchDataAdmin2();
         fetchDataUsers();
 
     },[props.id]);
@@ -425,7 +445,7 @@ function ListRekapEdcodSurvei(props, { onDataFromChild }) {
                                                                                                 the_value = penerimaDok[insideItem.nama_x][insideItem.no_ruta]
                                                                                             }
                                                                                             const ref_num = insideItem.no_ruta + "" + insideItem.nama_x
-                                                                                            const index_admin = dataAdmin.findIndex(item => item.id === insideItem.petugas_edcod)
+                                                                                            const index_admin = dataAdmin2.findIndex(item => item.id === insideItem.petugas_edcod)
                                                                                             
                                                                                             return (
                                                                                                 <div key={insideIndex} className="bg-[#F5F4F4] ml-1 my-1 px-2 py-1 grid grid-cols-5 text-xs rounded-lg">
@@ -461,7 +481,7 @@ function ListRekapEdcodSurvei(props, { onDataFromChild }) {
                                                                                                                         
                                                                                                                         isRB ? (
                                                                                                                             <>
-                                                                                                                                <option value={insideItem.petugas_edcod} key={insideItem.petugas_edcod}>{dataAdmin[index_admin].nama }</option>
+                                                                                                                                <option value={insideItem.petugas_edcod} key={insideItem.petugas_edcod}>{dataAdmin2[index_admin].nama }</option>
                                                                                                                                 {dataAdmin.filter((admin) => admin.nama !== insideItem.petugas_edcod).map((admin,admin_index) => (
                                                                                                                                     <option value={admin.id} key={admin_index}>{admin.nama}</option>
                                                                                                                                 ))} 

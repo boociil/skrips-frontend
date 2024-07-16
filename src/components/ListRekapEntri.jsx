@@ -12,6 +12,7 @@ function ListRekap(props) {
     const modaRef = useRef({});
     const [ data, setData ] = useState([]);
     const [ dataAdmin, setDataAdmin ] = useState([]);
+    const [ dataAdmin2, setDataAdmin2 ] = useState([]);
     const [ isLoading, setIsLoading ] = useState(true);
     const [ isLoadingPetugas, setIsLoadingPetugas ] = useState(true);
     const [ dataLen, setDataLen ] = useState();
@@ -72,8 +73,26 @@ function ListRekap(props) {
                 });            
         }
 
+        const fetchDataAdmin2 = () => {
+
+            const requestOptions = {
+                method: 'POST', // Metode HTTP
+                headers: {
+                    'Content-Type': 'application/json' // Tentukan tipe konten yang Anda kirimkan
+                },
+                    body: JSON.stringify({ /* Data yang akan dikirimkan, seperti form*/ }) 
+                };
+                const link = backendUrl + 'get_all_mitra'
+                fetch(link,  requestOptions)
+                .then(response => response.json())
+                .then(data => {
+                    
+                    setDataAdmin2(data);
+                });            
+        }
+
         fetchData();
-        // fetchDataUsers();
+        fetchDataAdmin2();
         fetchDataPetugas();
 
     },[props.id]);
@@ -407,7 +426,7 @@ function ListRekap(props) {
                                                                         
                                                                         let class_sls = "mr-3 p-1 md:p-2 md:grid md:grid-cols-8 ml-9 my-1 bg-[#F5F4F4] rounded-md text-xs flex md:mx-auto max-w-3xl transition duration-300 scale-95";
                                                                         let class_sls2 = "mr-3 p-1 md:p-2 md:grid md:grid-cols-8 ml-9 my-1 bg-[#F5F4F4] rounded-md text-xs flex md:mx-auto max-w-3xl transition duration-300 scale-95";
-                                                                        let index_admin = dataAdmin.findIndex(item => item.id === innerItem.petugas_entri)
+                                                                        let index_admin = dataAdmin2.findIndex(item => item.id === innerItem.petugas_entri)
                                                                         return(
                                                                             <div key={innerIndex} className="the-inside-row lg:grid lg:justify-items-end w-full">
                                                                                 <div className="px-3 py-1 lg:w-[88%] ml-20 lg:ml-16 my-1 bg-[#F5F4F4] rounded-md text-xs flex scale-100">
@@ -468,7 +487,7 @@ function ListRekap(props) {
                                                                                         { 
                                                                                             ada ? (
                                                                                                 <>
-                                                                                                        <option value={innerItem.petugas_entri} key={innerItem.petugas_entri}>{dataAdmin[index_admin].nama}</option>
+                                                                                                        <option value={innerItem.petugas_entri} key={innerItem.petugas_entri}>{dataAdmin2[index_admin].nama}</option>
                                                                                                         {dataAdmin.filter((admin) => admin.id !== innerItem.petugas_entri).map((admin,admin_index) => (
                                                                                                             <option value={admin.id} key={admin_index}>{admin.nama}</option>
                                                                                                         ))}
